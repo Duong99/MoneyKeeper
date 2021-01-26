@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_white"
+
+    tools:context=".ui.main.report.ReportFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+        android:id="@+id/srlReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    app:contentInsetStart="0dp"
+                    android:background="@color/blue"
+                    android:id="@+id/tbReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/TextViewTitleBar"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/report"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_margin="@dimen/margin_large"
+                    android:id="@+id/rcvReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</RelativeLayout>

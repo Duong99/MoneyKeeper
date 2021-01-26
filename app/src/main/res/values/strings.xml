@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">Sổ thu chi MISA</string>
+
+    // facebook
+    <string name="facebook_app_id">259053448910483</string>
+    <string name="fb_login_protocol_scheme">fb259053448910483</string>
+
+    <string name="evolving_functions">Chức năng đang phát triển</string>
+    // login
+    <string name="receipts_and_payments">Sổ Thu Chi MISA</string>
+    <string name="phone_number_or_email">Số điện thoại hoặc email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="login">Đăng nhập</string>
+    <string name="forget_password">Quên mật khẩu</string>
+    <string name="register">Đăng ký</string>
+    <string name="come_on">Tiếp tục</string>
+    <string name="register_account_new">Đăng ký tài khoản mới</string>
+    <string name="or_login_with">Hoặc đăng nhập bằng</string>
+    <string name="vietnamese">Tiếng Việt</string>
+
+    <string name="Select_language">Chọn ngôn ngữ</string>
+
+    // intro
+    <string name="text_intro1.1">Chào mừng đến với</string>
+    <string name="text_intro1.2">Sổ Thu Chi</string>
+    <string name="text_intro1.3">Trải nghiệm niềm vui quản lý tài chính
+        bằng việc đăng ký trong lần đầu sử dụng </string>
+    <string name="text_intro2">Kiểm soát thu chi, nhắm thẳng mục tiêu về tài chính </string>
+    <string name="text_intro3">Hưởng thụ cuộc sống thoải mái,
+        tự do tài chính với người thân, bạn bè</string>
+
+    // Forget password
+    <string name="text_forget_password_1">Hãy nhập số điện thoại hoặc email
+        mà bạn dùng để đăng ký sử dụng </string>
+    <string name="text_forget_password_2">Sổ Thu Chi MISA</string>
+    <string name="text_forget_password_3">chúng tôi sẽ gửi thông tiên đặt lại mật khẩu cho bạn </string>
+
+    //register
+    <string name="first_last_name">Họ và tên đệm</string>
+    <string name="name">Tên</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Số điện thoại</string>
+
+    <string name="text_register_policy_1">Bằng cách bấm vào nút đăng ký, bạn đã đồng ý với </string>
+    <string name="text_register_policy_2">Điều khoản dịch vụ </string>
+    <string name="text_register_policy_3">và </string>
+    <string name="text_register_policy_4">Chính sách bảo mật</string>
+
+    <string name="you_are_account_login_now">Bạn đã có tài khoản? Đăng nhập ngay</string>
+
+    // Main
+    <string name="overview">Tổng quan</string>
+    <string name="account">Tài khoản</string>
+    <string name="add">Thêm</string>
+    <string name="report">Báo cáo</string>
+    <string name="other">Khác</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    // report
+    <string name="current_finance">Tài chính hiện tại</string>
+    <string name="revenue_and_expenditure_situation">Tình hình thu chi</string>
+    <string name="spend_analysis">Phân tích chi tiêu</string>
+    <string name="collection_analysis">Phân tích thu</string>
+    <string name="follow_loan">Theo dõi vay nợ</string>
+    <string name="object_collect_spend">Đối tượng thu/chi</string>
+    <string name="journey_event">Chuyến đi/Sự kiện</string>
+    <string name="finance_analysis">Phân tích tài chính</string>
+
+    //money
+    <string name="money">Tiền</string>
+    <string name="spend_money">Chi tiền</string>
+    <string name="collect_money">Thu tiền</string>
+    <string name="loan">Cho vay</string>
+    <string name="borrow">Đi vay</string>
+    <string name="transfer">Chuyển khoản</string>
+    <string name="balance_adjustment">Điều chỉnh số dư</string>
+    <string name="save">Lưu</string>
+    <string name="number_money">Số tiền</string>
+    <string name="dong">đ</string>
+
+    <string name="address">Địa điểm</string>
+    <string name="who_with_pay">Chi với ai</string>
+    <string name="who_with">Với ai</string>
+
+    <string name="select_item">Chọn hạng mục</string>
+    <string name="explain">Diễn giải</string>
+</resources>

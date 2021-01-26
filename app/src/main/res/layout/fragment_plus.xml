@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.plus.PlusFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        app:contentInsetStart="0dp"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/ivHistoryPlus"
+                android:background="@drawable/ic_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Spinner
+                android:layout_centerVertical="true"
+                android:id="@+id/spinnerCategories"
+                android:background="@drawable/bg_spinner_categories"
+                android:layout_marginEnd="@dimen/margin_start_end_spinner_title"
+                android:layout_marginStart="@dimen/margin_start_end_spinner_title"
+                android:layout_toEndOf="@id/ivHistoryPlus"
+                android:layout_toStartOf="@id/ivSaveDonePlus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/ivSaveDonePlus"
+                android:background="@drawable/ic_done"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_large">
+
+                <TextView
+                    android:id="@+id/tvNumberMoney"
+                    style="@style/TextViewNormalBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/number_money" />
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tvDong"
+                    style="@style/TextViewNormalBlack"
+                    android:text="@string/dong"
+                    android:layout_below="@id/tvNumberMoney"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:text="0"
+                    android:layout_toStartOf="@id/tvDong"
+                    android:layout_below="@id/tvNumberMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/framelayoutCategory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/btnSaveDonePlus"
+                android:paddingStart="@dimen/padding_large"
+                android:drawableTint="@color/white"
+                android:drawableStart="@drawable/ic_save_done"
+                android:textColor="@color/white"
+                android:layout_margin="@dimen/margin_large"
+                android:text="@string/save"
+                android:background="@drawable/bg_btn_login_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

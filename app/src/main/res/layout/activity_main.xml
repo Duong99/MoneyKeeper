@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.MainActivity">
+
+    <vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager
+        android:layout_marginBottom="@dimen/height_bottom_navigation_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/hvpMain"
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnvMain"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_bottom_navigation_main"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:clipChildren="false"
+        app:itemTextAppearanceActive="@color/blue"
+        app:itemTextAppearanceInactive="@color/black_text_normal"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_bottom_navigation_main">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabPlusMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_small"
+            android:src="@drawable/ic_action_plus"
+            app:backgroundTint="@color/black_text_normal"
+            app:fabCustomSize="40dp" />
+
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+</RelativeLayout>

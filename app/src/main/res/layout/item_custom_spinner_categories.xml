@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingStart="@dimen/padding_small"
+    android:paddingEnd="@dimen/padding_small"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_margin="@dimen/margin_large"
+        android:id="@+id/ivPictureCategories"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_cho_vay"
+        android:layout_width="@dimen/height_width_ic_picture_spinner"
+        android:layout_height="@dimen/height_width_ic_picture_spinner"/>
+
+    <TextView
+        android:layout_marginStart="@dimen/margin_medium"
+        style="@style/TextViewNormalBlack"
+        android:id="@+id/tvTitleCategories"
+        android:layout_toEndOf="@id/ivPictureCategories"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/spend_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:backgroundTint="@color/blue"
+        android:layout_margin="@dimen/margin_large"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/ivCheckCategories"
+        android:background="@drawable/ic_tick"
+        android:layout_width="@dimen/height_width_ic_check_spinner"
+        android:layout_height="@dimen/height_width_ic_check_spinner"/>
+</RelativeLayout>

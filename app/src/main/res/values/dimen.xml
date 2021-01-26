@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ic_login_facebook_google">40dp</dimen>
+    <dimen name="height_view_line">0.1dp</dimen>
+
+    <dimen name="height_logo_misa">20dp</dimen>
+    <dimen name="weight_logo_misa">40dp</dimen>
+
+    <dimen name="font_small">14sp</dimen>
+    <dimen name="font_medium">16sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+
+    <dimen name="font_size_title">24sp</dimen>
+
+    <dimen name="margin_small">2.5dp</dimen>
+    <dimen name="margin_medium">5dp</dimen>
+    <dimen name="margin_large">10dp</dimen>
+    <dimen name="margin_phone_large">15dp</dimen>
+    <dimen name="margin_start_end_spinner_title">25dp</dimen>
+
+    <dimen name="padding_small">2.5dp</dimen>
+    <dimen name="padding_medium">5dp</dimen>
+    <dimen name="padding_large">10dp</dimen>
+
+    <dimen name="corner_radius_small">2.5dp</dimen>
+    <dimen name="corner_radius_medium">5dp</dimen>
+    <dimen name="corner_radius_large">10dp</dimen>
+    <dimen name="corner_radius_bg_spinner_title">25dp</dimen>
+    <dimen name="corner_radius_button_slide_intro">30dp</dimen>
+
+
+    //text intro
+    <dimen name="text_slide_intro">16sp</dimen>
+    <dimen name="width_picture_slide_intro">250dp</dimen>
+    <dimen name="width_button_slide_intro">250dp</dimen>
+
+    <dimen name="height_edit_text_login_register">45dp</dimen>
+    <dimen name="padding_start_edit_text">7.5dp</dimen>
+
+    <dimen name="height_width_dot">5dp</dimen>
+    <dimen name="height_bottom_navigation_main">50dp</dimen>
+    <dimen name="height_width_ic_picture_spinner">25dp</dimen>
+    <dimen name="height_width_ic_check_spinner">15dp</dimen>
+    <dimen name="height_width_ic_select_image">30dp</dimen>
+    <dimen name="height_event_trip">60dp</dimen>
+</resources>

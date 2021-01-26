@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1065591876957",
+    "project_id": "moneykeeper-1611494699105",
+    "storage_bucket": "moneykeeper-1611494699105.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065591876957:android:89b71b17419453c73c4cb4",
+        "android_client_info": {
+          "package_name": "vn.com.nghiemduong.moneykeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065591876957-bf9o25ntm2m4m04of06b96h5g9dfhuui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.com.nghiemduong.moneykeeper",
+            "certificate_hash": "098fc8693718ef19e5c9458fc7895dd9b69a7c8f"
+          }
+        },
+        {
+          "client_id": "1065591876957-fghrreb6sskj9avq8ur9cvfvtallce90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLUo_kYxkSN4hQsQzyWIP0EN6kfi88Qhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065591876957-fghrreb6sskj9avq8ur9cvfvtallce90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
