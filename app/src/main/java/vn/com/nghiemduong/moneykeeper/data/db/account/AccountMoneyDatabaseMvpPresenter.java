@@ -3,9 +3,7 @@ package vn.com.nghiemduong.moneykeeper.data.db.account;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 
 /**
- * -
- * <p>
- * <p>
+
  * - @created_by nxduong on 26/1/2021
  **/
 public interface AccountMoneyDatabaseMvpPresenter {

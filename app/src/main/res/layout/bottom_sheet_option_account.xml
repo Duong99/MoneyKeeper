@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/padding_large"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:id="@+id/llSwapOptionAccount"
+        android:background="@drawable/bg_select_ripple_gray"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_medium"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:backgroundTint="@color/gray_image_bottom_sheet"
+            android:background="@drawable/ic_swap"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal"/>
+
+        <TextView
+            android:text="@string/transfer"
+            android:layout_margin="@dimen/margin_medium"
+            style="@style/TextViewNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llAdjustOptionAccount"
+        android:background="@drawable/bg_select_ripple_gray"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_medium"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:backgroundTint="@color/gray_image_bottom_sheet"
+            android:background="@drawable/ic_low"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal"/>
+
+        <TextView
+            android:text="@string/balance_adjustment"
+            android:layout_margin="@dimen/margin_medium"
+            style="@style/TextViewNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llShareAccountOptionAccount"
+        android:background="@drawable/bg_select_ripple_gray"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_medium"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:backgroundTint="@color/gray_image_bottom_sheet"
+            android:background="@drawable/ic_share"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal"/>
+
+        <TextView
+            android:text="@string/share_account"
+            android:layout_margin="@dimen/margin_medium"
+            style="@style/TextViewNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llEditOptionAccount"
+        android:background="@drawable/bg_select_ripple_gray"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_medium"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:backgroundTint="@color/gray_image_bottom_sheet"
+            android:background="@drawable/ic_edit"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal"/>
+
+        <TextView
+            android:text="@string/edit"
+            android:layout_margin="@dimen/margin_medium"
+            style="@style/TextViewNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llDeleteOptionAccount"
+        android:background="@drawable/bg_select_ripple_gray"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_medium"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:backgroundTint="@color/gray_image_bottom_sheet"
+            android:background="@drawable/ic_delete"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal"/>
+
+        <TextView
+            android:text="@string/delete"
+            android:layout_margin="@dimen/margin_medium"
+            style="@style/TextViewNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llLockOptionAccount"
+        android:background="@drawable/bg_select_ripple_gray"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_medium"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:backgroundTint="@color/gray_image_bottom_sheet"
+            android:background="@drawable/ic_lock"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal"/>
+
+        <TextView
+            android:text="@string/stop_using"
+            android:layout_margin="@dimen/margin_medium"
+            style="@style/TextViewNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

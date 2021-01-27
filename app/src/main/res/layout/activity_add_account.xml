@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_white"
+    android:orientation="vertical"
+    tools:context=".ui.main.accountoverview.add.AddAccountActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:background="@color/blue"
+        app:contentInsetStart="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivCloseAddAccount"
+                android:background="@drawable/ic_close"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="@string/add_account"
+                style="@style/TextViewTitleBar"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/ivDoneAddAccount"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        style="@style/TextViewNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/padding_large"
+        android:text="@string/initial_balance" />
+
+    <include layout="@layout/item_layout_input_money" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_event_trip"
+            android:background="@drawable/bg_select_ripple_gray">
+
+            <EditText
+                android:maxLength="255"
+                android:id="@+id/etAccountName"
+                style="@style/TextViewNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:layout_toEndOf="@id/ivAccountName"
+                android:hint="@string/account_name" />
+
+            <ImageView
+                android:id="@+id/ivAccountName"
+                android:layout_width="@dimen/height_width_ic_select_image"
+                android:layout_height="@dimen/height_width_ic_select_image"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@drawable/thu_unknow"
+                 />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlSelectAccountType"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_event_trip"
+            android:background="@drawable/bg_select_ripple_gray">
+
+            <ImageView
+                android:id="@+id/ivAccountType"
+                android:layout_width="@dimen/height_width_ic_select_image"
+                android:layout_height="@dimen/height_width_ic_select_image"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@drawable/ic_event"
+                android:backgroundTint="@color/black_text_normal" />
+
+            <ImageView
+                android:layout_width="@dimen/height_width_ic_select_image"
+                android:layout_height="@dimen/height_width_ic_select_image"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@drawable/ic_arrow_right"
+                android:backgroundTint="@color/black_text_normal" />
+
+            <TextView
+                android:id="@+id/tvAccountType"
+                style="@style/TextViewNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:layout_toEndOf="@id/ivAccountType"
+                android:text="@string/cash" />
+
+            <include
+                android:layout_marginStart="@dimen/margin_large"
+                layout="@layout/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_below="@id/tvAccountType"
+                android:layout_toEndOf="@id/ivAccountType" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlSelectMoneyType"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_event_trip"
+            android:background="@drawable/bg_select_ripple_gray">
+
+            <ImageView
+                android:id="@+id/ivVND"
+                android:layout_width="@dimen/height_width_ic_select_image"
+                android:layout_height="@dimen/height_width_ic_select_image"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@drawable/ic_event"
+                android:backgroundTint="@color/black_text_normal" />
+
+            <ImageView
+                android:layout_width="@dimen/height_width_ic_select_image"
+                android:layout_height="@dimen/height_width_ic_select_image"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@drawable/ic_arrow_right"
+                android:backgroundTint="@color/black_text_normal" />
+
+            <TextView
+                android:id="@+id/tvVND"
+                style="@style/TextViewNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:layout_toEndOf="@id/ivVND"
+                android:text="@string/VND" />
+
+            <include
+                android:layout_marginStart="@dimen/margin_large"
+                layout="@layout/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_below="@id/tvVND"
+                android:layout_toEndOf="@id/ivVND" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_event_trip"
+            android:background="@drawable/bg_select_ripple_gray">
+
+            <EditText
+                android:maxLength="255"
+                android:id="@+id/etExplain"
+                style="@style/TextViewNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:layout_toEndOf="@id/ivExplain"
+                android:hint="@string/explain" />
+
+            <ImageView
+                android:id="@+id/ivExplain"
+                android:layout_width="@dimen/height_width_ic_select_image"
+                android:layout_height="@dimen/height_width_ic_select_image"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@drawable/ic_event"
+                android:backgroundTint="@color/black_text_normal" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include
+        layout="@layout/item_layout_not_include_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large" />
+
+    <include
+        layout="@layout/item_button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_large" />
+</LinearLayout>

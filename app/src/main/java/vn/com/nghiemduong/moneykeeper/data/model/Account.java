@@ -1,23 +1,25 @@
 package vn.com.nghiemduong.moneykeeper.data.model;
 
+import java.io.Serializable;
+
 /**
  * -
  * Lớp tài khoản ví người dùng
  * <p>
  * - @created_by nxduong on 26/1/2021
  **/
-public class Account {
+public class Account implements Serializable {
     private int accountId;
     private int moneyCurrent;
     private String accountName;
-    private String accountType;
+    private int accountType;
     private byte[] imageType;
-    private String moneyType;
+    private int moneyType;
     private String explain;
-    private String report;
+    private int report;
 
-    public Account(int accountId, int moneyCurrent, String accountName, String accountType,
-                   byte[] imageType, String moneyType, String explain, String report) {
+    public Account(int accountId, int moneyCurrent, String accountName, int accountType,
+                   byte[] imageType, int moneyType, String explain, int report) {
         this.accountId = accountId;
         this.moneyCurrent = moneyCurrent;
         this.accountName = accountName;
@@ -28,8 +30,8 @@ public class Account {
         this.report = report;
     }
 
-    public Account(int moneyCurrent, String accountName, String accountType,
-                   byte[] imageType, String moneyType, String explain, String report) {
+    public Account(int moneyCurrent, String accountName, int accountType,
+                   byte[] imageType, int moneyType, String explain, int report) {
         this.moneyCurrent = moneyCurrent;
         this.accountName = accountName;
         this.accountType = accountType;
@@ -63,11 +65,11 @@ public class Account {
         this.accountName = accountName;
     }
 
-    public String getAccountType() {
+    public int getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(String accountType) {
+    public void setAccountType(int accountType) {
         this.accountType = accountType;
     }
 
@@ -79,11 +81,11 @@ public class Account {
         this.imageType = imageType;
     }
 
-    public String getMoneyType() {
+    public int getMoneyType() {
         return moneyType;
     }
 
-    public void setMoneyType(String moneyType) {
+    public void setMoneyType(int moneyType) {
         this.moneyType = moneyType;
     }
 
@@ -95,11 +97,11 @@ public class Account {
         this.explain = explain;
     }
 
-    public String getReport() {
+    public int getReport() {
         return report;
     }
 
-    public void setReport(String report) {
+    public void setReport(int report) {
         this.report = report;
     }
 }

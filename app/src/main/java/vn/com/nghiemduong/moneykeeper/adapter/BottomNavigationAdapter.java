@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import vn.com.nghiemduong.moneykeeper.ui.main.account.AccountFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.overview.AccountOverviewFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.more.MoreFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.overview.OverviewFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.PlusFragment;
@@ -19,7 +19,7 @@ import vn.com.nghiemduong.moneykeeper.ui.main.report.ReportFragment;
 **/
 public class BottomNavigationAdapter extends FragmentStatePagerAdapter {
     private OverviewFragment mOverviewFragment;
-    private AccountFragment mAccountFragment;
+    private AccountOverviewFragment mAccountFragment;
     private PlusFragment mPlusFragment;
     private ReportFragment mReportFragment;
     private MoreFragment mMoreFragment;
@@ -27,7 +27,7 @@ public class BottomNavigationAdapter extends FragmentStatePagerAdapter {
     public BottomNavigationAdapter(@NonNull FragmentManager fm) {
         super(fm);
         mOverviewFragment = new OverviewFragment();
-        mAccountFragment = new AccountFragment();
+        mAccountFragment = new AccountOverviewFragment();
         mPlusFragment = new PlusFragment();
         mReportFragment = new ReportFragment();
         mMoreFragment = new MoreFragment();

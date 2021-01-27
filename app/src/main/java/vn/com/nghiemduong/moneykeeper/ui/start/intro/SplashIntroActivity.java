@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ViewPagerIntroAdapter;
+import vn.com.nghiemduong.moneykeeper.data.db.CopyMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Intro;
 import vn.com.nghiemduong.moneykeeper.ui.account.register.RegisterActivity;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
@@ -40,7 +41,7 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
     private SplashIntroPresenter mSplashIntroPresenter;
     private ImageView[] ivDots;
     private int mDotCount;
-    private FirebaseAuth mAuth ;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if(currentUser != null){
+        if (currentUser != null) {
             startActivity(new Intent(SplashIntroActivity.this, MainActivity.class));
         }
     }
@@ -117,6 +118,8 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
 
         mSplashIntroPresenter = new SplashIntroPresenter(this, this);
         mSplashIntroPresenter.getSlideListIntro();
+
+        new CopyMoneyDatabase(this); // Copy database vào trong máy android
     }
 
     @Override
