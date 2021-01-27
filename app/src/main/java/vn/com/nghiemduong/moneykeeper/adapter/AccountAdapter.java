@@ -57,6 +57,12 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public void updateAccount(Account account, int position){
+        mListAccount.remove(position);
+        mListAccount.add(position, account);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return mListAccount.size();
@@ -94,7 +100,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                     try {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mOnClickAccount.onClickOptionAccount(mListAccount.get(position));
+                            mOnClickAccount.onClickOptionAccount(mListAccount.get(position), position);
                         }
                     } catch (Exception e) {
                         AppUtils.handlerException(e);
@@ -107,6 +113,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public interface IOnClickAccount {
         void onClickAccount(Account account);
 
-        void onClickOptionAccount(Account account);
+        void onClickOptionAccount(Account account, int position);
     }
 }

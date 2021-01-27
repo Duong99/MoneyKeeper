@@ -103,7 +103,7 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         values.put(ACCOUNT_MONEY_CURRENT, account.getMoneyCurrent());
         values.put(ACCOUNT_TYPE, account.getAccountType());
         values.put(ACCOUNT_IMAGE_TYPE, account.getImageType());
-        values.put(ACCOUNT_MONEY_CURRENT, account.getMoneyType());
+        values.put(ACCOUNT_MONEY_TYPE, account.getMoneyType());
         values.put(ACCOUNT_EXPLAIN, account.getExplain());
         values.put(ACCOUNT_REPORT, account.getReport());
         long update = db.update(NAME_TABLE_ACCOUNT, values, ACCOUNT_ID + " = ? ",

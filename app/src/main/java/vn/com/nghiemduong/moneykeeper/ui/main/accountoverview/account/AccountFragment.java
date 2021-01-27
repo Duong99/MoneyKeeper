@@ -30,6 +30,7 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccount;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccountMvpView;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.add.AddAccountActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,6 +48,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     private AccountAdapter mAccountAdapter;
     private AccountMoneyDatabase mAccountDatabase;
     private Account mAccount;
+    private int mPosition = -1; // vị trí click tài khoản
 
     public AccountFragment() {
         // Required empty public constructor
@@ -64,13 +66,20 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == AddAccountActivity.REQUEST_CODE_ACCOUNT_ADD) {
-                if (data != null) {
-                    Account account = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
+            if (data != null) {
+                if (requestCode == AddAccountActivity.REQUEST_CODE_ACCOUNT_ADD) {
+                    mAccount = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
                             .getSerializable("BUNDLE_ACCOUNT");
-                    mAccountAdapter.addAccount(account);
+                    mAccountAdapter.addAccount(mAccount);
+                }
+
+                if (requestCode == AddAccountActivity.REQUEST_CODE_ACCOUNT_EDIT) {
+                    mAccount = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
+                            .getSerializable("BUNDLE_ACCOUNT");
+                    mAccountAdapter.updateAccount(mAccount, mPosition);
                 }
             }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -90,6 +99,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         switch (v.getId()) {
             case R.id.ivAddAccount:
                 Intent intent = new Intent(getContext(), AddAccountActivity.class);
+                intent.putExtra(AddAccountActivity.KEY_ADD_EDIT_ACCOUNT, AddAccountActivity.ADD_ACCOUNT);
                 startActivityForResult(intent, AddAccountActivity.REQUEST_CODE_ACCOUNT_ADD);
                 break;
         }
@@ -141,9 +151,10 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    public void onClickOptionAccount(Account account) {
+    public void onClickOptionAccount(Account account, int position) {
         mAccount = account;
-        new BottomSheetOptionAccount(getContext(), this);
+        mPosition = position;
+        new BottomSheetOptionAccount(Objects.requireNonNull(getContext()), this);
     }
 
     @Override
@@ -163,7 +174,12 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClickEditOptionAccount() {
-
+        Intent intent = new Intent(getContext(), AddAccountActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("BUNDLE_ACCOUNT", mAccount);
+        intent.putExtra("BUNDLE", bundle);
+        intent.putExtra(AddAccountActivity.KEY_ADD_EDIT_ACCOUNT, AddAccountActivity.EDIT_ACCOUNT);
+        startActivityForResult(intent, AddAccountActivity.REQUEST_CODE_ACCOUNT_EDIT);
     }
 
     @Override

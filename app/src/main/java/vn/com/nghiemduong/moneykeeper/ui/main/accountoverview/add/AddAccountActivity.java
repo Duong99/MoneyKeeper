@@ -33,7 +33,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * -
- * Màn hình dùng để thêm tài khoản
+ * Màn hình dùng để thêm tài khoản, sửa tài khoản
  * <p>
  * - @created_by nxduong on 26/1/2021
  **/
@@ -41,6 +41,10 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         AccountMoneyDatabaseMvpView {
 
     public final static int REQUEST_CODE_ACCOUNT_ADD = 321;
+    public final static int REQUEST_CODE_ACCOUNT_EDIT = 121;
+    public final static int ADD_ACCOUNT = 0;
+    public final static int EDIT_ACCOUNT = 1;
+    public final static String KEY_ADD_EDIT_ACCOUNT = "KEY_ADD_EDIT_ACCOUNT";
 
     private ImageView ivCloseAddAccount, ivDoneAddAccount;
     private EditText etInputMoney, etExplain, etAccountName;
@@ -49,10 +53,11 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     private Switch swNotIncludeReport;
     private LinearLayout llSave;
     private ImageView ivImageAccountType;
-    private TextView tvTitleAccountType;
+    private TextView tvTitleAccountType, tvTitleBarAddAccount;
     private AccountType mAccountType;
     private AccountMoneyDatabase mAccountDatabase;
     private Account mAccount;
+    private int keyAddEditAccount = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,27 +84,52 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         llSave.setOnClickListener(this);
 
         etInputMoney = findViewById(R.id.etInputMoney);
+        tvTitleBarAddAccount = findViewById(R.id.tvTitleBarAddAccount);
         etExplain = findViewById(R.id.etExplain);
         swNotIncludeReport = findViewById(R.id.swNotIncludeReport);
         ivImageAccountType = findViewById(R.id.ivAccountType);
         tvTitleAccountType = findViewById(R.id.tvAccountType);
         etAccountName = findViewById(R.id.etAccountName);
-
         mAccountDatabase = new AccountMoneyDatabase(this, this);
 
-        InputStream is = null;
-        try {
-            is = getAssets().open("assets/ImageCategory/THU/THU_luong.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        keyAddEditAccount = getIntent().getIntExtra(KEY_ADD_EDIT_ACCOUNT, -1);
+        if (keyAddEditAccount == ADD_ACCOUNT) {
+            tvTitleBarAddAccount.setText(getString(R.string.add_account));
+            InputStream is = null;
+            try {
+                is = getAssets().open("assets/ImageCategory/THU/THU_luong.png");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        if (is != null) {
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            if (is != null) {
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
 
-            mAccountType = new AccountType(AppUtils.TIEN_MAT,
-                    AppUtils.convertBitmapToByteArray(bitmap), getResources().getString(R.string.cash));
-            setValueAccountType();
+                mAccountType = new AccountType(AppUtils.TIEN_MAT,
+                        AppUtils.convertBitmapToByteArray(bitmap),
+                        getResources().getString(R.string.cash));
+                setValueAccountType();
+            }
+        } else {
+            tvTitleBarAddAccount.setText(getString(R.string.edit_account));
+            mAccount = (Account) Objects.requireNonNull(getIntent().getBundleExtra("BUNDLE"))
+                    .getSerializable("BUNDLE_ACCOUNT");
+
+            if (mAccount != null) {
+                etInputMoney.setText(String.valueOf(mAccount.getMoneyCurrent()));
+                etAccountName.setText(mAccount.getAccountName());
+                etExplain.setText(mAccount.getExplain());
+                mAccountType = new AccountType(mAccount.getAccountType(),
+                        mAccount.getImageType(),
+                        AppUtils.getNameAccountType(mAccount.getAccountType(), this));
+
+                if (mAccount.getReport() == AppUtils.CO_BAO_CAO) {
+                    swNotIncludeReport.setChecked(false);
+                } else {
+                    swNotIncludeReport.setChecked(true);
+                }
+                setValueAccountType();
+            }
         }
     }
 
@@ -124,7 +154,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
 
             case R.id.llSave:
                 try {
-                    insertAccount();
+                    insertOrUpdateAccount();
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -141,7 +171,6 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
-
                 break;
         }
     }
@@ -161,7 +190,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    private void insertAccount() {
+    private void insertOrUpdateAccount() {
         if (AppUtils.getEditText(etInputMoney).isEmpty()) {
             etInputMoney.requestFocus();
         } else if (AppUtils.getEditText(etAccountName).isEmpty()) {
@@ -173,11 +202,20 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
             } else {
                 report = AppUtils.CO_BAO_CAO;
             }
-            mAccount = new Account(Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-                    AppUtils.getEditText(etAccountName), mAccountType.getAccountTypeId(),
-                    mAccountType.getImage(), AppUtils.VND, AppUtils.getEditText(etExplain), report);
 
-            mAccountDatabase.insertAccount(mAccount);
+            // Thêm tài khoản
+            if (keyAddEditAccount == ADD_ACCOUNT) {
+                mAccount = new Account(Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+                        AppUtils.getEditText(etAccountName), mAccountType.getAccountTypeId(),
+                        mAccountType.getImage(), AppUtils.VND, AppUtils.getEditText(etExplain), report);
+                mAccountDatabase.insertAccount(mAccount);
+            } else { // Sửa tài khoản
+                mAccount = new Account(mAccount.getAccountId(),
+                        Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+                        AppUtils.getEditText(etAccountName), mAccountType.getAccountTypeId(),
+                        mAccountType.getImage(), AppUtils.VND, AppUtils.getEditText(etExplain), report);
+                mAccountDatabase.updateAccount(mAccount);
+            }
         }
     }
 
@@ -189,6 +227,10 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     @Override
     public void insertAccountSuccess() {
         showToast(getResources().getString(R.string.insert_account_success));
+        finishInsertOrUpdateSuccess();
+    }
+
+    private void finishInsertOrUpdateSuccess() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("BUNDLE_ACCOUNT", mAccount);
@@ -205,12 +247,14 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void updateAccountSuccess() {
-
+        showToast(getResources().getString(R.string.update_account_success));
+        finishInsertOrUpdateSuccess();
     }
 
     @Override
     public void updateAccountFail() {
-
+        showToast(getResources().getString(R.string.update_account_fail));
+        finish();
     }
 
     @Override

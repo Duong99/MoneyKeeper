@@ -126,11 +126,11 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, View.On
                 break;
 
             case R.id.btnLogin:
-                if (AppUtils.getEditText(etPhoneOrEmailLogin).isEmpty()){
+                if (AppUtils.getEditText(etPhoneOrEmailLogin).isEmpty()) {
                     etPhoneOrEmailLogin.requestFocus();
-                }else if (AppUtils.getEditText(etPasswordLogin).isEmpty()){
+                } else if (AppUtils.getEditText(etPasswordLogin).isEmpty()) {
                     etPasswordLogin.requestFocus();
-                }else {
+                } else {
                     User user = new User(AppUtils.getEditText(etPhoneOrEmailLogin),
                             AppUtils.getEditText(etPasswordLogin));
                     mLoginPresenter.loginFirebase(user);

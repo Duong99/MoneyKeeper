@@ -62,6 +62,7 @@ public class BottomSheetOptionAccount extends BottomSheetDialog implements View.
 
     @Override
     public void onClick(View v) {
+        mBottomSheetDialog.cancel();
         switch (v.getId()) {
             case R.id.llSwapOptionAccount:
                 mOptionAccountMvpView.onClickSwapOptionAccount();
@@ -87,6 +88,6 @@ public class BottomSheetOptionAccount extends BottomSheetDialog implements View.
                 mOptionAccountMvpView.onClickLockOptionAccount();
                 break;
         }
-        mBottomSheetDialog.cancel();
+
     }
 }
