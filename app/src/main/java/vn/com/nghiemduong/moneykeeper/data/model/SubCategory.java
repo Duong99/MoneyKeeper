@@ -1,9 +1,13 @@
 package vn.com.nghiemduong.moneykeeper.data.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 /**
  * - @created_by nxduong on 27/1/2021
  **/
-public class SubCategory {
+public class SubCategory implements Serializable {
     private byte[] picture;
     private String title;
 

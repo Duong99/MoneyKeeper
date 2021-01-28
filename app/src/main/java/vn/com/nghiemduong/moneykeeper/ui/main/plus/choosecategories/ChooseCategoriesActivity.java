@@ -5,20 +5,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ViewPagerChooseCategoryAdapter;
+import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 
 /**
  * -    Màn hình chọn hạn mục
  * - @created_by nxduong on 27/1/2021
  **/
 
-public class ChooseCategoriesActivity extends AppCompatActivity {
+public class ChooseCategoriesActivity extends BaseActivity {
 
+    public final static int REQUEST_CODE_CHOOSE_CATEGORY = 912;
     private TabLayout tlChooseCategory;
     private ViewPager vpChooseCategory;
     private Toolbar tbChooseCategory;
@@ -30,6 +35,13 @@ public class ChooseCategoriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_category);
 
         init();
+
+        tbChooseCategory.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     // Khởi tạo ánh xạ
@@ -37,7 +49,6 @@ public class ChooseCategoriesActivity extends AppCompatActivity {
         tlChooseCategory = findViewById(R.id.tlChooseCategory);
         vpChooseCategory = findViewById(R.id.vpChooseCategory);
         tbChooseCategory = findViewById(R.id.tbChooseCategory);
-
         setSupportActionBar(tbChooseCategory);
 
         mChooseCategoryAdapter = new ViewPagerChooseCategoryAdapter(getSupportFragmentManager());
@@ -53,5 +64,19 @@ public class ChooseCategoriesActivity extends AppCompatActivity {
                 new TabLayout.ViewPagerOnTabSelectedListener(vpChooseCategory));
         vpChooseCategory.setAdapter(mChooseCategoryAdapter);
 
+    }
+
+    /**
+     * Khi người dùng chọn một hạng mục hàm này sẽ được được
+     * để trả dữ liệu về activity trước
+     * - @created_by nxduong on 28/1/2021
+     **/
+    public void onFinishChooseCategory(Category category) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("BUNDLE_CATEGORY", category);
+        intent.putExtra("BUNDLE", bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

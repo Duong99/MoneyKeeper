@@ -52,7 +52,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0:
                         beginTransactionCategoriesLayout(new PayFragment());
                         break;

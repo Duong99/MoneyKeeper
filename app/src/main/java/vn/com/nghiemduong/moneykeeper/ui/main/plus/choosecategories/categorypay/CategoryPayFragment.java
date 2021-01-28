@@ -1,7 +1,9 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.categorypay;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.Category;
 
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCategoriesActivity;
 
 /**
  * -
@@ -30,6 +33,7 @@ public class CategoryPayFragment extends BaseFragment implements CategoryPayFrag
     private RecyclerView rcvCategoryPay;
     private CategoryAdapter mCategoryAdapter;
     private CategoryPayFragmentPresenter mCategoryPayFragmentPresenter;
+    private ChooseCategoriesActivity mChooseCategoriesActivity;
 
     public CategoryPayFragment() {
         // Required empty public constructor
@@ -66,11 +70,19 @@ public class CategoryPayFragment extends BaseFragment implements CategoryPayFrag
 
     @Override
     public void onClickCategoryPay(Category category) {
-        showToast("category");
+        mChooseCategoriesActivity.onFinishChooseCategory(
+                new Category(category.getImage(), category.getTitle()));
     }
 
     @Override
     public void onClickSubCategoryPay(SubCategory subCategory) {
-        showToast("subCategory");
+        mChooseCategoriesActivity.onFinishChooseCategory(
+                new Category(subCategory.getPicture(), subCategory.getTitle()));
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        mChooseCategoriesActivity = (ChooseCategoriesActivity) context;
+        super.onAttach(context);
     }
 }

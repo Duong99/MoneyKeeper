@@ -87,6 +87,7 @@
     <string name="who_with">Với ai</string>
 
     <string name="select_item">Chọn hạng mục</string>
+    <string name="select_account">Chọn tài khoản</string>
     <string name="explain">Diễn giải</string>
     <string name="add_account">Thêm tài khoản</string>
     <string name="edit_account">Sửa tài khoản</string>
@@ -128,5 +129,16 @@
 
     <string name="no">Không</string>
     <string name="yes">Có</string>
+
+
+    // Thu tiền
+    <string name="send_donate">Được cho/tặng</string>
+    <string name="saving_interest">Lãi tiết kiệm</string>
+    <string name="salary">Lương</string>
+    <string name="reward">Thưởng</string>
+    <string name="interest">Tiền lãi</string>
+
+    <string name="debt_collection">Thu nợ</string>
+    <string name="debt_pay">Trả nợ</string>
 
 </resources>

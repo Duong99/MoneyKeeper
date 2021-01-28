@@ -6,7 +6,7 @@
     <dimen name="height_logo_misa">20dp</dimen>
     <dimen name="weight_logo_misa">40dp</dimen>
 
-    <dimen name="font_small">14sp</dimen>
+    <dimen name="font_small">13sp</dimen>
     <dimen name="font_medium">16sp</dimen>
     <dimen name="font_large">18sp</dimen>
 
@@ -34,6 +34,12 @@
     <dimen name="width_picture_slide_intro">250dp</dimen>
     <dimen name="width_button_slide_intro">250dp</dimen>
 
+    // Chọn hạng mục
+    <dimen name="margin_top_bottom_medium_select_category">6dp</dimen>
+    <dimen name="margin_end_start_medium_select_category">12dp</dimen>
+    <dimen name="padding_large_select_category">14dp</dimen>
+
+
     <dimen name="height_edit_text_login_register">45dp</dimen>
     <dimen name="height_item">60dp</dimen>
     <dimen name="padding_start_edit_text">7.5dp</dimen>
@@ -44,7 +50,7 @@
     <dimen name="height_width_ic_check_spinner">15dp</dimen>
     <dimen name="height_width_ic_select_image">30dp</dimen>
     <dimen name="height_event_trip">60dp</dimen>
-    <dimen name="height_width_image_normal">40dp</dimen>
+    <dimen name="height_width_image_normal">35dp</dimen>
 
-    <dimen name="width_sub_category">100dp</dimen>
+    <dimen name="width_sub_category">65dp</dimen>
 </resources>

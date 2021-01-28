@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.EditText;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import vn.com.nghiemduong.moneykeeper.R;
 
@@ -43,7 +45,6 @@ public class AppUtils {
     }
 
     public static Bitmap convertByteArrayToBitmap(byte[] bytes) {
-
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         return bitmap;
     }
@@ -80,5 +81,22 @@ public class AppUtils {
 
         }
         return "";
+    }
+
+    /**
+     * Hàm đọc file ảnh từ trong assets rồi trả về kiểu byte[]
+     * <p>
+     * - @created_by nxduong on 28/1/2021
+     **/
+    public static byte[] getByteImageFromAssets(String path, Context context) {
+        InputStream is = null;
+        try {
+            is = context.getAssets().open(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap bitmap = BitmapFactory.decodeStream(is);
+        return AppUtils.convertBitmapToByteArray(bitmap);
     }
 }

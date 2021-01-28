@@ -1,7 +1,9 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.categorycollect;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import vn.com.nghiemduong.moneykeeper.adapter.CategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCategoriesActivity;
 
 /**
  * -  Màn hình chọn hạng mục thu tiền
@@ -31,6 +34,7 @@ public class CategoryCollectFragment extends BaseFragment implements CategoryCol
     private RecyclerView rcvCategoryCollect;
     private CategoryAdapter mCategoryAdapter;
     private CategoryCollectFragmentMvpPresenter mCollectFragmentMvpPresenter;
+    private ChooseCategoriesActivity mChooseCategoriesActivity;
 
     public CategoryCollectFragment() {
         // Required empty public constructor
@@ -51,7 +55,8 @@ public class CategoryCollectFragment extends BaseFragment implements CategoryCol
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvCategoryCollect.setLayoutManager(layoutManager);
 
-        mCollectFragmentMvpPresenter = new CategoryCollectFragmentPresenter(this);
+        mCollectFragmentMvpPresenter =
+                new CategoryCollectFragmentPresenter(this, getContext());
         mCollectFragmentMvpPresenter.getListCategoriesCollect();
     }
 
@@ -66,11 +71,18 @@ public class CategoryCollectFragment extends BaseFragment implements CategoryCol
 
     @Override
     public void onClickCategoryPay(Category category) {
-
+        mChooseCategoriesActivity.onFinishChooseCategory(
+                new Category(category.getImage(), category.getTitle()));
     }
 
     @Override
     public void onClickSubCategoryPay(SubCategory subCategory) {
 
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mChooseCategoriesActivity = (ChooseCategoriesActivity) context;
     }
 }

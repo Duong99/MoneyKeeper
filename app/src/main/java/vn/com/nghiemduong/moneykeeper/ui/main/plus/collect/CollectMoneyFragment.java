@@ -10,7 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.adapter.AccountAdapter;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabaseMvpView;
+import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCategoriesActivity;
 
@@ -22,7 +28,8 @@ import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCatego
  **/
 public class CollectMoneyFragment extends BaseFragment implements View.OnClickListener {
     private View mView;
-    private RelativeLayout rlChooseCategory;
+    private RelativeLayout rlChooseCategoryCollect;
+
 
     public CollectMoneyFragment() {
         // Required empty public constructor
@@ -39,15 +46,18 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void init() {
-        rlChooseCategory = mView.findViewById(R.id.rlChooseCategory);
-        rlChooseCategory.setOnClickListener(this);
+        rlChooseCategoryCollect = mView.findViewById(R.id.rlChooseCategory);
+        rlChooseCategoryCollect.setOnClickListener(this);
+
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlChooseCategory:
-                startActivity(new Intent(getContext(), ChooseCategoriesActivity.class));
+                startActivityForResult(new Intent(getContext(), ChooseCategoriesActivity.class),
+                        ChooseCategoriesActivity.REQUEST_CODE_CHOOSE_CATEGORY);
                 break;
         }
     }
