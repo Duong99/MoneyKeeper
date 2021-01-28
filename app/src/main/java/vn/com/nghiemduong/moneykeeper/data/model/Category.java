@@ -1,23 +1,41 @@
 package vn.com.nghiemduong.moneykeeper.data.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
- * - @created_by nxduong on 25/1/2021
+ * D
+ * - @created_by nxduong on 27/1/2021
  **/
-public class Category {
-    private int picture;
+public class Category implements Serializable {
+
+    private byte[] image;
+
     private String title;
 
-    public Category(int picture, String title) {
-        this.picture = picture;
+    private ArrayList<SubCategory> subCategories;
+
+    // Hàm tạo có hạng mục con
+    public Category(byte[] image, String title, ArrayList<SubCategory> subCategories) {
+        this.image = image;
+        this.title = title;
+        this.subCategories = subCategories;
+    }
+
+    // Hàm tạo không có hạng mục con
+    public Category(byte[] image, String title) {
+        this.image = image;
         this.title = title;
     }
 
-    public int getPicture() {
-        return picture;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setPicture(int picture) {
-        this.picture = picture;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public String getTitle() {
@@ -26,5 +44,13 @@ public class Category {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public ArrayList<SubCategory> getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(ArrayList<SubCategory> subCategories) {
+        this.subCategories = subCategories;
     }
 }

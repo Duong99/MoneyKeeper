@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerCategoriesArrayAdapter;
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.borrow.BorrowFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.collect.CollectMoneyFragment;
@@ -88,7 +88,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
     }
 
     @Override
-    public void resultListCategories(ArrayList<Category> listCategory) {
+    public void resultListCategories(ArrayList<HeaderCategory> listCategory) {
         mSpinnerAdapter = new CustomSpinnerCategoriesArrayAdapter(getContext(), listCategory);
         spinnerCategories.setAdapter(mSpinnerAdapter);
     }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_gravity="center_horizontal"
+    android:padding="@dimen/padding_large"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/width_sub_category"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/ivImageItemSubCategoryPay"
+        android:layout_width="@dimen/height_width_image_normal"
+        android:layout_height="@dimen/height_width_image_normal" />
+
+    <TextView
+        android:textSize="@dimen/font_small"
+        android:layout_gravity="center"
+        android:text="@string/select_item"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/margin_small"
+        android:textColor="@color/black_text_normal_default"
+        android:id="@+id/tvTitleItemSubCategoryPay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

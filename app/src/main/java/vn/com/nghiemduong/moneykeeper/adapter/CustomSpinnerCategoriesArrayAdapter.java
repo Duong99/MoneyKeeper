@@ -14,22 +14,21 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
 
 /**
- -
-    Custom lại spinner trong layout fragment_plus
-    *
- - @created_by nxduong on
-
-**/
-public class CustomSpinnerCategoriesArrayAdapter extends ArrayAdapter<Category> {
+ * -
+ * Custom lại spinner trong layout fragment_plus
+ * <p>
+ * - @created_by nxduong on
+ **/
+public class CustomSpinnerCategoriesArrayAdapter extends ArrayAdapter<HeaderCategory> {
 
     private Context mContext;
-    private ArrayList<Category> mListCategories;
+    private ArrayList<HeaderCategory> mListCategories;
 
     public CustomSpinnerCategoriesArrayAdapter(@NonNull Context context,
-                                                ArrayList<Category> mListCategories) {
+                                               ArrayList<HeaderCategory> mListCategories) {
         super(context, R.layout.item_custom_spinner_categories, mListCategories);
         this.mContext = context;
         this.mListCategories = mListCategories;

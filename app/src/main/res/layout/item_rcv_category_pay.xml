@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_margin="@dimen/margin_large"
+    android:background="@drawable/bg_select_category"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_large"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="@dimen/padding_large"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+
+            android:id="@+id/ivImageCategoryPay"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal" />
+
+        <TextView
+            style="@style/TextViewNormalBlack"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tvTitleCategoryPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvSubCategoryPay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

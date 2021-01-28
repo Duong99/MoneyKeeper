@@ -1,17 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/bg_white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_white"
+    android:orientation="vertical"
     tools:context=".ui.main.plus.pay.PayFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <include layout="@layout/item_trip_event"/>
-    <include android:layout_marginTop="@dimen/margin_large"
-        android:layout_height="wrap_content"
+    <ScrollView
         android:layout_width="match_parent"
-        layout="@layout/item_layout_select_image"/>
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextViewNormalBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="end"
+                android:padding="@dimen/padding_large"
+                android:text="@string/number_money" />
+
+            <include
+                layout="@layout/item_layout_input_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/item_layout_categories" />
+
+            <include
+                layout="@layout/item_trip_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large" />
+
+            <include
+                layout="@layout/item_layout_not_include_report"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large" />
+
+            <include
+                layout="@layout/item_layout_select_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large" />
+
+            <include
+                layout="@layout/item_button_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_large" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

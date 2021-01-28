@@ -45,68 +45,13 @@
                 android:background="@drawable/ic_done"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/framelayoutCategory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:background="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_large">
-
-                <TextView
-                    android:id="@+id/tvNumberMoney"
-                    style="@style/TextViewNormalBlack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/number_money" />
-
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/tvDong"
-                    style="@style/TextViewNormalBlack"
-                    android:text="@string/dong"
-                    android:layout_below="@id/tvNumberMoney"
-                    android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:text="0"
-                    android:layout_toStartOf="@id/tvDong"
-                    android:layout_below="@id/tvNumberMoney"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </RelativeLayout>
-
-            <FrameLayout
-                android:id="@+id/framelayoutCategory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <Button
-                android:id="@+id/btnSaveDonePlus"
-                android:paddingStart="@dimen/padding_large"
-                android:drawableTint="@color/white"
-                android:drawableStart="@drawable/ic_save_done"
-                android:textColor="@color/white"
-                android:layout_margin="@dimen/margin_large"
-                android:text="@string/save"
-                android:background="@drawable/bg_btn_login_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>
