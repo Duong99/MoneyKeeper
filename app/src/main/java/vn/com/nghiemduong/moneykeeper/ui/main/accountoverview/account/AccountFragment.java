@@ -1,5 +1,6 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,14 +43,17 @@ import static android.app.Activity.RESULT_OK;
  **/
 
 public class AccountFragment extends BaseFragment implements View.OnClickListener,
-        AccountMoneyDatabaseMvpView, AccountAdapter.IOnClickAccount, BottomSheetOptionAccountMvpView {
+        AccountMoneyDatabaseMvpView, AccountAdapter.IOnClickAccount, BottomSheetOptionAccountMvpView,
+        AccountFragmentMvpView {
     private View mView;
     private RecyclerView rcvListAccount;
     private ImageView ivAddAccount;
+    private TextView tvTotalMoney, tvTotalMoneyUsing;
     private AccountAdapter mAccountAdapter;
     private AccountMoneyDatabase mAccountDatabase;
     private Account mAccount;
     private int mPosition = -1; // vị trí click tài khoản
+    private AccountFragmentPresenter mAccountFragmentPresenter;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -71,12 +76,14 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
                     mAccount = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
                             .getSerializable("BUNDLE_ACCOUNT");
                     mAccountAdapter.addAccount(mAccount);
+                    mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());
                 }
 
                 if (requestCode == AddAccountActivity.REQUEST_CODE_ACCOUNT_EDIT) {
                     mAccount = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
                             .getSerializable("BUNDLE_ACCOUNT");
                     mAccountAdapter.updateAccount(mAccount, mPosition);
+                    mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());
                 }
             }
 
@@ -86,12 +93,17 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
     private void init() {
         rcvListAccount = mView.findViewById(R.id.rcvListAccount);
+        tvTotalMoney = mView.findViewById(R.id.tvTotalMoney);
+        tvTotalMoneyUsing = mView.findViewById(R.id.tvTotalMoneyUsing);
 
         ivAddAccount = mView.findViewById(R.id.ivAddAccount);
         ivAddAccount.setOnClickListener(this);
 
+        mAccountFragmentPresenter = new AccountFragmentPresenter(this);
+
         mAccountDatabase = new AccountMoneyDatabase(getContext(), this);
         mAccountDatabase.getAllAccount();
+
     }
 
     @Override
@@ -112,6 +124,8 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
                 new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rcvListAccount.setLayoutManager(layoutManager);
         rcvListAccount.setAdapter(mAccountAdapter);
+
+        mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(listAccount);
     }
 
     @Override
@@ -138,6 +152,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     public void deleteAccountSuccess() {
         mAccountAdapter.deleteAccount(mAccount);
         showToast(getString(R.string.delete_account_success));
+        mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());
     }
 
     @Override
@@ -211,5 +226,12 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClickLockOptionAccount() {
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onTotalMoneyOfAllAccount(int totalMoney) {
+        tvTotalMoney.setText(String.valueOf(totalMoney));
+        tvTotalMoneyUsing.setText("( " + String.valueOf(totalMoney) + "đ )");
     }
 }

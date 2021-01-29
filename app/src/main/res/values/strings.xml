@@ -141,4 +141,14 @@
     <string name="debt_collection">Thu nợ</string>
     <string name="debt_pay">Trả nợ</string>
 
+    // Phí
+    <string name="fee">Phí</string>
+    <string name="take_a_loan_to_pay_this_amount">Đi vay để trả khoản này</string>
+    <string name="lender">Người cho vay</string>
+    <string name="repayment_date">Ngày trả nợ</string>
+
+    // Dialog calendar, time
+    <string name="current_time">Giờ hiện tại</string>
+    <string name="close">Đóng</string>
+    <string name="today">Hôm nay</string>
 </resources>

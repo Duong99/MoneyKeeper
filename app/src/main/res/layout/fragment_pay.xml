@@ -32,13 +32,25 @@
                 android:layout_height="wrap_content" />
 
             <include
-                android:layout_marginTop="@dimen/margin_large"
+                layout="@layout/item_layout_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/item_layout_categories" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <include
                 layout="@layout/item_trip_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large" />
+
+            <include
+                layout="@layout/item_layout_loan_to_pay_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large" />
+
+            <include
+                layout="@layout/item_layout_fee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large" />

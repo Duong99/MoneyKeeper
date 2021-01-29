@@ -16,5 +16,7 @@
     <color name="gray_image_bottom_sheet">#989898</color>
     <color name="bg_gray_select_category">#f1f1f3</color>
     <color name="bg_white">#e9e9e9</color>
+    <color name="green">#00FF0A</color>
+    <color name="red">#FF0000</color>
 
 </resources>

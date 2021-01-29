@@ -47,20 +47,28 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         holder.tvTotalMoneyAccount.setText(String.valueOf(mListAccount.get(position).getMoneyCurrent()));
     }
 
-    public void addAccount(Account account){
+    // Thêm tài khoảnrong danh sách ở màn hình tài khoản
+    public void addAccount(Account account) {
         mListAccount.add(account);
         notifyDataSetChanged();
     }
 
-    public void deleteAccount(Account account){
+    // Xóa tài khoản trong danh sách ở màn hình tài khoản
+    public void deleteAccount(Account account) {
         mListAccount.remove(account);
         notifyDataSetChanged();
     }
 
-    public void updateAccount(Account account, int position){
+    // Sửa tài khoản trong danh sách ở màn hình tài khoản
+    public void updateAccount(Account account, int position) {
         mListAccount.remove(position);
         mListAccount.add(position, account);
         notifyDataSetChanged();
+    }
+
+    // Lấy danh sách tài khoản
+    public ArrayList<Account> getAllAccount() {
+        return mListAccount;
     }
 
     @Override

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.plus.chooseaccount.ChooseAccountActivity"></activity>
+        <activity android:name=".ui.main.plus.contact.ContactActivity"></activity>
+        <activity android:name=".ui.main.plus.chooseaccount.ChooseAccountActivity" />
         <activity android:name=".ui.main.plus.choosecategories.ChooseCategoriesActivity" />
         <activity android:name=".ui.main.accountoverview.type.AccountTypeActivity" />
         <activity android:name=".ui.main.accountoverview.add.AddAccountActivity" />

@@ -26,6 +26,7 @@ public class CustomSpinnerCategoriesArrayAdapter extends ArrayAdapter<HeaderCate
 
     private Context mContext;
     private ArrayList<HeaderCategory> mListCategories;
+    private HeaderCategory mHeaderCategory; // Đối tượng HeaderCategory đã được chọn
 
     public CustomSpinnerCategoriesArrayAdapter(@NonNull Context context,
                                                ArrayList<HeaderCategory> mListCategories) {
@@ -45,14 +46,13 @@ public class CustomSpinnerCategoriesArrayAdapter extends ArrayAdapter<HeaderCate
         return getCustomView(position, convertView, parent);
     }
 
-    private View getCustomView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
+    private View getCustomView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        if (convertView == null){
+        if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(R.layout.item_custom_spinner_categories, parent,
                     false);
         }
-
 
         ImageView ivPictureCategories = convertView.findViewById(R.id.ivPictureCategories);
         ImageView ivCheckCategories = convertView.findViewById(R.id.ivCheckCategories);

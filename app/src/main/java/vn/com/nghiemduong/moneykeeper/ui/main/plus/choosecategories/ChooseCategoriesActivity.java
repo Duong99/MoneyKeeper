@@ -24,6 +24,7 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 public class ChooseCategoriesActivity extends BaseActivity {
 
     public final static int REQUEST_CODE_CHOOSE_CATEGORY = 912;
+    public final static int REQUEST_CODE_CHOOSE_CATEGORY_FEE = 212;
     private TabLayout tlChooseCategory;
     private ViewPager vpChooseCategory;
     private Toolbar tbChooseCategory;

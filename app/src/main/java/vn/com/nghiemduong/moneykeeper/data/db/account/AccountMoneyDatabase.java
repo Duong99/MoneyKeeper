@@ -124,9 +124,9 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         long delete = db.delete(NAME_TABLE_ACCOUNT, ACCOUNT_ID + " = ?",
                 new String[]{String.valueOf(accountId)});
 
-        if (delete != DBUtils.check){
+        if (delete != DBUtils.check) {
             mAccountMoneyDatabaseMvpView.deleteAccountSuccess();
-        }else {
+        } else {
             mAccountMoneyDatabaseMvpView.deleteAccountFail();
         }
     }
