@@ -117,17 +117,4 @@ public class UtilsPlus {
         String currentDate = sdf.format(new Date());
         return currentDate;
     }
-
-    // Hàm lấy giá trị ngày tháng năm của dialog lịch
-    public static void selectCalendarByDialog(final TextView tvCalendar, Context context) {
-        final String[] dateSelected = tvCalendar.getText().toString().split("/");
-        DatePickerDialog pickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                tvCalendar.setText(dayOfMonth + "/" + month + "/" + year);
-            }
-        }, Integer.parseInt(dateSelected[2]), Integer.parseInt(dateSelected[1]), Integer.parseInt(dateSelected[0]));
-        pickerDialog.show();
-    }
 }

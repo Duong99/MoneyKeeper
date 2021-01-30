@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -52,21 +53,32 @@
 
     <CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="350dp" />
 
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:timePickerMode="spinner" />
+    <RelativeLayout
+        android:id="@+id/rlCenterTimePicker"
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+
+        <TimePicker
+            android:layout_centerInParent="true"
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:timePickerMode="spinner" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
+            android:gravity="center"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/btnCloseDate"
             android:id="@+id/btnCurrentDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

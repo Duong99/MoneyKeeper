@@ -21,7 +21,7 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCategoriesActivity;
-import vn.com.nghiemduong.moneykeeper.ui.view.date.CustomCalendarTimeView;
+import vn.com.nghiemduong.moneykeeper.ui.view.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 import static android.app.Activity.RESULT_OK;
@@ -32,7 +32,8 @@ import static android.app.Activity.RESULT_OK;
  * <p>
  * - @created_by nxduong on 26/1/2021
  **/
-public class PayFragment extends BaseFragment implements PayMvpView, View.OnClickListener {
+public class PayFragment extends BaseFragment implements PayMvpView, View.OnClickListener,
+        CustomDateTimeDialog.IOnClickSaveDateTime {
     private View mView;
     private RelativeLayout rlChooseCategoryPay, rlChooseAccountPay, rlSelectCategoryFee,
             rlRepaymentDate, rlLender;
@@ -148,20 +149,24 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
 
             case R.id.tvTime:
                 try {
-                    UtilsPlus.selectTimeByDialog(tvTimePay, getContext());
+                    CustomDateTimeDialog customCalendarView = new CustomDateTimeDialog(getContext(),
+                            CustomDateTimeDialog.KEY_WATCH, tvCalenderPay.getText().toString(),
+                            tvTimePay.getText().toString(), this);
+                    customCalendarView.show();
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
                 break;
 
             case R.id.tvCalendar:
-                CustomCalendarTimeView customCalendarView = new CustomCalendarTimeView(getContext());
-                customCalendarView.show();
-//                try {
-//                    UtilsPlus.selectCalendarByDialog(tvCalenderPay, getContext());
-//                } catch (Exception e) {
-//                    AppUtils.handlerException(e);
-//                }
+                try {
+                    CustomDateTimeDialog customCalendarView = new CustomDateTimeDialog(getContext(),
+                            CustomDateTimeDialog.KEY_CALENDAR, tvCalenderPay.getText().toString(),
+                            tvTimePay.getText().toString(), this);
+                    customCalendarView.show();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
                 break;
 
             case R.id.rlLender:
@@ -195,5 +200,11 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                 }
             }
         }
+    }
+
+    @Override
+    public void saveDateTime(String date, String time) {
+        tvCalenderPay.setText(date);
+        tvTimePay.setText(time);
     }
 }
