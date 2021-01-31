@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.ui.view.date;
+package vn.com.nghiemduong.moneykeeper.ui.dialog.date;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;

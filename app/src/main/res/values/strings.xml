@@ -86,6 +86,8 @@
     <string name="who_with_pay">Chi với ai</string>
     <string name="who_with">Với ai</string>
 
+    <string name="pay_for_someone">Chi cho ai</string>
+
     <string name="select_item">Chọn hạng mục</string>
     <string name="select_account">Chọn tài khoản</string>
     <string name="explain">Diễn giải</string>
@@ -151,4 +153,7 @@
     <string name="current_time">Giờ hiện tại</string>
     <string name="close">Đóng</string>
     <string name="today">Hôm nay</string>
+
+    <string name="with_whom">Với ai</string>
+    <string name="select_or_enter_a_new_object_name">Chọn hoặc nhập mới tên đối tượng</string>
 </resources>

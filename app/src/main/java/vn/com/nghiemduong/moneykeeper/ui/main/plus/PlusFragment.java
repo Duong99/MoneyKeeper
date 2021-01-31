@@ -93,6 +93,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
         });
     }
 
+    // Khởi tạo / ánh xạ cho các view
     private void init() {
         spinnerCategories = mView.findViewById(R.id.spinnerCategories);
         mPlusPresenter = new PlusPresenter(this, getContext(), getActivity());
@@ -105,6 +106,10 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
         spinnerCategories.setAdapter(mSpinnerAdapter);
     }
 
+    /**
+     * Hàm chuyển màn hình giữa các fragment
+     * - @created_by nxduong on 25/1/2021
+     **/
     private void beginTransactionCategoriesLayout(Fragment fg) {
         FragmentManager fmManager = getFragmentManager();
         assert fmManager != null;

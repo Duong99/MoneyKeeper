@@ -1,12 +1,11 @@
 package vn.com.nghiemduong.moneykeeper.data.model;
 
 /**
- -  Đối tượng báo cáo
-
-    *
- - @created_by nxduong on 25/1/2021
-
-**/
+ * -  Đối tượng báo cáo
+ * <p>
+ * <p>
+ * - @created_by nxduong on 25/1/2021
+ **/
 public class Report {
     private int image;
     private String title;

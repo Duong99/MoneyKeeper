@@ -34,9 +34,6 @@ import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
- * -
- * <p>
- * <p>
  * - @created_by nxduong on 21/1/2021
  **/
 public class LoginPresenter implements LoginMvpPresenter {

@@ -4,12 +4,13 @@
     android:gravity="center_vertical"
     android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_item_plus"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_item_plus"
         android:padding="@dimen/padding_large"
         android:weightSum="2">
 
@@ -31,17 +32,16 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llContentFee"
         android:visibility="gone"
+        android:id="@+id/llContentFee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_large">
+        android:orientation="vertical">
 
         <include layout="@layout/view_line" />
 
         <TextView
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_margin="@dimen/margin_large"
             style="@style/TextViewNormalBlack"
             android:gravity="end"
             android:text="@string/number_money"
@@ -50,41 +50,7 @@
 
         <include layout="@layout/item_layout_input_money" />
 
-        <RelativeLayout
-            android:id="@+id/rlSelectCategoryFee"
-            android:background="@drawable/bg_select_ripple_gray"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
-            android:padding="@dimen/padding_large">
-
-            <ImageView
-                android:id="@+id/ivImageCategoryFee"
-                android:layout_width="@dimen/height_width_image_normal"
-                android:layout_height="@dimen/height_width_image_normal"
-                android:layout_centerVertical="true" />
-
-            <ImageView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/ic_arrow_right"
-                android:backgroundTint="@color/black_text_normal" />
-
-            <TextView
-                android:id="@+id/tvTitleCategoryFee"
-                style="@style/TextViewNormalBlack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/margin_large"
-                android:layout_toEndOf="@id/ivImageCategoryFee"
-                android:text="@string/select_item" />
-        </RelativeLayout>
+        <include layout="@layout/item_layout_category_small_plus" />
 
     </LinearLayout>
-
-
 </LinearLayout>

@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 
 /**
- * -
- * <p>
- * <p>
  * - @created_by nxduong on 2/1/2021
  **/
 public class AccountFragmentPresenter implements AccountFragmentMvpPresenter {

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_item_plus"
+    android:background="@drawable/bg_select_ripple_gray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlImage"
+        android:layout_width="@dimen/height_item_plus"
+        android:layout_height="@dimen/height_item_plus">
+
+        <androidx.cardview.widget.CardView
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            app:cardCornerRadius="@dimen/corner_radius_image_contact">
+
+            <TextView
+                android:id="@+id/tvDefaultContactImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/contact_color_blue"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_large" />
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvContactName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/rlImage"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_medium" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_view_line"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_toEndOf="@id/rlImage"
+        android:background="@color/black" />
+</RelativeLayout>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_marginBottom="@dimen/margin_top_bottom_medium_select_category"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginBottom="@dimen/margin_top_bottom_medium_select_category"
     android:layout_marginTop="@dimen/margin_top_bottom_medium_select_category"
     android:layout_marginStart="@dimen/margin_end_start_medium_select_category"
     android:layout_marginEnd="@dimen/margin_end_start_medium_select_category"
     android:background="@drawable/bg_select_category"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="@dimen/padding_large_select_category"
     android:layout_width="match_parent"
@@ -32,6 +32,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/margin_large"
         android:id="@+id/rcvSubCategoryPay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

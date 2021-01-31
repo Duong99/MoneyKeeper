@@ -11,12 +11,11 @@ import android.view.ViewGroup;
 import vn.com.nghiemduong.moneykeeper.R;
 
 /**
- -
-    Màn hình đi vay tiền
-    *
- - @created_by nxduong on 26/1/2021
-
-**/
+ * -
+ * Màn hình đi vay tiền
+ * <p>
+ * - @created_by nxduong on 26/1/2021
+ **/
 public class BorrowFragment extends Fragment {
 
     public BorrowFragment() {

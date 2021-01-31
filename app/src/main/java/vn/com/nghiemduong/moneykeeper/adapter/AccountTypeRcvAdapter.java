@@ -48,7 +48,7 @@ public class AccountTypeRcvAdapter extends RecyclerView.Adapter<AccountTypeRcvAd
         holder.tvTitleAccountType.setText(mListAccountType.get(position).getTitle());
 
         // Kiểm tra xem lại tại khoản nào được chọn thì cho tích hiện lên
-        if (mListAccountType.get(position).getAccountTypeId() == mAccountTypeClicked.getAccountTypeId()){
+        if (mListAccountType.get(position).getAccountTypeId() == mAccountTypeClicked.getAccountTypeId()) {
             holder.ivCheckAccountType.setVisibility(View.VISIBLE);
         }
     }

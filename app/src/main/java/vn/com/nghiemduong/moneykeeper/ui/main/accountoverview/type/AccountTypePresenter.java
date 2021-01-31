@@ -14,9 +14,6 @@ import vn.com.nghiemduong.moneykeeper.data.model.AccountType;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
- * -
- * <p>
- * <p>
  * - @created_by nxduong on 26/1/2021
  **/
 public class AccountTypePresenter implements AccountTypeMvpPresenter {

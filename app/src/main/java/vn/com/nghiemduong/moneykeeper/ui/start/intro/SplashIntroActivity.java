@@ -2,7 +2,9 @@ package vn.com.nghiemduong.moneykeeper.ui.start.intro;
 
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -80,13 +82,21 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onStart() {
         super.onStart();
+
+        // Kiểm tra xem đã đăng nhập người dùng chưa
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if (currentUser != null) {
+        if (currentUser != null) { // Nếu người dùng đang nhập rồi chuyển sang màn hình chính
             startActivity(new Intent(SplashIntroActivity.this, MainActivity.class));
         }
     }
+
+    /**
+     * Hàm tạo các dot dưới slide
+     *
+     * @created_by nxduong on 25/1/2021
+     */
 
     private void createDots() {
         mDotCount = mIntroAdapter.getCount();

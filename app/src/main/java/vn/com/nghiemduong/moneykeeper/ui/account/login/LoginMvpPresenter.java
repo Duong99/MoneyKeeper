@@ -8,9 +8,6 @@ import com.google.android.gms.tasks.Task;
 import vn.com.nghiemduong.moneykeeper.data.model.User;
 
 /**
- * -
- * <p>
- * <p>
  * - @created_by nxduong on 20/1/2021
  **/
 public interface LoginMvpPresenter {

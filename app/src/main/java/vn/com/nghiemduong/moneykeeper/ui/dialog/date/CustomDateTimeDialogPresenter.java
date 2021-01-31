@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.ui.view.date;
+package vn.com.nghiemduong.moneykeeper.ui.dialog.date;
 
 import java.util.Date;
 

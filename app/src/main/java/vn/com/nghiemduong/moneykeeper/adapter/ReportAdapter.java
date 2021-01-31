@@ -47,9 +47,10 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         return mListReports.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivReport;
         private TextView tvReport;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 

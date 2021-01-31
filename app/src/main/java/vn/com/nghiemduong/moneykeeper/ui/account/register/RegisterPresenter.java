@@ -17,9 +17,6 @@ import vn.com.nghiemduong.moneykeeper.data.model.User;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
- * -
- * <p>
- * <p>
  * - @created_by nxduong on 22/1/2021
  **/
 public class RegisterPresenter implements RegisterMvpPresenter {
@@ -46,7 +43,7 @@ public class RegisterPresenter implements RegisterMvpPresenter {
                             mRegisterMvpView.registerAccountSuccess();
                         } else {
                             // If sign in fails, display a message to the user.
-                           mRegisterMvpView.registerAccountFail();
+                            mRegisterMvpView.registerAccountFail();
                         }
                     }
                 });

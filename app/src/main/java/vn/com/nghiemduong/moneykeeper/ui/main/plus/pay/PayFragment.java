@@ -21,11 +21,11 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCategoriesActivity;
-import vn.com.nghiemduong.moneykeeper.ui.view.date.CustomDateTimeDialog;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.contact.ContactActivity;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 import static android.app.Activity.RESULT_OK;
-
 
 /**
  * -  Màn hình chi tiền
@@ -36,9 +36,9 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         CustomDateTimeDialog.IOnClickSaveDateTime {
     private View mView;
     private RelativeLayout rlChooseCategoryPay, rlChooseAccountPay, rlSelectCategoryFee,
-            rlRepaymentDate, rlLender;
+            rlRepaymentDate, rlLender, rlWhoContact;
     private ImageView ivImageCategoriesPay, ivImageAccountPay, ivImageCategoryFee;
-    private TextView tvTitleSelectCategoryPay, tvTitleAccountPay, tvTitleCategoryFee;
+    private TextView tvTitleSelectCategoryPay, tvTitleAccountPay, tvTitleCategoryFee, tvTitlePerson;
 
     private TextView tvTimePay, tvCalenderPay;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -60,25 +60,33 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         swtFee.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    llContentFee.setVisibility(View.VISIBLE);
-                } else {
-                    llContentFee.setVisibility(View.GONE);
-                }
+                extendOrCloseFee(isChecked);
             }
         });
 
         swtLoanToPayAmount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    llContentLoanToPayAmount.setVisibility(View.VISIBLE);
-                } else {
-                    llContentLoanToPayAmount.setVisibility(View.GONE);
-                }
+                extendOrCloseLoanToPayAmount(isChecked);
             }
         });
         return mView;
+    }
+
+    private void extendOrCloseFee(boolean isChecked) {
+        if (isChecked) {
+            llContentFee.setVisibility(View.VISIBLE);
+        } else {
+            llContentFee.setVisibility(View.GONE);
+        }
+    }
+
+    private void extendOrCloseLoanToPayAmount(boolean isChecked) {
+        if (isChecked) {
+            llContentLoanToPayAmount.setVisibility(View.VISIBLE);
+        } else {
+            llContentLoanToPayAmount.setVisibility(View.GONE);
+        }
     }
 
     private void init() {
@@ -99,6 +107,12 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
 
         rlRepaymentDate = mView.findViewById(R.id.rlRepaymentDate);
         rlRepaymentDate.setOnClickListener(this);
+
+        rlWhoContact = mView.findViewById(R.id.rlWhoContact);
+        rlWhoContact.setOnClickListener(this);
+
+        tvTitlePerson = mView.findViewById(R.id.tvTitlePerson);
+        tvTitlePerson.setText(getResources().getString(R.string.pay_for_someone));
 
         tvTimePay = mView.findViewById(R.id.tvTime);
         tvTimePay.setOnClickListener(this);
@@ -129,6 +143,8 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
+                break;
+
             case R.id.rlSelectCategoryFee:
                 try {
                     startActivityForResult(new Intent(getContext(), ChooseCategoriesActivity.class),
@@ -169,8 +185,28 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                 }
                 break;
 
-            case R.id.rlLender:
+            case R.id.rlWhoContact:
+                try {
+                    Intent intent = new Intent(getContext(), ContactActivity.class);
+                    intent.putExtra(ContactActivity.KEY_CONTACT_ACTIVITY_TYPE,
+                            ContactActivity.REQUEST_CODE_CHOOSE_CONTACT_WITH_WHOM);
+                    startActivityForResult(intent,
+                            ContactActivity.REQUEST_CODE_CHOOSE_CONTACT_WITH_WHOM);
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+                break;
 
+            case R.id.rlLender:
+                try {
+                    Intent intent = new Intent(getContext(), ContactActivity.class);
+                    intent.putExtra(ContactActivity.KEY_CONTACT_ACTIVITY_TYPE,
+                            ContactActivity.REQUEST_CODE_CHOOSE_CONTACT_LENDER);
+                    startActivityForResult(intent,
+                            ContactActivity.REQUEST_CODE_CHOOSE_CONTACT_LENDER);
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
                 break;
 
             case R.id.rlRepaymentDate:

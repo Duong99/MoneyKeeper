@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/bg_select_ripple_gray"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/height_item_plus">
 
-    <ImageView
-        android:id="@+id/ivImageAccountType"
-        android:layout_width="@dimen/height_width_ic_select_image"
-        android:layout_height="@dimen/height_width_ic_select_image"
-        android:layout_centerVertical="true"
-        android:layout_margin="@dimen/margin_large"
-        android:background="@drawable/ic_event"
-        android:backgroundTint="@color/black_text_normal" />
+    <RelativeLayout
+        android:id="@+id/rlImageAccountType"
+        android:layout_width="@dimen/width_item_image_plus"
+        android:layout_height="@dimen/height_item_plus">
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:id="@+id/ivImageAccountType"
+            android:layout_width="@dimen/height_width_ic_select_image"
+            android:layout_height="@dimen/height_width_ic_select_image"
+            android:background="@drawable/ic_event"
+            android:backgroundTint="@color/black_text_normal" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tvTitleAccountType"
@@ -20,8 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_margin="@dimen/margin_large"
-        android:layout_toEndOf="@id/ivImageAccountType"
+        android:layout_toEndOf="@id/rlImageAccountType"
         android:text="@string/account_type" />
 
     <ImageView
@@ -36,11 +39,10 @@
         android:backgroundTint="@color/black_text_normal" />
 
     <include
-        android:layout_marginStart="@dimen/margin_large"
+        android:layout_alignParentBottom="true"
         layout="@layout/view_line"
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_below="@id/tvTitleAccountType"
-        android:layout_toEndOf="@id/ivImageAccountType" />
+        android:layout_height="@dimen/height_view_line"
+        android:layout_toEndOf="@id/rlImageAccountType" />
 
 </RelativeLayout>

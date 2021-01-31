@@ -5,11 +5,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 /**
-
- - @created_by nxduong on 25/1/2021
-
-**/
-public class BaseFragment extends Fragment implements MvpView{
+ * - @created_by nxduong on 25/1/2021
+ **/
+public class BaseFragment extends Fragment implements MvpView {
 
     @Override
     public void showToast(String message) {

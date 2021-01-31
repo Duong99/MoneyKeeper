@@ -15,7 +15,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * - @created_by nxduong on 26/1/2021
  **/
 
-public class UserMoneyDatabase extends SQLiteOpenHelper implements UserMoneyDatabaseMvpView{
+public class UserMoneyDatabase extends SQLiteOpenHelper implements UserMoneyDatabaseMvpView {
 
     private final static String NAME_TABLE_USER = "User";
     private final static String USER_ID = "userId";
@@ -37,7 +37,7 @@ public class UserMoneyDatabase extends SQLiteOpenHelper implements UserMoneyData
 
     }
 
-    public void insertUser(User user){
+    public void insertUser(User user) {
         mDB = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(USER_EMAIL, user.getEmail());

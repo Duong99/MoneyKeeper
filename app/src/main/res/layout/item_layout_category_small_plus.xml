@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/rlWhoContact"
     android:background="@drawable/bg_select_ripple_gray"
+    android:id="@+id/rlSelectCategoryFee"
     android:layout_height="@dimen/height_item_plus">
 
     <RelativeLayout
-        android:id="@+id/rlImagePerson"
+        android:id="@+id/rlImageCategory"
         android:layout_width="@dimen/width_item_image_plus"
-        android:layout_height="@dimen/height_event_trip">
+        android:layout_height="@dimen/height_item_plus"
+        android:paddingTop="@dimen/padding_large">
 
         <ImageView
             android:layout_centerInParent="true"
-            android:id="@+id/ivEventPerson"
+            android:id="@+id/ivImageCategoryFee"
             android:layout_width="@dimen/height_width_image_normal"
             android:layout_height="@dimen/height_width_image_normal"
-            android:background="@drawable/ic_person"
-            android:backgroundTint="@color/black_text_normal" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_help_white" />
     </RelativeLayout>
 
     <ImageView
@@ -24,23 +25,24 @@
         android:layout_height="@dimen/height_width_image_normal"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_margin="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
         android:background="@drawable/ic_arrow_right"
-        android:backgroundTint="@color/black_text_normal" />
+        android:backgroundTint="@color/black_text_normal_default" />
 
     <TextView
-        android:id="@+id/tvTitlePerson"
-        style="@style/TextViewNormal"
+        android:id="@+id/tvTitleCategoryFee"
+        style="@style/TextViewNormalBlack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/rlImagePerson"
-        android:text="@string/who_with_pay" />
+        android:layout_toEndOf="@id/rlImageCategory"
+        android:text="@string/select_item"
+        android:textColor="@color/black_text_normal_default" />
 
     <include
-        android:layout_alignParentBottom="true"
         layout="@layout/view_line"
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_toEndOf="@id/rlImagePerson" />
+        android:layout_height="@dimen/height_view_line"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/rlImageCategory" />
 </RelativeLayout>

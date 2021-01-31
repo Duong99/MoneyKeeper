@@ -17,9 +17,6 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager;
 
 /**
- * -
- * <p>
- * <p>
  * - @created_by nxduong on 21/1/2021
  **/
 
@@ -40,29 +37,29 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
         bnvMain.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.item_overview:
-                        hvpMain.setCurrentItem(0);
-                        break;
-                    case R.id.item_account:
-                        hvpMain.setCurrentItem(1);
-                        break;
-                    case R.id.item_plus:
-                        fabPlusMain.setBackgroundColor(getResources().getColor(R.color.blue));
-                        hvpMain.setCurrentItem(2);
-                        break;
-                    case R.id.item_report:
-                        hvpMain.setCurrentItem(3);
-                        break;
-                    case R.id.item_more:
-                        hvpMain.setCurrentItem(4);
-                        break;
-                }
-                return true;
-            }
-        });
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_overview:
+                                hvpMain.setCurrentItem(0);
+                                break;
+                            case R.id.item_account:
+                                hvpMain.setCurrentItem(1);
+                                break;
+                            case R.id.item_plus:
+                                fabPlusMain.setBackgroundColor(getResources().getColor(R.color.blue));
+                                hvpMain.setCurrentItem(2);
+                                break;
+                            case R.id.item_report:
+                                hvpMain.setCurrentItem(3);
+                                break;
+                            case R.id.item_more:
+                                hvpMain.setCurrentItem(4);
+                                break;
+                        }
+                        return true;
+                    }
+                });
     }
 
     private void init() {

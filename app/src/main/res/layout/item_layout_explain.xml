@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:id="@+id/rlImageExplain"
-        android:layout_width="70dp"
+        android:layout_width="@dimen/width_item_image_plus"
         android:layout_height="@dimen/height_item_plus">
 
         <ImageView

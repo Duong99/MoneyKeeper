@@ -13,10 +13,8 @@ import vn.com.nghiemduong.moneykeeper.ui.main.plus.PlusFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.report.ReportFragment;
 
 /**
-
- - @created_by nxduong on 25/1/2021
-
-**/
+ * - @created_by nxduong on 25/1/2021
+ **/
 public class BottomNavigationAdapter extends FragmentStatePagerAdapter {
     private OverviewFragment mOverviewFragment;
     private AccountOverviewFragment mAccountFragment;
@@ -36,7 +34,7 @@ public class BottomNavigationAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return mOverviewFragment;
             case 1:

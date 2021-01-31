@@ -11,12 +11,11 @@ import android.view.ViewGroup;
 import vn.com.nghiemduong.moneykeeper.R;
 
 /**
- -
-    Màn hình cho vay tiền
-    *
- - @created_by nxduong on 26/1/2021
-
-**/
+ * -
+ * Màn hình cho vay tiền
+ * <p>
+ * - @created_by nxduong on 26/1/2021
+ **/
 public class LoanFragment extends Fragment {
 
     public LoanFragment() {

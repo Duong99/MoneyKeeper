@@ -13,9 +13,7 @@ import java.io.InputStream;
 import vn.com.nghiemduong.moneykeeper.R;
 
 /**
- * -
- * <p>
- * <p>
+ * Class chứa các hàm dùng chung cho project
  * - @created_by nxduong on 21/1/2021
  **/
 public class AppUtils {
@@ -36,19 +34,23 @@ public class AppUtils {
     public static final int KHONG_BAO_CAO = 0;
 
 
+    // hàm sử lý khi ứng dụng Exception
     public static void handlerException(Exception e) {
         Log.e(TAG, e.toString());
     }
 
+    // Hàm lấy giá trị trong EditText
     public static String getEditText(EditText et) {
         return et.getText().toString();
     }
 
+    // Hàm convert từ  byte[] sang bitmap
     public static Bitmap convertByteArrayToBitmap(byte[] bytes) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         return bitmap;
     }
 
+    // hàm convert từ bitmap sang byte[]
     public static byte[] convertBitmapToByteArray(Bitmap bitmap) {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();

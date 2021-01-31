@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.ui.view.date;
+package vn.com.nghiemduong.moneykeeper.ui.dialog.date;
 
 /**
  * - @created_by nxduong on 30/1/2021

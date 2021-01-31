@@ -18,12 +18,8 @@ import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.model.Intro;
 
 /**
- -
-
-    *
- - @created_by nxduong on 22/1/2021
-
-**/
+ * - @created_by nxduong on 22/1/2021
+ **/
 public class ViewPagerIntroAdapter extends PagerAdapter {
     private Context mContext;
     private ArrayList<Intro> mListIntro;

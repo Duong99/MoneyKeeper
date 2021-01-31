@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="dp_0">0dp</dimen>
     <dimen name="ic_login_facebook_google">40dp</dimen>
     <dimen name="height_view_line">0.1dp</dimen>
 
@@ -25,6 +26,7 @@
     <dimen name="corner_radius_small">2.5dp</dimen>
     <dimen name="corner_radius_medium">5dp</dimen>
     <dimen name="corner_radius_large">10dp</dimen>
+    <dimen name="corner_radius_image_contact">20dp</dimen>
     <dimen name="corner_radius_bg_spinner_title">25dp</dimen>
     <dimen name="corner_radius_button_slide_intro">30dp</dimen>
 

@@ -9,14 +9,13 @@ import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 
 /**
- - Màn hình quên mật khẩu tài khoản
+ * - Màn hình quên mật khẩu tài khoản
+ * <p>
+ * <p>
+ * - @created_by nxduong on 22/1/2021
+ **/
 
-    *
- - @created_by nxduong on 22/1/2021
-
-**/
-
-public class ForgetPasswordActivity extends BaseActivity implements ForgetPasswordMvpView{
+public class ForgetPasswordActivity extends BaseActivity implements ForgetPasswordMvpView {
 
     private Toolbar tbaRegister;
 

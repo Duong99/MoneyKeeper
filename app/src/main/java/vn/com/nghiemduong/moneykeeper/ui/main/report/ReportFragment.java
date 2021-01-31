@@ -60,6 +60,7 @@ public class ReportFragment extends BaseFragment implements ReportMvpView {
         });
     }
 
+    // Khởi tạo / ánh xạ cho các view
     private void init() {
         rcvReport = mView.findViewById(R.id.rcvReport);
         srlReport = mView.findViewById(R.id.srlReport);
