@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_item_plus">
+
+
+    <RelativeLayout
+        android:id="@+id/rlImageExplain"
+        android:layout_width="70dp"
+        android:layout_height="@dimen/height_item_plus">
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_explain_notes"
+            android:backgroundTint="@color/black_text_normal_default" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:layout_toEndOf="@id/rlImageExplain"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_item_plus"
+        android:layout_centerVertical="true"
+        android:hint="@string/explain" />
+</RelativeLayout>

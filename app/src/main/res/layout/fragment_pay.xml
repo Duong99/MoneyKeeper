@@ -31,17 +31,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <include
-                layout="@layout/item_layout_categories"
+            <LinearLayout
+                android:layout_marginTop="@dimen/margin_large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large" />
+                android:background="@color/white"
+                android:orientation="vertical">
 
-            <include
-                layout="@layout/item_trip_event"
+                <include layout="@layout/item_layout_category_large_plus" />
+
+                <include layout="@layout/item_layout_explain" />
+
+                <include layout="@layout/item_layout_date_time" />
+
+                <include layout="@layout/item_layout_account_plus" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/margin_large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large" />
+                android:orientation="vertical">
+
+                <include layout="@layout/item_layout_trip_event_plus" />
+
+                <include layout="@layout/item_who_with_pay_plus" />
+
+                <include layout="@layout/item_layout_address_plus" />
+            </LinearLayout>
 
             <include
                 layout="@layout/item_layout_loan_to_pay_amount"

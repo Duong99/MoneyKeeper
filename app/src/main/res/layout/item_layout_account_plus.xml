@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_item_plus">
+
+    <RelativeLayout
+        android:id="@+id/rlChooseAccount"
+        android:layout_width="@dimen/width_item_image_plus"
+        android:layout_height="@dimen/height_item_plus">
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:id="@+id/ivImageAccount"
+            android:layout_width="@dimen/height_width_image_normal"
+            android:layout_height="@dimen/height_width_image_normal"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_large"
+            android:background="@drawable/ic_calendar"
+            android:backgroundTint="@color/black_text_normal_default" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvTitleAccount"
+        style="@style/TextViewNormalBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/rlChooseAccount"
+        android:text="@string/cash" />
+
+    <ImageView
+        android:id="@+id/ivCheckAccount"
+        android:layout_width="@dimen/height_width_ic_select_image"
+        android:layout_height="@dimen/height_width_ic_select_image"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/margin_large"
+        android:background="@drawable/ic_arrow_right"
+        android:backgroundTint="@color/black_text_normal" />
+
+    <include
+        layout="@layout/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/rlChooseAccount" />
+
+</RelativeLayout>

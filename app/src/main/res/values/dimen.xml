@@ -50,7 +50,11 @@
     <dimen name="height_width_ic_check_spinner">15dp</dimen>
     <dimen name="height_width_ic_select_image">30dp</dimen>
     <dimen name="height_event_trip">60dp</dimen>
-    <dimen name="height_width_image_normal">35dp</dimen>
+    <dimen name="height_width_image_normal">30dp</dimen>
 
     <dimen name="width_sub_category">65dp</dimen>
+    <dimen name="height_item_plus">50dp</dimen>
+    <dimen name="height_item_category_large_plus">65dp</dimen>
+    <dimen name="width_item_image_plus">70dp</dimen>
+
 </resources>
