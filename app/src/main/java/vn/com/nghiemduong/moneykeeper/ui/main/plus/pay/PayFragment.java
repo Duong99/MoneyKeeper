@@ -281,13 +281,14 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
 
                     case ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT:
                         UtilsPlus.onFinishChooseAccount(data,
-                                ivImageAccountPay, tvTitleAccountPay);
+                                ivImageAccountPay, tvTitleAccountPay, getContext());
                         break;
 
                     case AppUtils.REQUEST_CODE_IMAGE_FROM_FOLDER:
                         Uri uri = data.getData();
                         try {
-                            imagePay = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                            imagePay = MediaStore.Images.Media.getBitmap(getContext()
+                                    .getContentResolver(), uri);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

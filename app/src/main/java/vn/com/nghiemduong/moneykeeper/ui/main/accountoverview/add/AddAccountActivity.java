@@ -95,21 +95,11 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         keyAddEditAccount = getIntent().getIntExtra(KEY_ADD_EDIT_ACCOUNT, -1);
         if (keyAddEditAccount == ADD_ACCOUNT) {
             tvTitleBarAddAccount.setText(getString(R.string.add_account));
-            InputStream is = null;
-            try {
-                is = getAssets().open("assets/ImageCategory/THU/THU_luong.png");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            if (is != null) {
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
+            mAccountType = new AccountType("assets/ImageCategory/THU/THU_luong.png",
+                    getResources().getString(R.string.cash));
+            setValueAccountType();
 
-                mAccountType = new AccountType(AppUtils.TIEN_MAT,
-                        AppUtils.convertBitmapToByteArray(bitmap),
-                        getResources().getString(R.string.cash));
-                setValueAccountType();
-            }
         } else {
             tvTitleBarAddAccount.setText(getString(R.string.edit_account));
             mAccount = (Account) Objects.requireNonNull(getIntent().getBundleExtra("BUNDLE"))
@@ -119,9 +109,8 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 etInputMoney.setText(String.valueOf(mAccount.getMoneyCurrent()));
                 etAccountName.setText(mAccount.getAccountName());
                 etExplain.setText(mAccount.getExplain());
-                mAccountType = new AccountType(mAccount.getAccountType(),
-                        mAccount.getImageType(),
-                        AppUtils.getNameAccountType(mAccount.getAccountType(), this));
+                mAccountType = new AccountType(mAccount.getAccountTypePath(),
+                        mAccount.getAccountTypeName());
 
                 if (mAccount.getReport() == AppUtils.CO_BAO_CAO) {
                     swNotIncludeReport.setChecked(false);
@@ -134,8 +123,9 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setValueAccountType() {
-        ivImageAccountType.setImageBitmap(AppUtils.convertByteArrayToBitmap(mAccountType.getImage()));
-        tvTitleAccountType.setText(mAccountType.getTitle());
+        ivImageAccountType.setImageBitmap(
+                AppUtils.convertPathFileImageAssetsToBitmap(mAccountType.getAccountTypePath(), this));
+        tvTitleAccountType.setText(mAccountType.getAccountTypeName());
     }
 
     @Override
@@ -205,15 +195,20 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
 
             // Thêm tài khoản
             if (keyAddEditAccount == ADD_ACCOUNT) {
-                mAccount = new Account(Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-                        AppUtils.getEditText(etAccountName), mAccountType.getAccountTypeId(),
-                        mAccountType.getImage(), AppUtils.VND, AppUtils.getEditText(etExplain), report);
+                mAccount = new Account(AppUtils.getEditText(etAccountName),
+                        Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+                        mAccountType.getAccountTypePath(),
+                        mAccountType.getAccountTypeName(), AppUtils.VND,
+                        AppUtils.getEditText(etExplain), report);
                 mAccountDatabase.insertAccount(mAccount);
             } else { // Sửa tài khoản
-                mAccount = new Account(mAccount.getAccountId(),
+                mAccount = new Account(
+                        mAccount.getAccountId(),
+                        AppUtils.getEditText(etAccountName),
                         Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-                        AppUtils.getEditText(etAccountName), mAccountType.getAccountTypeId(),
-                        mAccountType.getImage(), AppUtils.VND, AppUtils.getEditText(etExplain), report);
+                        mAccountType.getAccountTypePath(),
+                        mAccountType.getAccountTypeName(), AppUtils.VND,
+                        AppUtils.getEditText(etExplain), report);
                 mAccountDatabase.updateAccount(mAccount);
             }
         }

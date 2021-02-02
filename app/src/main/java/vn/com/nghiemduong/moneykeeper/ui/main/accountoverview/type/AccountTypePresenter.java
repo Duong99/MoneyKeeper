@@ -25,63 +25,25 @@ public class AccountTypePresenter implements AccountTypeMvpPresenter {
         this.mContext = context;
     }
 
+    /**
+     * Hàm thêm các loại tài khoản vào danh sách
+     *
+     * @created_by nxduong on 26/1/2021
+     */
+
     @Override
     public void addAccountType() {
         ArrayList<AccountType> listAccountType = new ArrayList<>();
-
-        InputStream is = null;
-        Bitmap bitmap = null;
-        try {
-            is = mContext.getAssets().open("assets/ImageCategory/THU/THU_tra_no.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        bitmap = BitmapFactory.decodeStream(is);
-
-        listAccountType.add(new AccountType(AppUtils.TIEN_MAT,
-                AppUtils.convertBitmapToByteArray(bitmap),
-                mContext.getResources().getString(R.string.cash)));
-
-        try {
-            is = mContext.getAssets().open("assets/ImageCategory/THU/THU_nha_cua.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        bitmap = BitmapFactory.decodeStream(is);
-
-        listAccountType.add(new AccountType(AppUtils.TAI_KHOAN_NGAN_HANG,
-                AppUtils.convertBitmapToByteArray(bitmap),
-                mContext.getResources().getString(R.string.account_bank)));
-
-        try {
-            is = mContext.getAssets().open("assets/ImageCategory/THU/THU_the.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        bitmap = BitmapFactory.decodeStream(is);
-        listAccountType.add(new AccountType(AppUtils.THE_TIN_DUNG,
-                AppUtils.convertBitmapToByteArray(bitmap),
-                mContext.getResources().getString(R.string.credit)));
-
-        try {
-            is = mContext.getAssets().open("assets/ImageCategory/THU/THU_dau_tu.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        bitmap = BitmapFactory.decodeStream(is);
-        listAccountType.add(new AccountType(AppUtils.TAI_KHOAN_DAU_TU,
-                AppUtils.convertBitmapToByteArray(bitmap),
-                mContext.getResources().getString(R.string.account_invest)));
-
-        try {
-            is = mContext.getAssets().open("assets/ImageCategory/THU/THU_cho_vay.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        bitmap = BitmapFactory.decodeStream(is);
-        listAccountType.add(new AccountType(AppUtils.KHAC,
-                AppUtils.convertBitmapToByteArray(bitmap),
-                mContext.getResources().getString(R.string.account_more)));
+        listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_tra_no.png",
+                AppUtils.getNameAccountType(AppUtils.TIEN_MAT, mContext)));
+        listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_nha_cua.png",
+                AppUtils.getNameAccountType(AppUtils.TAI_KHOAN_NGAN_HANG, mContext)));
+        listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_the.png",
+                AppUtils.getNameAccountType(AppUtils.THE_TIN_DUNG, mContext)));
+        listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_dau_tu.png",
+                AppUtils.getNameAccountType(AppUtils.TAI_KHOAN_DAU_TU, mContext)));
+        listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_cho_vay.png",
+                AppUtils.getNameAccountType(AppUtils.KHAC, mContext)));
 
         mAccountTypeMvpView.resultListAccountType(listAccountType);
     }

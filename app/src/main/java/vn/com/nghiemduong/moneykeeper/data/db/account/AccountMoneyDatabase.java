@@ -21,12 +21,12 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * - @created_by nxduong on 26/1/2021
  **/
 public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMoneyDatabaseMvpPresenter {
-    private final static String NAME_TABLE_ACCOUNT = "Account";
-    private final static String ACCOUNT_ID = "accountId";
-    private final static String ACCOUNT_MONEY_CURRENT = "moneyCurrent";
+    private final static String NAME_TABLE_ACCOUNT = "tb_Account";
+    public final static String ACCOUNT_ID = "accountId";
     private final static String ACCOUNT_NAME = "accountName";
-    private final static String ACCOUNT_TYPE = "accountType";
-    private final static String ACCOUNT_IMAGE_TYPE = "imageAccountType";
+    private final static String ACCOUNT_MONEY_CURRENT = "moneyCurrent";
+    private final static String ACCOUNT_TYPE_PATH = "accountTypePath";
+    private final static String ACCOUNT_TYPE_NAME = "accountTypeName";
     private final static String ACCOUNT_MONEY_TYPE = "moneyType";
     private final static String ACCOUNT_EXPLAIN = "explain";
     private final static String ACCOUNT_REPORT = "report";
@@ -50,6 +50,12 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
 
     }
 
+    /**
+     * Hàm lấy danh sách tài khoản trong database
+     *
+     * @return listAccount
+     * @created_by nxduong on 29/1/2021
+     */
     @Override
     public void getAllAccount() {
         db = this.getReadableDatabase();
@@ -59,13 +65,14 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         if (cursor.moveToFirst()) {
             do {
                 Account account = new Account(cursor.getInt(0),
-                        cursor.getInt(1),
-                        cursor.getString(2),
-                        cursor.getInt(3),
-                        cursor.getBlob(4),
-                        cursor.getInt(5),
+                        cursor.getString(1),
+                        cursor.getInt(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
                         cursor.getString(6),
                         cursor.getInt(7));
+
                 listAccount.add(account);
             } while (cursor.moveToNext());
         }
@@ -73,14 +80,21 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         mAccountMoneyDatabaseMvpView.getAllAccountResult(listAccount);
     }
 
+    /**
+     * Hàm thêm tài khoản vào trong database
+     *
+     * @param account
+     * @created_by nxduong on 29/1/2021
+     */
+
     @Override
     public void insertAccount(Account account) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ACCOUNT_NAME, account.getAccountName());
         values.put(ACCOUNT_MONEY_CURRENT, account.getMoneyCurrent());
-        values.put(ACCOUNT_TYPE, account.getAccountType());
-        values.put(ACCOUNT_IMAGE_TYPE, account.getImageType());
+        values.put(ACCOUNT_TYPE_PATH, account.getAccountTypePath());
+        values.put(ACCOUNT_TYPE_NAME, account.getAccountTypeName());
         values.put(ACCOUNT_MONEY_TYPE, account.getMoneyType());
         values.put(ACCOUNT_EXPLAIN, account.getExplain());
         values.put(ACCOUNT_REPORT, account.getReport());
@@ -95,14 +109,20 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         }
     }
 
+    /**
+     * Hàm cập nhật tài khoản vào trong database
+     *
+     * @param account
+     * @created_by nxduong on 29/1/2021
+     */
     @Override
     public void updateAccount(Account account) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ACCOUNT_NAME, account.getAccountName());
         values.put(ACCOUNT_MONEY_CURRENT, account.getMoneyCurrent());
-        values.put(ACCOUNT_TYPE, account.getAccountType());
-        values.put(ACCOUNT_IMAGE_TYPE, account.getImageType());
+        values.put(ACCOUNT_TYPE_PATH, account.getAccountTypePath());
+        values.put(ACCOUNT_TYPE_NAME, account.getAccountTypeName());
         values.put(ACCOUNT_MONEY_TYPE, account.getMoneyType());
         values.put(ACCOUNT_EXPLAIN, account.getExplain());
         values.put(ACCOUNT_REPORT, account.getReport());
@@ -117,6 +137,13 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
             mAccountMoneyDatabaseMvpView.updateAccountFail();
         }
     }
+
+    /**
+     * Hàm xóa tài khoản trong database
+     *
+     * @param accountId
+     * @created_by nxduong on 29/1/2021
+     */
 
     @Override
     public void deleteAccount(int accountId) {

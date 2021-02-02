@@ -144,7 +144,7 @@
                 android:layout_height="@dimen/height_width_ic_select_image"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/margin_large"
-                android:background="@drawable/ic_event"
+                android:background="@drawable/ic_unit_price"
                 android:backgroundTint="@color/black_text_normal" />
 
             <ImageView
@@ -198,7 +198,7 @@
                 android:layout_height="@dimen/height_width_ic_select_image"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/margin_large"
-                android:background="@drawable/ic_event"
+                android:background="@drawable/ic_explain_notes"
                 android:backgroundTint="@color/black_text_normal" />
 
         </RelativeLayout>

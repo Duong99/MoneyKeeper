@@ -44,11 +44,13 @@ public class AccountTypeRcvAdapter extends RecyclerView.Adapter<AccountTypeRcvAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ivImageAccountType.setImageBitmap(
-                AppUtils.convertByteArrayToBitmap(mListAccountType.get(position).getImage()));
-        holder.tvTitleAccountType.setText(mListAccountType.get(position).getTitle());
+                AppUtils.convertPathFileImageAssetsToBitmap(
+                        mListAccountType.get(position).getAccountTypePath(), mContext));
+        holder.tvTitleAccountType.setText(mListAccountType.get(position).getAccountTypeName());
 
         // Kiểm tra xem lại tại khoản nào được chọn thì cho tích hiện lên
-        if (mListAccountType.get(position).getAccountTypeId() == mAccountTypeClicked.getAccountTypeId()) {
+        if (mListAccountType.get(position).getAccountTypeName()
+                .equals(mAccountTypeClicked.getAccountTypeName())) {
             holder.ivCheckAccountType.setVisibility(View.VISIBLE);
         }
     }

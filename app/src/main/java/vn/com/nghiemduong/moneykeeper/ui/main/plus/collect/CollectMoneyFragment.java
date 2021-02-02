@@ -115,7 +115,8 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                         break;
 
                     case ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT:
-                        UtilsPlus.onFinishChooseAccount(data, ivImageAccountCollect, tvTitleAccountCollect);
+                        UtilsPlus.onFinishChooseAccount(data, ivImageAccountCollect,
+                                tvTitleAccountCollect, getContext());
                         break;
                 }
             }

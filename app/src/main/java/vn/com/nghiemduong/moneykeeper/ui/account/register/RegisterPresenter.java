@@ -2,6 +2,7 @@ package vn.com.nghiemduong.moneykeeper.ui.account.register;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import vn.com.nghiemduong.moneykeeper.data.model.User;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * - @created_by nxduong on 22/1/2021
  **/
@@ -23,6 +26,7 @@ public class RegisterPresenter implements RegisterMvpPresenter {
     private FirebaseAuth mAuth;
     private RegisterMvpView mRegisterMvpView;
     private Activity mActivity;
+    private SharedPreferences mSharedPreferences;
 
     public RegisterPresenter(RegisterMvpView mRegisterMvpView, Activity activity) {
         this.mRegisterMvpView = mRegisterMvpView;
@@ -40,6 +44,13 @@ public class RegisterPresenter implements RegisterMvpPresenter {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+
+                            mSharedPreferences = mActivity.getSharedPreferences(
+                                    AppUtils.MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.putString(AppUtils.KEY_UID, mAuth.getUid());
+                            editor.apply();
+
                             mRegisterMvpView.registerAccountSuccess();
                         } else {
                             // If sign in fails, display a message to the user.

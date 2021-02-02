@@ -11,8 +11,13 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.BottomNavigationAdapter;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabaseMvpView;
+import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager;
 
@@ -20,12 +25,13 @@ import vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager;
  * - @created_by nxduong on 21/1/2021
  **/
 
-public class MainActivity extends BaseActivity implements MainMvpView {
+public class MainActivity extends BaseActivity implements MainMvpView, AccountMoneyDatabaseMvpView {
     private HackyViewPager hvpMain;
     private MainPresenter mMainPresenter;
     private BottomNavigationAdapter mNavigationAdapter;
     private BottomNavigationView bnvMain;
     private FloatingActionButton fabPlusMain;
+    private AccountMoneyDatabase mAccountMoneyDatabase;
 
 
     @Override
@@ -69,5 +75,43 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
         mNavigationAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
         hvpMain.setAdapter(mNavigationAdapter);
+
+        mAccountMoneyDatabase = new AccountMoneyDatabase(this, this);
+        mAccountMoneyDatabase.getAllAccount();
+    }
+
+    @Override
+    public void getAllAccountResult(ArrayList<Account> listAccount) {
+
+    }
+
+    @Override
+    public void insertAccountSuccess() {
+
+    }
+
+    @Override
+    public void insertAccountFail() {
+
+    }
+
+    @Override
+    public void updateAccountSuccess() {
+
+    }
+
+    @Override
+    public void updateAccountFail() {
+
+    }
+
+    @Override
+    public void deleteAccountSuccess() {
+
+    }
+
+    @Override
+    public void deleteAccountFail() {
+
     }
 }

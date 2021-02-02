@@ -61,8 +61,6 @@ public class RegisterActivity extends BaseActivity implements RegisterMvpView, V
         etEmailRegister = findViewById(R.id.etEmailRegister);
         etPasswordRegister = findViewById(R.id.etPasswordRegister);
         etNumberPhoneRegister = findViewById(R.id.etNumberPhoneRegister);
-
-
     }
 
     @Override
@@ -94,12 +92,13 @@ public class RegisterActivity extends BaseActivity implements RegisterMvpView, V
 
     @Override
     public void registerAccountSuccess() {
+        showToast("Đăng nhập thành công");
         // Đăng ký tài khoản thành công chuyển sang màn hình chính
         startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override
     public void registerAccountFail() {
-        // Đăng ký tài khoản thất bại
+        showToast("Đăng nhập thất bại");
     }
 }

@@ -8,13 +8,11 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.start.intro.SplashIntroActivity;
 
 /**
- * -
- * <p>
- * <p>
  * - @created_by nxduong on 22/1/2021
  **/
 
 public class SplashActivity extends BaseActivity implements SplashMvpView {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -17,7 +17,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 public class UserMoneyDatabase extends SQLiteOpenHelper implements UserMoneyDatabaseMvpView {
 
-    private final static String NAME_TABLE_USER = "User";
+    private final static String NAME_TABLE_USER = "tb_User";
     private final static String USER_ID = "userId";
     private final static String USER_EMAIL = "email";
 

@@ -11,37 +11,27 @@ import java.io.Serializable;
  * - @created_by nxduong on
  **/
 public class AccountType implements Serializable {
-    private int accountTypeId;
-    private byte[] image;
-    private String title;
+    private String accountTypePath; //(TEXT) : Đường dẫn ảnh của loại tài khoản trong assets
+    private String accountTypeName; //(TEXT) : Tên loại tài khoản
 
-    public AccountType(int accountTypeId, byte[] image, String title) {
-        this.accountTypeId = accountTypeId;
-        this.image = image;
-        this.title = title;
+    public AccountType(String accountTypePath, String accountTypeName) {
+        this.accountTypePath = accountTypePath;
+        this.accountTypeName = accountTypeName;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getAccountTypePath() {
+        return accountTypePath;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setAccountTypePath(String accountTypePath) {
+        this.accountTypePath = accountTypePath;
     }
 
-    public String getTitle() {
-        return title;
+    public String getAccountTypeName() {
+        return accountTypeName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getAccountTypeId() {
-        return accountTypeId;
-    }
-
-    public void setAccountTypeId(int accountTypeId) {
-        this.accountTypeId = accountTypeId;
+    public void setAccountTypeName(String accountTypeName) {
+        this.accountTypeName = accountTypeName;
     }
 }

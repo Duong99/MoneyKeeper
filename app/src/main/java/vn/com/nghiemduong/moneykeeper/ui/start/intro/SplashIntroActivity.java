@@ -89,6 +89,8 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
 
         if (currentUser != null) { // Nếu người dùng đang nhập rồi chuyển sang màn hình chính
             startActivity(new Intent(SplashIntroActivity.this, MainActivity.class));
+        } else {
+            new CopyMoneyDatabase(this); // Tạo database và copy
         }
     }
 

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.overview.overviewmain.OverviewMainFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:background="@color/blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/rlTotalMoneyBackground"
+                    android:background="@drawable/bg_total_money_overview"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp">
+
+                    <TextView
+                        android:id="@+id/tvTotalBalance"
+                        android:layout_margin="@dimen/margin_large"
+                        android:text="@string/total_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tvTotalMoney"
+                        android:layout_marginStart="@dimen/margin_large"
+                        android:layout_below="@id/tvTotalBalance"
+                        android:text="@string/total_balance_hidden"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:id="@+id/ivVisibilityTotalMoney"
+                        android:backgroundTint="@color/gray_image_bottom_sheet"
+                        android:background="@drawable/ic_visibility_off"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/margin_large_visibility"
+                        android:layout_width="@dimen/height_width_image_normal"
+                        android:layout_height="@dimen/height_width_image_normal" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

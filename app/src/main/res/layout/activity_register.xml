@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.account.register.RegisterActivity">
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -80,6 +79,7 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/etPasswordRegister"
             style="@style/EditTextNormal"
             android:paddingStart="@dimen/padding_start_edit_text"

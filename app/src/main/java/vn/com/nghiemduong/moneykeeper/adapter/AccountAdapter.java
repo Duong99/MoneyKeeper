@@ -41,8 +41,8 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.ivPictureAccountType.setImageBitmap(
-                AppUtils.convertByteArrayToBitmap(mListAccount.get(position).getImageType()));
+        holder.ivPictureAccountType.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                mListAccount.get(position).getAccountTypePath(), mContext));
         holder.tvAccountName.setText(mListAccount.get(position).getAccountName());
         holder.tvTotalMoneyAccount.setText(String.valueOf(mListAccount.get(position).getMoneyCurrent()));
     }

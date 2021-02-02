@@ -1,10 +1,14 @@
 package vn.com.nghiemduong.moneykeeper.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.EditText;
+
+import com.doodle.android.chips.model.Contact;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,11 +16,15 @@ import java.io.InputStream;
 
 import vn.com.nghiemduong.moneykeeper.R;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Class chứa các hàm dùng chung cho project
  * - @created_by nxduong on 21/1/2021
  **/
 public class AppUtils {
+    public static final String MY_SHARED_PREFERENCES_UID = "MY_SHARED_PREFERENCES_UID";
+    public static final String KEY_UID = "UID";
     public static final String TAG = "fata";
 
     // Loại tài khoản
@@ -27,7 +35,7 @@ public class AppUtils {
     public static final int KHAC = 5;
 
     // Loại tiền
-    public static final int VND = 1;
+    public static final String VND = "VND";
 
     //Có báo cho vào báo cáo không
     public static final int CO_BAO_CAO = 1;
@@ -51,6 +59,26 @@ public class AppUtils {
     // Hàm convert từ  byte[] sang bitmap
     public static Bitmap convertByteArrayToBitmap(byte[] bytes) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return bitmap;
+    }
+
+    /**
+     * Hàm convert file ảnh trong assets thành bitmap
+     *
+     * @param path
+     * @return bitmap
+     * @created_by nxduong on 2/2/2021
+     */
+
+    public static Bitmap convertPathFileImageAssetsToBitmap(String path, Context context) {
+        Bitmap bitmap = null;
+        try {
+            InputStream is;
+            is = context.getAssets().open(path);
+            bitmap = BitmapFactory.decodeStream(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return bitmap;
     }
 
@@ -104,5 +132,17 @@ public class AppUtils {
 
         Bitmap bitmap = BitmapFactory.decodeStream(is);
         return AppUtils.convertBitmapToByteArray(bitmap);
+    }
+
+
+    /**
+     * @return uid: id người dùng
+     * @created_by nxduong on 2/2/2021
+     */
+    public String getUIDAuthenticationFirebase(Activity activity) {
+        SharedPreferences sharedPreferences =
+                activity.getSharedPreferences(MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
+        String uid = sharedPreferences.getString(KEY_UID, "");
+        return uid;
     }
 }

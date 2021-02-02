@@ -31,12 +31,13 @@ public class UtilsPlus {
      * - @created_by nxduong on 28/1/2021
      **/
     public static void onFinishChooseAccount(Intent data, ImageView ivImageAccount,
-                                             TextView tvTitleAccount) {
+                                             TextView tvTitleAccount, Context context) {
         Account account = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
                 .getSerializable("BUNDLE_ACCOUNT");
 
         assert account != null;
-        ivImageAccount.setImageBitmap(AppUtils.convertByteArrayToBitmap(account.getImageType()));
+        ivImageAccount.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                account.getAccountTypePath(), context));
         tvTitleAccount.setText(account.getAccountName());
 
     }

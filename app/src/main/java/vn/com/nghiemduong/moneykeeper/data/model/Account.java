@@ -9,33 +9,35 @@ import java.io.Serializable;
  * - @created_by nxduong on 26/1/2021
  **/
 public class Account implements Serializable {
-    private int accountId;
-    private int moneyCurrent;
-    private String accountName;
-    private int accountType;
-    private byte[] imageType;
-    private int moneyType;
-    private String explain;
-    private int report;
+    private int accountId;    //(INTEGER): id tài khoản
+    private String accountName;    //(TEXT): Tên tài khoản
+    private int moneyCurrent;    //(INTEGER): Tiền hiện tại trong tài khoản
+    private String accountTypePath; //(TEXT) : Đường dẫn ảnh của loại tài khoản trong assets
+    private String accountTypeName; //(TEXT) : Tên loại tài khoản
+    private String moneyType;    //(TEXT) : Loại tiền tệ mặc định VND
+    private String explain;     // (TEXT) : Diễn giải
+    private int report;       /// (INTEGER): Có tính vào báo cáo không 1 là có, 0 là không
 
-    public Account(int accountId, int moneyCurrent, String accountName, int accountType,
-                   byte[] imageType, int moneyType, String explain, int report) {
+    public Account(int accountId, String accountName, int moneyCurrent,
+                   String accountTypePath, String accountTypeName, String moneyType,
+                   String explain, int report) {
         this.accountId = accountId;
-        this.moneyCurrent = moneyCurrent;
         this.accountName = accountName;
-        this.accountType = accountType;
-        this.imageType = imageType;
+
+        this.moneyCurrent = moneyCurrent;
+        this.accountTypePath = accountTypePath;
+        this.accountTypeName = accountTypeName;
         this.moneyType = moneyType;
         this.explain = explain;
         this.report = report;
     }
 
-    public Account(int moneyCurrent, String accountName, int accountType,
-                   byte[] imageType, int moneyType, String explain, int report) {
-        this.moneyCurrent = moneyCurrent;
+    public Account(String accountName, int moneyCurrent, String accountTypePath,
+                   String accountTypeName, String moneyType, String explain, int report) {
         this.accountName = accountName;
-        this.accountType = accountType;
-        this.imageType = imageType;
+        this.moneyCurrent = moneyCurrent;
+        this.accountTypePath = accountTypePath;
+        this.accountTypeName = accountTypeName;
         this.moneyType = moneyType;
         this.explain = explain;
         this.report = report;
@@ -49,14 +51,6 @@ public class Account implements Serializable {
         this.accountId = accountId;
     }
 
-    public int getMoneyCurrent() {
-        return moneyCurrent;
-    }
-
-    public void setMoneyCurrent(int moneyCurrent) {
-        this.moneyCurrent = moneyCurrent;
-    }
-
     public String getAccountName() {
         return accountName;
     }
@@ -65,27 +59,35 @@ public class Account implements Serializable {
         this.accountName = accountName;
     }
 
-    public int getAccountType() {
-        return accountType;
+    public int getMoneyCurrent() {
+        return moneyCurrent;
     }
 
-    public void setAccountType(int accountType) {
-        this.accountType = accountType;
+    public void setMoneyCurrent(int moneyCurrent) {
+        this.moneyCurrent = moneyCurrent;
     }
 
-    public byte[] getImageType() {
-        return imageType;
+    public String getAccountTypePath() {
+        return accountTypePath;
     }
 
-    public void setImageType(byte[] imageType) {
-        this.imageType = imageType;
+    public void setAccountTypePath(String accountTypePath) {
+        this.accountTypePath = accountTypePath;
     }
 
-    public int getMoneyType() {
+    public String getAccountTypeName() {
+        return accountTypeName;
+    }
+
+    public void setAccountTypeName(String accountTypeName) {
+        this.accountTypeName = accountTypeName;
+    }
+
+    public String getMoneyType() {
         return moneyType;
     }
 
-    public void setMoneyType(int moneyType) {
+    public void setMoneyType(String moneyType) {
         this.moneyType = moneyType;
     }
 
