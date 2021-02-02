@@ -34,6 +34,10 @@ public class AppUtils {
     public static final int KHONG_BAO_CAO = 0;
 
 
+    public static final int REQUEST_CODE_IMAGE_FROM_FOLDER = 120;
+    public static final int REQUEST_CODE_IMAGE_FROM_CAMERA = 121;
+
+
     // hàm sử lý khi ứng dụng Exception
     public static void handlerException(Exception e) {
         Log.e(TAG, e.toString());

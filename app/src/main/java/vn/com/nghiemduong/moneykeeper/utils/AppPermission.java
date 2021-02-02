@@ -19,6 +19,7 @@ public class AppPermission extends AppCompatActivity {
     public final static int PERMISSIONS_REQUEST_READ_CONTACTS = 123;
     public final static int PERMISSIONS_REQUEST_SEND_SMS = 128;
     public final static int PERMISSIONS_REQUEST_CALL_PHONE = 129;
+    public final static int PERMISSIONS_REQUEST_CAMERA = 1291;
 
     /**
      * Hàm kiểm tra quyền đọc danh bạ trong điện thoại
@@ -123,6 +124,35 @@ public class AppPermission extends AppCompatActivity {
                     ActivityCompat.requestPermissions(activity,
                             new String[]{Manifest.permission.CALL_PHONE},
                             PERMISSIONS_REQUEST_CALL_PHONE);
+                }
+            } else {
+                checkPermission = true;
+            }
+        } else {
+            checkPermission = true;
+        }
+
+        return checkPermission;
+    }
+
+    /**
+     * Kiểm tra quyền camera
+     *
+     * @param context activity
+     * @created_by nxduong on 1/2/2021
+     */
+
+    public static boolean requestCameraPermission(Context context, Activity activity) {
+        boolean checkPermission = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                        Manifest.permission.CAMERA)) {
+
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.CAMERA},
+                            PERMISSIONS_REQUEST_CAMERA);
                 }
             } else {
                 checkPermission = true;

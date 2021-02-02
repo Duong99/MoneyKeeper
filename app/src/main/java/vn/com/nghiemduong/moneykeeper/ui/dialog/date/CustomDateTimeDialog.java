@@ -43,7 +43,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
     public CustomDateTimeDialog(@NonNull Context context, int key, String date, String time,
                                 IOnClickSaveDateTime onClickSaveDateTime) {
         super(context);
-        setContentView(R.layout.custom_calendar_time_view);
+        setContentView(R.layout.dialog_calendar_time_view);
         this.mKey = key;
         this.mDate = date;
         this.mTime = time;

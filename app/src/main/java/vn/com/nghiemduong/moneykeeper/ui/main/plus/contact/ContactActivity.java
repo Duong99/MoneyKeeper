@@ -2,33 +2,33 @@ package vn.com.nghiemduong.moneykeeper.ui.main.plus.contact;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.doodle.android.chips.ChipsView;
+import com.doodle.android.chips.model.Contact;
 
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ContactAdapter;
-import vn.com.nghiemduong.moneykeeper.data.model.Contact;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
-import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * - @created_by nxduong on 31/1/2021
  **/
 
 public class ContactActivity extends BaseActivity implements ContactActivityMvpView,
-        ContactAdapter.IOnClickContact {
+        ContactAdapter.IOnClickContact, View.OnClickListener {
 
     public final static int REQUEST_CODE_CHOOSE_CONTACT_WITH_WHOM = 543;
     public final static int REQUEST_CODE_CHOOSE_CONTACT_LENDER = 571;
@@ -39,8 +39,9 @@ public class ContactActivity extends BaseActivity implements ContactActivityMvpV
     private ContactActivityPresenter mContactActivityPresenter;
     private RecyclerView rcvContact;
     private EditText etSearchContact;
+    private ImageView ivBackContact, ivDoneSelectedContact;
     private int mKeyContactType = -1; // kiểm tra xem acivity nào gọi đến
-
+    private ChipsView chipViewContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,31 +50,43 @@ public class ContactActivity extends BaseActivity implements ContactActivityMvpV
 
         init();
 
-        etSearchContact.addTextChangedListener(new TextWatcher() {
+        chipViewContact.setChipsListener(new ChipsView.ChipsListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onChipAdded(ChipsView.Chip chip) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mContactAdapter.getFilter().filter(s.toString());
+            public void onChipDeleted(ChipsView.Chip chip) {
+
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void onTextChanged(CharSequence text) {
+                mContactAdapter.getFilter().filter(text.toString());
+            }
 
+            @Override
+            public boolean onInputNotRecognized(String text) {
+                return false;
             }
         });
     }
 
+    // Khởi tạo / ánh xạ view
     private void init() {
         rcvContact = findViewById(R.id.rcvContact);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rcvContact.setLayoutManager(layoutManager);
 
-        etSearchContact = findViewById(R.id.etSearchContact);
+        chipViewContact = findViewById(R.id.chipViewContact);
         tvTitleBarContact = findViewById(R.id.tvTitleBarContact);
+
+        ivBackContact = findViewById(R.id.ivBackContact);
+        ivBackContact.setOnClickListener(this);
+
+        ivDoneSelectedContact = findViewById(R.id.ivDoneSelectedContact);
+        ivDoneSelectedContact.setOnClickListener(this);
 
         getKeyIntent();
         mContactActivityPresenter = new ContactActivityPresenter(this, this);
@@ -104,7 +117,7 @@ public class ContactActivity extends BaseActivity implements ContactActivityMvpV
 
     @Override
     public void onClickContact(Contact contact) {
-        showToast(contact.getContactPhone());
+        chipViewContact.addChip(contact.getDisplayName(), contact.getAvatarUri(), contact);
     }
 
     @Override
@@ -117,16 +130,27 @@ public class ContactActivity extends BaseActivity implements ContactActivityMvpV
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case AppPermission.PERMISSIONS_REQUEST_READ_CONTACTS: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mContactActivityPresenter.getAllContactFromDevice();
-                } else {
-                    showToast("------");
-                }
-                return;
+        if (requestCode == AppPermission.PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mContactActivityPresenter.getAllContactFromDevice();
+            } else {
+                showToast("------");
             }
+            return;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ivBackContact:
+                onBackPressed();
+                break;
+
+            case R.id.ivDoneSelectedContact:
+
+                break;
         }
     }
 }

@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.plus.contact.ContactActivity">
 
     <androidx.appcompat.widget.Toolbar
-        app:contentInsetStart="0dp"
+        app:contentInsetStart="@dimen/dp_0"
         android:background="@color/blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -21,6 +20,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/ivBackContact"
                 android:backgroundTint="@color/white"
                 android:layout_centerVertical="true"
                 android:background="@drawable/ic_arrow_back"
@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content" />
 
             <ImageView
+                android:id="@+id/ivDoneSelectedContact"
                 android:layout_centerVertical="true"
                 android:backgroundTint="@color/white"
                 android:layout_alignParentEnd="true"
@@ -52,15 +53,14 @@
         android:background="@color/bg_white"
         android:orientation="vertical">
 
-        <EditText
-            android:paddingStart="@dimen/margin_large"
-            android:textSize="@dimen/font_small"
-            android:id="@+id/etSearchContact"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_item_plus"
+        <com.doodle.android.chips.ChipsView
+            android:layout_gravity="center_vertical"
+            app:cv_text_hint="@string/select_or_enter_a_new_object_name"
             android:background="@color/white"
-            android:hint="@string/select_or_enter_a_new_object_name"
-            tools:ignore="RtlSymmetry" />
+            android:id="@+id/chipViewContact"
+            android:paddingStart="@dimen/padding_large"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_item_plus" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvContact"

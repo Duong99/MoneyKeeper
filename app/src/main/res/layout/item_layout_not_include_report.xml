@@ -31,6 +31,7 @@
 
     <TextView
         android:layout_marginTop="@dimen/margin_large"
+        android:textSize="@dimen/font_small"
         style="@style/TextViewNormal"
         android:text="@string/not_include_report_content"
         android:layout_width="match_parent"

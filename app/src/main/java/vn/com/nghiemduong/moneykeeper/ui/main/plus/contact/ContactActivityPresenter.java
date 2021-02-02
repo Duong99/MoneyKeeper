@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
-import java.util.ArrayList;
+import com.doodle.android.chips.model.Contact;
 
-import vn.com.nghiemduong.moneykeeper.data.model.Contact;
+import java.util.ArrayList;
 
 /**
  * - @created_by nxduong on 31/1/2021
@@ -49,7 +49,7 @@ public class ContactActivityPresenter implements ContactActivityMvpPresenter {
                     contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                     contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
-                    Cursor phoneCursor = contentResolver.query(
+/*                    Cursor phoneCursor = contentResolver.query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             null,
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
@@ -59,10 +59,10 @@ public class ContactActivityPresenter implements ContactActivityMvpPresenter {
                     if (phoneCursor.moveToNext()) {
                         phoneNumber = phoneCursor.getString(phoneCursor
                                 .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    }
+                    }*/
 
-                    listContacts.add(new Contact(Integer.parseInt(contactId), contactName, phoneNumber));
-                    phoneCursor.close();
+                    listContacts.add(new Contact(contactName, contactName, contactName, contactId, null));
+                    //phoneCursor.close();
                 }
             }
         }

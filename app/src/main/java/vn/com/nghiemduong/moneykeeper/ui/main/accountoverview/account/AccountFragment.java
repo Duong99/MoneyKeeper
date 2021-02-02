@@ -29,6 +29,7 @@ import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabaseMvpView;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccount;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccountMvpView;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.add.AddAccountActivity;
@@ -44,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class AccountFragment extends BaseFragment implements View.OnClickListener,
         AccountMoneyDatabaseMvpView, AccountAdapter.IOnClickAccount, BottomSheetOptionAccountMvpView,
-        AccountFragmentMvpView {
+        AccountFragmentMvpView, AttentionDialog.IOnClickAttentionDialog {
     private View mView;
     private RecyclerView rcvListAccount;
     private ImageView ivAddAccount;
@@ -169,7 +170,8 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     public void onClickOptionAccount(Account account, int position) {
         mAccount = account;
         mPosition = position;
-        new BottomSheetOptionAccount(Objects.requireNonNull(getContext()), this);
+        new BottomSheetOptionAccount(Objects.requireNonNull(getContext()),
+                this);
     }
 
     @Override
@@ -199,28 +201,8 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClickDeleteOptionAccount() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(getString(R.string.note));
-        builder.setMessage(getString(R.string.you_want_delete_account));
-
-        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (mAccount != null) {
-                    mAccountDatabase.deleteAccount(mAccount.getAccountId());
-                }
-            }
-        });
-
-        builder.show();
-
+        new AttentionDialog(getContext(), this,
+                AttentionDialog.ATTENTION_DELETE_ACCOUNT).show();
     }
 
     @Override
@@ -232,6 +214,18 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onTotalMoneyOfAllAccount(int totalMoney) {
         tvTotalMoney.setText(String.valueOf(totalMoney));
-        tvTotalMoneyUsing.setText("( " + String.valueOf(totalMoney) + "đ )");
+        tvTotalMoneyUsing.setText("( " + totalMoney + " đ )");
+    }
+
+    @Override
+    public void onClickYesDelete() {
+        try {
+            if (mAccount != null) {
+                mAccountDatabase.deleteAccount(mAccount.getAccountId());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
     }
 }

@@ -15,7 +15,7 @@
             android:layout_width="@dimen/height_width_image_normal"
             android:layout_height="@dimen/height_width_image_normal"
             android:background="@drawable/ic_address"
-            android:backgroundTint="@color/black_text_normal" />
+            android:backgroundTint="@color/black_text_normal_default" />
 
     </RelativeLayout>
 

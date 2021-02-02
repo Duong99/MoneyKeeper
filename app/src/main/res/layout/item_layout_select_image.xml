@@ -1,41 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/white"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:gravity="center"
     android:padding="@dimen/padding_large"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:background="@drawable/bg_select_ripple_gray"
-        android:padding="@dimen/padding_small"
-        android:layout_weight="1"
+    <LinearLayout
+        android:id="@+id/llSelectImage"
+        android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_centerInParent="true"
-            android:backgroundTint="@color/black_text_normal"
-            android:background="@drawable/ic_image"
-            android:layout_width="@dimen/height_width_ic_select_image"
-            android:layout_height="@dimen/height_width_ic_select_image"/>
+        <androidx.cardview.widget.CardView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rlSelectFolder"
+                android:background="@drawable/bg_select_picture"
+                android:padding="@dimen/padding_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_centerInParent="true"
+                    android:backgroundTint="@color/black_text_normal"
+                    android:background="@drawable/ic_image"
+                    android:layout_width="@dimen/height_width_ic_select_image"
+                    android:layout_height="@dimen/height_width_ic_select_image" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rlSelectCamera"
+                android:background="@drawable/bg_select_image"
+                android:padding="@dimen/padding_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_centerInParent="true"
+                    android:backgroundTint="@color/black_text_normal"
+                    android:background="@drawable/ic_camera"
+                    android:layout_width="@dimen/height_width_ic_select_image"
+                    android:layout_height="@dimen/height_width_ic_select_image" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
     <RelativeLayout
-        android:background="@drawable/bg_select_ripple_gray"
-        android:padding="@dimen/padding_small"
-        android:layout_weight="1"
+        android:visibility="gone"
+        android:id="@+id/rlContentImage"
+        android:background="@color/bg_white"
+        android:layout_margin="@dimen/margin_large"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/height_image_selected">
 
         <ImageView
-            android:layout_centerInParent="true"
-            android:backgroundTint="@color/black_text_normal"
-            android:background="@drawable/ic_camera"
-            android:layout_width="@dimen/height_width_ic_select_image"
-            android:layout_height="@dimen/height_width_ic_select_image"/>
+            android:id="@+id/ivRemoveImageSelected"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/red"
+            android:background="@drawable/ic_close"
+            android:layout_width="@dimen/height_width_ic_picture_spinner"
+            android:layout_height="@dimen/height_width_ic_picture_spinner" />
 
+        <ImageView
+            android:id="@+id/ivImageSelected"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/width_image_selected"
+            android:layout_height="match_parent" />
     </RelativeLayout>
 </LinearLayout>

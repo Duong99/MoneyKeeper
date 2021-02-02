@@ -11,13 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
+import com.doodle.android.chips.model.Contact;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.model.Contact;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -31,11 +31,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private IOnClickContact mOnClickContact;
     private CustomFilter mCustomFilter;
 
-    public ContactAdapter(Context mContext, ArrayList<Contact> mListContacts,
+    public ContactAdapter(Context mContext, ArrayList<Contact> listContacts,
                           IOnClickContact onClickContact) {
         this.mContext = mContext;
-        this.mListContacts = mListContacts;
-        this.mListContactsFiltered = mListContacts;
+        this.mListContacts = listContacts;
+        this.mListContactsFiltered = listContacts;
         this.mOnClickContact = onClickContact;
     }
 
@@ -51,33 +51,22 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Contact contact = mListContacts.get(position);
         if (contact != null) {
-            holder.tvContactName.setText(contact.getContactName());
-            holder.tvDefaultContactImage.setText(contact.getContactName().substring(0, 1));
+            holder.tvContactName.setText(contact.getDisplayName());
+            holder.tvDefaultContactImage.setText(contact.getDisplayName().substring(0, 1));
 
             // Set màu cho ảnh contact
-            Random r = new Random();
-            int n = r.nextInt(5);
-            switch (n) {
-                case 0:
-                    holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
-                            .getColor(R.color.contact_color_blue));
-                    break;
-                case 1:
-                    holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
-                            .getColor(R.color.contact_color_violet));
-                    break;
-                case 2:
-                    holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
-                            .getColor(R.color.contact_color_pink));
-                    break;
-                case 3:
-                    holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
-                            .getColor(R.color.contact_color_orange));
-                    break;
-                case 4:
-                    holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
-                            .getColor(R.color.contact_color_yellow));
-                    break;
+            if (position % 3 == 0) {
+                holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
+                        .getColor(R.color.contact_color_blue));
+            } else if (position % 4 == 0) {
+                holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
+                        .getColor(R.color.contact_color_violet));
+            } else if (position % 5 == 0) {
+                holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
+                        .getColor(R.color.contact_color_pink));
+            } else {
+                holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
+                        .getColor(R.color.contact_color_orange));
             }
         }
     }
@@ -97,10 +86,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     /**
      * -  Lớp bộ lọc contact, tìm kiếm contact
-     * - @created_by nxduong on
+     * - @created_by nxduong on 31/1/2021
      **/
     private class CustomFilter extends Filter {
-
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
@@ -108,14 +96,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             if (constraint != null && constraint.length() > 0) {
                 constraint = constraint.toString().toUpperCase();
                 for (int i = 0; i < mListContactsFiltered.size(); i++) {
-                    // kiểm tra tên hoặc số điện thoại trùng
-                    if (mListContactsFiltered.get(i).getContactName().toUpperCase().contains(constraint)
-                            || mListContactsFiltered.get(i).getContactPhone().toUpperCase().contains(constraint)) {
-                        Contact contact = new Contact(mListContactsFiltered.get(i).getContactId(),
-                                mListContactsFiltered.get(i).getContactName(),
-                                mListContactsFiltered.get(i).getContactPhone());
-                        filters.add(contact);
+                    if (mListContactsFiltered.get(i).getDisplayName().toUpperCase().contains(constraint)) {
+                        Contact model = new Contact(mListContactsFiltered.get(i).getDisplayName(),
+                                mListContactsFiltered.get(i).getDisplayName(),
+                                mListContactsFiltered.get(i).getDisplayName(),
+                                mListContactsFiltered.get(i).getDisplayName(),
+                                null);
+                        filters.add(model);
                     }
+
                 }
             }
             results.values = filters;

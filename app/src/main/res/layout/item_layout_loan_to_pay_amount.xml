@@ -35,92 +35,9 @@
 
         <include layout="@layout/view_line" />
 
-        <RelativeLayout
-            android:id="@+id/rlLender"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_event_trip"
-            android:background="@drawable/bg_select_ripple_gray">
+        <include layout="@layout/item_layout_lender_plus" />
 
-            <ImageView
-                android:id="@+id/ivLender"
-                android:layout_width="@dimen/height_width_ic_select_image"
-                android:layout_height="@dimen/height_width_ic_select_image"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_large"
-                android:background="@drawable/ic_person"
-                android:backgroundTint="@color/black_text_normal" />
-
-            <ImageView
-                android:layout_width="@dimen/height_width_ic_select_image"
-                android:layout_height="@dimen/height_width_ic_select_image"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_large"
-                android:background="@drawable/ic_arrow_right"
-                android:backgroundTint="@color/black_text_normal" />
-
-            <TextView
-                android:id="@+id/tvTitleLender"
-                style="@style/TextViewNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_large"
-                android:layout_toEndOf="@id/ivLender"
-                android:text="@string/lender" />
-
-            <include
-                android:layout_marginStart="@dimen/margin_large"
-                layout="@layout/view_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_below="@id/tvTitleLender"
-                android:layout_toEndOf="@id/ivLender" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlRepaymentDate"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_event_trip"
-            android:background="@drawable/bg_select_ripple_gray">
-
-            <ImageView
-                android:id="@+id/ivEvent"
-                android:layout_width="@dimen/height_width_ic_select_image"
-                android:layout_height="@dimen/height_width_ic_select_image"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_large"
-                android:background="@drawable/ic_person"
-                android:backgroundTint="@color/black_text_normal" />
-
-            <ImageView
-                android:layout_width="@dimen/height_width_ic_select_image"
-                android:layout_height="@dimen/height_width_ic_select_image"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_large"
-                android:background="@drawable/ic_arrow_right"
-                android:backgroundTint="@color/black_text_normal" />
-
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/TextViewNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_large"
-                android:layout_toEndOf="@id/ivEvent"
-                android:text="@string/repayment_date" />
-
-            <include
-                android:layout_marginStart="@dimen/margin_large"
-                layout="@layout/view_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_below="@id/tvTitle"
-                android:layout_toEndOf="@id/ivEvent" />
-        </RelativeLayout>
-
+        <include layout="@layout/item_layout_repayment_date_plus" />
     </LinearLayout>
 
 </LinearLayout>

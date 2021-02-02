@@ -17,7 +17,7 @@
             android:layout_height="@dimen/height_width_image_normal"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/margin_large"
-            android:background="@drawable/ic_calendar"
+            android:background="@drawable/ic_help_white"
             android:backgroundTint="@color/black_text_normal_default" />
 
     </RelativeLayout>
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/rlImageChooseAccount"
-        android:text="@string/cash" />
+        android:text="@string/select_account" />
 
     <ImageView
         android:id="@+id/ivCheckAccount"

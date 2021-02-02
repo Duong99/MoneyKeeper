@@ -156,4 +156,10 @@
 
     <string name="with_whom">Với ai</string>
     <string name="select_or_enter_a_new_object_name">Chọn hoặc nhập mới tên đối tượng</string>
+
+    <string name="attention">Chú ý!</string>
+    <string name="attention_delete_account_1">Nếu bạn xóa tài khoản này, </string>
+    <string name="attention_delete_account_2">tất cả các ghi chép liên quan cũng sẽ bị xóa. </string>
+    <string name="attention_delete_account_3">Dữ liệu bị xóa sẽ không thể khôi phục lại được. </string>
+    <string name="attention_delete_account_4">Bạn có thực sự muốn xóa không?</string>
 </resources>
