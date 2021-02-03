@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
-import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * - @created_by nxduong on 28/1/2021
@@ -30,15 +29,10 @@ public class CategoryLoanFragmentPresenter implements CategoryLoanFragmentMvpPre
     public void getListCategoryLoan() {
         ArrayList<Category> listCategories = new ArrayList<>();
         String path = "assets/ImageCategory/THU/";
-        listCategories.add(new Category(AppUtils.getByteImageFromAssets(path + "THU_cho_vay.png",
-                mContext), mContext.getResources().getString(R.string.loan)));
-        listCategories.add(new Category(AppUtils.getByteImageFromAssets(path + "THU_di_vay.png",
-                mContext), mContext.getResources().getString(R.string.borrow)));
-        listCategories.add(new Category(AppUtils.getByteImageFromAssets(path + "THU_thu_no.png",
-                mContext), mContext.getResources().getString(R.string.debt_collection)));
-        listCategories.add(new Category(AppUtils.getByteImageFromAssets(path + "THU_tra_no.png",
-                mContext), mContext.getResources().getString(R.string.debt_pay)));
-
+        listCategories.add(new Category(path + "THU_cho_vay.png", mContext.getResources().getString(R.string.loan)));
+        listCategories.add(new Category(path + "THU_di_vay.png", mContext.getResources().getString(R.string.borrow)));
+        listCategories.add(new Category(path + "THU_thu_no.png", mContext.getResources().getString(R.string.debt_collection)));
+        listCategories.add(new Category(path + "THU_tra_no.png", mContext.getResources().getString(R.string.debt_pay)));
         mCategoryLoanFragmentMvpView.resultListCategoryLoan(listCategories);
     }
 }

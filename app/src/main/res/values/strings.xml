@@ -114,15 +114,28 @@
 
     <string name="insert_account_success">Thêm tài khoản thành công</string>
     <string name="insert_account_fail">Thêm tài khoản thất bại</string>
-
     <string name="update_account_success">Sửa tài khoản thành công</string>
     <string name="update_account_fail">Sửa tài khoản thất bại</string>
+    <string name="delete_account_success">Xóa tài khoản thành công</string>
+    <string name="delete_account_fail">Xóa tài khoản thất bại</string>
+
+    <string name="insert_pay_success">Thêm chi tiền thành công</string>
+    <string name="insert_pay_fail">Thêm chi tiền thất bại</string>
+    <string name="update_pay_success">Sửa chi tiền thành công</string>
+    <string name="update_pay_fail">Sửa chi tiền thất bại</string>
+    <string name="delete_pay_success">Xóa chi tiền thành công</string>
+    <string name="delete_pay_fail">Xóa chi tiền thất bại</string>
+
+    <string name="insert_collect_success">Thêm thu tiền thành công</string>
+    <string name="insert_collect_fail">Thêm thu tiền thất bại</string>
+    <string name="update_collect_success">Sửa thu tiền thành công</string>
+    <string name="update_collect_fail">Sửa thu tiền thất bại</string>
+    <string name="delete_collect_success">Xóa thu tiền thành công</string>
+    <string name="delete_collect_fail">Xóa thu tiền thất bại</string>
+
 
     <string name="note">Chú ý</string>
     <string name="you_want_delete_account">Bạn có muốn xóa tài khoản này không</string>
-
-    <string name="delete_account_success">Xóa tài khoản thành công</string>
-    <string name="delete_account_fail">Xóa tài khoản thất bại</string>
 
 
     // option account

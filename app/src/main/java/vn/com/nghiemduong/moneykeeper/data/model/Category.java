@@ -11,31 +11,31 @@ import java.util.ArrayList;
  **/
 public class Category implements Serializable {
 
-    private byte[] image;
+    private String imagePath;
 
     private String title;
 
     private ArrayList<SubCategory> subCategories;
 
     // Hàm tạo có hạng mục con
-    public Category(byte[] image, String title, ArrayList<SubCategory> subCategories) {
-        this.image = image;
+    public Category(String imagePath, String title, ArrayList<SubCategory> subCategories) {
+        this.imagePath = imagePath;
         this.title = title;
         this.subCategories = subCategories;
     }
 
     // Hàm tạo không có hạng mục con
-    public Category(byte[] image, String title) {
-        this.image = image;
+    public Category(String imagePath, String title) {
+        this.imagePath = imagePath;
         this.title = title;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getImage() {
+        return imagePath;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImage(String image) {
+        this.imagePath = image;
     }
 
     public String getTitle() {

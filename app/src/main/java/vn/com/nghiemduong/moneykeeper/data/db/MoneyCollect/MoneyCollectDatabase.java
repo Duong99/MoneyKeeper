@@ -35,13 +35,10 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
     private final static String COLLECT_REPORT = "report";
     private final static String COLLECT_IMAGE = "image";
 
-    private MoneyCollectDatabaseMvpView mMoneyCollectDatabaseMvpView;
     private SQLiteDatabase db;
 
-    public MoneyCollectDatabase(@Nullable Context context,
-                                MoneyCollectDatabaseMvpView moneyCollectDatabaseMvpView) {
+    public MoneyCollectDatabase(@Nullable Context context) {
         super(context, DBUtils.DB_NAME, null, DBUtils.DATABASE_VERSION);
-        this.mMoneyCollectDatabaseMvpView = moneyCollectDatabaseMvpView;
     }
 
     @Override
@@ -60,9 +57,9 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
      * @created_by nxduong on 2/2/2021
      */
     @Override
-    public void getAllMoneyCollect() {
+    public ArrayList<MoneyCollect> getAllMoneyCollect() {
         db = this.getReadableDatabase();
-        ArrayList<MoneyCollect> listAccount = new ArrayList<>();
+        ArrayList<MoneyCollect> listMoneyCollect = new ArrayList<>();
         String query = "SELECT * FROM " + NAME_TABLE_COLLECT;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -79,11 +76,11 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
                         cursor.getInt(9),
                         cursor.getBlob(10));
 
-                listAccount.add(moneyCollect);
+                listMoneyCollect.add(moneyCollect);
             } while (cursor.moveToNext());
         }
         db.close();
-        mMoneyCollectDatabaseMvpView.getAllMoneyCollectResult(listAccount);
+        return listMoneyCollect;
     }
 
     /**
@@ -94,7 +91,7 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
      */
 
     @Override
-    public void insertMoneyCollect(MoneyCollect moneyCollect) {
+    public long insertMoneyCollect(MoneyCollect moneyCollect) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLLECT_ACCOUNT_ID, moneyCollect.getAccountId());
@@ -110,12 +107,13 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
 
         long insert = db.insert(NAME_TABLE_COLLECT, null, values);
 
-        db.close();
-
-        if (insert != DBUtils.check) {
-            mMoneyCollectDatabaseMvpView.insertMoneyCollectSuccess();
+        if (insert == DBUtils.checkDBFail) {
+            db.close();
+            return insert;
         } else {
-            mMoneyCollectDatabaseMvpView.insertMoneyCollectFail();
+            long update = updateMoneyOfAccountWhenCollect(moneyCollect.getAccountId(),
+                    moneyCollect.getAmountOfMoney());
+            return update;
         }
     }
 
@@ -123,11 +121,11 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
      * Hàm cập nhật thu tiền vào trong database
      *
      * @param moneyCollect
-     * @created_by nxduong on
+     * @created_by nxduong on 2/2/2021
      */
 
     @Override
-    public void updateMoneyCollect(MoneyCollect moneyCollect) {
+    public long updateMoneyCollect(MoneyCollect moneyCollect) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLLECT_ACCOUNT_ID, moneyCollect.getAccountId());
@@ -145,11 +143,7 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
 
         db.close();
 
-        if (update != DBUtils.check) {
-            mMoneyCollectDatabaseMvpView.updateMoneyCollectSuccess();
-        } else {
-            mMoneyCollectDatabaseMvpView.updateMoneyCollectFail();
-        }
+        return update;
     }
 
     /**
@@ -160,15 +154,41 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
      */
 
     @Override
-    public void deleteMoneyCollect(int moneyCollectId) {
+    public long deleteMoneyCollect(int moneyCollectId) {
         db = this.getWritableDatabase();
         long delete = db.delete(NAME_TABLE_COLLECT, COLLECT_ID + " = ?",
                 new String[]{String.valueOf(moneyCollectId)});
 
-        if (delete != DBUtils.check) {
-            mMoneyCollectDatabaseMvpView.deleteMoneyCollectSuccess();
-        } else {
-            mMoneyCollectDatabaseMvpView.deleteMoneyCollectFail();
-        }
+        db.close();
+        return delete;
+    }
+
+    /**
+     * Cập nhật lại số tiền hiện tại trong tài khoản khi thêm trường thu tiêu
+     *
+     * @param accountId, numberMoney
+     * @created_by nxduong on 3/2/2021
+     */
+
+    @Override
+    public long updateMoneyOfAccountWhenCollect(int accountId, int numberMoney) {
+        db = this.getReadableDatabase();
+        db = this.getWritableDatabase();
+        String querySelectMoneyCurrentAccount = "SELECT " + AccountMoneyDatabase.ACCOUNT_MONEY_CURRENT
+                + " FROM " + AccountMoneyDatabase.NAME_TABLE_ACCOUNT
+                + " WHERE " + AccountMoneyDatabase.ACCOUNT_ID + " = " + accountId;
+
+        Cursor cursor = db.rawQuery(querySelectMoneyCurrentAccount, null);
+        cursor.moveToNext();
+        int moneyCurrentAccount = cursor.getInt(0);
+        moneyCurrentAccount += numberMoney;
+
+        ContentValues values = new ContentValues();
+        values.put(AccountMoneyDatabase.ACCOUNT_MONEY_CURRENT, moneyCurrentAccount);
+        long update = db.update(AccountMoneyDatabase.NAME_TABLE_ACCOUNT, values,
+                AccountMoneyDatabase.ACCOUNT_ID + " = ? ",
+                new String[]{String.valueOf(accountId)});
+        db.close();
+        return update;
     }
 }

@@ -53,8 +53,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.ivImageCategoryPay.setImageBitmap(
-                AppUtils.convertByteArrayToBitmap(mListCategories.get(position).getImage()));
+        holder.ivImageCategoryPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                mListCategories.get(position).getImage(), mContext));
         holder.tvTitleCategoryPay.setText(mListCategories.get(position).getTitle());
 
         if (mKeyCategory != NO_SUBCATEGORY) {

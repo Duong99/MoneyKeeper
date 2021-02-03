@@ -29,7 +29,10 @@
                 <RelativeLayout
                     android:id="@+id/rlTotalMoneyBackground"
                     android:background="@drawable/bg_total_money_overview"
-                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_large"
                     android:layout_width="match_parent"
                     android:layout_height="80dp">
 

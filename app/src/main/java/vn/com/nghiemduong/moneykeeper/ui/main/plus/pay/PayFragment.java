@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,8 +22,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.data.db.MoneyPay.MoneyPayDatabase;
+import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
@@ -31,6 +37,7 @@ import vn.com.nghiemduong.moneykeeper.ui.main.plus.contact.ContactActivity;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
+import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -52,10 +59,15 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
     private TextView tvTitleSelectCategoryPay, tvTitleAccountPay, tvTitleCategoryFee,
             tvTitlePerson, tvTimePay, tvCalenderPay;
 
+    private EditText etInputMoney, etExplain;
+
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private Switch swtFee, swtLoanToPayAmount;
-    private LinearLayout llContentFee, llContentLoanToPayAmount, llSelectImage;
-    private Bitmap imagePay;
+    private Switch swtFee, swtLoanToPayAmount, swNotIncludeReport;
+    private LinearLayout llContentFee, llContentLoanToPayAmount, llSelectImage, llSave;
+    private Bitmap imagePay = null;
+    private MoneyPayDatabase mMoneyPayDatabase;
+    private Account mAccount;
+    private Category mCategory;
 
 
     public PayFragment() {
@@ -109,8 +121,12 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         rlLender = mView.findViewById(R.id.rlLender);
         rlLender.setOnClickListener(this);
 
+        llSave = mView.findViewById(R.id.llSave);
+        llSave.setOnClickListener(this);
+
         swtFee = mView.findViewById(R.id.swtFee);
         swtLoanToPayAmount = mView.findViewById(R.id.swtLoanToPayAmount);
+        swNotIncludeReport = mView.findViewById(R.id.swNotIncludeReport);
 
         rlChooseAccountPay = mView.findViewById(R.id.rlChooseAccount);
         rlChooseAccountPay.setOnClickListener(this);
@@ -145,6 +161,8 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         ivImageSelectedPay = mView.findViewById(R.id.ivImageSelected);
         ivImageAccountPay = mView.findViewById(R.id.ivImageAccount);
         ivImageCategoryFee = mView.findViewById(R.id.ivImageCategoryFee);
+        etInputMoney = mView.findViewById(R.id.etInputMoney);
+        etExplain = mView.findViewById(R.id.etExplain);
 
         ivRemoveImageSelected = mView.findViewById(R.id.ivRemoveImageSelected);
         ivRemoveImageSelected.setOnClickListener(this);
@@ -158,6 +176,8 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         tvTitleSelectCategoryPay = mView.findViewById(R.id.tvTitleSelectCategory);
         tvTitleAccountPay = mView.findViewById(R.id.tvTitleAccount);
         tvTitleCategoryFee = mView.findViewById(R.id.tvTitleCategoryFee);
+
+        mMoneyPayDatabase = new MoneyPayDatabase(getContext());
     }
 
     @Override
@@ -237,28 +257,79 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                 break;
 
             case R.id.rlRepaymentDate:
+                try {
 
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
                 break;
 
             case R.id.rlSelectFolder:
-                if (AppPermission.requestCameraPermission(getContext(), getActivity())) {
-                    Intent intentFolder = new Intent(Intent.ACTION_PICK);
-                    intentFolder.setType("image/*");
-                    startActivityForResult(intentFolder, AppUtils.REQUEST_CODE_IMAGE_FROM_FOLDER);
+                try {
+                    if (AppPermission.requestCameraPermission(getContext(), getActivity())) {
+                        Intent intentFolder = new Intent(Intent.ACTION_PICK);
+                        intentFolder.setType("image/*");
+                        startActivityForResult(intentFolder, AppUtils.REQUEST_CODE_IMAGE_FROM_FOLDER);
+                    }
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
                 }
+
                 break;
 
             case R.id.rlSelectCamera:
-                if (AppPermission.requestCameraPermission(getContext(), getActivity())) {
-                    Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intentCamera, AppUtils.REQUEST_CODE_IMAGE_FROM_CAMERA);
+                try {
+                    if (AppPermission.requestCameraPermission(getContext(), getActivity())) {
+                        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intentCamera, AppUtils.REQUEST_CODE_IMAGE_FROM_CAMERA);
+                    }
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
                 }
+
                 break;
 
             case R.id.ivRemoveImageSelected:
-                llSelectImage.setVisibility(View.VISIBLE);
-                rlContentImage.setVisibility(View.GONE);
-                imagePay = null;
+                try {
+                    llSelectImage.setVisibility(View.VISIBLE);
+                    rlContentImage.setVisibility(View.GONE);
+                    imagePay = null;
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+                break;
+
+            case R.id.llSave:
+                if (AppUtils.getEditText(etInputMoney).isEmpty()) {
+                    etInputMoney.requestFocus();
+                } else if (mCategory == null) {
+
+                } else if (mAccount == null) {
+
+                } else {
+                    int report = 1;
+
+                    if (swNotIncludeReport.isChecked()) {
+                        report = 0;
+                    }
+                    byte[] image = null;
+                    if (imagePay != null) {
+                        image = AppUtils.convertBitmapToByteArray(imagePay);
+                    }
+                    MoneyPay moneyPay = new MoneyPay(mAccount.getAccountId(),
+                            Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+                            mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
+                            AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
+                            tvTimePay.getText().toString(), report, image);
+                    long insert = mMoneyPayDatabase.insertMoneyPay(moneyPay);
+                    if (insert == DBUtils.checkDBFail) {
+                        showToast(getResources().getString(R.string.insert_pay_fail));
+                    } else {
+                        showToast(getResources().getString(R.string.insert_pay_success));
+                        etInputMoney.setText("0");
+                        etExplain.setText("");
+                    }
+                }
                 break;
         }
     }
@@ -270,23 +341,23 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
             if (data != null) {
                 switch (requestCode) {
                     case ChooseCategoriesActivity.REQUEST_CODE_CHOOSE_CATEGORY_FEE:
-                        UtilsPlus.onFinishChooseCategory(data,
-                                ivImageCategoryFee, tvTitleCategoryFee);
+                        mCategory = UtilsPlus.onFinishChooseCategory(data,
+                                ivImageCategoryFee, tvTitleCategoryFee, getContext());
                         break;
 
                     case ChooseCategoriesActivity.REQUEST_CODE_CHOOSE_CATEGORY:
-                        UtilsPlus.onFinishChooseCategory(data,
-                                ivImageCategoriesPay, tvTitleSelectCategoryPay);
+                        mCategory = UtilsPlus.onFinishChooseCategory(data,
+                                ivImageCategoriesPay, tvTitleSelectCategoryPay, getContext());
                         break;
 
                     case ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT:
-                        UtilsPlus.onFinishChooseAccount(data,
+                        mAccount = UtilsPlus.onFinishChooseAccount(data,
                                 ivImageAccountPay, tvTitleAccountPay, getContext());
                         break;
 
                     case AppUtils.REQUEST_CODE_IMAGE_FROM_FOLDER:
-                        Uri uri = data.getData();
                         try {
+                            Uri uri = data.getData();
                             imagePay = MediaStore.Images.Media.getBitmap(getContext()
                                     .getContentResolver(), uri);
                         } catch (IOException e) {

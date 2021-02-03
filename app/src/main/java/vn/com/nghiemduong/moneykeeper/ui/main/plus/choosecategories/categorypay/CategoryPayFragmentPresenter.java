@@ -51,10 +51,6 @@ public class CategoryPayFragmentPresenter implements CategoryPayFragmentMvpPrese
                 JSONObject object = new JSONObject(jsonArray.get(i).toString());
                 imageFile = object.getString("Image");
 
-                InputStream is = mContext.getAssets()
-                        .open("assets/ImageCategory/CHI/" + imageFile);
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
-                byte[] image = AppUtils.convertBitmapToByteArray(bitmap);
                 title = object.getString("Title");
 
                 ArrayList<SubCategory> subCategories = new ArrayList<>();
@@ -64,15 +60,11 @@ public class CategoryPayFragmentPresenter implements CategoryPayFragmentMvpPrese
                     JSONObject objectSub = new JSONObject(subArray.get(j).toString());
                     subImageFile = objectSub.getString("SubPicture");
 
-                    InputStream isSub = mContext.getAssets()
-                            .open("assets/ImageCategory/CHI/" + subImageFile);
-                    Bitmap subBitmap = BitmapFactory.decodeStream(isSub);
-                    byte[] subImage = AppUtils.convertBitmapToByteArray(subBitmap);
                     subTitle = objectSub.getString("SubTitle");
 
-                    subCategories.add(new SubCategory(subImage, subTitle));
+                    subCategories.add(new SubCategory(subImageFile, subTitle));
                 }
-                categories.add(new Category(image, title, subCategories));
+                categories.add(new Category(imageFile, title, subCategories));
             }
         } catch (Exception e) {
             e.printStackTrace();

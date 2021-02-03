@@ -1,39 +1,35 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import java.util.ArrayList;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.AccountAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabaseMvpView;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
+import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccount;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccountMvpView;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.add.AddAccountActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
+import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -44,7 +40,7 @@ import static android.app.Activity.RESULT_OK;
  **/
 
 public class AccountFragment extends BaseFragment implements View.OnClickListener,
-        AccountMoneyDatabaseMvpView, AccountAdapter.IOnClickAccount, BottomSheetOptionAccountMvpView,
+        AccountAdapter.IOnClickAccount, BottomSheetOptionAccountMvpView,
         AccountFragmentMvpView, AttentionDialog.IOnClickAttentionDialog {
     private View mView;
     private RecyclerView rcvListAccount;
@@ -55,6 +51,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     private Account mAccount;
     private int mPosition = -1; // vị trí click tài khoản
     private AccountFragmentPresenter mAccountFragmentPresenter;
+    private MainActivity mMainActivity;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -102,9 +99,13 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
         mAccountFragmentPresenter = new AccountFragmentPresenter(this);
 
-        mAccountDatabase = new AccountMoneyDatabase(getContext(), this);
-        mAccountDatabase.getAllAccount();
+        mAccountAdapter = new AccountAdapter(getContext(), mMainActivity.getAllAccount(), this);
+        RecyclerView.LayoutManager layoutManager =
+                new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        rcvListAccount.setLayoutManager(layoutManager);
+        rcvListAccount.setAdapter(mAccountAdapter);
 
+        mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mMainActivity.getAllAccount());
     }
 
     @Override
@@ -116,49 +117,6 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
                 startActivityForResult(intent, AddAccountActivity.REQUEST_CODE_ACCOUNT_ADD);
                 break;
         }
-    }
-
-    @Override
-    public void getAllAccountResult(ArrayList<Account> listAccount) {
-        mAccountAdapter = new AccountAdapter(getContext(), listAccount, this);
-        RecyclerView.LayoutManager layoutManager =
-                new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        rcvListAccount.setLayoutManager(layoutManager);
-        rcvListAccount.setAdapter(mAccountAdapter);
-
-        mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(listAccount);
-    }
-
-    @Override
-    public void insertAccountSuccess() {
-
-    }
-
-    @Override
-    public void insertAccountFail() {
-
-    }
-
-    @Override
-    public void updateAccountSuccess() {
-
-    }
-
-    @Override
-    public void updateAccountFail() {
-
-    }
-
-    @Override
-    public void deleteAccountSuccess() {
-        mAccountAdapter.deleteAccount(mAccount);
-        showToast(getString(R.string.delete_account_success));
-        mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());
-    }
-
-    @Override
-    public void deleteAccountFail() {
-        showToast(getString(R.string.delete_account_fail));
     }
 
     @Override
@@ -221,11 +179,25 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     public void onClickYesDelete() {
         try {
             if (mAccount != null) {
-                mAccountDatabase.deleteAccount(mAccount.getAccountId());
+                long delete = mAccountDatabase.deleteAccount(mAccount.getAccountId());
+                if (delete == DBUtils.checkDBFail) {
+                    showToast(getString(R.string.delete_account_fail));
+                } else {
+                    showToast(getString(R.string.delete_account_success));
+                    mAccountAdapter.deleteAccount(mAccount);
+                    mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());
+                    mAccount = null;
+                }
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
-
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mMainActivity = (MainActivity) context;
+    }
+
 }

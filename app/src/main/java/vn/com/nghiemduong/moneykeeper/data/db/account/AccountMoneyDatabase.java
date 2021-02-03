@@ -21,23 +21,20 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * - @created_by nxduong on 26/1/2021
  **/
 public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMoneyDatabaseMvpPresenter {
-    private final static String NAME_TABLE_ACCOUNT = "tb_Account";
+    public final static String NAME_TABLE_ACCOUNT = "tb_Account";
     public final static String ACCOUNT_ID = "accountId";
     private final static String ACCOUNT_NAME = "accountName";
-    private final static String ACCOUNT_MONEY_CURRENT = "moneyCurrent";
+    public final static String ACCOUNT_MONEY_CURRENT = "moneyCurrent";
     private final static String ACCOUNT_TYPE_PATH = "accountTypePath";
     private final static String ACCOUNT_TYPE_NAME = "accountTypeName";
     private final static String ACCOUNT_MONEY_TYPE = "moneyType";
     private final static String ACCOUNT_EXPLAIN = "explain";
     private final static String ACCOUNT_REPORT = "report";
 
-    private AccountMoneyDatabaseMvpView mAccountMoneyDatabaseMvpView;
     private SQLiteDatabase db;
 
-    public AccountMoneyDatabase(@Nullable Context context,
-                                AccountMoneyDatabaseMvpView accountMoneyDatabaseMvpView) {
+    public AccountMoneyDatabase(@Nullable Context context) {
         super(context, DBUtils.DB_NAME, null, DBUtils.DATABASE_VERSION);
-        this.mAccountMoneyDatabaseMvpView = accountMoneyDatabaseMvpView;
     }
 
     @Override
@@ -57,7 +54,7 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
      * @created_by nxduong on 29/1/2021
      */
     @Override
-    public void getAllAccount() {
+    public ArrayList<Account> getAllAccount() {
         db = this.getReadableDatabase();
         ArrayList<Account> listAccount = new ArrayList<>();
         String query = "SELECT * FROM " + NAME_TABLE_ACCOUNT;
@@ -77,7 +74,7 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
             } while (cursor.moveToNext());
         }
         db.close();
-        mAccountMoneyDatabaseMvpView.getAllAccountResult(listAccount);
+        return listAccount;
     }
 
     /**
@@ -88,7 +85,7 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
      */
 
     @Override
-    public void insertAccount(Account account) {
+    public long insertAccount(Account account) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ACCOUNT_NAME, account.getAccountName());
@@ -101,12 +98,7 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         long insert = db.insert(NAME_TABLE_ACCOUNT, null, values);
 
         db.close();
-
-        if (insert != DBUtils.check) {
-            mAccountMoneyDatabaseMvpView.insertAccountSuccess();
-        } else {
-            mAccountMoneyDatabaseMvpView.insertAccountFail();
-        }
+        return insert;
     }
 
     /**
@@ -116,7 +108,7 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
      * @created_by nxduong on 29/1/2021
      */
     @Override
-    public void updateAccount(Account account) {
+    public long updateAccount(Account account) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ACCOUNT_NAME, account.getAccountName());
@@ -130,12 +122,7 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
                 new String[]{String.valueOf(account.getAccountId())});
 
         db.close();
-
-        if (update != DBUtils.check) {
-            mAccountMoneyDatabaseMvpView.updateAccountSuccess();
-        } else {
-            mAccountMoneyDatabaseMvpView.updateAccountFail();
-        }
+        return update;
     }
 
     /**
@@ -146,15 +133,11 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
      */
 
     @Override
-    public void deleteAccount(int accountId) {
+    public long deleteAccount(int accountId) {
         db = this.getWritableDatabase();
         long delete = db.delete(NAME_TABLE_ACCOUNT, ACCOUNT_ID + " = ?",
                 new String[]{String.valueOf(accountId)});
-
-        if (delete != DBUtils.check) {
-            mAccountMoneyDatabaseMvpView.deleteAccountSuccess();
-        } else {
-            mAccountMoneyDatabaseMvpView.deleteAccountFail();
-        }
+        db.close();
+        return delete;
     }
 }

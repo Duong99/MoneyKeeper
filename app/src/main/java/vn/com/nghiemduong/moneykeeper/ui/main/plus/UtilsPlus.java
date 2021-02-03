@@ -24,14 +24,14 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 public class UtilsPlus {
 
     /**
-     * -
-     * Hàm có nhiệm vụ đọc giữ liệu khi người dùng chọn tài khoản
-     * vài trả dữ liệu lên View
-     * <p>
+     * @param data, ivImageAccount, tvTitleAccount, context
+     *              Hàm có nhiệm vụ đọc giữ liệu khi người dùng chọn tài khoản
+     *              vài trả dữ liệu lên View
+     * @return account
      * - @created_by nxduong on 28/1/2021
      **/
-    public static void onFinishChooseAccount(Intent data, ImageView ivImageAccount,
-                                             TextView tvTitleAccount, Context context) {
+    public static Account onFinishChooseAccount(Intent data, ImageView ivImageAccount,
+                                                TextView tvTitleAccount, Context context) {
         Account account = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
                 .getSerializable("BUNDLE_ACCOUNT");
 
@@ -39,18 +39,19 @@ public class UtilsPlus {
         ivImageAccount.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                 account.getAccountTypePath(), context));
         tvTitleAccount.setText(account.getAccountName());
-
+        return account;
     }
 
     /**
-     * -
-     * Hàm có nhiệm vụ đọc giữ liệu khi người dùng chọn hạng mục
-     * vài trả dữ liệu lên View
-     * <p>
+     * @param data, ivImageCategory, tvTitleCategory, context
+     *              <p>
+     *              Hàm có nhiệm vụ đọc giữ liệu khi người dùng chọn hạng mục
+     *              vài trả dữ liệu lên View
+     * @return category
      * - @created_by nxduong on 28/1/2021
      **/
-    public static void onFinishChooseCategory(Intent data, ImageView ivImageCategory,
-                                              TextView tvTitleCategory) {
+    public static Category onFinishChooseCategory(Intent data, ImageView ivImageCategory,
+                                                  TextView tvTitleCategory, Context context) {
         Category category =
                 (Category) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
                         .getSerializable("BUNDLE_CATEGORY");
@@ -58,7 +59,8 @@ public class UtilsPlus {
         assert category != null;
         tvTitleCategory.setText(category.getTitle());
         ivImageCategory.setImageBitmap(
-                AppUtils.convertByteArrayToBitmap(category.getImage()));
+                AppUtils.convertPathFileImageAssetsToBitmap(category.getImage(), context));
+        return category;
     }
 
     /**

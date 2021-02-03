@@ -1,16 +1,20 @@
 package vn.com.nghiemduong.moneykeeper.data.db.MoneyCollect;
 
+import java.util.ArrayList;
+
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 
 /**
  * - @created_by nxduong on 2/2/2021
  **/
 public interface MoneyCollectDatabaseMvpPresenter {
-    void getAllMoneyCollect();
+    ArrayList<MoneyCollect> getAllMoneyCollect();
 
-    void insertMoneyCollect(MoneyCollect moneyCollect);
+    long insertMoneyCollect(MoneyCollect moneyCollect);
 
-    void updateMoneyCollect(MoneyCollect moneyCollect);
+    long updateMoneyCollect(MoneyCollect moneyCollect);
 
-    void deleteMoneyCollect(int moneyCollectId);
+    long deleteMoneyCollect(int moneyCollectId);
+
+    long updateMoneyOfAccountWhenCollect(int accountId, int numberMoney);
 }

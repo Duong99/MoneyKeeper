@@ -1,10 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.ui.main;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -16,23 +13,24 @@ import java.util.ArrayList;
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.BottomNavigationAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabaseMvpView;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager;
+
 
 /**
  * - @created_by nxduong on 21/1/2021
  **/
 
-public class MainActivity extends BaseActivity implements MainMvpView, AccountMoneyDatabaseMvpView {
+public class MainActivity extends BaseActivity implements MainMvpView {
     private HackyViewPager hvpMain;
     private MainPresenter mMainPresenter;
     private BottomNavigationAdapter mNavigationAdapter;
     private BottomNavigationView bnvMain;
     private FloatingActionButton fabPlusMain;
     private AccountMoneyDatabase mAccountMoneyDatabase;
-
+    private ArrayList<Account> mListAccounts;
+    private Account mAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,50 +66,20 @@ public class MainActivity extends BaseActivity implements MainMvpView, AccountMo
                 });
     }
 
+    // Khởi tạo / Ánh xạ view
     private void init() {
         hvpMain = findViewById(R.id.hvpMain);
+
         bnvMain = findViewById(R.id.bnvMain);
         fabPlusMain = findViewById(R.id.fabPlusMain);
 
         mNavigationAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
         hvpMain.setAdapter(mNavigationAdapter);
 
-        mAccountMoneyDatabase = new AccountMoneyDatabase(this, this);
-        mAccountMoneyDatabase.getAllAccount();
+        mAccountMoneyDatabase = new AccountMoneyDatabase(this);
     }
 
-    @Override
-    public void getAllAccountResult(ArrayList<Account> listAccount) {
-
-    }
-
-    @Override
-    public void insertAccountSuccess() {
-
-    }
-
-    @Override
-    public void insertAccountFail() {
-
-    }
-
-    @Override
-    public void updateAccountSuccess() {
-
-    }
-
-    @Override
-    public void updateAccountFail() {
-
-    }
-
-    @Override
-    public void deleteAccountSuccess() {
-
-    }
-
-    @Override
-    public void deleteAccountFail() {
-
+    public ArrayList<Account> getAllAccount() {
+        return mAccountMoneyDatabase.getAllAccount();
     }
 }

@@ -8,20 +8,20 @@ import java.io.Serializable;
  * - @created_by nxduong on 27/1/2021
  **/
 public class SubCategory implements Serializable {
-    private byte[] picture;
+    private String picturePath;
     private String title;
 
-    public SubCategory(byte[] picture, String title) {
-        this.picture = picture;
+    public SubCategory(String picturePath, String title) {
+        this.picturePath = picturePath;
         this.title = title;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public String getPicture() {
+        return picturePath;
     }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
+    public void setPicture(String picturePath) {
+        this.picturePath = picturePath;
     }
 
     public String getTitle() {

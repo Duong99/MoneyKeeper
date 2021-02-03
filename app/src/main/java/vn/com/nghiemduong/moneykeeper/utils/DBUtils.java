@@ -7,5 +7,5 @@ package vn.com.nghiemduong.moneykeeper.utils;
 public class DBUtils {
     public final static String DB_NAME = "MoneyKeeper.db";
     public static final int DATABASE_VERSION = 1;
-    public static final long check = -1; // Biến kiểm tra các thao thao tác trên db
+    public static final long checkDBFail = -1; // Biến kiểm tra các thao thao tác trên db
 }

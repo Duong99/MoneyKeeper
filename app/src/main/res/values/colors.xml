@@ -25,4 +25,31 @@
     <color name="contact_color_yellow">#e4c72e</color>
     <color name="contact_color_orange">#f58458</color>
 
+    <!--Design colors-->
+    <color name="red_dark">#F06423</color>
+    <color name="red_dark2">#D85A1B</color>
+    <color name="cyan_light">#c9ebee</color>
+    <color name="cyan">#b5e3e7</color>
+    <color name="cyan_dark">#70BDC6</color>
+    <color name="navy_blue">#214258</color>
+    <color name="navy_blue_dark">#1C3A4E</color>
+    <color name="yellow">#fff44f</color>
+    <color name="colorTransparent">#7266ba</color>
+    <color name="precedence_qt">#EF5350</color>
+    <color name="precedence_c">#F1B53D</color>
+    <color name="precedence_bt">#67D1F8</color>
+    <color name="precedence_t">#6C757D</color>
+
+    <!-- Library - calendar range -->
+    <color name="selected_date_circle_color">#54B948</color>
+    <color name="title_color">#000</color>
+    <color name="date_color">#000</color>
+    <color name="week_color">#000</color>
+    <color name="default_date_color">#3b4144</color>
+    <color name="disable_date_color">#BDBDBD</color>
+    <color name="range_date_color">@color/default_date_color</color>
+    <color name="selected_date_color">#FFF</color>
+    <color name="range_bg_color">#B7C99D</color>
+    <color name="calendar_text">#474747</color>
+
 </resources>

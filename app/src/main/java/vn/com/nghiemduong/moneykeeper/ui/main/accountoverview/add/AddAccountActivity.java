@@ -1,15 +1,11 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.add;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,19 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabaseMvpView;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.AccountType;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.type.AccountTypeActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
+import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 /**
  * -
@@ -37,8 +31,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * <p>
  * - @created_by nxduong on 26/1/2021
  **/
-public class AddAccountActivity extends BaseActivity implements View.OnClickListener,
-        AccountMoneyDatabaseMvpView {
+public class AddAccountActivity extends BaseActivity implements View.OnClickListener {
 
     public final static int REQUEST_CODE_ACCOUNT_ADD = 321;
     public final static int REQUEST_CODE_ACCOUNT_EDIT = 121;
@@ -90,7 +83,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         ivImageAccountType = findViewById(R.id.ivAccountType);
         tvTitleAccountType = findViewById(R.id.tvAccountType);
         etAccountName = findViewById(R.id.etAccountName);
-        mAccountDatabase = new AccountMoneyDatabase(this, this);
+        mAccountDatabase = new AccountMoneyDatabase(this);
 
         keyAddEditAccount = getIntent().getIntExtra(KEY_ADD_EDIT_ACCOUNT, -1);
         if (keyAddEditAccount == ADD_ACCOUNT) {
@@ -200,7 +193,14 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppUtils.VND,
                         AppUtils.getEditText(etExplain), report);
-                mAccountDatabase.insertAccount(mAccount);
+                long insert = mAccountDatabase.insertAccount(mAccount);
+                if (insert == DBUtils.checkDBFail) {
+                    showToast(getResources().getString(R.string.insert_account_fail));
+                    finish();
+                } else {
+                    showToast(getResources().getString(R.string.insert_account_success));
+                    finishInsertOrUpdateSuccess();
+                }
             } else { // Sửa tài khoản
                 mAccount = new Account(
                         mAccount.getAccountId(),
@@ -209,20 +209,16 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppUtils.VND,
                         AppUtils.getEditText(etExplain), report);
-                mAccountDatabase.updateAccount(mAccount);
+                long update = mAccountDatabase.updateAccount(mAccount);
+                if (update == DBUtils.checkDBFail) {
+                    showToast(getResources().getString(R.string.update_account_fail));
+                    finish();
+                } else {
+                    showToast(getResources().getString(R.string.update_account_success));
+                    finishInsertOrUpdateSuccess();
+                }
             }
         }
-    }
-
-    @Override
-    public void getAllAccountResult(ArrayList<Account> listAccount) {
-
-    }
-
-    @Override
-    public void insertAccountSuccess() {
-        showToast(getResources().getString(R.string.insert_account_success));
-        finishInsertOrUpdateSuccess();
     }
 
     private void finishInsertOrUpdateSuccess() {
@@ -232,33 +228,5 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         intent.putExtra("BUNDLE", bundle);
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    @Override
-    public void insertAccountFail() {
-        showToast(getResources().getString(R.string.insert_account_fail));
-        finish();
-    }
-
-    @Override
-    public void updateAccountSuccess() {
-        showToast(getResources().getString(R.string.update_account_success));
-        finishInsertOrUpdateSuccess();
-    }
-
-    @Override
-    public void updateAccountFail() {
-        showToast(getResources().getString(R.string.update_account_fail));
-        finish();
-    }
-
-    @Override
-    public void deleteAccountSuccess() {
-
-    }
-
-    @Override
-    public void deleteAccountFail() {
-
     }
 }

@@ -44,8 +44,8 @@ public class SubCategoryPayAdapter extends RecyclerView.Adapter<SubCategoryPayAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.ivImageItemSubCategoryPay.setImageBitmap(
-                AppUtils.convertByteArrayToBitmap(mListSubCategories.get(position).getPicture()));
+        holder.ivImageItemSubCategoryPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                mListSubCategories.get(position).getPicture(), mContext));
         holder.tvTitleItemSubCategoryPay.setText(mListSubCategories.get(position).getTitle());
     }
 

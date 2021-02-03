@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.AccountAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabaseMvpView;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 
@@ -24,7 +23,7 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
  * - @created_by nxduong on 28/1/2021
  **/
 
-public class ChooseAccountActivity extends BaseActivity implements AccountMoneyDatabaseMvpView,
+public class ChooseAccountActivity extends BaseActivity implements
         AccountAdapter.IOnClickAccount {
 
     public final static int REQUEST_CODE_CHOOSE_ACCOUNT = 119;
@@ -55,44 +54,10 @@ public class ChooseAccountActivity extends BaseActivity implements AccountMoneyD
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rcvChooseAccount.setLayoutManager(layoutManager);
 
-        mAccountMoneyDatabase = new AccountMoneyDatabase(this, this);
-        mAccountMoneyDatabase.getAllAccount();
-    }
+        mAccountMoneyDatabase = new AccountMoneyDatabase(this);
 
-    @Override
-    public void getAllAccountResult(ArrayList<Account> listAccount) {
-        mAccountAdapter = new AccountAdapter(this, listAccount, this);
+        mAccountAdapter = new AccountAdapter(this, mAccountMoneyDatabase.getAllAccount(), this);
         rcvChooseAccount.setAdapter(mAccountAdapter);
-    }
-
-    @Override
-    public void insertAccountSuccess() {
-
-    }
-
-    @Override
-    public void insertAccountFail() {
-
-    }
-
-    @Override
-    public void updateAccountSuccess() {
-
-    }
-
-    @Override
-    public void updateAccountFail() {
-
-    }
-
-    @Override
-    public void deleteAccountSuccess() {
-
-    }
-
-    @Override
-    public void deleteAccountFail() {
-
     }
 
     @Override

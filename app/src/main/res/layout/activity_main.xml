@@ -7,11 +7,10 @@
     tools:context=".ui.main.MainActivity">
 
     <vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager
-        android:layout_marginBottom="@dimen/height_bottom_navigation_main"
+        android:id="@+id/hvpMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/hvpMain"
-        />
+        android:layout_marginBottom="@dimen/height_bottom_navigation_main" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnvMain"
@@ -39,6 +38,4 @@
 
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-
 </RelativeLayout>
