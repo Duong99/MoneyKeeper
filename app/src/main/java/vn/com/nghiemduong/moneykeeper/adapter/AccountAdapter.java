@@ -41,10 +41,16 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.ivPictureAccountType.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
-                mListAccount.get(position).getAccountTypePath(), mContext));
-        holder.tvAccountName.setText(mListAccount.get(position).getAccountName());
-        holder.tvTotalMoneyAccount.setText(String.valueOf(mListAccount.get(position).getMoneyCurrent()));
+        Account account = mListAccount.get(position);
+        if (account != null) {
+            if (position == mListAccount.size() - 1) {
+                holder.viewLine.setVisibility(View.GONE);
+            }
+            holder.ivPictureAccountType.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                    account.getAccountTypePath(), mContext));
+            holder.tvAccountName.setText(account.getAccountName());
+            holder.tvTotalMoneyAccount.setText(String.valueOf(account.getMoneyCurrent()));
+        }
     }
 
     // Thêm tài khoảnrong danh sách ở màn hình tài khoản
@@ -79,6 +85,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivPictureAccountType, ivOptionAccount;
         private TextView tvAccountName, tvTotalMoneyAccount;
+        private View viewLine;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +94,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             ivOptionAccount = itemView.findViewById(R.id.ivOptionAccount);
             tvAccountName = itemView.findViewById(R.id.tvAccountName);
             tvTotalMoneyAccount = itemView.findViewById(R.id.tvTotalMoneyAccount);
+            viewLine = itemView.findViewById(R.id.viewLine);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

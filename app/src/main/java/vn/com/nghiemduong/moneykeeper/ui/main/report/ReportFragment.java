@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.google.gson.TypeAdapter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ReportAdapter;
@@ -50,8 +51,8 @@ public class ReportFragment extends BaseFragment implements ReportMvpView {
     }
 
     private void onRefreshListener() {
-        srlReport.setColorSchemeColors(getContext().getResources().getColor(R.color.blue));
-
+        srlReport.setColorSchemeColors(Objects.requireNonNull(getContext()).getResources()
+                .getColor(R.color.blue));
         srlReport.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

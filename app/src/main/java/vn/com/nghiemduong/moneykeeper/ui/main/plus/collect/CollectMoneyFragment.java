@@ -27,6 +27,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
@@ -44,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
  * - @created_by nxduong on 26/1/2021
  **/
 public class CollectMoneyFragment extends BaseFragment implements View.OnClickListener,
-        CustomDateTimeDialog.IOnClickSaveDateTime {
+        CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDialog.IOnClickAttentionDialog {
     private View mView;
     private RelativeLayout rlChooseCategoryCollect, rlChooseAccountCollect,
             rlSelectFolder, rlSelectCamera, rlContentImage;
@@ -76,7 +77,12 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         return mView;
     }
 
-    // Khởi tạo / Ánh xạ cho view
+    /**
+     * Khởi tạo ánh xạ view
+     *
+     * @created_by nxduong on 26/1/2021
+     */
+
     private void init() {
         rlChooseCategoryCollect = mView.findViewById(R.id.rlChooseCategory);
         rlChooseCategoryCollect.setOnClickListener(this);
@@ -123,7 +129,10 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         tvDetail = mView.findViewById(R.id.tvDetail);
         llSelectImage = mView.findViewById(R.id.llSelectImage);
         llContentDetail = mView.findViewById(R.id.llContentDetail);
+
         etInputMoney = mView.findViewById(R.id.etInputMoney);
+        etInputMoney.setTextColor(getResources().getColor(R.color.green));
+
         etExplain = mView.findViewById(R.id.etExplain);
         swNotIncludeReport = mView.findViewById(R.id.swNotIncludeReport);
 
@@ -252,7 +261,8 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 break;
 
             case R.id.llDelete:
-
+                new AttentionDialog(getContext(),
+                        this, AttentionDialog.ATTENTION_DELETE_DATA).show();
                 break;
         }
     }
@@ -300,5 +310,10 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
     public void saveDateTime(String date, String time) {
         tvTimeCollect.setText(time);
         tvCalendarCollect.setText(date);
+    }
+
+    @Override
+    public void onClickYesDelete() {
+
     }
 }

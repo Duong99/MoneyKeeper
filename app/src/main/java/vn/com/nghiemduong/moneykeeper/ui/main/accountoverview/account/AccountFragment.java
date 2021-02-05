@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.Objects;
 
@@ -42,6 +43,7 @@ import static android.app.Activity.RESULT_OK;
 public class AccountFragment extends BaseFragment implements View.OnClickListener,
         AccountAdapter.IOnClickAccount, BottomSheetOptionAccountMvpView,
         AccountFragmentMvpView, AttentionDialog.IOnClickAttentionDialog {
+    private SwipeRefreshLayout srlAccount;
     private View mView;
     private RecyclerView rcvListAccount;
     private ImageView ivAddAccount;
@@ -63,6 +65,13 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_account, container, false);
         init();
+
+        srlAccount.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srlAccount.setRefreshing(false);
+            }
+        });
         return mView;
     }
 
@@ -89,10 +98,19 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * Khởi tạo ánh xạ view trong màn hình tài khoản
+     *
+     * @created_by nxduong on 26/1/2021
+     */
+
     private void init() {
         rcvListAccount = mView.findViewById(R.id.rcvListAccount);
         tvTotalMoney = mView.findViewById(R.id.tvTotalMoney);
         tvTotalMoneyUsing = mView.findViewById(R.id.tvTotalMoneyUsing);
+        srlAccount = mView.findViewById(R.id.srlAccount);
+        srlAccount.setColorSchemeColors(Objects.requireNonNull(getContext())
+                .getResources().getColor(R.color.blue));
 
         ivAddAccount = mView.findViewById(R.id.ivAddAccount);
         ivAddAccount.setOnClickListener(this);

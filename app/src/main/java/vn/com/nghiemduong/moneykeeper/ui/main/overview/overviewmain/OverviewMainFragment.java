@@ -50,7 +50,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  **/
 
 public class OverviewMainFragment extends BaseFragment implements View.OnClickListener,
-        AccountFragmentMvpView {
+        AccountFragmentMvpView, HistoryNoteRcvAdapter.IOnClickHistoryNoteMvpView {
 
     private View mView;
     private ImageView ivVisibilityTotalMoney;
@@ -90,6 +90,7 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
 
         tvTotalMoney = mView.findViewById(R.id.tvTotalMoney);
         rcvRecentNotes = mView.findViewById(R.id.rcvRecentNotes);
+        rcvRecentNotes.setNestedScrollingEnabled(false);
         mAccountFragmentPresenter = new AccountFragmentPresenter(this);
         mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mMainActivity.getAllAccount());
 
@@ -108,11 +109,12 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         mListMoneyPays = mMoneyPayDatabase.getAllMoneyPay();
         mListMoneyCollect = mMoneyCollectDatabase.getAllMoneyCollect();
 
-        mHistoryNoteAdapter = new HistoryNoteRcvAdapter(getContext(), mListMoneyCollect, mListMoneyPays);
+        mHistoryNoteAdapter = new HistoryNoteRcvAdapter(getContext(), mListMoneyCollect,
+                mListMoneyPays, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvRecentNotes.setLayoutManager(layoutManager);
         rcvRecentNotes.setAdapter(mHistoryNoteAdapter);
-        //rcvRecentNotes.setNestedScrollingEnabled(false);
+
         //addDataSet(pieChart);
         //mChart.setOnChartValueSelectedListener(getContext());
 
@@ -192,5 +194,10 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mMainActivity = (MainActivity) context;
+    }
+
+    @Override
+    public void onClickHistoryNote(MoneyCollect moneyCollect, MoneyPay moneyPay) {
+
     }
 }

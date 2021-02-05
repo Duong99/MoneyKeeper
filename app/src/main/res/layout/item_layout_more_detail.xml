@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:text="@string/more_detail"
             android:textColor="@color/blue"
-            android:textSize="@dimen/font_large" />
+            android:textSize="@dimen/font_medium" />
 
         <ImageView
             android:id="@+id/ivDetail"

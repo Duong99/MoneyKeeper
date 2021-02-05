@@ -178,6 +178,9 @@
     <string name="attention_delete_account_3">Dữ liệu bị xóa sẽ không thể khôi phục lại được. </string>
     <string name="attention_delete_account_4">Bạn có thực sự muốn xóa không?</string>
 
+    <string name="attention_delete_data">Dữ liệu bị xóa sẽ không thể khôi phục lại được.
+        Bạn có muốn tiếp tục? </string>
+
     <string name="recent_notes">Ghi chép gần đây</string>
     <string name="view_history_notes">Xem ghi chép</string>
     <string name="_0">0</string>

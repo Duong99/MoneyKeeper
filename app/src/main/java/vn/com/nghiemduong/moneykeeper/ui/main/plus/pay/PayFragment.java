@@ -30,6 +30,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCategoriesActivity;
@@ -47,23 +48,24 @@ import static android.app.Activity.RESULT_OK;
  * - @created_by nxduong on 26/1/2021
  **/
 public class PayFragment extends BaseFragment implements PayMvpView, View.OnClickListener,
-        CustomDateTimeDialog.IOnClickSaveDateTime {
+        CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDialog.IOnClickAttentionDialog {
 
     private View mView;
     private RelativeLayout rlChooseCategoryPay, rlChooseAccountPay, rlSelectCategoryFee,
             rlRepaymentDate, rlLender, rlWhoContact, rlSelectFolder, rlSelectCamera,
             rlContentImage;
     private ImageView ivImageCategoriesPay, ivImageAccountPay, ivImageCategoryFee,
-            ivImageSelectedPay, ivRemoveImageSelected;
+            ivImageSelectedPay, ivRemoveImageSelected, ivDetail;
 
     private TextView tvTitleSelectCategoryPay, tvTitleAccountPay, tvTitleCategoryFee,
-            tvTitlePerson, tvTimePay, tvCalenderPay;
+            tvTitlePerson, tvTimePay, tvCalenderPay, tvDetail;
 
     private EditText etInputMoney, etExplain;
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swtFee, swtLoanToPayAmount, swNotIncludeReport;
-    private LinearLayout llContentFee, llContentLoanToPayAmount, llSelectImage, llSave;
+    private LinearLayout llContentFee, llContentLoanToPayAmount, llSelectImage, llSave,
+            llContentDetail, llLayoutDetail, llDelete;
     private Bitmap imagePay = null;
     private MoneyPayDatabase mMoneyPayDatabase;
     private Account mAccount;
@@ -124,6 +126,12 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         llSave = mView.findViewById(R.id.llSave);
         llSave.setOnClickListener(this);
 
+        llLayoutDetail = mView.findViewById(R.id.llLayoutDetail);
+        llLayoutDetail.setOnClickListener(this);
+
+        llDelete = mView.findViewById(R.id.llDelete);
+        llDelete.setOnClickListener(this);
+
         swtFee = mView.findViewById(R.id.swtFee);
         swtLoanToPayAmount = mView.findViewById(R.id.swtLoanToPayAmount);
         swNotIncludeReport = mView.findViewById(R.id.swNotIncludeReport);
@@ -161,7 +169,12 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         ivImageSelectedPay = mView.findViewById(R.id.ivImageSelected);
         ivImageAccountPay = mView.findViewById(R.id.ivImageAccount);
         ivImageCategoryFee = mView.findViewById(R.id.ivImageCategoryFee);
+        ivDetail = mView.findViewById(R.id.ivDetail);
+        tvDetail = mView.findViewById(R.id.tvDetail);
+
         etInputMoney = mView.findViewById(R.id.etInputMoney);
+        etInputMoney.setTextColor(getResources().getColor(R.color.red));
+
         etExplain = mView.findViewById(R.id.etExplain);
 
         ivRemoveImageSelected = mView.findViewById(R.id.ivRemoveImageSelected);
@@ -172,6 +185,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
 
         rlContentImage = mView.findViewById(R.id.rlContentImage);
         llSelectImage = mView.findViewById(R.id.llSelectImage);
+        llContentDetail = mView.findViewById(R.id.llContentDetail);
 
         tvTitleSelectCategoryPay = mView.findViewById(R.id.tvTitleSelectCategory);
         tvTitleAccountPay = mView.findViewById(R.id.tvTitleAccount);
@@ -331,6 +345,23 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                     }
                 }
                 break;
+
+            case R.id.llLayoutDetail:
+                if (llContentDetail.getVisibility() == View.GONE) {
+                    llContentDetail.setVisibility(View.VISIBLE);
+                    tvDetail.setText(getString(R.string.hidden_detail));
+                    ivDetail.setBackgroundResource(R.drawable.ic_arrow_up);
+                } else {
+                    llContentDetail.setVisibility(View.GONE);
+                    tvDetail.setText(getString(R.string.more_detail));
+                    ivDetail.setBackgroundResource(R.drawable.ic_arrow_down);
+                }
+                break;
+
+            case R.id.llDelete:
+                new AttentionDialog(getContext(),
+                        this, AttentionDialog.ATTENTION_DELETE_DATA).show();
+                break;
         }
     }
 
@@ -388,5 +419,10 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onClickYesDelete() {
+
     }
 }

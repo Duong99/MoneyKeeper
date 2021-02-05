@@ -55,6 +55,7 @@
     <dimen name="height_width_ic_select_image">30dp</dimen>
     <dimen name="height_event_trip">60dp</dimen>
     <dimen name="height_width_image_normal">30dp</dimen>
+    <dimen name="height_width_image_account">35dp</dimen>
 
     <dimen name="width_sub_category">65dp</dimen>
     <dimen name="height_item_plus">50dp</dimen>
@@ -75,5 +76,6 @@
     <dimen name="height_width_image_note">40dp</dimen>
     <dimen name="height_layout_input_money">70dp</dimen>
     <dimen name="height_input_money">50dp</dimen>
+    <dimen name="height_account">65dp</dimen>
 
 </resources>
