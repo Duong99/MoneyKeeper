@@ -9,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +44,8 @@ import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentMvpView;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentPresenter;
+import vn.com.nghiemduong.moneykeeper.ui.main.overview.OverviewFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.PlusFragment;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -80,6 +85,12 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         init();
         return mView;
     }
+
+    /**
+     * Khởi tạo / ánh xạ view
+     *
+     * @created_by nxduong on 2/2/2021
+     */
 
     private void init() {
         ivVisibilityTotalMoney = mView.findViewById(R.id.ivVisibilityTotalMoney);
@@ -175,6 +186,7 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivVisibilityTotalMoney:
+
                 break;
 
             case R.id.rlTotalMoneyBackground:
@@ -196,8 +208,47 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         mMainActivity = (MainActivity) context;
     }
 
+    /**
+     * Hàm click vào ghi chép gần đây
+     *
+     * @param moneyCollect đối tượng thu tiền
+     * @param moneyPay     đối tượng chi tiền
+     * @created_by nxduong on 5/2/2021
+     */
     @Override
     public void onClickHistoryNote(MoneyCollect moneyCollect, MoneyPay moneyPay) {
+        try {
+            Bundle bundle = new Bundle();
+            if (moneyCollect != null) {
+                bundle.putSerializable("BUNDLE_MONEY_COLLECT", moneyCollect);
+                beginTransactionCategoriesLayout(new PlusFragment(), bundle);
+            } else {
+                if (moneyPay != null) {
+                    bundle.putSerializable("BUNDLE_MONEY_PAY", moneyPay);
+                    beginTransactionCategoriesLayout(new PlusFragment(), bundle);
+                }
+            }
 
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+    }
+
+    /**
+     * Hàm chuyển màn hình giữa các fragment và truyền dữ liệu với Bundle
+     *
+     * @param fg fragment cần chuyển tới
+     *           <p>
+     *           - @created_by nxduong on 5/2/2021
+     **/
+
+    public void beginTransactionCategoriesLayout(Fragment fg, Bundle bundle) {
+        fg.setArguments(bundle);
+        FragmentManager fmManager = getFragmentManager();
+        if (fmManager != null) {
+            FragmentTransaction ft = fmManager.beginTransaction();
+            ft.replace(R.id.flOverView, fg);
+            ft.commit();
+        }
     }
 }

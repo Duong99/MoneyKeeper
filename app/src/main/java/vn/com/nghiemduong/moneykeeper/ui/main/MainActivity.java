@@ -25,13 +25,10 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 public class MainActivity extends BaseActivity implements MainMvpView {
     private HackyViewPager hvpMain;
-    private MainPresenter mMainPresenter;
     private BottomNavigationAdapter mNavigationAdapter;
     private BottomNavigationView bnvMain;
     private FloatingActionButton fabPlusMain;
     private AccountMoneyDatabase mAccountMoneyDatabase;
-    private ArrayList<Account> mListAccounts;
-    private Account mAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

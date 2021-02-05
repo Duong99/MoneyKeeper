@@ -14,7 +14,9 @@ public interface MoneyPayDatabaseMvpPresenter {
 
     long updateMoneyPay(MoneyPay moneyPay);
 
-    long deleteMoneyPay(int moneyPayId);
+    long deleteMoneyPay(MoneyPay moneyPay);
 
-    long updateMoneyOfAccountWhenPay(int accountId, int numberMoney);
+    long updateMoneyOfAccountWhenUpdatePay(int accountId, int numberMoney);
+
+    long updateMoneyOfAccountWhenDeletePay(int accountId, int numberMoney);
 }

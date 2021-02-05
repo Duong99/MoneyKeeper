@@ -70,6 +70,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
     private MoneyPayDatabase mMoneyPayDatabase;
     private Account mAccount;
     private Category mCategory;
+    private MoneyPay mMoneyPay;
 
 
     public PayFragment() {
@@ -83,6 +84,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         mView = inflater.inflate(R.layout.fragment_pay, container, false);
         init();
 
+        getDataMoneyPayFromBundle();
         swtFee.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -97,6 +99,32 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
             }
         });
         return mView;
+    }
+
+    /**
+     * Hàm lấy dữ liệu đối tượng MoneyPay khi người dùng click vào để chỉnh sửa hoặc xóa
+     * và set các view tương ứng
+     *
+     * @created_by nxduong on 5/2/2021
+     */
+
+    private void getDataMoneyPayFromBundle() {
+        if (this.getArguments() != null) {
+            mMoneyPay = (MoneyPay) this.getArguments().getSerializable("BUNDLE_MONEY_PAY");
+            if (mMoneyPay != null) {
+                etInputMoney.setText(String.valueOf(mMoneyPay.getAmountOfMoney()));
+                ivImageCategoriesPay.setImageBitmap(
+                        AppUtils.convertPathFileImageAssetsToBitmap(mMoneyPay.getCategoryPath(),
+                                getContext()));
+                tvTitleSelectCategoryPay.setText(mMoneyPay.getCategoryName());
+                etExplain.setText(mMoneyPay.getExplain());
+                tvTitleAccountPay.setText(mMoneyPay.getAccountName());
+                tvCalenderPay.setText(mMoneyPay.getDate());
+                tvTimePay.setText(mMoneyPay.getTime());
+
+                llDelete.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void extendOrCloseFee(boolean isChecked) {
@@ -321,6 +349,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                 } else if (mAccount == null) {
 
                 } else {
+
                     int report = 1;
 
                     if (swNotIncludeReport.isChecked()) {
@@ -330,18 +359,33 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                     if (imagePay != null) {
                         image = AppUtils.convertBitmapToByteArray(imagePay);
                     }
-                    MoneyPay moneyPay = new MoneyPay(mAccount.getAccountId(),
-                            Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-                            mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
-                            AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
-                            tvTimePay.getText().toString(), report, image);
-                    long insert = mMoneyPayDatabase.insertMoneyPay(moneyPay);
-                    if (insert == DBUtils.checkDBFail) {
-                        showToast(getResources().getString(R.string.insert_pay_fail));
-                    } else {
-                        showToast(getResources().getString(R.string.insert_pay_success));
-                        etInputMoney.setText("0");
-                        etExplain.setText("");
+                    if (mMoneyPay == null) { // Thêm chi tiền
+                        mMoneyPay = new MoneyPay(mAccount.getAccountId(),
+                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+                                mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
+                                AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
+                                tvTimePay.getText().toString(), report, image);
+                        long insert = mMoneyPayDatabase.insertMoneyPay(mMoneyPay);
+                        if (insert == DBUtils.checkDBFail) {
+                            showToast(getResources().getString(R.string.insert_pay_fail));
+                        } else {
+                            showToast(getResources().getString(R.string.insert_pay_success));
+                            etInputMoney.setText(getString(R.string._0));
+                            etExplain.setText("");
+                        }
+                    } else { // Sửa chi tiền
+                        mMoneyPay = new MoneyPay(mMoneyPay.getPayId(), mAccount.getAccountId(),
+                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+                                mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
+                                AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
+                                tvTimePay.getText().toString(), report, image);
+                        long update = mMoneyPayDatabase.updateMoneyPay(mMoneyPay);
+                        if (update == DBUtils.checkDBFail) {
+                            showToast(getResources().getString(R.string.update_pay_fail));
+                        } else {
+                            showToast(getResources().getString(R.string.update_pay_success));
+                            getActivity().onBackPressed();
+                        }
                     }
                 }
                 break;
@@ -423,6 +467,19 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
 
     @Override
     public void onClickYesDelete() {
+        try {
+            if (mMoneyPay != null) {
+                long delete = mMoneyPayDatabase.deleteMoneyPay(mMoneyPay);
 
+                if (delete == DBUtils.checkDBFail) {
+                    showToast(getString(R.string.delete_pay_fail));
+                } else {
+                    showToast(getString(R.string.delete_pay_success));
+                    getActivity().onBackPressed();
+                }
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 }

@@ -1,11 +1,13 @@
 package vn.com.nghiemduong.moneykeeper.data.model;
 
+import java.io.Serializable;
+
 /**
  * Đối tượng thu MoneyCollect khi người dùng thêm thu tiền
  *
  * @created_by nxduong on 3/2/2021
  **/
-public class MoneyCollect {
+public class MoneyCollect implements Serializable {
     private int collectId;    //(INTEGER) : id thu tiền
     private int accountId;    //(INTEGER) : id tài khoản
     private int amountOfMoney; //(INTEGER): Số tiền thu

@@ -19,10 +19,13 @@ import java.util.ArrayList;
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerCategoriesArrayAdapter;
 import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
+import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
+import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.collect.CollectMoneyFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.pay.PayFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.transfer.TransferFragment;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * - @created_by nxduong on 25/1/2021
@@ -32,10 +35,10 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
     private Spinner spinnerCategories;
     private CustomSpinnerCategoriesArrayAdapter mSpinnerAdapter;
     private PlusPresenter mPlusPresenter;
+    private Bundle mBundle = null;
 
     public PlusFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,7 +47,32 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
         mView = inflater.inflate(R.layout.fragment_plus, container, false);
         init();
         onClickSpinnerCategories();
+        getDataBundle();
         return mView;
+    }
+
+    /**
+     * Hàm lấy dữ liệu 2 đối tượng Thu tiền (moneyCollect) và Chi tiền (MoneyPay)
+     *
+     * @created_by nxduong on 5/2/2021
+     */
+    private void getDataBundle() {
+        if (this.getArguments() != null) {
+            mBundle = new Bundle();
+            MoneyCollect moneyCollects =
+                    (MoneyCollect) this.getArguments().getSerializable("BUNDLE_MONEY_COLLECT");
+            if (moneyCollects != null) {
+                mBundle.putSerializable("BUNDLE_MONEY_COLLECT", moneyCollects);
+                spinnerCategories.setSelection(1);
+            } else {
+                MoneyPay moneyPay =
+                        (MoneyPay) this.getArguments().getSerializable("BUNDLE_MONEY_PAY");
+                if (moneyPay != null) {
+                    mBundle.putSerializable("BUNDLE_MONEY_PAY", moneyPay);
+                    spinnerCategories.setSelection(0);
+                }
+            }
+        }
     }
 
     private void onClickSpinnerCategories() {
@@ -54,10 +82,18 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        beginTransactionCategoriesLayout(new PayFragment());
+                        try {
+                            beginTransactionCategoriesLayout(new PayFragment());
+                        } catch (Exception e) {
+                            AppUtils.handlerException(e);
+                        }
                         break;
                     case 1:
-                        beginTransactionCategoriesLayout(new CollectMoneyFragment());
+                        try {
+                            beginTransactionCategoriesLayout(new CollectMoneyFragment());
+                        } catch (Exception e) {
+                            AppUtils.handlerException(e);
+                        }
                         break;
                     case 2:
                     case 3:
@@ -65,7 +101,11 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
                         showToast(getString(R.string.evolving_functions));
                         break;
                     case 4:
-                        beginTransactionCategoriesLayout(new TransferFragment());
+                        try {
+                            beginTransactionCategoriesLayout(new TransferFragment());
+                        } catch (Exception e) {
+                            AppUtils.handlerException(e);
+                        }
                         break;
                 }
             }
@@ -95,6 +135,9 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
      * - @created_by nxduong on 25/1/2021
      **/
     private void beginTransactionCategoriesLayout(Fragment fg) {
+        if (mBundle != null) {
+            fg.setArguments(mBundle);
+        }
         FragmentManager fmManager = getFragmentManager();
         assert fmManager != null;
         FragmentTransaction ft = fmManager.beginTransaction();

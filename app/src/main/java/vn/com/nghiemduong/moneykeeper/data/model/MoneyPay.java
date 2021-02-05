@@ -1,12 +1,14 @@
 package vn.com.nghiemduong.moneykeeper.data.model;
 
+import java.io.Serializable;
+
 /**
  * private
  * Đối tượng thu MoneyCollect khi người dùng thêm chi tiền
  * <p>
  * private @created_by nxduong on
  **/
-public class MoneyPay {
+public class MoneyPay implements Serializable {
     private int payId;  // 	(INTEGER) : id chi tiền
     private int accountId;  //	(INTEGER) : id tài khoản
     private int amountOfMoney;  // (INTEGER): Số tiền thu

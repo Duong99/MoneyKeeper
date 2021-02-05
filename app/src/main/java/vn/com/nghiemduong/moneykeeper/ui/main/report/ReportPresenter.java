@@ -8,11 +8,10 @@ import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.model.Report;
 
 /**
-
- - @created_by nxduong on 25/1/2021
-
-**/
-public class ReportPresenter implements ReportMvpPresenter{
+ * Màn hình báo cáo
+ * - @created_by nxduong on 25/1/2021
+ **/
+public class ReportPresenter implements ReportMvpPresenter {
     private ReportMvpView mReportMvpView;
     private Context mContext;
 
@@ -20,6 +19,13 @@ public class ReportPresenter implements ReportMvpPresenter{
         this.mReportMvpView = mReportMvpView;
         this.mContext = context;
     }
+
+    /**
+     * Hàm thêm đối tượng báo cáo vào trong danh sách báo cáo
+     *
+     * @return listReport danh sách báo cáo
+     * @created_by nxduong on 25/1/2021
+     */
 
     @Override
     public void addListReport() {

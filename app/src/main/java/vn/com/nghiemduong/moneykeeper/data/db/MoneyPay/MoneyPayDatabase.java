@@ -112,7 +112,8 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
             db.close();
             return insert;
         } else {
-            long update = updateMoneyOfAccountWhenPay(moneyPay.getAccountId(), moneyPay.getAmountOfMoney());
+            long update = updateMoneyOfAccountWhenUpdatePay(moneyPay.getAccountId(),
+                    moneyPay.getAmountOfMoney());
             db.close();
             return update;
         }
@@ -155,13 +156,20 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
      */
 
     @Override
-    public long deleteMoneyPay(int moneyPayId) {
+    public long deleteMoneyPay(MoneyPay moneyPay) {
         db = this.getWritableDatabase();
         long delete = db.delete(NAME_TABLE_PAY, PAY_ID + " = ?",
-                new String[]{String.valueOf(moneyPayId)});
+                new String[]{String.valueOf(moneyPay.getPayId())});
 
-        db.close();
-        return delete;
+        if (delete == DBUtils.checkDBFail) {
+            db.close();
+            return delete;
+        } else {
+            long update = updateMoneyOfAccountWhenUpdatePay(moneyPay.getAccountId(),
+                    moneyPay.getAmountOfMoney());
+            db.close();
+            return update;
+        }
     }
 
     /**
@@ -172,7 +180,7 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
      */
 
     @Override
-    public long updateMoneyOfAccountWhenPay(int accountId, int numberMoney) {
+    public long updateMoneyOfAccountWhenUpdatePay(int accountId, int numberMoney) {
         db = this.getReadableDatabase();
         db = this.getWritableDatabase();
         String querySelectMoneyCurrentAccount = "SELECT " + AccountMoneyDatabase.ACCOUNT_MONEY_CURRENT
@@ -184,6 +192,32 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
         int moneyCurrentAccount = cursor.getInt(0);
         moneyCurrentAccount -= numberMoney;
 
+        ContentValues values = new ContentValues();
+        values.put(AccountMoneyDatabase.ACCOUNT_MONEY_CURRENT, moneyCurrentAccount);
+        long update = db.update(AccountMoneyDatabase.NAME_TABLE_ACCOUNT, values,
+                AccountMoneyDatabase.ACCOUNT_ID + " = ? ",
+                new String[]{String.valueOf(accountId)});
+        db.close();
+        return update;
+    }
+
+    /**
+     * @param accountId id tài khoản, numberMoney số tiền trong chi tiền bi xóa
+     * @created_by nxduong on 5/2/2021
+     */
+
+    @Override
+    public long updateMoneyOfAccountWhenDeletePay(int accountId, int numberMoney) {
+        db = this.getReadableDatabase();
+        db = this.getWritableDatabase();
+        String querySelectMoneyCurrentAccount = "SELECT " + AccountMoneyDatabase.ACCOUNT_MONEY_CURRENT
+                + " FROM " + AccountMoneyDatabase.NAME_TABLE_ACCOUNT
+                + " WHERE " + AccountMoneyDatabase.ACCOUNT_ID + " = " + accountId;
+
+        Cursor cursor = db.rawQuery(querySelectMoneyCurrentAccount, null);
+        cursor.moveToNext();
+        int moneyCurrentAccount = cursor.getInt(0);
+        moneyCurrentAccount += numberMoney;
         ContentValues values = new ContentValues();
         values.put(AccountMoneyDatabase.ACCOUNT_MONEY_CURRENT, moneyCurrentAccount);
         long update = db.update(AccountMoneyDatabase.NAME_TABLE_ACCOUNT, values,

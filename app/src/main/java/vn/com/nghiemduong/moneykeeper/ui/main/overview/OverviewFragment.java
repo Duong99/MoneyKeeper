@@ -39,11 +39,13 @@ public class OverviewFragment extends BaseFragment implements OverviewFragmentMv
      * Hàm chuyển màn hình giữa các fragment
      * - @created_by nxduong on 2/2/2021
      **/
-    private void beginTransactionCategoriesLayout(Fragment fg) {
+
+    public void beginTransactionCategoriesLayout(Fragment fg) {
         FragmentManager fmManager = getFragmentManager();
-        assert fmManager != null;
-        FragmentTransaction ft = fmManager.beginTransaction();
-        ft.replace(R.id.flOverView, fg);
-        ft.commit();
+        if (fmManager != null) {
+            FragmentTransaction ft = fmManager.beginTransaction();
+            ft.replace(R.id.flOverView, fg);
+            ft.commit();
+        }
     }
 }
