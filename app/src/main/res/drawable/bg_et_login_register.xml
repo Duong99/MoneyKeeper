@@ -3,7 +3,7 @@
     <corners android:radius="@dimen/margin_medium" />
     <solid android:color="@color/white" />
     <stroke
-        android:width="0.1dp"
+        android:width="@dimen/height_view_line"
         android:color="@color/black" />
     <size android:height="@dimen/height_edit_text_login_register" />
 

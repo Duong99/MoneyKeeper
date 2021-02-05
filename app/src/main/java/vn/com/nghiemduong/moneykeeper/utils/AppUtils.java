@@ -41,7 +41,6 @@ public class AppUtils {
     public static final int CO_BAO_CAO = 1;
     public static final int KHONG_BAO_CAO = 0;
 
-
     public static final int REQUEST_CODE_IMAGE_FROM_FOLDER = 120;
     public static final int REQUEST_CODE_IMAGE_FROM_CAMERA = 121;
 

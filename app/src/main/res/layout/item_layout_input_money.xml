@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:padding="@dimen/padding_large"
-    android:background="@color/white"
+<RelativeLayout android:background="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/height_layout_input_money">
 
     <EditText
+        android:text="@string/_0"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        android:gravity="center_vertical|end"
+        android:textSize="@dimen/font_size_input_money"
+        android:background="@drawable/bg_et_enter_money"
         android:maxLength="20"
         android:inputType="number"
         android:id="@+id/etInputMoney"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_toStartOf="@id/tvDong"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="@dimen/height_input_money" />
 
     <TextView
-        android:layout_margin="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
         android:textStyle="bold"
-        android:textSize="@dimen/font_large"
+        android:textSize="@dimen/font_size_title"
         android:id="@+id/tvDong"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:text="@string/dong"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
+    <include
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_toStartOf="@id/tvDong"
+        android:layout_below="@id/etInputMoney"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_view_line"
+        layout="@layout/view_line" />
 </RelativeLayout>

@@ -3,7 +3,7 @@ package vn.com.nghiemduong.moneykeeper.data.model;
 /**
  * Đối tượng thu MoneyCollect khi người dùng thêm thu tiền
  *
- * @created_by nxduong on
+ * @created_by nxduong on 3/2/2021
  **/
 public class MoneyCollect {
     private int collectId;    //(INTEGER) : id thu tiền

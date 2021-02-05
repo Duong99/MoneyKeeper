@@ -20,7 +20,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.MoneyCollect.MoneyCollectDatabase;
@@ -50,12 +49,12 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
     private RelativeLayout rlChooseCategoryCollect, rlChooseAccountCollect,
             rlSelectFolder, rlSelectCamera, rlContentImage;
     private ImageView ivImageCategoriesCollect, ivImageAccountCollect, ivRemoveImageSelected,
-            ivImageSelected;
+            ivImageSelected, ivDetail;
     private TextView tvTitleSelectCategoryCollect, tvCalendarCollect, tvTimeCollect,
-            tvTitleAccountCollect;
+            tvTitleAccountCollect, tvDetail;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swNotIncludeReport;
-    private LinearLayout llSelectImage, llSave;
+    private LinearLayout llSelectImage, llSave, llDelete, llContentDetail, llLayoutDetail;
     private Bitmap imageCollect;
     private EditText etInputMoney, etExplain;
     private MoneyCollectDatabase mMoneyCollectDatabase;
@@ -85,6 +84,12 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         llSave = mView.findViewById(R.id.llSave);
         llSave.setOnClickListener(this);
 
+        llDelete = mView.findViewById(R.id.llDelete);
+        llDelete.setOnClickListener(this);
+
+        llLayoutDetail = mView.findViewById(R.id.llLayoutDetail);
+        llLayoutDetail.setOnClickListener(this);
+
         rlChooseAccountCollect = mView.findViewById(R.id.rlChooseAccount);
         rlChooseAccountCollect.setOnClickListener(this);
 
@@ -112,9 +117,12 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         tvTitleSelectCategoryCollect = mView.findViewById(R.id.tvTitleSelectCategory);
         ivImageSelected = mView.findViewById(R.id.ivImageSelected);
         ivImageAccountCollect = mView.findViewById(R.id.ivImageAccount);
+        ivDetail = mView.findViewById(R.id.ivDetail);
 
         tvTitleAccountCollect = mView.findViewById(R.id.tvTitleAccount);
+        tvDetail = mView.findViewById(R.id.tvDetail);
         llSelectImage = mView.findViewById(R.id.llSelectImage);
+        llContentDetail = mView.findViewById(R.id.llContentDetail);
         etInputMoney = mView.findViewById(R.id.etInputMoney);
         etExplain = mView.findViewById(R.id.etExplain);
         swNotIncludeReport = mView.findViewById(R.id.swNotIncludeReport);
@@ -225,10 +233,26 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                         showToast(getResources().getString(R.string.insert_collect_fail));
                     } else {
                         showToast(getResources().getString(R.string.insert_collect_success));
-                        etInputMoney.setText("0");
+                        etInputMoney.setText(getString(R.string._0));
                         etExplain.setText("");
                     }
                 }
+                break;
+
+            case R.id.llLayoutDetail:
+                if (llContentDetail.getVisibility() == View.GONE) {
+                    llContentDetail.setVisibility(View.VISIBLE);
+                    tvDetail.setText(getString(R.string.hidden_detail));
+                    ivDetail.setBackgroundResource(R.drawable.ic_arrow_up);
+                } else {
+                    llContentDetail.setVisibility(View.GONE);
+                    tvDetail.setText(getString(R.string.more_detail));
+                    ivDetail.setBackgroundResource(R.drawable.ic_arrow_down);
+                }
+                break;
+
+            case R.id.llDelete:
+
                 break;
         }
     }

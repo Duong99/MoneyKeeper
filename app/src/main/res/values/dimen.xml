@@ -12,6 +12,7 @@
     <dimen name="font_large">18sp</dimen>
 
     <dimen name="font_size_title">24sp</dimen>
+    <dimen name="font_size_input_money">30sp</dimen>
 
     <dimen name="margin_small">2.5dp</dimen>
     <dimen name="margin_medium">5dp</dimen>
@@ -65,5 +66,14 @@
 
     <dimen name="height_dialog_attention">90dp</dimen>
     <dimen name="width_dialog_attention">70dp</dimen>
+
+    <dimen name="height_recent_notes">300dp</dimen>
+    <dimen name="height_text_recent_notes">45dp</dimen>
+    <dimen name="height_rcv_recent_notes">210dp</dimen>
+    <dimen name="height_item_rcv_recent_notes">70dp</dimen>
+    <dimen name="margin_start_recent_notes">15dp</dimen>
+    <dimen name="height_width_image_note">40dp</dimen>
+    <dimen name="height_layout_input_money">70dp</dimen>
+    <dimen name="height_input_money">50dp</dimen>
 
 </resources>

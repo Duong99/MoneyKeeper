@@ -16,6 +16,7 @@ import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 
 /**
@@ -45,20 +46,40 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.item_overview:
-                                hvpMain.setCurrentItem(0);
+                                try {
+                                    hvpMain.setCurrentItem(0);
+                                } catch (Exception e) {
+                                    AppUtils.handlerException(e);
+                                }
                                 break;
                             case R.id.item_account:
-                                hvpMain.setCurrentItem(1);
+                                try {
+                                    hvpMain.setCurrentItem(1);
+                                } catch (Exception e) {
+                                    AppUtils.handlerException(e);
+                                }
                                 break;
                             case R.id.item_plus:
-                                fabPlusMain.setBackgroundColor(getResources().getColor(R.color.blue));
-                                hvpMain.setCurrentItem(2);
+                                try {
+                                    fabPlusMain.setBackgroundColor(getResources().getColor(R.color.blue));
+                                    hvpMain.setCurrentItem(2);
+                                } catch (Exception e) {
+                                    AppUtils.handlerException(e);
+                                }
                                 break;
                             case R.id.item_report:
-                                hvpMain.setCurrentItem(3);
+                                try {
+                                    hvpMain.setCurrentItem(3);
+                                } catch (Exception e) {
+                                    AppUtils.handlerException(e);
+                                }
                                 break;
                             case R.id.item_more:
-                                hvpMain.setCurrentItem(4);
+                                try {
+                                    hvpMain.setCurrentItem(4);
+                                } catch (Exception e) {
+                                    AppUtils.handlerException(e);
+                                }
                                 break;
                         }
                         return true;

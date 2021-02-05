@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_item_rcv_recent_notes">
+
+    <RelativeLayout
+        android:layout_width="@dimen/height_item_rcv_recent_notes"
+        android:layout_height="@dimen/height_item_rcv_recent_notes">
+
+        <ImageView
+            android:id="@+id/ivCategoryHistoryNote"
+            android:layout_marginStart="@dimen/margin_start_recent_notes"
+            android:background="@drawable/ic_wallet"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/height_width_image_note"
+            android:layout_height="@dimen/height_width_image_note" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginEnd="@dimen/margin_large"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+
+                style="@style/TextViewNormalBlack"
+                android:id="@+id/tvCategoryNameHistoryNote"
+                android:text="@string/recent_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="@dimen/font_medium"
+                android:id="@+id/tvNumberMoneyHistoryNote"
+                android:layout_alignParentEnd="true"
+                android:text="@string/recent_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/TextViewNormalBlack"
+                android:textSize="@dimen/font_small"
+                android:id="@+id/tvDateHistoryNote"
+                android:text="@string/recent_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_toStartOf="@id/tvAccountNameHistoryRecent"
+                android:layout_width="@dimen/height_width_ic_check_spinner"
+                android:layout_height="@dimen/height_width_ic_check_spinner"
+                android:layout_marginStart="@dimen/margin_start_recent_notes"
+                android:background="@drawable/ic_wallet" />
+
+            <TextView
+                android:textSize="@dimen/font_small"
+                android:id="@+id/tvAccountNameHistoryRecent"
+                android:layout_alignParentEnd="true"
+                android:text="@string/recent_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -28,7 +28,7 @@
             <include
                 layout="@layout/item_layout_input_money"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="@dimen/height_layout_input_money" />
 
             <LinearLayout
                 android:layout_marginTop="@dimen/margin_large"
@@ -48,36 +48,69 @@
             </LinearLayout>
 
             <LinearLayout
-                android:background="@color/white"
-                android:layout_marginTop="@dimen/margin_large"
+                android:visibility="gone"
+                android:id="@+id/llContentDetail"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <include layout="@layout/item_layout_trip_event_plus" />
+                <LinearLayout
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <include layout="@layout/item_who_with_pay_plus" />
+                    <include layout="@layout/item_layout_trip_event_plus" />
 
-                <include layout="@layout/item_layout_address_plus" />
+                    <include layout="@layout/item_who_with_pay_plus" />
+
+                    <include layout="@layout/item_layout_address_plus" />
+                </LinearLayout>
+
+                <include
+                    layout="@layout/item_layout_not_include_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large" />
+
+                <include
+                    layout="@layout/item_layout_select_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large" />
+
             </LinearLayout>
 
-            <include
-                layout="@layout/item_layout_not_include_report"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large" />
 
             <include
-                layout="@layout/item_layout_select_image"
+                android:layout_marginTop="@dimen/margin_large"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large" />
+                android:layout_height="@dimen/height_item_plus"
+                layout="@layout/item_layout_more_detail" />
 
-            <include
-                layout="@layout/item_button_save"
+            <LinearLayout
+                android:weightSum="2"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_large" />
+                android:layout_height="wrap_content">
+
+                <include
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/margin_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    layout="@layout/item_layout_delete" />
+
+                <include
+                    android:layout_margin="@dimen/margin_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    layout="@layout/item_button_save" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
