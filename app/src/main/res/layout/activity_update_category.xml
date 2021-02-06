@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.category.update.UpdateCategoryActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbEditCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="@string/edit_category"
+        app:titleTextColor="@color/white" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tlEditCategory"
+        app:tabSelectedTextColor="@color/white"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpEditCategory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

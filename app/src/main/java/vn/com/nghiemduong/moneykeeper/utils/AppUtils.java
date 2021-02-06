@@ -34,6 +34,15 @@ public class AppUtils {
     public static final int TAI_KHOAN_DAU_TU = 4;
     public static final int KHAC = 5;
 
+    // Loại hạng mục
+    public static final int CHI_TIEN = -1;
+    public static final int THU_TIEN = 1;
+    public static final int VAY_NO = 0;
+
+    // Path
+    public static final String PATH_THU = "";
+    public static final String PATH_CHI = "";
+
     // Loại tiền
     public static final String VND = "VND";
 

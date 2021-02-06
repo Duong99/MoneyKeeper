@@ -57,9 +57,9 @@ public class UtilsPlus {
                         .getSerializable("BUNDLE_CATEGORY");
 
         assert category != null;
-        tvTitleCategory.setText(category.getTitle());
-        ivImageCategory.setImageBitmap(
-                AppUtils.convertPathFileImageAssetsToBitmap(category.getImage(), context));
+//        tvTitleCategory.setText(category.getTitle());
+//        ivImageCategory.setImageBitmap(
+//                AppUtils.convertPathFileImageAssetsToBitmap(category.getImage(), context));
         return category;
     }
 

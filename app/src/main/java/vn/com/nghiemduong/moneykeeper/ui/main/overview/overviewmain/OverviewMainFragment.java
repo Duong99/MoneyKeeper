@@ -135,13 +135,13 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         ArrayList<PieEntry> yEntrys = new ArrayList<>();
 
 
-        for (int i = 0; i < mListMoneyPays.size(); i++) {
-            Drawable d = new BitmapDrawable(getResources(),
-                    AppUtils.convertPathFileImageAssetsToBitmap(mListMoneyPays.get(i).getCategoryPath(),
-                            getContext()));
-            yEntrys.add(new PieEntry(mListMoneyPays.get(i).getAmountOfMoney(),
-                    /*                    mListMoneyPays.get(i).getCategoryName(),*/ d));
-        }
+//        for (int i = 0; i < mListMoneyPays.size(); i++) {
+//            Drawable d = new BitmapDrawable(getResources(),
+//                    AppUtils.convertPathFileImageAssetsToBitmap(mListMoneyPays.get(i).getCategoryPath(),
+//                            getContext()));
+//            yEntrys.add(new PieEntry(mListMoneyPays.get(i).getAmountOfMoney(),
+//                    /*                    mListMoneyPays.get(i).getCategoryName(),*/ d));
+//        }
 
         PieDataSet pieDataSet = new PieDataSet(yEntrys, "lable");
         //pieDataSet.setSliceSpace(9);

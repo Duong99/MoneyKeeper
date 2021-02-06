@@ -141,6 +141,7 @@
     // option account
     <string name="share_account">Chia sẻ tài khoản</string>
     <string name="edit">Sửa</string>
+    <string name="setting">Cài đặt</string>
     <string name="delete">Xóa</string>
     <string name="stop_using">Ngừng sử dụng</string>
 
@@ -187,4 +188,13 @@
 
     <string name="hidden_detail">Ẩn chi tiết</string>
     <string name="more_detail">Thêm chi tiết</string>
+
+    // Sử hạng mục
+    <string name="edit_category">Sửa hạng mục</string>
+    <string name="pay_category">Mục chi</string>
+    <string name="collect_category">Mục thu</string>
+    <string name="add_pay_category">Thêm hạng mục chi</string>
+    <string name="add_collect_category">Thêm hạng mục thu</string>
+    <string name="edit_pay_category">Sửa hạng mục chi</string>
+    <string name="edit_collect_category">Sửa hạng mục thu</string>
 </resources>

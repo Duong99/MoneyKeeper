@@ -6,4 +6,6 @@ package vn.com.nghiemduong.moneykeeper.ui.base;
 public interface MvpView {
 
     void showToast(String message);
+
+    void onBackPressed();
 }

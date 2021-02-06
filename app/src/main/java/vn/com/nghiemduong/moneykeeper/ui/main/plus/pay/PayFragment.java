@@ -22,7 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.MoneyPay.MoneyPayDatabase;
@@ -33,7 +33,7 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCategoriesActivity;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.contact.ContactActivity;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
@@ -113,12 +113,12 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
             mMoneyPay = (MoneyPay) this.getArguments().getSerializable("BUNDLE_MONEY_PAY");
             if (mMoneyPay != null) {
                 etInputMoney.setText(String.valueOf(mMoneyPay.getAmountOfMoney()));
-                ivImageCategoriesPay.setImageBitmap(
-                        AppUtils.convertPathFileImageAssetsToBitmap(mMoneyPay.getCategoryPath(),
-                                getContext()));
-                tvTitleSelectCategoryPay.setText(mMoneyPay.getCategoryName());
-                etExplain.setText(mMoneyPay.getExplain());
-                tvTitleAccountPay.setText(mMoneyPay.getAccountName());
+//                ivImageCategoriesPay.setImageBitmap(
+//                        AppUtils.convertPathFileImageAssetsToBitmap(mMoneyPay.getCategoryPath(),
+//                                getContext()));
+//                tvTitleSelectCategoryPay.setText(mMoneyPay.getCategoryName());
+//                etExplain.setText(mMoneyPay.getExplain());
+//                tvTitleAccountPay.setText(mMoneyPay.getAccountName());
                 tvCalenderPay.setText(mMoneyPay.getDate());
                 tvTimePay.setText(mMoneyPay.getTime());
 
@@ -359,34 +359,36 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                     if (imagePay != null) {
                         image = AppUtils.convertBitmapToByteArray(imagePay);
                     }
-                    if (mMoneyPay == null) { // Thêm chi tiền
-                        mMoneyPay = new MoneyPay(mAccount.getAccountId(),
-                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-                                mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
-                                AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
-                                tvTimePay.getText().toString(), report, image);
-                        long insert = mMoneyPayDatabase.insertMoneyPay(mMoneyPay);
-                        if (insert == DBUtils.checkDBFail) {
-                            showToast(getResources().getString(R.string.insert_pay_fail));
-                        } else {
-                            showToast(getResources().getString(R.string.insert_pay_success));
-                            etInputMoney.setText(getString(R.string._0));
-                            etExplain.setText("");
-                        }
-                    } else { // Sửa chi tiền
-                        mMoneyPay = new MoneyPay(mMoneyPay.getPayId(), mAccount.getAccountId(),
-                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-                                mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
-                                AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
-                                tvTimePay.getText().toString(), report, image);
-                        long update = mMoneyPayDatabase.updateMoneyPay(mMoneyPay);
-                        if (update == DBUtils.checkDBFail) {
-                            showToast(getResources().getString(R.string.update_pay_fail));
-                        } else {
-                            showToast(getResources().getString(R.string.update_pay_success));
-                            getActivity().onBackPressed();
-                        }
-                    }
+//                    if (mMoneyPay == null) { // Thêm chi tiền
+//                        mMoneyPay = new MoneyPay(mAccount.getAccountId(),
+//                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+//                                mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
+//                                AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
+//                                tvTimePay.getText().toString(), report, image);
+//                        long insert = mMoneyPayDatabase.insertMoneyPay(mMoneyPay);
+//                        if (insert == DBUtils.checkDBFail) {
+//                            showToast(getResources().getString(R.string.insert_pay_fail));
+//                        } else {
+//                            showToast(getResources().getString(R.string.insert_pay_success));
+//                            etInputMoney.setText(getString(R.string._0));
+//                            etExplain.setText(null);
+//                        }
+//                        mMoneyPay = null;
+//                    } else { // Sửa chi tiền
+//                        int moneyPrevious = mMoneyPay.getAmountOfMoney();
+//                        mMoneyPay = new MoneyPay(mMoneyPay.getPayId(), mAccount.getAccountId(),
+//                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+//                                mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
+//                                AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
+//                                tvTimePay.getText().toString(), report, image);
+//                        long update = mMoneyPayDatabase.updateMoneyPay(mMoneyPay, moneyPrevious);
+//                        if (update == DBUtils.checkDBFail) {
+//                            showToast(getResources().getString(R.string.update_pay_fail));
+//                        } else {
+//                            showToast(getResources().getString(R.string.update_pay_success));
+//                            onBackPressed();
+//                        }
+//                    }
                 }
                 break;
 
@@ -403,7 +405,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                 break;
 
             case R.id.llDelete:
-                new AttentionDialog(getContext(),
+                new AttentionDialog(Objects.requireNonNull(getContext()),
                         this, AttentionDialog.ATTENTION_DELETE_DATA).show();
                 break;
         }
@@ -433,7 +435,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                     case AppUtils.REQUEST_CODE_IMAGE_FROM_FOLDER:
                         try {
                             Uri uri = data.getData();
-                            imagePay = MediaStore.Images.Media.getBitmap(getContext()
+                            imagePay = MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getContext())
                                     .getContentResolver(), uri);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -444,7 +446,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                         break;
 
                     case AppUtils.REQUEST_CODE_IMAGE_FROM_CAMERA:
-                        imagePay = (Bitmap) data.getExtras().get("data");
+                        imagePay = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
                         ivImageSelectedPay.setImageBitmap(imagePay);
                         llSelectImage.setVisibility(View.GONE);
                         rlContentImage.setVisibility(View.VISIBLE);
@@ -461,7 +463,8 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -475,7 +478,8 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                     showToast(getString(R.string.delete_pay_fail));
                 } else {
                     showToast(getString(R.string.delete_pay_success));
-                    getActivity().onBackPressed();
+                    mMoneyPay = null;
+                    onBackPressed();
                 }
             }
         } catch (Exception e) {

@@ -12,11 +12,14 @@ public interface MoneyPayDatabaseMvpPresenter {
 
     long insertMoneyPay(MoneyPay moneyPay);
 
-    long updateMoneyPay(MoneyPay moneyPay);
+    long updateMoneyPay(MoneyPay moneyPay, int numberMoneyPrevious);
 
     long deleteMoneyPay(MoneyPay moneyPay);
 
-    long updateMoneyOfAccountWhenUpdatePay(int accountId, int numberMoney);
+    long updateMoneyOfAccountWhenInsertPay(int accountId, int numberMoney);
 
     long updateMoneyOfAccountWhenDeletePay(int accountId, int numberMoney);
+
+    long updateMoneyOfAccountWhenUpdatePay(int accountId, int numberMoneyCurrent,
+                                           int numberMoneyPrevious);
 }

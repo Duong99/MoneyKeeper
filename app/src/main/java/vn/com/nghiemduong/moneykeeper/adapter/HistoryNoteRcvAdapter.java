@@ -55,7 +55,7 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
             for (int i = 0; i < mListMoneyPay.size(); i++) {
                 moneyPay = mListMoneyPay.get(i);
                 if (moneyPay != null) {
-                    if (mListTimes.get(position).equals(moneyPay.getDate()
+/*                    if (mListTimes.get(position).equals(moneyPay.getDate()
                             + moneyPay.getTime())) {
                         holder.ivCategoryHistoryNote.setImageBitmap(
                                 AppUtils.convertPathFileImageAssetsToBitmap(moneyPay.getCategoryPath(),
@@ -67,14 +67,14 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                         holder.tvDateHistoryNote.setText(moneyPay.getDate());
                         holder.tvCategoryNameHistoryNote.setText(moneyPay.getCategoryName());
                         break;
-                    }
+                    }*/
                 }
             }
 
             MoneyCollect moneyCollect;
             for (int j = 0; j < mListMoneyCollect.size(); j++) {
                 moneyCollect = mListMoneyCollect.get(j);
-                if (moneyCollect != null) {
+                /*if (moneyCollect != null) {
                     if (mListTimes.get(position).equals(moneyCollect.getDate()
                             + moneyCollect.getTime())) {
                         holder.ivCategoryHistoryNote.setImageBitmap(
@@ -88,7 +88,7 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                         holder.tvCategoryNameHistoryNote.setText(moneyCollect.getCategoryName());
                         break;
                     }
-                }
+                }*/
             }
         }
 

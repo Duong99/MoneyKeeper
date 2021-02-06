@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.categorycollect.CategoryCollectFragment;
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.categoryloan.CategoryLoanFragment;
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.categorypay.CategoryPayFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.collect.CategoryCollectFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.loan.CategoryLoanFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.pay.CategoryPayFragment;
 
 /**
  * - @created_by nxduong on 27/1/2021

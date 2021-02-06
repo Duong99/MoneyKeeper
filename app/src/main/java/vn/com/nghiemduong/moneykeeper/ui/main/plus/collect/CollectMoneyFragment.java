@@ -31,7 +31,7 @@ import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.choosecategories.ChooseCategoriesActivity;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
@@ -39,9 +39,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * -
  * Màn chi thu tiền
- * <p>
  * - @created_by nxduong on 26/1/2021
  **/
 public class CollectMoneyFragment extends BaseFragment implements View.OnClickListener,
@@ -61,7 +59,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
     private MoneyCollectDatabase mMoneyCollectDatabase;
     private Category mCategory;
     private Account mAccount;
-
+    private MoneyCollect mMoneyCollect;
 
     public CollectMoneyFragment() {
         // Required empty public constructor
@@ -74,7 +72,34 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         mView = inflater.inflate(R.layout.fragment_collect_money, container, false);
 
         init();
+        getDataMoneyCollectFromBundle();
         return mView;
+    }
+
+    /**
+     * Hàm lấy dữ liệu đối tượng MoneyColelct khi người dùng click vào để chỉnh sửa hoặc xóa
+     * và set các view tương ứng
+     *
+     * @created_by nxduong on 6/2/2021
+     */
+
+    private void getDataMoneyCollectFromBundle() {
+        if (this.getArguments() != null) {
+            mMoneyCollect = (MoneyCollect) this.getArguments().getSerializable("BUNDLE_MONEY_COLLECT");
+            if (mMoneyCollect != null) {
+                etInputMoney.setText(String.valueOf(mMoneyCollect.getAmountOfMoney()));
+//                ivImageCategoriesCollect.setImageBitmap(
+//                        AppUtils.convertPathFileImageAssetsToBitmap(mMoneyCollect.get(),
+//                                getContext()));
+//                tvTitleSelectCategoryCollect.setText(mMoneyCollect.getCategoryName());
+//                etExplain.setText(mMoneyCollect.getExplain());
+//                tvTitleAccountCollect.setText(mMoneyCollect.getAccountName());
+//                tvCalendarCollect.setText(mMoneyCollect.getDate());
+//                tvTimeCollect.setText(mMoneyCollect.getTime());
+
+                llDelete.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     /**
@@ -232,19 +257,39 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                     if (imageCollect != null) {
                         image = AppUtils.convertBitmapToByteArray(imageCollect);
                     }
-                    MoneyCollect moneyCollect = new MoneyCollect(mAccount.getAccountId(),
-                            Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-                            mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
-                            AppUtils.getEditText(etExplain), tvCalendarCollect.getText().toString(),
-                            tvTimeCollect.getText().toString(), report, image);
-                    long insert = mMoneyCollectDatabase.insertMoneyCollect(moneyCollect);
-                    if (insert == DBUtils.checkDBFail) {
-                        showToast(getResources().getString(R.string.insert_collect_fail));
-                    } else {
-                        showToast(getResources().getString(R.string.insert_collect_success));
-                        etInputMoney.setText(getString(R.string._0));
-                        etExplain.setText("");
-                    }
+//                    if (mMoneyCollect == null) { // Thêm thu tiền
+//                        mMoneyCollect = new MoneyCollect(mAccount.getAccountId(),
+//                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+//
+//                                AppUtils.getEditText(etExplain), tvCalendarCollect.getText().toString(),
+//                                tvTimeCollect.getText().toString(), report, image);
+//                        long insert = mMoneyCollectDatabase.insertMoneyCollect(mMoneyCollect);
+//                        if (insert == DBUtils.checkDBFail) {
+//                            showToast(getResources().getString(R.string.insert_collect_fail));
+//                            mMoneyCollect = null;
+//                        } else {
+//                            showToast(getResources().getString(R.string.insert_collect_success));
+//                            etInputMoney.setText(getString(R.string._0));
+//                            etExplain.setText(null);
+//                            mMoneyCollect = null;
+//                        }
+//                    } else { // Sửa thu tiền
+//                        int moneyPrevious = mMoneyCollect.getAmountOfMoney();
+//                        mMoneyCollect = new MoneyCollect(mAccount.getAccountId(),
+//                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+//                                mCategory.getCategoryName(), mCategory.getCategoryPath(), mAccount.getAccountName(),
+//                                AppUtils.getEditText(etExplain), tvCalendarCollect.getText().toString(),
+//                                tvTimeCollect.getText().toString(), report, image);
+//                        long update = mMoneyCollectDatabase.updateMoneyCollect(mMoneyCollect, moneyPrevious);
+//                        if (update == DBUtils.checkDBFail) {
+//                            showToast(getResources().getString(R.string.update_collect_fail));
+//                        } else {
+//                            showToast(getResources().getString(R.string.update_collect_success));
+//                            etInputMoney.setText(getString(R.string._0));
+//                            etExplain.setText(null);
+//                            onBackPressed();
+//                        }
+//                    }
                 }
                 break;
 
@@ -314,6 +359,17 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void onClickYesDelete() {
-
+        try {
+            if (mMoneyCollect != null) {
+                long delete = mMoneyCollectDatabase.deleteMoneyCollect(mMoneyCollect);
+                if (delete == DBUtils.checkDBFail) {
+                    showToast(getString(R.string.delete_collect_fail));
+                } else {
+                    showToast(getString(R.string.delete_collect_success));
+                }
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 }

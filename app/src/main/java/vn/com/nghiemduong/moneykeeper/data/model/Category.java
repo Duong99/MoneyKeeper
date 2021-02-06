@@ -1,7 +1,5 @@
 package vn.com.nghiemduong.moneykeeper.data.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,39 +9,68 @@ import java.util.ArrayList;
  **/
 public class Category implements Serializable {
 
-    private String imagePath;
-
-    private String title;
-
+    private int categoryId; //(INTEGER) : id của hạng mục (category)
+    private String categoryName;//(TEXT) :Tên của hạng mục (category)
+    private String categoryPath; //(TEXT) : tên file ảnh
+    private String explain; //(TEXT): chú giải
+    private int type; // (INTEGER) lại hạng mục Chi Tiền (-1), Thu Tiền (1), Vay nợ (0)
     private ArrayList<SubCategory> subCategories;
 
-    // Hàm tạo có hạng mục con
-    public Category(String imagePath, String title, ArrayList<SubCategory> subCategories) {
-        this.imagePath = imagePath;
-        this.title = title;
+    public Category(int categoryId, String categoryName, String categoryPath, String explain,
+                    int type, ArrayList<SubCategory> subCategories) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryPath = categoryPath;
+        this.explain = explain;
+        this.type = type;
         this.subCategories = subCategories;
     }
 
-    // Hàm tạo không có hạng mục con
-    public Category(String imagePath, String title) {
-        this.imagePath = imagePath;
-        this.title = title;
+    public Category(int categoryId, String categoryName, String categoryPath, String explain, int type) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryPath = categoryPath;
+        this.explain = explain;
+        this.type = type;
     }
 
-    public String getImage() {
-        return imagePath;
+    public Category(String categoryName, String categoryPath, String explain, int type) {
+        this.categoryName = categoryName;
+        this.categoryPath = categoryPath;
+        this.explain = explain;
+        this.type = type;
     }
 
-    public void setImage(String image) {
-        this.imagePath = image;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public String getTitle() {
-        return title;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getCategoryPath() {
+        return categoryPath;
+    }
+
+    public void setCategoryPath(String categoryPath) {
+        this.categoryPath = categoryPath;
+    }
+
+    public String getExplain() {
+        return explain;
+    }
+
+    public void setExplain(String explain) {
+        this.explain = explain;
     }
 
     public ArrayList<SubCategory> getSubCategories() {
@@ -52,5 +79,13 @@ public class Category implements Serializable {
 
     public void setSubCategories(ArrayList<SubCategory> subCategories) {
         this.subCategories = subCategories;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

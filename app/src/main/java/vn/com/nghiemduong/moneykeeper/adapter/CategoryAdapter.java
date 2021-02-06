@@ -25,22 +25,19 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  **/
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
-        implements SubCategoryPayAdapter.IOnClickSubCategoryPay {
+        implements SubCategoryAdapter.IOnClickSubCategoryPay {
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
 
-    public final static int NO_SUBCATEGORY = 0; //
-    public final static int SUBCATEGORY = 1; //
-    private int mKeyCategory = -1; // Biến kiểm tra chọng hạng mục có hạng mục con không
     private Context mContext;
     private ArrayList<Category> mListCategories;
     private IOnClickCategory mIOnClickCategory;
 
+
     public CategoryAdapter(Context mContext, ArrayList<Category> mListCategories,
-                           IOnClickCategory onClickCategory, int keyCategory) {
+                           IOnClickCategory onClickCategory) {
         this.mContext = mContext;
         this.mListCategories = mListCategories;
         this.mIOnClickCategory = onClickCategory;
-        this.mKeyCategory = keyCategory;
     }
 
     @NonNull
@@ -53,26 +50,29 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.ivImageCategoryPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
-                mListCategories.get(position).getImage(), mContext));
-        holder.tvTitleCategoryPay.setText(mListCategories.get(position).getTitle());
+        Category category = mListCategories.get(position);
+        if (category != null) {
+            holder.ivImageCategoryPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                    category.getCategoryPath(), mContext));
+            holder.tvTitleCategoryPay.setText(category.getCategoryName());
 
-        if (mKeyCategory != NO_SUBCATEGORY) {
-            GridLayoutManager linearLayoutManager =
-                    new GridLayoutManager(holder.rcvSubCategoryPay.getContext(), 4);
-            linearLayoutManager.setInitialPrefetchItemCount(
-                    mListCategories.get(position).getSubCategories().size());
+            ArrayList<SubCategory> mListSubCategories = category.getSubCategories();
+            if (mListSubCategories == null || mListSubCategories.size() == 0) {
+                holder.rcvSubCategoryPay.setVisibility(View.GONE);
+            } else {
+                GridLayoutManager linearLayoutManager =
+                        new GridLayoutManager(holder.rcvSubCategoryPay.getContext(), 4);
+                linearLayoutManager.setInitialPrefetchItemCount(
+                        mListSubCategories.size());
 
-            SubCategoryPayAdapter subCategoryPayAdapter =
-                    new SubCategoryPayAdapter(
-                            mContext, mListCategories.get(position).getSubCategories(),
-                            CategoryAdapter.this);
+                SubCategoryAdapter subCategoryPayAdapter =
+                        new SubCategoryAdapter(mContext, mListSubCategories,
+                                CategoryAdapter.this);
 
-            holder.rcvSubCategoryPay.setLayoutManager(linearLayoutManager);
-            holder.rcvSubCategoryPay.setAdapter(subCategoryPayAdapter);
-            holder.rcvSubCategoryPay.setRecycledViewPool(recycledViewPool);
-        } else {
-            holder.rcvSubCategoryPay.setVisibility(View.GONE);
+                holder.rcvSubCategoryPay.setLayoutManager(linearLayoutManager);
+                holder.rcvSubCategoryPay.setAdapter(subCategoryPayAdapter);
+                holder.rcvSubCategoryPay.setRecycledViewPool(recycledViewPool);
+            }
         }
     }
 

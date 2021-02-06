@@ -5,13 +5,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.plus.choosecategories.ChooseCategoriesActivity">
+    tools:context=".ui.main.category.choose.ChooseCategoriesActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbChooseCategory"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:titleTextColor="@color/white"
         app:title="@string/select_item"
+        app:menu="@menu/menu_edit_filter_category"
         android:background="@color/blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

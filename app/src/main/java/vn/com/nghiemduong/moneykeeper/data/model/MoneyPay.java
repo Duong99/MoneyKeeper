@@ -1,35 +1,34 @@
 package vn.com.nghiemduong.moneykeeper.data.model;
 
+import com.google.gson.internal.$Gson$Preconditions;
+
 import java.io.Serializable;
 
 /**
  * private
  * Đối tượng thu MoneyCollect khi người dùng thêm chi tiền
  * <p>
- * private @created_by nxduong on
+ * private @created_by nxduong on 3/2/2021
  **/
 public class MoneyPay implements Serializable {
-    private int payId;  // 	(INTEGER) : id chi tiền
-    private int accountId;  //	(INTEGER) : id tài khoản
+    private int payId;          // 	(INTEGER) : id chi tiền
+    private int accountId;      //	(INTEGER) : id tài khoản
     private int amountOfMoney;  // (INTEGER): Số tiền thu
-    private String categoryName;    //  (TEXT) : Tên hạng mục thu
-    private String categoryPath;    //  (TEXT) : Đường dẫn ảnh của tên hạng mục trong assets
-    private String accountName; //	(TEXT)  : Tên tài khoản
-    private String explain; //	(TEXT): Diễn giải
-    private String date;    //	(TEXT) : Thời gian (ngày / tháng / năm)
-    private String time;    //	(TEXT) : Thời gian ( Giờ : Phút)
-    private int report;     //(INTEGER): Có tính vào báo cáo không 1 là có, 0 là không
-    private byte[] image;   //(BOLD): Ảnh
+    private int categoryId;     //(INTEGER) : id của category cha
+    private int subCategoryId;  //(INTEGER) : id của category con
+    private String explain;     //	(TEXT): Diễn giải
+    private String date;        //	(TEXT) : Thời gian (ngày / tháng / năm)
+    private String time;        //	(TEXT) : Thời gian ( Giờ : Phút)
+    private int report;         //(INTEGER): Có tính vào báo cáo không 1 là có, 0 là không
+    private byte[] image;       //(BOLD): Ảnh
 
-    public MoneyPay(int payId, int accountId, int amountOfMoney, String categoryName,
-                    String categoryPath, String accountName, String explain, String date,
-                    String time, int report, byte[] image) {
+    public MoneyPay(int payId, int accountId, int amountOfMoney, int categoryId, int subCategoryId,
+                    String explain, String date, String time, int report, byte[] image) {
         this.payId = payId;
         this.accountId = accountId;
         this.amountOfMoney = amountOfMoney;
-        this.categoryName = categoryName;
-        this.categoryPath = categoryPath;
-        this.accountName = accountName;
+        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
         this.explain = explain;
         this.date = date;
         this.time = time;
@@ -37,14 +36,12 @@ public class MoneyPay implements Serializable {
         this.image = image;
     }
 
-    public MoneyPay(int accountId, int amountOfMoney, String categoryName, String categoryPath,
-                    String accountName, String explain, String date, String time, int report,
-                    byte[] image) {
+    public MoneyPay(int accountId, int amountOfMoney, int categoryId, int subCategoryId,
+                    String explain, String date, String time, int report, byte[] image) {
         this.accountId = accountId;
         this.amountOfMoney = amountOfMoney;
-        this.categoryName = categoryName;
-        this.categoryPath = categoryPath;
-        this.accountName = accountName;
+        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
         this.explain = explain;
         this.date = date;
         this.time = time;
@@ -76,28 +73,20 @@ public class MoneyPay implements Serializable {
         this.amountOfMoney = amountOfMoney;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getCategoryPath() {
-        return categoryPath;
+    public int getSubCategoryId() {
+        return subCategoryId;
     }
 
-    public void setCategoryPath(String categoryPath) {
-        this.categoryPath = categoryPath;
-    }
-
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public void setSubCategoryId(int subCategoryId) {
+        this.subCategoryId = subCategoryId;
     }
 
     public String getExplain() {

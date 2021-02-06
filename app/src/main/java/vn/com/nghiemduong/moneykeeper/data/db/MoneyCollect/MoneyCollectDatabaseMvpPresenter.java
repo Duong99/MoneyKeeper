@@ -12,9 +12,14 @@ public interface MoneyCollectDatabaseMvpPresenter {
 
     long insertMoneyCollect(MoneyCollect moneyCollect);
 
-    long updateMoneyCollect(MoneyCollect moneyCollect);
+    long updateMoneyCollect(MoneyCollect moneyCollect, int numberMoneyPrevious);
 
-    long deleteMoneyCollect(int moneyCollectId);
+    long deleteMoneyCollect(MoneyCollect moneyCollect);
 
-    long updateMoneyOfAccountWhenCollect(int accountId, int numberMoney);
+    long updateMoneyOfAccountWhenInsertCollect(int accountId, int numberMoney);
+
+    long updateMoneyOfAccountWhenDeleteCollect(int accountId, int numberMoney);
+
+    long updateMoneyOfAccountWhenUpdateCollect(int accountId, int numberMoneyCurrent,
+                                               int numberMoneyPrevious);
 }
