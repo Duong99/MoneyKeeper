@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/bg_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.category.update.add.AddCategoryActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/TextViewTitleBar"
+                android:layout_centerInParent="true"
+                android:text="@string/add_collect_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_add_category">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="@dimen/height_add_category"
+            android:layout_height="@dimen/height_add_category">
+
+            <ImageView
+                android:id="@+id/ivIconCategoryAdd"
+                android:background="@drawable/thu_unknow"
+                android:layout_width="@dimen/height_width_image_icon_large_add_category"
+                android:layout_height="@dimen/height_width_image_icon_large_add_category" />
+
+            <TextView
+                android:layout_marginTop="@dimen/margin_small"
+                android:textColor="@color/blue"
+                android:text="@string/select_icon"
+                android:textSize="@dimen/font_small"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etNameCategoryAdd"
+            android:textSize="@dimen/font_medium"
+            android:textColor="@color/black_text_normal"
+            android:hint="@string/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <include layout="@layout/view_line" />
+
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_layout_icon_small">
+
+        <RelativeLayout
+            android:layout_width="@dimen/height_add_category"
+            android:layout_height="@dimen/height_layout_icon_small">
+
+            <ImageView
+                android:id="@+id/ivIconCategoryParentAdd"
+                android:layout_centerInParent="true"
+                android:background="@drawable/thu_unknow"
+                android:layout_width="@dimen/height_width_image_icon_small_add_category"
+                android:layout_height="@dimen/height_width_image_icon_small_add_category" />
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/item_layout_explain" />
+
+    <LinearLayout
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:layout_margin="@dimen/margin_large"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/item_layout_delete" />
+
+        <include
+            android:layout_margin="@dimen/margin_large"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/item_button_save" />
+
+    </LinearLayout>
+
+</LinearLayout>

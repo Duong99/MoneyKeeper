@@ -78,4 +78,12 @@
     <dimen name="height_input_money">50dp</dimen>
     <dimen name="height_account">65dp</dimen>
 
+    <dimen name="height_category_edit">55dp</dimen>
+    <dimen name="width_category_edit_content_image">90dp</dimen>
+
+    <dimen name="height_add_category">80dp</dimen>
+    <dimen name="height_width_image_icon_large_add_category">35dp</dimen>
+    <dimen name="height_width_image_icon_small_add_category">30dp</dimen>
+    <dimen name="height_layout_icon_small">60dp</dimen>
+
 </resources>

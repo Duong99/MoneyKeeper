@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_category_edit">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="@dimen/width_category_edit_content_image"
+            android:layout_height="@dimen/height_category_edit">
+
+            <ImageView
+                android:layout_marginEnd="@dimen/margin_small"
+                android:id="@+id/ivExpandCategoryEdit"
+                android:backgroundTint="@color/gray_image_bottom_sheet"
+                android:background="@drawable/ic_arrow_up"
+                android:layout_width="@dimen/height_width_ic_picture_spinner"
+                android:layout_height="@dimen/height_width_ic_picture_spinner" />
+
+            <ImageView
+                android:layout_marginStart="@dimen/margin_small"
+                android:id="@+id/ivImageCategoryEdit"
+                android:layout_width="@dimen/height_width_image_account"
+                android:layout_height="@dimen/height_width_image_account" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_category_edit">
+
+            <TextView
+                android:layout_centerVertical="true"
+                style="@style/TextViewNormalBlack"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/tvTitleCategoryEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_view_line"
+                android:layout_alignParentBottom="true" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvSubCategoryEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_large" />
+
+</LinearLayout>

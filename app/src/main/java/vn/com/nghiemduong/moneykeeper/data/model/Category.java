@@ -41,6 +41,17 @@ public class Category implements Serializable {
         this.type = type;
     }
 
+    /**
+     * Dùng hiển thị lên recycler chỉ hiển thị ảnh
+     *
+     * @param categoryPath đường dẫn icon từ folder asset
+     *                     - {@link vn.com.nghiemduong.moneykeeper.adapter.IconCategoryAdapter}
+     * @created_by nxduong on
+     */
+    public Category(String categoryPath) {
+        this.categoryPath = categoryPath;
+    }
+
     public int getCategoryId() {
         return categoryId;
     }

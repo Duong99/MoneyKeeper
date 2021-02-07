@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="@dimen/height_item_plus">
 
 
@@ -20,6 +21,7 @@
     </RelativeLayout>
 
     <EditText
+        android:background="@drawable/bg_et_enter_money"
         android:id="@+id/etExplain"
         android:layout_toEndOf="@id/rlImageExplain"
         android:layout_width="match_parent"

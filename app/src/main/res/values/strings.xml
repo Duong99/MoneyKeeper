@@ -197,4 +197,7 @@
     <string name="add_collect_category">Thêm hạng mục thu</string>
     <string name="edit_pay_category">Sửa hạng mục chi</string>
     <string name="edit_collect_category">Sửa hạng mục thu</string>
+    <string name="select_icon">Chọn icon</string>
+    <string name="name_category">Tên hạng mục</string>
+    <string name="select_category_parent">Chọn hạng mục cha</string>
 </resources>
