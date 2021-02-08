@@ -40,8 +40,9 @@ public class AppUtils {
     public static final int VAY_NO = 0;
 
     // Path
-    public static final String PATH_THU = "assets/ImageCategory/THU";
-    public static final String PATH_CHI = "assets/ImageCategory/CHI";
+    public static final String PATH_THU = "assets/ImageCategory/THU/";
+    public static final String PATH_CHI = "assets/ImageCategory/CHI/";
+    public static final String PATH_UN_KNOW = "assets/ImageCategory/CHI/UnKnow.png";
 
     // Loại tiền
     public static final String VND = "VND";

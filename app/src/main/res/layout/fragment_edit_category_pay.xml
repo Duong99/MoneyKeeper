@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.category.update.pay.EditCategoryPayFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,6 +15,8 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddCategoryPay"
         android:background="@color/blue"
+        app:fabSize="normal"
+        android:src="@drawable/ic_action_plus"
         android:layout_margin="@dimen/margin_large"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

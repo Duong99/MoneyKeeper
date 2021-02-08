@@ -66,6 +66,7 @@
     <string name="object_collect_spend">Đối tượng thu/chi</string>
     <string name="journey_event">Chuyến đi/Sự kiện</string>
     <string name="finance_analysis">Phân tích tài chính</string>
+    <string name="not_select">(Không chọn)</string>
 
     //money
     <string name="money">Tiền</string>
@@ -198,6 +199,8 @@
     <string name="edit_pay_category">Sửa hạng mục chi</string>
     <string name="edit_collect_category">Sửa hạng mục thu</string>
     <string name="select_icon">Chọn icon</string>
+    <string name="choose_icon">Chọn biểu tượng</string>
     <string name="name_category">Tên hạng mục</string>
     <string name="select_category_parent">Chọn hạng mục cha</string>
+    <string name="category_parent">Hạng mục cha</string>
 </resources>

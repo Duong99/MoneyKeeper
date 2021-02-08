@@ -21,6 +21,7 @@
     </RelativeLayout>
 
     <EditText
+        android:maxLength="255"
         android:background="@drawable/bg_et_enter_money"
         android:id="@+id/etExplain"
         android:layout_toEndOf="@id/rlImageExplain"

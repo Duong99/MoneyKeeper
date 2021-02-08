@@ -18,12 +18,14 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/ivCloseAddCategory"
                 android:layout_centerVertical="true"
                 android:background="@drawable/ic_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/tvTitleAddCategory"
                 style="@style/TextViewTitleBar"
                 android:layout_centerInParent="true"
                 android:text="@string/add_collect_category"
@@ -31,6 +33,7 @@
                 android:layout_height="wrap_content" />
 
             <ImageView
+                android:id="@+id/ivDoneAddCategory"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:layout_alignParentEnd="true"
@@ -69,18 +72,21 @@
         </LinearLayout>
 
         <EditText
+            android:maxLength="255"
+            android:background="@drawable/bg_et_enter_money"
             android:id="@+id/etNameCategoryAdd"
             android:textSize="@dimen/font_medium"
             android:textColor="@color/black_text_normal"
-            android:hint="@string/name"
+            android:hint="@string/name_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/height_item_plus" />
     </LinearLayout>
 
     <include layout="@layout/view_line" />
 
     <LinearLayout
-        android:background="@color/white"
+        android:id="@+id/llSelectCategoryParent"
+        android:background="@drawable/bg_select_ripple_gray"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_layout_icon_small">
@@ -98,14 +104,65 @@
         </RelativeLayout>
 
         <RelativeLayout
-
+            android:background="@drawable/bg_select_ripple_gray"
+            android:id="@+id/rlSelectCategoryParent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-
+                android:gravity="center"
+                android:text="@string/select_category_parent"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_marginEnd="@dimen/margin_large"
+                android:backgroundTint="@color/gray_image_bottom_sheet"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_arrow_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rlSelectedCategoryParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textSize="@dimen/font_small"
+                    android:text="@string/select_category_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/TextViewNormalBlack"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:id="@+id/tvTitleIconParent"
+                    android:textSize="@dimen/font_large"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivCloseSelectedCategoryParent"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:backgroundTint="@color/gray_image_bottom_sheet"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
     </LinearLayout>
 

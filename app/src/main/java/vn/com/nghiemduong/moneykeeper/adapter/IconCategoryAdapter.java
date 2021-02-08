@@ -22,10 +22,13 @@ public class IconCategoryAdapter extends RecyclerView.Adapter<IconCategoryAdapte
 
     private Context mContext;
     private ArrayList<Category> mListCategory; // Chỉ lưu trường categoryPath
+    private IOnClickIconCategory mIOnClickIconCategory;
 
-    public IconCategoryAdapter(Context context, ArrayList<Category> listCategory) {
+    public IconCategoryAdapter(Context context, ArrayList<Category> listCategory,
+                               IOnClickIconCategory onClickIconCategory) {
         this.mContext = context;
         this.mListCategory = listCategory;
+        this.mIOnClickIconCategory = onClickIconCategory;
     }
 
     @NonNull
@@ -58,6 +61,20 @@ public class IconCategoryAdapter extends RecyclerView.Adapter<IconCategoryAdapte
             super(itemView);
 
             ivIconCategory = itemView.findViewById(R.id.ivIconCategory);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mIOnClickIconCategory.onClickIcon(mListCategory.get(position));
+                    }
+                }
+            });
         }
+    }
+
+    public interface IOnClickIconCategory {
+        void onClickIcon(Category category);
     }
 }

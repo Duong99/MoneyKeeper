@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_select_ripple_gray"
+    android:layout_height="@dimen/height_category_edit">
+
+    <RelativeLayout
+        android:id="@+id/rlImageTripEvent"
+        android:layout_width="@dimen/width_item_image_plus"
+        android:layout_height="@dimen/height_item_plus">
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:id="@+id/ivPictureCategoryParent"
+            android:layout_width="@dimen/height_width_image_account"
+            android:layout_height="@dimen/height_width_image_account" />
+    </RelativeLayout>
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/ivTickCategoryParent"
+        android:layout_width="@dimen/height_width_image_normal"
+        android:layout_height="@dimen/height_width_image_normal"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/margin_large"
+        android:background="@drawable/ic_tick" />
+
+    <TextView
+        android:id="@+id/tvTitleCategoryParent"
+        style="@style/TextViewNormalBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/rlImageTripEvent"
+        android:text="@string/name_category" />
+
+    <include
+        android:layout_alignParentBottom="true"
+        layout="@layout/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_view_line"
+        android:layout_toEndOf="@id/rlImageTripEvent" />
+</RelativeLayout>

@@ -3,6 +3,7 @@ package vn.com.nghiemduong.moneykeeper.ui.main.category.update.pay;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,8 @@ import vn.com.nghiemduong.moneykeeper.adapter.CategoryEditAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.add.AddCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Màn hình sửa MỤC CHI
@@ -69,8 +72,23 @@ public class EditCategoryPayFragment extends Fragment implements View.OnClickLis
         switch (v.getId()) {
             case R.id.fabAddCategoryPay:
                 Intent intent = new Intent(getContext(), AddCategoryActivity.class);
-                startActivity(intent);
+                intent.putExtra(AddCategoryActivity.VALUE_REQUEST,
+                        AddCategoryActivity.REQUEST_CODE_KEY_CATEGORY_PAY);
+                intent.putExtra(AddCategoryActivity.VALUE_STATUS, AddCategoryActivity.STATUS_ADD);
+                startActivityForResult(intent, AddCategoryActivity.REQUEST_CODE_KEY_CATEGORY_PAY);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (data != null) {
+                if (requestCode == AddCategoryActivity.REQUEST_CODE_KEY_CATEGORY_PAY) {
+
+                }
+            }
         }
     }
 }
