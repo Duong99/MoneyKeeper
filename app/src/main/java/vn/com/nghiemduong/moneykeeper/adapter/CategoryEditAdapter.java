@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.internal.$Gson$Preconditions;
+
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
@@ -21,15 +23,42 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 /**
  * - @created_by nxduong on 7/2/2021
  **/
-public class CategoryEditAdapter extends RecyclerView.Adapter<CategoryEditAdapter.ViewHolder> {
+public class CategoryEditAdapter extends RecyclerView.Adapter<CategoryEditAdapter.ViewHolder>
+        implements SubCategoryEditAdapter.IOnClickSubCategoryEditView {
 
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
     private Context mContext;
     private ArrayList<Category> mListCategory;
+    private IOnClickCategoryParentEditView mIOnClickCategoryParentEditView;
+    private SubCategoryEditAdapter mSubCategoryEditAdapter;
 
-    public CategoryEditAdapter(Context context, ArrayList<Category> listCategory) {
+
+    public CategoryEditAdapter(Context context, ArrayList<Category> listCategory,
+                               IOnClickCategoryParentEditView onClickCategoryParentEditView) {
         this.mContext = context;
         this.mListCategory = listCategory;
+        this.mIOnClickCategoryParentEditView = onClickCategoryParentEditView;
+    }
+
+    public SubCategoryEditAdapter getSubCategoryEditAdapter() {
+        return mSubCategoryEditAdapter;
+    }
+
+    // Thêm hạng mục cha
+    public void addParentCategory(Category category) {
+        if (category != null) {
+            mListCategory.add(category);
+            notifyDataSetChanged();
+        }
+    }
+
+    // Xóa hạng mục cha vào xóa luôn hạng mục con
+    public void deleteParentCategory(Category category) {
+        if (category != null && mSubCategoryEditAdapter != null) {
+            mListCategory.remove(category);
+            mSubCategoryEditAdapter.deleteAllSubCategory();
+            notifyDataSetChanged();
+        }
     }
 
     @NonNull
@@ -55,11 +84,11 @@ public class CategoryEditAdapter extends RecyclerView.Adapter<CategoryEditAdapte
             } else {
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
 
-                SubCategoryEditAdapter subCategoryEditAdapter =
-                        new SubCategoryEditAdapter(mContext, mListSubCategories);
+                mSubCategoryEditAdapter = new SubCategoryEditAdapter(mContext, mListSubCategories,
+                        this);
 
                 holder.rcvSubCategoryEdit.setLayoutManager(layoutManager);
-                holder.rcvSubCategoryEdit.setAdapter(subCategoryEditAdapter);
+                holder.rcvSubCategoryEdit.setAdapter(mSubCategoryEditAdapter);
                 holder.rcvSubCategoryEdit.setRecycledViewPool(recycledViewPool);
             }
         }
@@ -68,6 +97,11 @@ public class CategoryEditAdapter extends RecyclerView.Adapter<CategoryEditAdapte
     @Override
     public int getItemCount() {
         return mListCategory.size();
+    }
+
+    @Override
+    public void onClickSubCategory(SubCategory subCategory) {
+        mIOnClickCategoryParentEditView.onClickSubCategory(subCategory);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -91,6 +125,27 @@ public class CategoryEditAdapter extends RecyclerView.Adapter<CategoryEditAdapte
                     notifyDataSetChanged();
                 }
             });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mIOnClickCategoryParentEditView
+                                    .onClickCategoryParent(mListCategory.get(position));
+                        }
+                    } catch (Exception e) {
+                        AppUtils.handlerException(e);
+                    }
+                }
+            });
         }
+    }
+
+    public interface IOnClickCategoryParentEditView {
+        void onClickCategoryParent(Category categoryParent);
+
+        void onClickSubCategory(SubCategory subCategory);
     }
 }

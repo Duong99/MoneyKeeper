@@ -42,7 +42,7 @@ public class AppUtils {
     // Path
     public static final String PATH_THU = "assets/ImageCategory/THU/";
     public static final String PATH_CHI = "assets/ImageCategory/CHI/";
-    public static final String PATH_UN_KNOW = "assets/ImageCategory/CHI/UnKnow.png";
+    public static final String PATH_UN_KNOW = "assets/ImageCategory/CHI/CHI_UnKnow.png";
 
     // Loại tiền
     public static final String VND = "VND";

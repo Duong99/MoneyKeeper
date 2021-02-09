@@ -20,6 +20,7 @@ import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.UpdateCategoryActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * -    Màn hình chọn hạn mục
@@ -35,7 +36,6 @@ public class ChooseCategoriesActivity extends BaseActivity {
     private Toolbar tbChooseCategory;
     private ViewPagerChooseCategoryAdapter mChooseCategoryAdapter;
     private CategoryDatabase mCategoryDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +56,13 @@ public class ChooseCategoriesActivity extends BaseActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.item_edit_category:
-                        Intent intent = new Intent(ChooseCategoriesActivity.this,
-                                UpdateCategoryActivity.class);
-                        startActivity(intent);
+                        try {
+                            Intent intent = new Intent(ChooseCategoriesActivity.this,
+                                    UpdateCategoryActivity.class);
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            AppUtils.handlerException(e);
+                        }
                         break;
 
                     case R.id.item_setting_category:
@@ -75,6 +79,7 @@ public class ChooseCategoriesActivity extends BaseActivity {
         tlChooseCategory = findViewById(R.id.tlChooseCategory);
         vpChooseCategory = findViewById(R.id.vpChooseCategory);
         tbChooseCategory = findViewById(R.id.tbChooseCategory);
+
         setSupportActionBar(tbChooseCategory);
 
         mChooseCategoryAdapter = new ViewPagerChooseCategoryAdapter(getSupportFragmentManager());

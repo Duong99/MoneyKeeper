@@ -18,6 +18,7 @@ import vn.com.nghiemduong.moneykeeper.adapter.CategoryParentAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.update.add.AddCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -34,6 +35,7 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
     private CategoryParentAdapter mCategoryParentAdapter;
     private ImageView ivTickCategoryParent;
     private int mCategoryParentID = -1; // id của category parent đã được chọn
+    private int mKey = -1; // Kiểm tra xem là hạng mục nào thu hay chi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
      * @created_by nxduong on 8/2/2021
      */
     private void init() {
+        mKey = getIntent().getIntExtra(AddCategoryActivity.VALUE_REQUEST, -1);
         mCategoryParentID = getIntent().getIntExtra("CATEGORY_PARENT_ID", -1);
         ivTickCategoryParent = findViewById(R.id.ivTickCategoryParent);
 
@@ -67,9 +70,18 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
         rcvCategoryParent.setLayoutManager(layoutManager);
 
         mCategoryDatabase = new CategoryDatabase(this);
-        mCategoryParentAdapter = new CategoryParentAdapter(this,
-                mCategoryDatabase.getAllCategory(AppUtils.CHI_TIEN, this),
-                this, mCategoryParentID);
+        if (mKey == AddCategoryActivity.REQUEST_CODE_KEY_CATEGORY_COLLECT) {
+            mCategoryParentAdapter = new CategoryParentAdapter(this,
+                    mCategoryDatabase.getAllCategory(AppUtils.THU_TIEN, this),
+                    this, mCategoryParentID);
+        }
+
+        if (mKey == AddCategoryActivity.REQUEST_CODE_KEY_CATEGORY_PAY) {
+            mCategoryParentAdapter = new CategoryParentAdapter(this,
+                    mCategoryDatabase.getAllCategory(AppUtils.CHI_TIEN, this),
+                    this, mCategoryParentID);
+        }
+
         rcvCategoryParent.setAdapter(mCategoryParentAdapter);
     }
 
@@ -82,7 +94,11 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClickCategoryParent(Category category) {
-        onFinishSelectCategoryParent(category);
+        try {
+            onFinishSelectCategoryParent(category);
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 
     @Override
@@ -105,11 +121,15 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
      * @created_by nxduong on 8/2/2021
      */
     private void onFinishSelectCategoryParent(Category category) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("BUNDLE_CATEGORY_PARENT", category);
-        intent.putExtra("BUNDLE", bundle);
-        setResult(RESULT_OK, intent);
-        finish();
+        try {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("BUNDLE_CATEGORY_PARENT", category);
+            intent.putExtra("BUNDLE", bundle);
+            setResult(RESULT_OK, intent);
+            finish();
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 }

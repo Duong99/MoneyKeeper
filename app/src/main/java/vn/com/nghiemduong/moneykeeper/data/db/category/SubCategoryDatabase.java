@@ -8,10 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.common.api.ApiException;
+
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 /**
@@ -58,18 +61,23 @@ public class SubCategoryDatabase extends SQLiteOpenHelper implements SubCategory
         ArrayList<SubCategory> listSubCategories = new ArrayList<>();
         String query = "SELECT * FROM " + NAME_TABLE_SUBCATEGORY
                 + " WHERE " + CATEGORY_ID + " = " + categoryId;
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                SubCategory account = new SubCategory(cursor.getInt(0),
-                        cursor.getInt(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4));
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    SubCategory account = new SubCategory(cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4));
 
-                listSubCategories.add(account);
-            } while (cursor.moveToNext());
+                    listSubCategories.add(account);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
         }
+
         db.close();
         return listSubCategories;
     }
@@ -87,15 +95,19 @@ public class SubCategoryDatabase extends SQLiteOpenHelper implements SubCategory
         SubCategory account = null;
         String query = "SELECT * FROM " + NAME_TABLE_SUBCATEGORY +
                 " WHERE " + SUB_ID + " = " + subCategoryId;
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                account = new SubCategory(cursor.getInt(0),
-                        cursor.getInt(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4));
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    account = new SubCategory(cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4));
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
         }
         db.close();
         return account;
@@ -116,12 +128,15 @@ public class SubCategoryDatabase extends SQLiteOpenHelper implements SubCategory
         values.put(SUB_NAME, subCategory.getSubCategoryName());
         values.put(SUB_PATH, subCategory.getSubCategoryPath());
         values.put(SUB_EXPLAIN, subCategory.getExplain());
-        long insert = db.insert(NAME_TABLE_SUBCATEGORY, null, values);
-
+        long insert = DBUtils.checkDBFail;
+        try {
+            insert = db.insert(NAME_TABLE_SUBCATEGORY, null, values);
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
         db.close();
         return insert;
     }
-
 
     /**
      * Cập nhật dữ dữ liệu subCategory vào trong bảng  SubCategory
@@ -129,7 +144,6 @@ public class SubCategoryDatabase extends SQLiteOpenHelper implements SubCategory
      * @param subCategory đối tượng cập nhật
      * @created_by nxduong on 6/2/2021
      */
-
 
     @Override
     public long updateSubCategory(SubCategory subCategory) {
@@ -139,8 +153,13 @@ public class SubCategoryDatabase extends SQLiteOpenHelper implements SubCategory
         values.put(SUB_NAME, subCategory.getSubCategoryName());
         values.put(SUB_PATH, subCategory.getSubCategoryPath());
         values.put(SUB_EXPLAIN, subCategory.getExplain());
-        long update = db.update(NAME_TABLE_SUBCATEGORY, values, SUB_ID + " = ? ",
-                new String[]{String.valueOf(subCategory.getCategoryId())});
+        long update = DBUtils.checkDBFail;
+        try {
+            update = db.update(NAME_TABLE_SUBCATEGORY, values, SUB_ID + " = ? ",
+                    new String[]{String.valueOf(subCategory.getSubCategoryId())});
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
 
         db.close();
         return update;
@@ -156,8 +175,14 @@ public class SubCategoryDatabase extends SQLiteOpenHelper implements SubCategory
     @Override
     public long deleteSubCategory(int subCategoryId) {
         db = this.getWritableDatabase();
-        long delete = db.delete(NAME_TABLE_SUBCATEGORY, SUB_ID + " = ?",
-                new String[]{String.valueOf(subCategoryId)});
+        long delete = DBUtils.checkDBFail;
+        try {
+            delete = db.delete(NAME_TABLE_SUBCATEGORY, SUB_ID + " = ?",
+                    new String[]{String.valueOf(subCategoryId)});
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
         db.close();
         return delete;
     }

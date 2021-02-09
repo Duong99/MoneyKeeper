@@ -25,10 +25,35 @@ public class SubCategoryEditAdapter extends RecyclerView.Adapter<SubCategoryEdit
 
     private Context mContext;
     private ArrayList<SubCategory> mListSubCategory;
+    private IOnClickSubCategoryEditView mIOnClickSubCategoryEditView;
 
-    public SubCategoryEditAdapter(Context context, ArrayList<SubCategory> listSubCategory) {
+    public SubCategoryEditAdapter(Context context, ArrayList<SubCategory> listSubCategory,
+                                  IOnClickSubCategoryEditView onClickSubCategoryEditView) {
         this.mContext = context;
         this.mListSubCategory = listSubCategory;
+        this.mIOnClickSubCategoryEditView = onClickSubCategoryEditView;
+    }
+
+    // Thêm hạng mục con
+    public void addSubCategory(SubCategory subCategory) {
+        if (subCategory != null) {
+            mListSubCategory.add(subCategory);
+            notifyDataSetChanged();
+        }
+    }
+
+    // Xóa hạng mục con
+    public void deleteSubCategory(SubCategory subCategory) {
+        if (subCategory != null) {
+            mListSubCategory.remove(subCategory);
+            notifyDataSetChanged();
+        }
+    }
+
+    // Xóa tất cả danh sách hạng mục con
+    public void deleteAllSubCategory() {
+        mListSubCategory.clear();
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -71,6 +96,24 @@ public class SubCategoryEditAdapter extends RecyclerView.Adapter<SubCategoryEdit
 
             rcvSubCategoryEdit.setVisibility(View.GONE);
             ivExpandCategoryEdit.setVisibility(View.INVISIBLE);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mIOnClickSubCategoryEditView.onClickSubCategory(mListSubCategory.get(position));
+                        }
+                    } catch (Exception e) {
+                        AppUtils.handlerException(e);
+                    }
+                }
+            });
         }
+    }
+
+    public interface IOnClickSubCategoryEditView {
+        void onClickSubCategory(SubCategory subCategory);
     }
 }

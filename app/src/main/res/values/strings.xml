@@ -127,6 +127,20 @@
     <string name="delete_pay_success">Xóa chi tiền thành công</string>
     <string name="delete_pay_fail">Xóa chi tiền thất bại</string>
 
+    <string name="insert_category_success">Thêm hạng mục thành công</string>
+    <string name="insert_category_fail">Thêm hạng mục thất bại</string>
+    <string name="update_category_success">Sửa hạng mục thành công</string>
+    <string name="update_category_fail">Sửa hạng mục thất bại</string>
+    <string name="delete_category_success">Xóa hạng mục thành công</string>
+    <string name="delete_category_fail">Xóa hạng mục thất bại</string>
+
+    <string name="insert_sub_category_success">Thêm hạng mục con thành công</string>
+    <string name="insert_sub_category_fail">Thêm hạng mục con thất bại</string>
+    <string name="update_sub_category_success">Sửa hạng con mục thành công</string>
+    <string name="update_sub_category_fail">Sửa hạng mục con thất bại</string>
+    <string name="delete_sub_category_success">Xóa hạng mục con thành công</string>
+    <string name="delete_sub_category_fail">Xóa hạng mục con thất bại</string>
+
     <string name="insert_collect_success">Thêm thu tiền thành công</string>
     <string name="insert_collect_fail">Thêm thu tiền thất bại</string>
     <string name="update_collect_success">Sửa thu tiền thành công</string>
@@ -182,6 +196,9 @@
 
     <string name="attention_delete_data">Dữ liệu bị xóa sẽ không thể khôi phục lại được.
         Bạn có muốn tiếp tục? </string>
+
+    <string name="attention_delete_category">Nếu bạn xóa hạng mục này, tất cả các ghi chép liên quan
+        bị để trống thông tin hạng mục. Bạn có thực sự muốn xóa không?</string>
 
     <string name="recent_notes">Ghi chép gần đây</string>
     <string name="view_history_notes">Xem ghi chép</string>

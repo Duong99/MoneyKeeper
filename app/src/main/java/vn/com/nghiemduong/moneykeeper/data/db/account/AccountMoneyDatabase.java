@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 /**
@@ -58,21 +59,26 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         db = this.getReadableDatabase();
         ArrayList<Account> listAccount = new ArrayList<>();
         String query = "SELECT * FROM " + NAME_TABLE_ACCOUNT;
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                Account account = new Account(cursor.getInt(0),
-                        cursor.getString(1),
-                        cursor.getInt(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        cursor.getString(5),
-                        cursor.getString(6),
-                        cursor.getInt(7));
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Account account = new Account(cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getInt(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            cursor.getInt(7));
 
-                listAccount.add(account);
-            } while (cursor.moveToNext());
+                    listAccount.add(account);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
         }
+
         db.close();
         return listAccount;
     }
@@ -95,7 +101,14 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         values.put(ACCOUNT_MONEY_TYPE, account.getMoneyType());
         values.put(ACCOUNT_EXPLAIN, account.getExplain());
         values.put(ACCOUNT_REPORT, account.getReport());
-        long insert = db.insert(NAME_TABLE_ACCOUNT, null, values);
+
+        long insert = DBUtils.checkDBFail;
+        try {
+            insert = db.insert(NAME_TABLE_ACCOUNT, null, values);
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
 
         db.close();
         return insert;
@@ -118,8 +131,14 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         values.put(ACCOUNT_MONEY_TYPE, account.getMoneyType());
         values.put(ACCOUNT_EXPLAIN, account.getExplain());
         values.put(ACCOUNT_REPORT, account.getReport());
-        long update = db.update(NAME_TABLE_ACCOUNT, values, ACCOUNT_ID + " = ? ",
-                new String[]{String.valueOf(account.getAccountId())});
+        long update = DBUtils.checkDBFail;
+        try {
+            update = db.update(NAME_TABLE_ACCOUNT, values, ACCOUNT_ID + " = ? ",
+                    new String[]{String.valueOf(account.getAccountId())});
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
 
         db.close();
         return update;
@@ -135,8 +154,14 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
     @Override
     public long deleteAccount(int accountId) {
         db = this.getWritableDatabase();
-        long delete = db.delete(NAME_TABLE_ACCOUNT, ACCOUNT_ID + " = ?",
-                new String[]{String.valueOf(accountId)});
+        long delete = DBUtils.checkDBFail;
+        try {
+            delete = db.delete(NAME_TABLE_ACCOUNT, ACCOUNT_ID + " = ?",
+                    new String[]{String.valueOf(accountId)});
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
         db.close();
         return delete;
     }

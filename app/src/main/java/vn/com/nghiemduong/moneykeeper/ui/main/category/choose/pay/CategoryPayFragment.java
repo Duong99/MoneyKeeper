@@ -66,6 +66,7 @@ public class CategoryPayFragment extends BaseFragment implements CategoryPayFrag
 
     // Khởi tạo / Ánh xạ
     private void init() {
+
         rcvCategoryPay = mView.findViewById(R.id.rcvCategoryPay);
 
         mCategoryPayFragmentPresenter =

@@ -26,36 +26,7 @@ public class CategoryPayFragmentPresenter implements CategoryPayFragmentMvpPrese
      */
     @Override
     public void getListCategoryPay() {
-//        ArrayList<Category> categories = new ArrayList<>();
-//        String jsonFileString = getAssetJsonData(mContext);
-//
-//        try {
-//            String imageFile, title, subImageFile, subTitle;
-//            JSONArray jsonArray = new JSONArray(jsonFileString);
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                JSONObject object = new JSONObject(jsonArray.get(i).toString());
-//                imageFile = object.getString("Image");
-//
-//                title = object.getString("Title");
-//
-//                ArrayList<SubCategory> subCategories = new ArrayList<>();
-//
-//                JSONArray subArray = new JSONArray(object.getJSONArray("Sub").toString());
-//                for (int j = 0; j < subArray.length(); j++) {
-//                    JSONObject objectSub = new JSONObject(subArray.get(j).toString());
-//                    subImageFile = objectSub.getString("SubPicture");
-//
-//                    subTitle = objectSub.getString("SubTitle");
-//
-//                    subCategories.add(new SubCategory(subImageFile, subTitle));
-//                }
-//                categories.add(new Category(imageFile, title, subCategories));
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        mCategoryPayFragmentMvpView.resultCategoryPay(categories);
+
     }
 
     // Hàm đọc file json từ assets @return json

@@ -19,6 +19,7 @@ public class AttentionDialog extends Dialog implements View.OnClickListener {
 
     public final static int ATTENTION_DELETE_ACCOUNT = 657;
     public final static int ATTENTION_DELETE_DATA = 658;
+    public final static int ATTENTION_DELETE_CATEGORY = 651;
 
     private TextView tvContentAttention;
     private TextView tvNoAttention, tvYesAttention;
@@ -54,6 +55,11 @@ public class AttentionDialog extends Dialog implements View.OnClickListener {
             case ATTENTION_DELETE_DATA:
                 tvContentAttention.setText(getContext().getResources()
                         .getString(R.string.attention_delete_data));
+                break;
+
+            case ATTENTION_DELETE_CATEGORY:
+                tvContentAttention.setText(getContext().getResources()
+                        .getString(R.string.attention_delete_category));
                 break;
         }
     }

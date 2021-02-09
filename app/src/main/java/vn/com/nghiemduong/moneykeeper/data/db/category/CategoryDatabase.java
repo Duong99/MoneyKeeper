@@ -60,8 +60,8 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
 
         SubCategoryDatabase subCategoryDatabase = new SubCategoryDatabase(context);
         ArrayList<SubCategory> subCategories;
-        Cursor cursor = db.rawQuery(query, null);
         try {
+            Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 do {
                     subCategories = subCategoryDatabase.getAllSubCategory(cursor.getInt(0));
@@ -95,16 +95,20 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
         Category category = null;
         String query = "SELECT * FROM " + NAME_TABLE_CATEGORY
                 + " WHERE " + CATEGORY_ID + " = " + categoryId;
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                category = new Category(cursor.getInt(0),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getInt(4));
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    category = new Category(cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getInt(4));
 
-            } while (cursor.moveToNext());
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
         }
         db.close();
         return category;
@@ -124,9 +128,13 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
         values.put(CATEGORY_NAME, category.getCategoryName());
         values.put(CATEGORY_PATH, category.getCategoryPath());
         values.put(CATEGORY_EXPLAIN, category.getExplain());
-        values.put(CATEGORY_TYPE, category.getCategoryId());
-        long insert = db.insert(NAME_TABLE_CATEGORY, null, values);
-
+        values.put(CATEGORY_TYPE, category.getType());
+        long insert = DBUtils.checkDBFail;
+        try {
+            insert = db.insert(NAME_TABLE_CATEGORY, null, values);
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
         db.close();
         return insert;
     }
@@ -145,10 +153,14 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
         values.put(CATEGORY_NAME, category.getCategoryName());
         values.put(CATEGORY_PATH, category.getCategoryPath());
         values.put(CATEGORY_EXPLAIN, category.getExplain());
-        values.put(CATEGORY_TYPE, category.getCategoryId());
-        long update = db.update(NAME_TABLE_CATEGORY, values, CATEGORY_ID + " = ? ",
-                new String[]{String.valueOf(category.getCategoryId())});
-
+        values.put(CATEGORY_TYPE, category.getType());
+        long update = DBUtils.checkDBFail;
+        try {
+            update = db.update(NAME_TABLE_CATEGORY, values, CATEGORY_ID + " = ? ",
+                    new String[]{String.valueOf(category.getCategoryId())});
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
         db.close();
         return update;
     }
@@ -163,8 +175,14 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
     @Override
     public long deleteCategory(int categoryId) {
         db = this.getWritableDatabase();
-        long delete = db.delete(NAME_TABLE_CATEGORY, CATEGORY_ID + " = ?",
-                new String[]{String.valueOf(categoryId)});
+        long delete = DBUtils.checkDBFail;
+        try {
+            delete = db.delete(NAME_TABLE_CATEGORY, CATEGORY_ID + " = ?",
+                    new String[]{String.valueOf(categoryId)});
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
         db.close();
         return delete;
     }
