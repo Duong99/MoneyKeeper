@@ -49,6 +49,19 @@ public class MoneyPay implements Serializable {
         this.image = image;
     }
 
+    public MoneyPay(int accountId, int amountOfMoney, int categoryId, String explain,
+                    String date, String time, int report, byte[] image) {
+        this.accountId = accountId;
+        this.amountOfMoney = amountOfMoney;
+        this.categoryId = categoryId;
+        this.explain = explain;
+        this.date = date;
+        this.time = time;
+        this.report = report;
+        this.image = image;
+    }
+
+
     public int getPayId() {
         return payId;
     }

@@ -14,8 +14,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.category.SubCategoryDatabase;
+import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
+import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -27,6 +33,9 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
     private ArrayList<MoneyPay> mListMoneyPay;
     private ArrayList<String> mListTimes;
     private IOnClickHistoryNoteMvpView mIOnClickHistoryNoteMvpView;
+    private AccountMoneyDatabase mAccountMoneyDatabase;
+    private CategoryDatabase mCategoryDatabase;
+    private SubCategoryDatabase mSubCategoryDatabase;
 
     public HistoryNoteRcvAdapter(Context mContext, ArrayList<MoneyCollect> listMoneyCollect,
                                  ArrayList<MoneyPay> listMoneyPay,
@@ -36,6 +45,8 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
         this.mListMoneyPay = listMoneyPay;
         this.mIOnClickHistoryNoteMvpView = onClickHistoryNoteMvpView;
         this.mListTimes = new ArrayList<>();
+        this.mAccountMoneyDatabase = new AccountMoneyDatabase(mContext);
+        this.mCategoryDatabase = new CategoryDatabase(mContext);
         sortListTimes();
     }
 
@@ -51,44 +62,74 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         MoneyPay moneyPay;
+        Account account;
+        Category category;
+        SubCategory subCategory;
         if (mListTimes.get(position) != null) {
             for (int i = 0; i < mListMoneyPay.size(); i++) {
                 moneyPay = mListMoneyPay.get(i);
                 if (moneyPay != null) {
-/*                    if (mListTimes.get(position).equals(moneyPay.getDate()
+                    if (mListTimes.get(position).equals(moneyPay.getDate()
                             + moneyPay.getTime())) {
-                        holder.ivCategoryHistoryNote.setImageBitmap(
-                                AppUtils.convertPathFileImageAssetsToBitmap(moneyPay.getCategoryPath(),
-                                        mContext));
-                        holder.tvAccountNameHistoryRecent.setText(moneyPay.getAccountName());
+
                         holder.tvNumberMoneyHistoryNote.setText(String.valueOf(moneyPay.getAmountOfMoney()));
                         holder.tvNumberMoneyHistoryNote.setTextColor(mContext.getResources()
                                 .getColor(R.color.red));
                         holder.tvDateHistoryNote.setText(moneyPay.getDate());
-                        holder.tvCategoryNameHistoryNote.setText(moneyPay.getCategoryName());
+                        if (moneyPay.getSubCategoryId() == 0) {
+                            category = mCategoryDatabase.getCategory(moneyPay.getCategoryId());
+                            holder.ivCategoryHistoryNote.setImageBitmap(
+                                    AppUtils.convertPathFileImageAssetsToBitmap(
+                                            category.getCategoryPath(), mContext));
+                            holder.tvCategoryNameHistoryNote.setText(category.getCategoryName());
+                        } else {
+                            subCategory = mSubCategoryDatabase.getSubCategory(
+                                    moneyPay.getSubCategoryId());
+                            holder.ivCategoryHistoryNote.setImageBitmap(
+                                    AppUtils.convertPathFileImageAssetsToBitmap(
+                                            subCategory.getSubCategoryPath(), mContext));
+                            holder.tvCategoryNameHistoryNote.setText(subCategory.getSubCategoryName());
+                        }
+                        account = mAccountMoneyDatabase.getAccount(moneyPay.getAccountId());
+                        holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
                         break;
-                    }*/
+                    }
                 }
             }
 
             MoneyCollect moneyCollect;
             for (int j = 0; j < mListMoneyCollect.size(); j++) {
                 moneyCollect = mListMoneyCollect.get(j);
-                /*if (moneyCollect != null) {
+                if (moneyCollect != null) {
                     if (mListTimes.get(position).equals(moneyCollect.getDate()
                             + moneyCollect.getTime())) {
-                        holder.ivCategoryHistoryNote.setImageBitmap(
-                                AppUtils.convertPathFileImageAssetsToBitmap(moneyCollect.getCategoryPath(),
-                                        mContext));
-                        holder.tvAccountNameHistoryRecent.setText(moneyCollect.getAccountName());
-                        holder.tvNumberMoneyHistoryNote.setText(String.valueOf(moneyCollect.getAmountOfMoney()));
+
+                        if (moneyCollect.getSubCategoryId() == 0) {
+                            category = mCategoryDatabase.getCategory(moneyCollect.getCategoryId());
+                            holder.ivCategoryHistoryNote.setImageBitmap(
+                                    AppUtils.convertPathFileImageAssetsToBitmap(
+                                            category.getCategoryPath(), mContext));
+                            holder.tvCategoryNameHistoryNote.setText(category.getCategoryName());
+                        } else {
+                            subCategory = mSubCategoryDatabase.getSubCategory(
+                                    moneyCollect.getSubCategoryId());
+                            holder.ivCategoryHistoryNote.setImageBitmap(
+                                    AppUtils.convertPathFileImageAssetsToBitmap(
+                                            subCategory.getSubCategoryPath(), mContext));
+                            holder.tvCategoryNameHistoryNote.setText(subCategory.getSubCategoryName());
+                        }
+
+                        holder.tvNumberMoneyHistoryNote.setText(String.valueOf(
+                                moneyCollect.getAmountOfMoney()));
                         holder.tvNumberMoneyHistoryNote.setTextColor(mContext.getResources()
                                 .getColor(R.color.green));
                         holder.tvDateHistoryNote.setText(moneyCollect.getDate());
-                        holder.tvCategoryNameHistoryNote.setText(moneyCollect.getCategoryName());
+
+                        account = mAccountMoneyDatabase.getAccount(moneyCollect.getAccountId());
+                        holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
                         break;
                     }
-                }*/
+                }
             }
         }
 

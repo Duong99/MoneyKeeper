@@ -121,7 +121,6 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
         mAddCategoryActivityPresenter = new AddCategoryActivityPresenter(this,
                 this);
         mAddCategoryActivityPresenter.doGetStatusUpdateCategory();
-
     }
 
     @Override
@@ -138,9 +137,12 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.llDelete:
-                new AttentionDialog(this, this,
-                        AttentionDialog.ATTENTION_DELETE_CATEGORY).show();
-
+                try {
+                    new AttentionDialog(this, this,
+                            AttentionDialog.ATTENTION_DELETE_CATEGORY).show();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
                 break;
 
             case R.id.ivDoneAddCategory:

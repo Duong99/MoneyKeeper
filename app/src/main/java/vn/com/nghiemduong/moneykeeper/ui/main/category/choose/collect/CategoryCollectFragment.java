@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CategoryAdapter;
+import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
@@ -61,13 +62,22 @@ public class CategoryCollectFragment extends BaseFragment implements CategoryCol
 
     @Override
     public void onClickCategoryPay(Category category) {
-//        mChooseCategoriesActivity.onFinishChooseCategory(
-//                new Category(category.getImage(), category.getTitle()));
+        try {
+            mChooseCategoriesActivity.onFinishChooseCategory(category, null);
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 
     @Override
     public void onClickSubCategoryPay(SubCategory subCategory) {
-
+        try {
+            CategoryDatabase categoryDatabase = new CategoryDatabase(getContext());
+            mChooseCategoriesActivity.onFinishChooseCategory(
+                    categoryDatabase.getCategory(subCategory.getCategoryId()), subCategory);
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 
     @Override

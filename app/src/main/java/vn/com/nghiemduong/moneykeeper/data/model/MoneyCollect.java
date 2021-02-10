@@ -26,7 +26,6 @@ public class MoneyCollect implements Serializable {
         this.amountOfMoney = amountOfMoney;
         this.categoryId = categoryId;
         this.subCategoryId = subCategoryId;
-
         this.explain = explain;
         this.date = date;
         this.time = time;
@@ -40,13 +39,31 @@ public class MoneyCollect implements Serializable {
         this.amountOfMoney = amountOfMoney;
         this.categoryId = categoryId;
         this.subCategoryId = subCategoryId;
-
         this.explain = explain;
         this.date = date;
         this.time = time;
         this.report = report;
         this.image = image;
     }
+
+    /**
+     * Tạo đối tượng thêm không có id hạng mục con
+     *
+     * @created_by nxduong on 10/2/2021
+     */
+
+    public MoneyCollect(int accountId, int amountOfMoney, int categoryId, String explain,
+                        String date, String time, int report, byte[] image) {
+        this.accountId = accountId;
+        this.amountOfMoney = amountOfMoney;
+        this.categoryId = categoryId;
+        this.explain = explain;
+        this.date = date;
+        this.time = time;
+        this.report = report;
+        this.image = image;
+    }
+
 
     public int getCollectId() {
         return collectId;

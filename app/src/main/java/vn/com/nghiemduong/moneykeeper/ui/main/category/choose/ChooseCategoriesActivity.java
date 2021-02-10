@@ -18,6 +18,7 @@ import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ViewPagerChooseCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.UpdateCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -101,12 +102,17 @@ public class ChooseCategoriesActivity extends BaseActivity {
     /**
      * Khi người dùng chọn một hạng mục hàm này sẽ được được
      * để trả dữ liệu về activity trước
-     * - @created_by nxduong on 28/1/2021
+     *
+     * @param category    hạng mục cha được chọn
+     * @param subCategory hạng mục con được chọn
+     *                    <p>
+     *                    - @created_by nxduong on 28/1/2021
      **/
-    public void onFinishChooseCategory(Category category) {
+    public void onFinishChooseCategory(Category category, SubCategory subCategory) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("BUNDLE_CATEGORY", category);
+        bundle.putSerializable("BUNDLE_PARENT_CATEGORY", category);
+        bundle.putSerializable("BUNDLE_SUB_CATEGORY", subCategory);
         intent.putExtra("BUNDLE", bundle);
         setResult(RESULT_OK, intent);
         finish();

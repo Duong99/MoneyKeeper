@@ -17,6 +17,7 @@
     <dimen name="margin_small">2.5dp</dimen>
     <dimen name="margin_medium">5dp</dimen>
     <dimen name="margin_large">10dp</dimen>
+    <dimen name="margin_account_start_end">20dp</dimen>
     <dimen name="margin_large_visibility">30dp</dimen>
     <dimen name="margin_phone_large">15dp</dimen>
     <dimen name="margin_start_end_spinner_title">25dp</dimen>

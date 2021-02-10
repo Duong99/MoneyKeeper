@@ -20,12 +20,14 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.MoneyCollect.MoneyCollectDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
+import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
@@ -43,7 +45,8 @@ import static android.app.Activity.RESULT_OK;
  * - @created_by nxduong on 26/1/2021
  **/
 public class CollectMoneyFragment extends BaseFragment implements View.OnClickListener,
-        CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDialog.IOnClickAttentionDialog {
+        CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDialog.IOnClickAttentionDialog,
+        CollectMoneyFragmentMvpView {
     private View mView;
     private RelativeLayout rlChooseCategoryCollect, rlChooseAccountCollect,
             rlSelectFolder, rlSelectCamera, rlContentImage;
@@ -58,8 +61,10 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
     private EditText etInputMoney, etExplain;
     private MoneyCollectDatabase mMoneyCollectDatabase;
     private Category mCategory;
+    private SubCategory mSubCategory;
     private Account mAccount;
     private MoneyCollect mMoneyCollect;
+    private CollectMoneyFragmentPresenter mCollectMoneyFragmentPresenter;
 
     public CollectMoneyFragment() {
         // Required empty public constructor
@@ -85,20 +90,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
 
     private void getDataMoneyCollectFromBundle() {
         if (this.getArguments() != null) {
-            mMoneyCollect = (MoneyCollect) this.getArguments().getSerializable("BUNDLE_MONEY_COLLECT");
-            if (mMoneyCollect != null) {
-                etInputMoney.setText(String.valueOf(mMoneyCollect.getAmountOfMoney()));
-//                ivImageCategoriesCollect.setImageBitmap(
-//                        AppUtils.convertPathFileImageAssetsToBitmap(mMoneyCollect.get(),
-//                                getContext()));
-//                tvTitleSelectCategoryCollect.setText(mMoneyCollect.getCategoryName());
-//                etExplain.setText(mMoneyCollect.getExplain());
-//                tvTitleAccountCollect.setText(mMoneyCollect.getAccountName());
-//                tvCalendarCollect.setText(mMoneyCollect.getDate());
-//                tvTimeCollect.setText(mMoneyCollect.getTime());
-
-                llDelete.setVisibility(View.VISIBLE);
-            }
+            mCollectMoneyFragmentPresenter.doGetMoneyCollectFromBundle(this, getContext());
         }
     }
 
@@ -162,6 +154,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         swNotIncludeReport = mView.findViewById(R.id.swNotIncludeReport);
 
         mMoneyCollectDatabase = new MoneyCollectDatabase(getContext());
+        mCollectMoneyFragmentPresenter = new CollectMoneyFragmentPresenter(this);
     }
 
     @Override
@@ -257,39 +250,68 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                     if (imageCollect != null) {
                         image = AppUtils.convertBitmapToByteArray(imageCollect);
                     }
-//                    if (mMoneyCollect == null) { // Thêm thu tiền
-//                        mMoneyCollect = new MoneyCollect(mAccount.getAccountId(),
-//                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-//
-//                                AppUtils.getEditText(etExplain), tvCalendarCollect.getText().toString(),
-//                                tvTimeCollect.getText().toString(), report, image);
-//                        long insert = mMoneyCollectDatabase.insertMoneyCollect(mMoneyCollect);
-//                        if (insert == DBUtils.checkDBFail) {
-//                            showToast(getResources().getString(R.string.insert_collect_fail));
-//                            mMoneyCollect = null;
-//                        } else {
-//                            showToast(getResources().getString(R.string.insert_collect_success));
-//                            etInputMoney.setText(getString(R.string._0));
-//                            etExplain.setText(null);
-//                            mMoneyCollect = null;
-//                        }
-//                    } else { // Sửa thu tiền
-//                        int moneyPrevious = mMoneyCollect.getAmountOfMoney();
-//                        mMoneyCollect = new MoneyCollect(mAccount.getAccountId(),
-//                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-//                                mCategory.getCategoryName(), mCategory.getCategoryPath(), mAccount.getAccountName(),
-//                                AppUtils.getEditText(etExplain), tvCalendarCollect.getText().toString(),
-//                                tvTimeCollect.getText().toString(), report, image);
-//                        long update = mMoneyCollectDatabase.updateMoneyCollect(mMoneyCollect, moneyPrevious);
-//                        if (update == DBUtils.checkDBFail) {
-//                            showToast(getResources().getString(R.string.update_collect_fail));
-//                        } else {
-//                            showToast(getResources().getString(R.string.update_collect_success));
-//                            etInputMoney.setText(getString(R.string._0));
-//                            etExplain.setText(null);
-//                            onBackPressed();
-//                        }
-//                    }
+
+                    int accountId = mAccount.getAccountId();
+                    int amountOfMoney = Integer.parseInt(AppUtils.getEditText(etInputMoney));
+
+                    int subCategoryId;
+                    int categoryId;
+
+                    String explain = AppUtils.getEditText(etExplain);
+                    String date = tvCalendarCollect.getText().toString();
+                    String time = tvTimeCollect.getText().toString();
+
+                    if (mMoneyCollect == null) { // Thêm thu tiền
+                        MoneyCollect moneyCollect;
+                        if (mSubCategory != null) { // Đối tượng có hạng mục con
+                            subCategoryId = mSubCategory.getSubCategoryId();
+                            categoryId = mSubCategory.getCategoryId();
+
+                            moneyCollect = new MoneyCollect(accountId, amountOfMoney,
+                                    categoryId, subCategoryId, explain, date, time, report, image);
+                        } else { // Đối tượng không có hạng mục con
+                            categoryId = mCategory.getCategoryId();
+                            moneyCollect = new MoneyCollect(accountId, amountOfMoney,
+                                    categoryId, explain, date, time, report, image);
+                        }
+
+                        long insert = mMoneyCollectDatabase.insertMoneyCollect(moneyCollect);
+                        if (insert == DBUtils.checkDBFail) {
+                            showToast(getResources().getString(R.string.insert_collect_fail));
+                        } else {
+                            showToast(getResources().getString(R.string.insert_collect_success));
+                            etInputMoney.setText(getString(R.string._0));
+                            etExplain.setText(null);
+                            mMoneyCollect = null;
+                        }
+                    } else { // Sửa thu tiền
+                        int moneyPrevious = mMoneyCollect.getAmountOfMoney();
+                        MoneyCollect moneyCollect;
+                        if (mSubCategory != null) { // Đối tượng có hạng mục con
+                            subCategoryId = mSubCategory.getSubCategoryId();
+                            categoryId = mSubCategory.getCategoryId();
+
+                            moneyCollect = new MoneyCollect(mMoneyCollect.getCollectId(),
+                                    accountId, amountOfMoney, categoryId, subCategoryId,
+                                    explain, date, time, report, image);
+                        } else { // Đối tượng không có hạng mục con
+
+                            categoryId = mCategory.getCategoryId();
+                            moneyCollect = new MoneyCollect(mMoneyCollect.getCollectId(),
+                                    accountId, amountOfMoney, categoryId, -1,
+                                    explain, date, time, report, image);
+                        }
+
+                        long update = mMoneyCollectDatabase.updateMoneyCollect(moneyCollect, moneyPrevious);
+                        if (update == DBUtils.checkDBFail) {
+                            showToast(getResources().getString(R.string.update_collect_fail));
+                        } else {
+                            showToast(getResources().getString(R.string.update_collect_success));
+                            etInputMoney.setText(getString(R.string._0));
+                            etExplain.setText(null);
+                            onBackPressed();
+                        }
+                    }
                 }
                 break;
 
@@ -319,13 +341,13 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
             if (data != null) {
                 switch (requestCode) {
                     case ChooseCategoriesActivity.REQUEST_CODE_CHOOSE_CATEGORY:
-                        mCategory = UtilsPlus.onFinishChooseCategory(data, ivImageCategoriesCollect,
-                                tvTitleSelectCategoryCollect, getContext());
+                        mCollectMoneyFragmentPresenter
+                                .onActivityResultChooseCategoryCollect(data, getContext());
                         break;
 
                     case ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT:
-                        mAccount = UtilsPlus.onFinishChooseAccount(data, ivImageAccountCollect,
-                                tvTitleAccountCollect, getContext());
+                        mCollectMoneyFragmentPresenter
+                                .onActivityResultAccountCollect(data);
                         break;
                     case AppUtils.REQUEST_CODE_IMAGE_FROM_FOLDER:
                         Uri uri = data.getData();
@@ -370,6 +392,70 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
+        }
+    }
+
+    @Override
+    public void resultGetMoneyCollectFromBundle(MoneyCollect moneyCollect, Account account,
+                                                Category category, SubCategory subCategory) {
+        this.mAccount = account;
+        this.mMoneyCollect = moneyCollect;
+        this.mSubCategory = subCategory;
+        this.mCategory = category;
+        if (mMoneyCollect != null) {
+            etInputMoney.setText(String.valueOf(mMoneyCollect.getAmountOfMoney()));
+            etExplain.setText(mMoneyCollect.getExplain());
+            tvCalendarCollect.setText(mMoneyCollect.getDate());
+            tvTimeCollect.setText(mMoneyCollect.getTime());
+            ivImageSelected.setImageBitmap(AppUtils.convertByteArrayToBitmap(mMoneyCollect.getImage()));
+            llDelete.setVisibility(View.VISIBLE); // Hiện nút xóa lên
+
+            if (mSubCategory != null) {
+                ivImageCategoriesCollect.setImageBitmap(
+                        AppUtils.convertPathFileImageAssetsToBitmap(mSubCategory.getSubCategoryPath(),
+                                Objects.requireNonNull(getContext())));
+                tvTitleSelectCategoryCollect.setText(mSubCategory.getSubCategoryName());
+            } else {
+                if (mCategory != null) {
+                    ivImageCategoriesCollect.setImageBitmap(
+                            AppUtils.convertPathFileImageAssetsToBitmap(mCategory.getCategoryPath(),
+                                    Objects.requireNonNull(getContext())));
+                    tvTitleSelectCategoryCollect.setText(mCategory.getCategoryName());
+                }
+            }
+
+            if (mAccount != null) {
+                tvTitleAccountCollect.setText(mAccount.getAccountName());
+                ivImageAccountCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                        mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
+            }
+        }
+    }
+
+    @Override
+    public void resultOnActivityResultChooseCategoryCollect(Category category, SubCategory subCategory) {
+        this.mCategory = category;
+        this.mSubCategory = subCategory;
+        if (mSubCategory != null) {
+            tvTitleSelectCategoryCollect.setText(mSubCategory.getSubCategoryName());
+            ivImageCategoriesCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                    mSubCategory.getSubCategoryPath(), getContext()));
+        } else {
+            if (mCategory != null) {
+                tvTitleSelectCategoryCollect.setText(mCategory.getCategoryName());
+                ivImageCategoriesCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                        mCategory.getCategoryPath(), getContext()));
+            }
+        }
+    }
+
+    @Override
+    public void resultOnFinishChooseAccountCollect(Account account) {
+        this.mAccount = account;
+        if (mAccount != null) {
+            ivImageAccountCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                    mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
+            tvTitleAccountCollect.setText(mAccount.getAccountName());
         }
     }
 }

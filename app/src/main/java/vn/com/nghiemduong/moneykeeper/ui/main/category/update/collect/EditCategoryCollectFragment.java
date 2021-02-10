@@ -100,7 +100,7 @@ public class EditCategoryCollectFragment extends BaseFragment implements View.On
                     int status = data.getIntExtra(AddCategoryActivity.VALUE_STATUS, -1);
                     if (status == AddCategoryActivity.STATUS_UPDATE_FINISH) {
                         ArrayList<Category> listCategories =
-                                mCategoryDatabase.getAllCategory(AppUtils.CHI_TIEN, getContext());
+                                mCategoryDatabase.getAllCategory(AppUtils.THU_TIEN, getContext());
                         mCategoryEditAdapter = new CategoryEditAdapter(getContext(),
                                 listCategories, this);
                         rcvCategoryCollect.setAdapter(mCategoryEditAdapter);
@@ -108,7 +108,6 @@ public class EditCategoryCollectFragment extends BaseFragment implements View.On
                 }
             }
         }
-
     }
 
     @Override

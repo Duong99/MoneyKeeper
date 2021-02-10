@@ -134,7 +134,6 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.ivDoneAddAccount:
-
             case R.id.llSave:
                 try {
                     insertOrUpdateAccount();
@@ -196,7 +195,6 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 long insert = mAccountDatabase.insertAccount(mAccount);
                 if (insert == DBUtils.checkDBFail) {
                     showToast(getResources().getString(R.string.insert_account_fail));
-                    finish();
                 } else {
                     showToast(getResources().getString(R.string.insert_account_success));
                     finishInsertOrUpdateSuccess();
@@ -212,7 +210,6 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 long update = mAccountDatabase.updateAccount(mAccount);
                 if (update == DBUtils.checkDBFail) {
                     showToast(getResources().getString(R.string.update_account_fail));
-                    finish();
                 } else {
                     showToast(getResources().getString(R.string.update_account_success));
                     finishInsertOrUpdateSuccess();

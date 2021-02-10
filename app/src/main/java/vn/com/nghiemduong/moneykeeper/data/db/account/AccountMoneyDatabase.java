@@ -84,6 +84,41 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
     }
 
     /**
+     * Hàm lấy tài khoản trong database
+     *
+     * @return listAccount
+     * @created_by nxduong on 10/2/2021
+     */
+    @Override
+    public Account getAccount(int accountId) {
+        db = this.getReadableDatabase();
+        Account account = null;
+        String query = "SELECT * FROM " + NAME_TABLE_ACCOUNT
+                + " WHERE " + ACCOUNT_ID + " = " + accountId;
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    account = new Account(cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getInt(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            cursor.getInt(7));
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
+        db.close();
+        return account;
+    }
+
+
+    /**
      * Hàm thêm tài khoản vào trong database
      *
      * @param account
@@ -108,8 +143,6 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
-
-
         db.close();
         return insert;
     }
@@ -146,7 +179,6 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
 
     /**
      * Hàm xóa tài khoản trong database
-     *
      * @param accountId
      * @created_by nxduong on 29/1/2021
      */

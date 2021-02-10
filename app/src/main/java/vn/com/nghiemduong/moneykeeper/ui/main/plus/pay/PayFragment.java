@@ -28,7 +28,9 @@ import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.MoneyPay.MoneyPayDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
+import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
@@ -47,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
  * <p>
  * - @created_by nxduong on 26/1/2021
  **/
-public class PayFragment extends BaseFragment implements PayMvpView, View.OnClickListener,
+public class PayFragment extends BaseFragment implements PayFragmentMvpView, View.OnClickListener,
         CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDialog.IOnClickAttentionDialog {
 
     private View mView;
@@ -70,7 +72,9 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
     private MoneyPayDatabase mMoneyPayDatabase;
     private Account mAccount;
     private Category mCategory;
+    private SubCategory mSubCategory;
     private MoneyPay mMoneyPay;
+    private PayFragmentPresenter mPayFragmentPresenter;
 
 
     public PayFragment() {
@@ -110,20 +114,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
 
     private void getDataMoneyPayFromBundle() {
         if (this.getArguments() != null) {
-            mMoneyPay = (MoneyPay) this.getArguments().getSerializable("BUNDLE_MONEY_PAY");
-            if (mMoneyPay != null) {
-                etInputMoney.setText(String.valueOf(mMoneyPay.getAmountOfMoney()));
-//                ivImageCategoriesPay.setImageBitmap(
-//                        AppUtils.convertPathFileImageAssetsToBitmap(mMoneyPay.getCategoryPath(),
-//                                getContext()));
-//                tvTitleSelectCategoryPay.setText(mMoneyPay.getCategoryName());
-//                etExplain.setText(mMoneyPay.getExplain());
-//                tvTitleAccountPay.setText(mMoneyPay.getAccountName());
-                tvCalenderPay.setText(mMoneyPay.getDate());
-                tvTimePay.setText(mMoneyPay.getTime());
-
-                llDelete.setVisibility(View.VISIBLE);
-            }
+            mPayFragmentPresenter.doGetMoneyPayFromBundle(this, getContext());
         }
     }
 
@@ -220,6 +211,7 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         tvTitleCategoryFee = mView.findViewById(R.id.tvTitleCategoryFee);
 
         mMoneyPayDatabase = new MoneyPayDatabase(getContext());
+        mPayFragmentPresenter = new PayFragmentPresenter(this);
     }
 
     @Override
@@ -349,7 +341,6 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                 } else if (mAccount == null) {
 
                 } else {
-
                     int report = 1;
 
                     if (swNotIncludeReport.isChecked()) {
@@ -359,36 +350,61 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                     if (imagePay != null) {
                         image = AppUtils.convertBitmapToByteArray(imagePay);
                     }
-//                    if (mMoneyPay == null) { // Thêm chi tiền
-//                        mMoneyPay = new MoneyPay(mAccount.getAccountId(),
-//                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-//                                mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
-//                                AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
-//                                tvTimePay.getText().toString(), report, image);
-//                        long insert = mMoneyPayDatabase.insertMoneyPay(mMoneyPay);
-//                        if (insert == DBUtils.checkDBFail) {
-//                            showToast(getResources().getString(R.string.insert_pay_fail));
-//                        } else {
-//                            showToast(getResources().getString(R.string.insert_pay_success));
-//                            etInputMoney.setText(getString(R.string._0));
-//                            etExplain.setText(null);
-//                        }
-//                        mMoneyPay = null;
-//                    } else { // Sửa chi tiền
-//                        int moneyPrevious = mMoneyPay.getAmountOfMoney();
-//                        mMoneyPay = new MoneyPay(mMoneyPay.getPayId(), mAccount.getAccountId(),
-//                                Integer.parseInt(AppUtils.getEditText(etInputMoney)),
-//                                mCategory.getTitle(), mCategory.getImage(), mAccount.getAccountName(),
-//                                AppUtils.getEditText(etExplain), tvCalenderPay.getText().toString(),
-//                                tvTimePay.getText().toString(), report, image);
-//                        long update = mMoneyPayDatabase.updateMoneyPay(mMoneyPay, moneyPrevious);
-//                        if (update == DBUtils.checkDBFail) {
-//                            showToast(getResources().getString(R.string.update_pay_fail));
-//                        } else {
-//                            showToast(getResources().getString(R.string.update_pay_success));
-//                            onBackPressed();
-//                        }
-//                    }
+
+                    int accountId = mAccount.getAccountId();
+                    int amountOfMoney = Integer.parseInt(AppUtils.getEditText(etInputMoney));
+                    int subCategoryId;
+                    int categoryId;
+                    String explain = AppUtils.getEditText(etExplain);
+                    String date = tvCalenderPay.getText().toString();
+                    String time = tvTimePay.getText().toString();
+
+                    if (mMoneyPay == null) { // Thêm chi tiền
+                        MoneyPay moneyPay;
+                        if (mSubCategory != null) { // Đối tượng có hạng mục con
+                            subCategoryId = mSubCategory.getSubCategoryId();
+                            categoryId = mSubCategory.getCategoryId();
+
+                            moneyPay = new MoneyPay(accountId, amountOfMoney,
+                                    categoryId, subCategoryId, explain, date, time, report, image);
+                        } else { // Đối tượng không có hạng mục con
+                            categoryId = mCategory.getCategoryId();
+                            moneyPay = new MoneyPay(accountId, amountOfMoney,
+                                    categoryId, explain, date, time, report, image);
+                        }
+                        long insert = mMoneyPayDatabase.insertMoneyPay(moneyPay);
+                        if (insert == DBUtils.checkDBFail) {
+                            showToast(getResources().getString(R.string.insert_pay_fail));
+                        } else {
+                            showToast(getResources().getString(R.string.insert_pay_success));
+                            etInputMoney.setText(getString(R.string._0));
+                            etExplain.setText(null);
+                        }
+                    } else { // Sửa chi tiền
+                        int moneyPrevious = mMoneyPay.getAmountOfMoney();
+                        MoneyPay moneyPay;
+                        if (mSubCategory != null) { // Đối tượng có hạng mục con
+                            subCategoryId = mSubCategory.getSubCategoryId();
+                            categoryId = mSubCategory.getCategoryId();
+
+                            moneyPay = new MoneyPay(mMoneyPay.getPayId(),
+                                    accountId, amountOfMoney, categoryId, subCategoryId,
+                                    explain, date, time, report, image);
+                        } else { // Đối tượng không có hạng mục con
+                            categoryId = mMoneyPay.getCategoryId();
+                            moneyPay = new MoneyPay(mMoneyPay.getPayId(),
+                                    accountId, amountOfMoney, categoryId, -1,
+                                    explain, date, time, report, image);
+                        }
+
+                        long update = mMoneyPayDatabase.updateMoneyPay(moneyPay, moneyPrevious);
+                        if (update == DBUtils.checkDBFail) {
+                            showToast(getResources().getString(R.string.update_pay_fail));
+                        } else {
+                            showToast(getResources().getString(R.string.update_pay_success));
+                            onBackPressed();
+                        }
+                    }
                 }
                 break;
 
@@ -423,13 +439,11 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
                         break;
 
                     case ChooseCategoriesActivity.REQUEST_CODE_CHOOSE_CATEGORY:
-                        mCategory = UtilsPlus.onFinishChooseCategory(data,
-                                ivImageCategoriesPay, tvTitleSelectCategoryPay, getContext());
+                        mPayFragmentPresenter.onActivityResultChooseCategoryPay(data, getContext());
                         break;
 
                     case ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT:
-                        mAccount = UtilsPlus.onFinishChooseAccount(data,
-                                ivImageAccountPay, tvTitleAccountPay, getContext());
+                        mPayFragmentPresenter.onActivityResultAccountPay(data);
                         break;
 
                     case AppUtils.REQUEST_CODE_IMAGE_FROM_FOLDER:
@@ -462,11 +476,6 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
         tvTimePay.setText(time);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
     @Override
     public void onClickYesDelete() {
@@ -484,6 +493,72 @@ public class PayFragment extends BaseFragment implements PayMvpView, View.OnClic
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
+        }
+    }
+
+    @Override
+    public void resultGetMoneyPayFromBundle(MoneyPay moneyPay, Account account,
+                                            Category category, SubCategory subCategory) {
+        this.mMoneyPay = moneyPay;
+        this.mAccount = account;
+        this.mCategory = category;
+        this.mSubCategory = subCategory;
+        if (mMoneyPay != null) {
+            etInputMoney.setText(String.valueOf(mMoneyPay.getAmountOfMoney()));
+            etExplain.setText(mMoneyPay.getExplain());
+            tvCalenderPay.setText(mMoneyPay.getDate());
+            tvTimePay.setText(mMoneyPay.getTime());
+            ivImageSelectedPay.setImageBitmap(AppUtils.convertByteArrayToBitmap(mMoneyPay.getImage()));
+            llDelete.setVisibility(View.VISIBLE); // Hiện nút xóa lên
+
+            if (mSubCategory != null) {
+                ivImageCategoriesPay.setImageBitmap(
+                        AppUtils.convertPathFileImageAssetsToBitmap(mSubCategory.getSubCategoryPath(),
+                                Objects.requireNonNull(getContext())));
+                tvTitleSelectCategoryPay.setText(mSubCategory.getSubCategoryName());
+            } else {
+                if (mCategory != null) {
+                    ivImageCategoriesPay.setImageBitmap(
+                            AppUtils.convertPathFileImageAssetsToBitmap(mCategory.getCategoryPath(),
+                                    Objects.requireNonNull(getContext())));
+                    tvTitleSelectCategoryPay.setText(mCategory.getCategoryName());
+                }
+            }
+
+            if (mAccount != null) {
+                tvTitleAccountPay.setText(mAccount.getAccountName());
+                ivImageAccountPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                        mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
+            }
+        }
+    }
+
+    @Override
+    public void resultOnActivityResultChooseCategoryPay(Category category, SubCategory subCategory) {
+        this.mCategory = category;
+        this.mSubCategory = subCategory;
+        if (mSubCategory != null) {
+            ivImageCategoriesPay.setImageBitmap(
+                    AppUtils.convertPathFileImageAssetsToBitmap(mCategory.getCategoryPath(),
+                            Objects.requireNonNull(getContext())));
+            tvTitleSelectCategoryPay.setText(mCategory.getCategoryName());
+        } else {
+            if (mCategory != null) {
+                ivImageCategoriesPay.setImageBitmap(
+                        AppUtils.convertPathFileImageAssetsToBitmap(mCategory.getCategoryPath(),
+                                Objects.requireNonNull(getContext())));
+                tvTitleSelectCategoryPay.setText(mCategory.getCategoryName());
+            }
+        }
+    }
+
+    @Override
+    public void resultOnFinishChooseAccountPay(Account account) {
+        this.mAccount = account;
+        if (mAccount != null) {
+            ivImageAccountPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                    mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
+            tvTitleAccountPay.setText(mAccount.getAccountName());
         }
     }
 }

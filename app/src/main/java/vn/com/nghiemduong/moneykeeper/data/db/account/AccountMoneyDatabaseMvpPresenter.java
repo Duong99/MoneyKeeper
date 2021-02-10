@@ -10,6 +10,8 @@ import vn.com.nghiemduong.moneykeeper.data.model.Account;
 public interface AccountMoneyDatabaseMvpPresenter {
     ArrayList<Account> getAllAccount();
 
+    Account getAccount(int accountId);
+
     long insertAccount(Account account);
 
     long updateAccount(Account account);

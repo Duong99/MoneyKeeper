@@ -9,12 +9,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -54,12 +56,24 @@ public class UtilsPlus {
                                                   TextView tvTitleCategory, Context context) {
         Category category =
                 (Category) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
-                        .getSerializable("BUNDLE_CATEGORY");
+                        .getSerializable("BUNDLE_PARENT_CATEGORY");
 
-        assert category != null;
-//        tvTitleCategory.setText(category.getTitle());
-//        ivImageCategory.setImageBitmap(
-//                AppUtils.convertPathFileImageAssetsToBitmap(category.getImage(), context));
+        SubCategory subCategory =
+                (SubCategory) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
+                        .getSerializable("BUNDLE_SUB_CATEGORY");
+
+        if (subCategory != null) {
+            tvTitleCategory.setText(subCategory.getSubCategoryName());
+            ivImageCategory.setImageBitmap(
+                    AppUtils.convertPathFileImageAssetsToBitmap(subCategory.getSubCategoryPath(), context));
+        } else {
+            if (category != null) {
+                tvTitleCategory.setText(category.getCategoryName());
+                ivImageCategory.setImageBitmap(
+                        AppUtils.convertPathFileImageAssetsToBitmap(category.getCategoryPath(), context));
+            }
+        }
+
         return category;
     }
 
@@ -108,10 +122,11 @@ public class UtilsPlus {
         mTimePicker.show();
     }
 
-    // Hàm lấy ngày hiện tại
+    // Hàm lấy ngày hiện tại format ngày / tháng / năm
     public static String getDateCurrent() {
-        SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/YYYY", Locale.getDefault());
-        String currentDate = sdf.format(new Date());
-        return currentDate;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+//        Calendar calendar = Calendar.getInstance();
+//        String date = sdf.format(calendar.getTime());
+        return sdf.format(new Date().getTime());
     }
 }
