@@ -46,6 +46,13 @@ public class PayFragmentPresenter implements PayFragmentMvpPresenter {
         }
     }
 
+    /**
+     * Hàm lấy dữ liệu hạng mục được chọn
+     *
+     * @param data dữ liệu hạng mục được trả về khi chọn tài khoản
+     * @created_by nxduong on 10/2/2021
+     */
+
     @Override
     public void onActivityResultChooseCategoryPay(Intent data, Context context) {
         Category category =
@@ -59,10 +66,29 @@ public class PayFragmentPresenter implements PayFragmentMvpPresenter {
         mPayMvpView.resultOnActivityResultChooseCategoryPay(category, subCategory);
     }
 
+    /**
+     * Hàm lấy dữ liệu tài khoản được chọn
+     *
+     * @param data dữ liệu tài khoản được trả về khi chọn tài khoản
+     * @created_by nxduong on 10/2/2021
+     */
+
     @Override
     public void onActivityResultAccountPay(Intent data) {
         Account account = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
                 .getSerializable("BUNDLE_ACCOUNT");
         mPayMvpView.resultOnFinishChooseAccountPay(account);
+    }
+
+    /**
+     * Hàm lấy giá trị tài khoản đầu tiên trong database
+     *
+     * @created_by nxduong on 10/2/2021
+     */
+
+    @Override
+    public void doGetAccountFirstFromDB(Context context) {
+        mPayMvpView.resultGetAccountFirstFromDB(
+                new AccountMoneyDatabase(context).getAccountFirstly());
     }
 }

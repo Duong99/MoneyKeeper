@@ -18,4 +18,6 @@ public interface CollectMoneyFragmentMvpView {
     void resultOnActivityResultChooseCategoryCollect(Category category, SubCategory subCategory);
 
     void resultOnFinishChooseAccountCollect(Account account);
+
+    void resultGetAccountFirstFromDB(Account account);
 }

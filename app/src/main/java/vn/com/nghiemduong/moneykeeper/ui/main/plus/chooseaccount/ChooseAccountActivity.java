@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.AccountAdapter;
+import vn.com.nghiemduong.moneykeeper.adapter.AccountChooseAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
@@ -24,12 +26,12 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
  **/
 
 public class ChooseAccountActivity extends BaseActivity implements
-        AccountAdapter.IOnClickAccount {
+        AccountChooseAdapter.IOnClickAccount {
 
     public final static int REQUEST_CODE_CHOOSE_ACCOUNT = 119;
 
     private RecyclerView rcvChooseAccount;
-    private AccountAdapter mAccountAdapter;
+    private AccountChooseAdapter mAccountAdapter;
     private AccountMoneyDatabase mAccountMoneyDatabase;
     private Toolbar tbChooseAccount;
 
@@ -56,7 +58,11 @@ public class ChooseAccountActivity extends BaseActivity implements
 
         mAccountMoneyDatabase = new AccountMoneyDatabase(this);
 
-        mAccountAdapter = new AccountAdapter(this, mAccountMoneyDatabase.getAllAccount(), this);
+        Account account = (Account) Objects.requireNonNull(getIntent()
+                .getBundleExtra("BUNDLE")).getSerializable("BUNDLE_ACCOUNT");
+
+        mAccountAdapter = new AccountChooseAdapter(this, mAccountMoneyDatabase.getAllAccount(),
+                this, account);
         rcvChooseAccount.setAdapter(mAccountAdapter);
     }
 
@@ -68,10 +74,5 @@ public class ChooseAccountActivity extends BaseActivity implements
         intent.putExtra("BUNDLE", bundle);
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    @Override
-    public void onClickOptionAccount(Account account, int position) {
-
     }
 }

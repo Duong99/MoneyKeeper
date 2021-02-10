@@ -78,6 +78,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
 
         init();
         getDataMoneyCollectFromBundle();
+        mCollectMoneyFragmentPresenter.doGetAccountFirstFromDB(getContext());
         return mView;
     }
 
@@ -194,6 +195,9 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
             case R.id.rlChooseAccount:
                 try {
                     Intent intent = new Intent(getContext(), ChooseAccountActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("BUNDLE_ACCOUNT", mAccount);
+                    intent.putExtra("BUNDLE", bundle);
                     startActivityForResult(intent, ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT);
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
@@ -456,6 +460,18 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
             ivImageAccountCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
             tvTitleAccountCollect.setText(mAccount.getAccountName());
+        }
+    }
+
+    @Override
+    public void resultGetAccountFirstFromDB(Account account) {
+        if (mAccount == null) {
+            this.mAccount = account;
+            if (mAccount != null) {
+                ivImageAccountCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                        mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
+                tvTitleAccountCollect.setText(mAccount.getAccountName());
+            }
         }
     }
 }

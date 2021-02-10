@@ -20,7 +20,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
  * -
  * Custom lại spinner trong layout fragment_plus
  * <p>
- * - @created_by nxduong on
+ * - @created_by nxduong on 29/1/2021
  **/
 public class CustomSpinnerCategoriesArrayAdapter extends ArrayAdapter<HeaderCategory> {
 

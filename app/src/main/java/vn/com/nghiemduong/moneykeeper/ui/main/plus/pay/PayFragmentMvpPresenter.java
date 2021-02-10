@@ -14,4 +14,6 @@ public interface PayFragmentMvpPresenter {
     void onActivityResultChooseCategoryPay(Intent data, Context context);
 
     void onActivityResultAccountPay(Intent data);
+
+    void doGetAccountFirstFromDB(Context context);
 }

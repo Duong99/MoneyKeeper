@@ -56,6 +56,13 @@ public class CollectMoneyFragmentPresenter implements CollectMoneyFragmentMvpPre
         }
     }
 
+    /**
+     * Hàm lấy dữ liệu hạng mục được chọn
+     *
+     * @param data dữ liệu hạng mục được trả về khi chọn tài khoản
+     * @created_by nxduong on 10/2/2021
+     */
+
     @Override
     public void onActivityResultChooseCategoryCollect(Intent data, Context context) {
         Category category =
@@ -70,10 +77,29 @@ public class CollectMoneyFragmentPresenter implements CollectMoneyFragmentMvpPre
                 .resultOnActivityResultChooseCategoryCollect(category, subCategory);
     }
 
+    /**
+     * Hàm lấy dữ liệu tài khoản được chọn
+     *
+     * @param data dữ liệu tài khoản được trả về khi chọn tài khoản
+     * @created_by nxduong on 10/2/2021
+     */
+
     @Override
     public void onActivityResultAccountCollect(Intent data) {
         Account account = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
                 .getSerializable("BUNDLE_ACCOUNT");
         mCollectMoneyFragmentMvpView.resultOnFinishChooseAccountCollect(account);
+    }
+
+    /**
+     * Hàm lấy giá trị tài khoản đầu tiên trong database
+     *
+     * @created_by nxduong on 10/2/2021
+     */
+
+    @Override
+    public void doGetAccountFirstFromDB(Context context) {
+        mCollectMoneyFragmentMvpView.resultGetAccountFirstFromDB(
+                new AccountMoneyDatabase(context).getAccountFirstly());
     }
 }

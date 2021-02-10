@@ -16,4 +16,6 @@ public interface CollectMoneyFragmentMvpPresenter {
     void onActivityResultChooseCategoryCollect(Intent data, Context context);
 
     void onActivityResultAccountCollect(Intent data);
+
+    void doGetAccountFirstFromDB(Context context);
 }

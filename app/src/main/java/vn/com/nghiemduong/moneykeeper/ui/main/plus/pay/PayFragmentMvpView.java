@@ -16,4 +16,6 @@ public interface PayFragmentMvpView {
     void resultOnActivityResultChooseCategoryPay(Category category, SubCategory subCategory);
 
     void resultOnFinishChooseAccountPay(Account account);
+
+    void resultGetAccountFirstFromDB(Account account);
 }

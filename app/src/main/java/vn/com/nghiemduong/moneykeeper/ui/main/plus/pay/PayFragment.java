@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.provider.MediaStore;
@@ -26,6 +25,7 @@ import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.MoneyPay.MoneyPayDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
@@ -70,6 +70,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
             llContentDetail, llLayoutDetail, llDelete;
     private Bitmap imagePay = null;
     private MoneyPayDatabase mMoneyPayDatabase;
+    private AccountMoneyDatabase mAccountMoneyDatabase;
     private Account mAccount;
     private Category mCategory;
     private SubCategory mSubCategory;
@@ -89,6 +90,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
         init();
 
         getDataMoneyPayFromBundle();
+        mPayFragmentPresenter.doGetAccountFirstFromDB(getContext());
         swtFee.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -237,7 +239,11 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
 
             case R.id.rlChooseAccount:
                 try {
-                    startActivityForResult(new Intent(getContext(), ChooseAccountActivity.class),
+                    Intent intent = new Intent(getContext(), ChooseAccountActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("BUNDLE_ACCOUNT", mAccount);
+                    intent.putExtra("BUNDLE", bundle);
+                    startActivityForResult(intent,
                             ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT);
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
@@ -559,6 +565,18 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
             ivImageAccountPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
             tvTitleAccountPay.setText(mAccount.getAccountName());
+        }
+    }
+
+    @Override
+    public void resultGetAccountFirstFromDB(Account account) {
+        if (mAccount == null) {
+            this.mAccount = account;
+            if (mAccount != null) {
+                ivImageAccountPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                        mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
+                tvTitleAccountPay.setText(mAccount.getAccountName());
+            }
         }
     }
 }
