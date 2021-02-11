@@ -77,7 +77,6 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
 
     private void onClickSpinnerCategories() {
         spinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {

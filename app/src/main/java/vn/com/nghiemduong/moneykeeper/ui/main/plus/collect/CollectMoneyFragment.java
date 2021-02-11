@@ -172,9 +172,10 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
 
             case R.id.tvCalendar:
                 try {
-                    CustomDateTimeDialog customDateDialog = new CustomDateTimeDialog(getContext(),
-                            CustomDateTimeDialog.KEY_CALENDAR, tvCalendarCollect.getText().toString(),
-                            tvTimeCollect.getText().toString(), this);
+                    CustomDateTimeDialog customDateDialog =
+                            new CustomDateTimeDialog(Objects.requireNonNull(getContext()),
+                                    CustomDateTimeDialog.KEY_CALENDAR, tvCalendarCollect.getText().toString(),
+                                    tvTimeCollect.getText().toString(), this);
                     customDateDialog.show();
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
@@ -183,9 +184,10 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
 
             case R.id.tvTime:
                 try {
-                    CustomDateTimeDialog customTimeDialog = new CustomDateTimeDialog(getContext(),
-                            CustomDateTimeDialog.KEY_WATCH, tvCalendarCollect.getText().toString(),
-                            tvTimeCollect.getText().toString(), this);
+                    CustomDateTimeDialog customTimeDialog =
+                            new CustomDateTimeDialog(Objects.requireNonNull(getContext()),
+                                    CustomDateTimeDialog.KEY_WATCH, tvCalendarCollect.getText().toString(),
+                                    tvTimeCollect.getText().toString(), this);
                     customTimeDialog.show();
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
@@ -302,7 +304,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
 
                             categoryId = mCategory.getCategoryId();
                             moneyCollect = new MoneyCollect(mMoneyCollect.getCollectId(),
-                                    accountId, amountOfMoney, categoryId, -1,
+                                    accountId, amountOfMoney, categoryId, 0,
                                     explain, date, time, report, image);
                         }
 
@@ -411,7 +413,13 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
             etExplain.setText(mMoneyCollect.getExplain());
             tvCalendarCollect.setText(mMoneyCollect.getDate());
             tvTimeCollect.setText(mMoneyCollect.getTime());
-            ivImageSelected.setImageBitmap(AppUtils.convertByteArrayToBitmap(mMoneyCollect.getImage()));
+            if (mMoneyCollect.getImage() != null) {
+                rlContentImage.setVisibility(View.VISIBLE);
+                llSelectImage.setVisibility(View.GONE);
+                ivImageSelected.setImageBitmap(
+                        AppUtils.convertByteArrayToBitmap(mMoneyCollect.getImage()));
+            }
+
             llDelete.setVisibility(View.VISIBLE); // Hiện nút xóa lên
 
             if (mSubCategory != null) {

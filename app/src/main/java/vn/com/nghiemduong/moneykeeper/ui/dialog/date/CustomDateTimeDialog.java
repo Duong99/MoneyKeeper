@@ -137,7 +137,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnCurrentDate:
+            case R.id.btnCurrentDate: // Chọn ngày hiện tại
                 Date date = new Date();
                 if (mKey == KEY_WATCH) {
                     timePicker.setCurrentHour(date.getHours());
@@ -151,11 +151,11 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
                 }
                 break;
 
-            case R.id.btnCloseDate:
+            case R.id.btnCloseDate: // Đóng
                 dismiss();
                 break;
 
-            case R.id.btnSaveDate:
+            case R.id.btnSaveDate: // Chọn lưu ngày, thời gian được chọn
                 mOnClickSaveDateTime.saveDateTime(mDate, mTime);
                 dismiss();
                 break;

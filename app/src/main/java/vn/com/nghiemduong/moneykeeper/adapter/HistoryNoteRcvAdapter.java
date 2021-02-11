@@ -47,6 +47,7 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
         this.mListTimes = new ArrayList<>();
         this.mAccountMoneyDatabase = new AccountMoneyDatabase(mContext);
         this.mCategoryDatabase = new CategoryDatabase(mContext);
+        this.mSubCategoryDatabase = new SubCategoryDatabase(mContext);
         sortListTimes();
     }
 

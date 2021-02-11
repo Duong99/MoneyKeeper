@@ -34,6 +34,7 @@
     </LinearLayout>
 
     <ImageView
+        android:visibility="gone"
         android:layout_margin="@dimen/margin_large"
         android:id="@+id/ivDoneAccount"
         android:background="@drawable/done_icon_main_color"

@@ -219,7 +219,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rlChooseCategory:
+            case R.id.rlChooseCategory: // chọn hạng mục
                 try {
                     startActivityForResult(new Intent(getContext(), ChooseCategoriesActivity.class),
                             ChooseCategoriesActivity.REQUEST_CODE_CHOOSE_CATEGORY);
@@ -228,7 +228,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.rlSelectCategoryFee:
+            case R.id.rlSelectCategoryFee: // Chọn hạng mục ở mục phí
                 try {
                     startActivityForResult(new Intent(getContext(), ChooseCategoriesActivity.class),
                             ChooseCategoriesActivity.REQUEST_CODE_CHOOSE_CATEGORY_FEE);
@@ -237,7 +237,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.rlChooseAccount:
+            case R.id.rlChooseAccount: // Chọn tài khoản
                 try {
                     Intent intent = new Intent(getContext(), ChooseAccountActivity.class);
                     Bundle bundle = new Bundle();
@@ -250,7 +250,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.tvTime:
+            case R.id.tvTime: // Chọn thời gian
                 try {
                     CustomDateTimeDialog customCalendarView = new CustomDateTimeDialog(getContext(),
                             CustomDateTimeDialog.KEY_WATCH, tvCalenderPay.getText().toString(),
@@ -261,7 +261,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.tvCalendar:
+            case R.id.tvCalendar: // Chọn ngày tháng năm
                 try {
                     CustomDateTimeDialog customCalendarView = new CustomDateTimeDialog(getContext(),
                             CustomDateTimeDialog.KEY_CALENDAR, tvCalenderPay.getText().toString(),
@@ -284,7 +284,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.rlLender:
+            case R.id.rlLender: // Chọn người cho vay
                 try {
                     Intent intent = new Intent(getContext(), ContactActivity.class);
                     intent.putExtra(ContactActivity.KEY_CONTACT_ACTIVITY_TYPE,
@@ -304,7 +304,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.rlSelectFolder:
+            case R.id.rlSelectFolder: // Chọn ảnh từ thu mục
                 try {
                     if (AppPermission.requestCameraPermission(getContext(), getActivity())) {
                         Intent intentFolder = new Intent(Intent.ACTION_PICK);
@@ -317,7 +317,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
 
                 break;
 
-            case R.id.rlSelectCamera:
+            case R.id.rlSelectCamera: // Chọn camera chụp ảnh
                 try {
                     if (AppPermission.requestCameraPermission(getContext(), getActivity())) {
                         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -329,7 +329,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
 
                 break;
 
-            case R.id.ivRemoveImageSelected:
+            case R.id.ivRemoveImageSelected: // Xóa ảnh
                 try {
                     llSelectImage.setVisibility(View.VISIBLE);
                     rlContentImage.setVisibility(View.GONE);
@@ -399,7 +399,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                         } else { // Đối tượng không có hạng mục con
                             categoryId = mMoneyPay.getCategoryId();
                             moneyPay = new MoneyPay(mMoneyPay.getPayId(),
-                                    accountId, amountOfMoney, categoryId, -1,
+                                    accountId, amountOfMoney, categoryId, 0,
                                     explain, date, time, report, image);
                         }
 
@@ -427,8 +427,12 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 break;
 
             case R.id.llDelete:
-                new AttentionDialog(Objects.requireNonNull(getContext()),
-                        this, AttentionDialog.ATTENTION_DELETE_DATA).show();
+                try {
+                    new AttentionDialog(Objects.requireNonNull(getContext()),
+                            this, AttentionDialog.ATTENTION_DELETE_DATA).show();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
                 break;
         }
     }
@@ -514,7 +518,13 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
             etExplain.setText(mMoneyPay.getExplain());
             tvCalenderPay.setText(mMoneyPay.getDate());
             tvTimePay.setText(mMoneyPay.getTime());
-            ivImageSelectedPay.setImageBitmap(AppUtils.convertByteArrayToBitmap(mMoneyPay.getImage()));
+            if (mMoneyPay.getImage() != null) {
+                rlContentImage.setVisibility(View.VISIBLE);
+                llSelectImage.setVisibility(View.GONE);
+                ivImageSelectedPay.setImageBitmap(
+                        AppUtils.convertByteArrayToBitmap(mMoneyPay.getImage()));
+            }
+
             llDelete.setVisibility(View.VISIBLE); // Hiện nút xóa lên
 
             if (mSubCategory != null) {

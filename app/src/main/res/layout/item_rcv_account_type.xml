@@ -30,13 +30,12 @@
     <ImageView
         android:visibility="gone"
         android:id="@+id/ivCheckAccountType"
-        android:layout_width="@dimen/height_width_ic_select_image"
-        android:layout_height="@dimen/height_width_ic_select_image"
+        android:layout_width="@dimen/done_icon"
+        android:layout_height="@dimen/done_icon"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/margin_large"
-        android:background="@drawable/ic_arrow_right"
-        android:backgroundTint="@color/black_text_normal" />
+        android:background="@drawable/done_icon_main_color" />
 
     <include
         android:layout_alignParentBottom="true"

@@ -41,6 +41,9 @@
     <string name="email">Email</string>
     <string name="phone_number">Số điện thoại</string>
 
+    <string name="from_account">Từ tài khoản</string>
+    <string name="to_account">Đến tài khoản</string>
+
     <string name="text_register_policy_1">Bằng cách bấm vào nút đăng ký, bạn đã đồng ý với </string>
     <string name="text_register_policy_2">Điều khoản dịch vụ </string>
     <string name="text_register_policy_3">và </string>

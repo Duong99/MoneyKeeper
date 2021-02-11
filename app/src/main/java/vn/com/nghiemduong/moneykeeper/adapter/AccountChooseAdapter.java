@@ -49,8 +49,10 @@ public class AccountChooseAdapter extends RecyclerView.Adapter<AccountChooseAdap
                 holder.viewLine.setVisibility(View.GONE);
             }
 
-            if (mAccount == account) {
-                holder.ivDoneAccount.setVisibility(View.VISIBLE);
+            if (mAccount != null) {
+                if (mAccount.getAccountId() == account.getAccountId()) {
+                    holder.ivDoneAccount.setVisibility(View.VISIBLE);
+                }
             }
 
             holder.ivPictureAccountType.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
