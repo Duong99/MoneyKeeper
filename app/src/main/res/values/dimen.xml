@@ -88,4 +88,7 @@
     <dimen name="height_width_image_icon_small_add_category">30dp</dimen>
     <dimen name="height_layout_icon_small">60dp</dimen>
 
+    <dimen name="height_width_image_toast">40dp</dimen>
+    <dimen name="height_toast">60dp</dimen>
+    <dimen name="corner_toast">30dp</dimen>
 </resources>

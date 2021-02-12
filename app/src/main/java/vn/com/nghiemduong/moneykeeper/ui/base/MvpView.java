@@ -7,5 +7,7 @@ public interface MvpView {
 
     void showToast(String message);
 
+    void showCustomToast(String message, int type);
+
     void onBackPressed();
 }

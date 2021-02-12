@@ -272,7 +272,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.rlWhoContact:
+            case R.id.rlWhoContact: // Chọn
                 try {
                     Intent intent = new Intent(getContext(), ContactActivity.class);
                     intent.putExtra(ContactActivity.KEY_CONTACT_ACTIVITY_TYPE,
@@ -296,7 +296,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.rlRepaymentDate:
+            case R.id.rlRepaymentDate: // chọn ngày trả nợ
                 try {
 
                 } catch (Exception e) {
@@ -341,9 +341,12 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
 
             case R.id.llSave:
                 if (AppUtils.getEditText(etInputMoney).isEmpty()) {
+
                     etInputMoney.requestFocus();
                 } else if (mCategory == null) {
-
+                    showCustomToast(getString(R.string.please_choose_category), AppUtils.TOAST_WARRING);
+                    tvTitleSelectCategoryPay.setTextColor(getResources()
+                            .getColor(R.color.text_warring));
                 } else if (mAccount == null) {
 
                 } else {
@@ -382,7 +385,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                         if (insert == DBUtils.checkDBFail) {
                             showToast(getResources().getString(R.string.insert_pay_fail));
                         } else {
-                            showToast(getResources().getString(R.string.insert_pay_success));
+                            showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
                             etInputMoney.setText(getString(R.string._0));
                             etExplain.setText(null);
                         }
@@ -407,7 +410,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                         if (update == DBUtils.checkDBFail) {
                             showToast(getResources().getString(R.string.update_pay_fail));
                         } else {
-                            showToast(getResources().getString(R.string.update_pay_success));
+                            showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
                             onBackPressed();
                         }
                     }
@@ -496,7 +499,8 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 if (delete == DBUtils.checkDBFail) {
                     showToast(getString(R.string.delete_pay_fail));
                 } else {
-                    showToast(getString(R.string.delete_pay_success));
+                    showCustomToast(getString(R.string.data_delete_success), AppUtils.TOAST_SUCCESS);
+                    ;
                     mMoneyPay = null;
                     onBackPressed();
                 }
@@ -558,12 +562,14 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                     AppUtils.convertPathFileImageAssetsToBitmap(mCategory.getCategoryPath(),
                             Objects.requireNonNull(getContext())));
             tvTitleSelectCategoryPay.setText(mCategory.getCategoryName());
+            tvTitleSelectCategoryPay.setTextColor(getResources().getColor(R.color.text_selected));
         } else {
             if (mCategory != null) {
                 ivImageCategoriesPay.setImageBitmap(
                         AppUtils.convertPathFileImageAssetsToBitmap(mCategory.getCategoryPath(),
                                 Objects.requireNonNull(getContext())));
                 tvTitleSelectCategoryPay.setText(mCategory.getCategoryName());
+                tvTitleSelectCategoryPay.setTextColor(getResources().getColor(R.color.text_selected));
             }
         }
     }
@@ -575,6 +581,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
             ivImageAccountPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
             tvTitleAccountPay.setText(mAccount.getAccountName());
+            tvTitleAccountPay.setTextColor(getResources().getColor(R.color.text_selected));
         }
     }
 
@@ -586,6 +593,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 ivImageAccountPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                         mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
                 tvTitleAccountPay.setText(mAccount.getAccountName());
+                tvTitleAccountPay.setTextColor(getResources().getColor(R.color.text_selected));
             }
         }
     }

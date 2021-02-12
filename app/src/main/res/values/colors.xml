@@ -53,4 +53,10 @@
     <color name="range_bg_color">#B7C99D</color>
     <color name="calendar_text">#474747</color>
 
+    <color name="bg_toast_success">#2db84c</color>
+    <color name="bg_toast_warring">#FF9800</color>
+    <color name="bg_toast_error">#FF0000</color>
+
+    <color name="text_selected">#1E1E1E</color>
+    <color name="text_warring">#FF4C4C</color>
 </resources>

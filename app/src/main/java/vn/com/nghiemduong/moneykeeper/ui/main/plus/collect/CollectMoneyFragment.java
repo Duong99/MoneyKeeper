@@ -241,11 +241,14 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
 
             case R.id.llSave:
                 if (AppUtils.getEditText(etInputMoney).isEmpty()) {
-
+                    etInputMoney.requestFocus();
                 } else if (mCategory == null) {
-
+                    showCustomToast(getString(R.string.please_choose_category), AppUtils.TOAST_WARRING);
+                    tvTitleSelectCategoryCollect.setTextColor(getResources()
+                            .getColor(R.color.text_warring));
                 } else if (mAccount == null) {
-
+                    showCustomToast(getString(R.string.please_choose_account), AppUtils.TOAST_WARRING);
+                    tvTitleAccountCollect.setTextColor(getResources().getColor(R.color.text_warring));
                 } else {
                     int report = 1;
 
@@ -285,7 +288,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                         if (insert == DBUtils.checkDBFail) {
                             showToast(getResources().getString(R.string.insert_collect_fail));
                         } else {
-                            showToast(getResources().getString(R.string.insert_collect_success));
+                            showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
                             etInputMoney.setText(getString(R.string._0));
                             etExplain.setText(null);
                             mMoneyCollect = null;
@@ -334,7 +337,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 break;
 
             case R.id.llDelete:
-                new AttentionDialog(getContext(),
+                new AttentionDialog(Objects.requireNonNull(getContext()),
                         this, AttentionDialog.ATTENTION_DELETE_DATA).show();
                 break;
         }
@@ -358,8 +361,8 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                     case AppUtils.REQUEST_CODE_IMAGE_FROM_FOLDER:
                         Uri uri = data.getData();
                         try {
-                            imageCollect = MediaStore.Images.Media.getBitmap(getContext()
-                                    .getContentResolver(), uri);
+                            imageCollect = MediaStore.Images.Media.getBitmap(
+                                    Objects.requireNonNull(getContext()).getContentResolver(), uri);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -369,7 +372,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                         break;
 
                     case AppUtils.REQUEST_CODE_IMAGE_FROM_CAMERA:
-                        imageCollect = (Bitmap) data.getExtras().get("data");
+                        imageCollect = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
                         ivImageSelected.setImageBitmap(imageCollect);
                         llSelectImage.setVisibility(View.GONE);
                         rlContentImage.setVisibility(View.VISIBLE);
@@ -393,7 +396,8 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 if (delete == DBUtils.checkDBFail) {
                     showToast(getString(R.string.delete_collect_fail));
                 } else {
-                    showToast(getString(R.string.delete_collect_success));
+                    showCustomToast(getString(R.string.data_delete_success), AppUtils.TOAST_SUCCESS);
+                    ;
                 }
             }
         } catch (Exception e) {
@@ -451,12 +455,17 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         if (mSubCategory != null) {
             tvTitleSelectCategoryCollect.setText(mSubCategory.getSubCategoryName());
             ivImageCategoriesCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
-                    mSubCategory.getSubCategoryPath(), getContext()));
+                    mSubCategory.getSubCategoryPath(), Objects.requireNonNull(getContext())));
+            tvTitleSelectCategoryCollect.setTextColor(getResources()
+                    .getColor(R.color.text_selected));
+
         } else {
             if (mCategory != null) {
                 tvTitleSelectCategoryCollect.setText(mCategory.getCategoryName());
                 ivImageCategoriesCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
-                        mCategory.getCategoryPath(), getContext()));
+                        mCategory.getCategoryPath(), Objects.requireNonNull(getContext())));
+                tvTitleSelectCategoryCollect.setTextColor(getResources()
+                        .getColor(R.color.text_selected));
             }
         }
     }
@@ -468,6 +477,8 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
             ivImageAccountCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
             tvTitleAccountCollect.setText(mAccount.getAccountName());
+            tvTitleAccountCollect.setTextColor(getResources()
+                    .getColor(R.color.text_selected));
         }
     }
 
@@ -479,6 +490,8 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 ivImageAccountCollect.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                         mAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
                 tvTitleAccountCollect.setText(mAccount.getAccountName());
+                tvTitleAccountCollect.setTextColor(getResources()
+                        .getColor(R.color.text_selected));
             }
         }
     }

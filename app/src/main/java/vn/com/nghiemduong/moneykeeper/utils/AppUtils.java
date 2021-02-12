@@ -54,6 +54,11 @@ public class AppUtils {
     public static final int REQUEST_CODE_IMAGE_FROM_FOLDER = 120;
     public static final int REQUEST_CODE_IMAGE_FROM_CAMERA = 121;
 
+    // Custom toast
+    public static final int TOAST_SUCCESS = 21;
+    public static final int TOAST_WARRING = 22;
+    public static final int TOAST_ERROR = 23;
+
 
     // hàm sử lý khi ứng dụng Exception
     public static void handlerException(Exception e) {

@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/tvTitleSelectCategory"
-        style="@style/TextViewTitleBar"
+        android:textSize="@dimen/font_size_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
