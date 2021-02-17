@@ -1,7 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.utils;
 
 /**
- * -  Lóp dùng chung cho các lớp database khác
+ * -  Lớp dùng chung cho các lớp database khác
  * - @created_by nxduong on 26/1/2021
  **/
 public class DBUtils {

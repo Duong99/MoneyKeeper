@@ -1,12 +1,10 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.category.update.add;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +19,7 @@ import vn.com.nghiemduong.moneykeeper.data.db.category.SubCategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
-import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.icon.IconCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.parent.CategoryParentActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -34,7 +32,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  **/
 
 public class AddCategoryActivity extends BaseActivity implements View.OnClickListener,
-        AddCategoryActivityMvpView, AttentionDialog.IOnClickAttentionDialog {
+        AddCategoryActivityMvpView, AttentionDeleteDialog.IOnClickAttentionDialog {
 
     public final static int REQUEST_CODE_KEY_CATEGORY_PAY = 154;
     public final static int REQUEST_CODE_KEY_CATEGORY_COLLECT = 153;
@@ -138,8 +136,8 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.llDelete:
                 try {
-                    new AttentionDialog(this, this,
-                            AttentionDialog.ATTENTION_DELETE_CATEGORY).show();
+                    new AttentionDeleteDialog(this, this,
+                            AttentionDeleteDialog.ATTENTION_DELETE_CATEGORY).show();
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }

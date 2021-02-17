@@ -15,17 +15,14 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CategoryEditAdapter;
-import vn.com.nghiemduong.moneykeeper.adapter.SubCategoryEditAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.add.AddCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
-import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 import static android.app.Activity.RESULT_OK;
 

@@ -22,6 +22,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
+import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -31,6 +32,7 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
     private Context mContext;
     private ArrayList<MoneyCollect> mListMoneyCollect;
     private ArrayList<MoneyPay> mListMoneyPay;
+    private ArrayList<Transfer> mListTransfer;
     private ArrayList<String> mListTimes;
     private IOnClickHistoryNoteMvpView mIOnClickHistoryNoteMvpView;
     private AccountMoneyDatabase mAccountMoneyDatabase;
@@ -38,11 +40,12 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
     private SubCategoryDatabase mSubCategoryDatabase;
 
     public HistoryNoteRcvAdapter(Context mContext, ArrayList<MoneyCollect> listMoneyCollect,
-                                 ArrayList<MoneyPay> listMoneyPay,
+                                 ArrayList<MoneyPay> listMoneyPay, ArrayList<Transfer> listTransfer,
                                  IOnClickHistoryNoteMvpView onClickHistoryNoteMvpView) {
         this.mContext = mContext;
         this.mListMoneyCollect = listMoneyCollect;
         this.mListMoneyPay = listMoneyPay;
+        this.mListTransfer = listTransfer;
         this.mIOnClickHistoryNoteMvpView = onClickHistoryNoteMvpView;
         this.mListTimes = new ArrayList<>();
         this.mAccountMoneyDatabase = new AccountMoneyDatabase(mContext);
@@ -127,7 +130,39 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                         holder.tvDateHistoryNote.setText(moneyCollect.getDate());
 
                         account = mAccountMoneyDatabase.getAccount(moneyCollect.getAccountId());
-                        holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
+                        if (account != null) {
+                            holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
+                        }
+                        break;
+                    }
+                }
+            }
+
+            Transfer transfer;
+            for (int k = 0; k < mListTransfer.size(); k++) {
+                transfer = mListTransfer.get(k);
+                if (transfer != null) {
+                    if (mListTimes.get(position).equals(transfer.getDate()
+                            + transfer.getTime())) {
+
+                        holder.tvNumberMoneyHistoryNote.setText(String.valueOf(
+                                transfer.getAmountOfMoney()));
+                        holder.tvNumberMoneyHistoryNote.setTextColor(mContext.getResources()
+                                .getColor(R.color.black));
+                        holder.tvDateHistoryNote.setText(transfer.getDate());
+
+                        holder.tvCategoryNameHistoryNote.setText(mContext.getResources()
+                                .getString(R.string.transfer_to_account));
+
+                        account = mAccountMoneyDatabase.getAccount(transfer.getFromAccountId());
+                        if (account != null) {
+                            holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
+                        }
+
+                        holder.ivCategoryHistoryNote.setImageBitmap(
+                                AppUtils.convertPathFileImageAssetsToBitmap(
+                                        "assets/ImageCategory/CHI/CHI_phi_chuyen_khoan.png",
+                                        mContext));
                         break;
                     }
                 }
@@ -165,7 +200,8 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                         for (int i = 0; i < mListMoneyPay.size(); i++) {
                             if (mListTimes.get(position).equals(mListMoneyPay.get(i).getDate()
                                     + mListMoneyPay.get(i).getTime())) {
-                                mIOnClickHistoryNoteMvpView.onClickHistoryNote(null, mListMoneyPay.get(i));
+                                mIOnClickHistoryNoteMvpView
+                                        .onClickMoneyPayHistoryNote(mListMoneyPay.get(i));
                                 checkBreak = true;
                                 break;
                             }
@@ -177,11 +213,24 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                             } else {
                                 if (mListTimes.get(position).equals(mListMoneyCollect.get(j).getDate()
                                         + mListMoneyCollect.get(j).getTime())) {
-                                    mIOnClickHistoryNoteMvpView.onClickHistoryNote(mListMoneyCollect.get(j), null);
+                                    mIOnClickHistoryNoteMvpView
+                                            .onClickMoneyCollectHistoryNote(mListMoneyCollect.get(j));
                                     break;
                                 }
                             }
+                        }
 
+                        for (int k = 0; k < mListTransfer.size(); k++) {
+                            if (checkBreak) {
+                                break;
+                            } else {
+                                if (mListTimes.get(position).equals(mListTransfer.get(k).getDate()
+                                        + mListTransfer.get(k).getTime())) {
+                                    mIOnClickHistoryNoteMvpView
+                                            .onClickTransferHistoryNote(mListTransfer.get(k));
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -190,7 +239,11 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
     }
 
     public interface IOnClickHistoryNoteMvpView {
-        void onClickHistoryNote(MoneyCollect moneyCollect, MoneyPay moneyPay);
+        void onClickMoneyCollectHistoryNote(MoneyCollect moneyCollect);
+
+        void onClickMoneyPayHistoryNote(MoneyPay moneyPay);
+
+        void onClickTransferHistoryNote(Transfer transfer);
     }
 
     /**
@@ -202,13 +255,18 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
      **/
     private void sortListTimes() {
         for (int i = 0; i < mListMoneyPay.size(); i++) {
-            mListTimes.add(new String(mListMoneyPay.get(i).getDate()
-                    + mListMoneyPay.get(i).getTime()));
+            mListTimes.add(mListMoneyPay.get(i).getDate()
+                    + mListMoneyPay.get(i).getTime());
         }
 
         for (int i = 0; i < mListMoneyCollect.size(); i++) {
-            mListTimes.add(new String(mListMoneyCollect.get(i).getDate()
-                    + mListMoneyCollect.get(i).getTime()));
+            mListTimes.add(mListMoneyCollect.get(i).getDate()
+                    + mListMoneyCollect.get(i).getTime());
+        }
+
+        for (int i = 0; i < mListTransfer.size(); i++) {
+            mListTimes.add(mListTransfer.get(i).getDate()
+                    + mListTransfer.get(i).getTime());
         }
 
         Collections.sort(mListTimes, Collections.<String>reverseOrder());

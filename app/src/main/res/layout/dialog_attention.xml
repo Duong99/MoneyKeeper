@@ -25,7 +25,10 @@
         android:id="@+id/tvContentAttention"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_margin="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_account_start_end"
+        android:layout_marginEnd="@dimen/margin_account_start_end"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_large"
         android:textSize="@dimen/font_medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

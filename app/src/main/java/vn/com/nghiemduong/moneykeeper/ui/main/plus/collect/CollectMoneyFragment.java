@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,17 +24,19 @@ import java.io.IOException;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.db.MoneyCollect.MoneyCollectDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.moneyCollect.MoneyCollectDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
-import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionReportDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.pay.PayFragment;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
@@ -45,8 +48,8 @@ import static android.app.Activity.RESULT_OK;
  * - @created_by nxduong on 26/1/2021
  **/
 public class CollectMoneyFragment extends BaseFragment implements View.OnClickListener,
-        CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDialog.IOnClickAttentionDialog,
-        CollectMoneyFragmentMvpView {
+        CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDeleteDialog.IOnClickAttentionDialog,
+        CollectMoneyFragmentMvpView, AttentionReportDialog.IOnClickAttentionReportDialog {
     private View mView;
     private RelativeLayout rlChooseCategoryCollect, rlChooseAccountCollect,
             rlSelectFolder, rlSelectCamera, rlContentImage;
@@ -79,6 +82,17 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         init();
         getDataMoneyCollectFromBundle();
         mCollectMoneyFragmentPresenter.doGetAccountFirstFromDB(getContext());
+
+
+        swNotIncludeReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    new AttentionReportDialog(Objects.requireNonNull(getContext()),
+                            CollectMoneyFragment.this).show();
+                }
+            }
+        });
         return mView;
     }
 
@@ -149,6 +163,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         llContentDetail = mView.findViewById(R.id.llContentDetail);
 
         etInputMoney = mView.findViewById(R.id.etInputMoney);
+        AppUtils.formatNumberEditText(etInputMoney);
         etInputMoney.setTextColor(getResources().getColor(R.color.green));
 
         etExplain = mView.findViewById(R.id.etExplain);
@@ -250,18 +265,21 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                     showCustomToast(getString(R.string.please_choose_account), AppUtils.TOAST_WARRING);
                     tvTitleAccountCollect.setTextColor(getResources().getColor(R.color.text_warring));
                 } else {
-                    int report = 1;
+                    int report;
 
                     if (swNotIncludeReport.isChecked()) {
-                        report = 0;
+                        report = AppUtils.KHONG_BAO_CAO;
+                    } else {
+                        report = AppUtils.CO_BAO_CAO;
                     }
+
                     byte[] image = null;
                     if (imageCollect != null) {
                         image = AppUtils.convertBitmapToByteArray(imageCollect);
                     }
 
                     int accountId = mAccount.getAccountId();
-                    int amountOfMoney = Integer.parseInt(AppUtils.getEditText(etInputMoney));
+                    int amountOfMoney = Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputMoney));
 
                     int subCategoryId;
                     int categoryId;
@@ -337,8 +355,8 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 break;
 
             case R.id.llDelete:
-                new AttentionDialog(Objects.requireNonNull(getContext()),
-                        this, AttentionDialog.ATTENTION_DELETE_DATA).show();
+                new AttentionDeleteDialog(Objects.requireNonNull(getContext()),
+                        this, AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
                 break;
         }
     }
@@ -397,7 +415,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                     showToast(getString(R.string.delete_collect_fail));
                 } else {
                     showCustomToast(getString(R.string.data_delete_success), AppUtils.TOAST_SUCCESS);
-                    ;
+                    onBackPressed();
                 }
             }
         } catch (Exception e) {
@@ -494,5 +512,15 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                         .getColor(R.color.text_selected));
             }
         }
+    }
+
+    @Override
+    public void onNoReport() {
+        swNotIncludeReport.setChecked(false);
+    }
+
+    @Override
+    public void onYesReport() {
+        swNotIncludeReport.setChecked(true);
     }
 }

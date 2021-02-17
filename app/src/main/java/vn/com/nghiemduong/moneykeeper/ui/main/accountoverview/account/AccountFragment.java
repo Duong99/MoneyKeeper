@@ -24,7 +24,7 @@ import vn.com.nghiemduong.moneykeeper.adapter.AccountAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
-import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccount;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccountMvpView;
@@ -42,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class AccountFragment extends BaseFragment implements View.OnClickListener,
         AccountAdapter.IOnClickAccount, BottomSheetOptionAccountMvpView,
-        AccountFragmentMvpView, AttentionDialog.IOnClickAttentionDialog {
+        AccountFragmentMvpView, AttentionDeleteDialog.IOnClickAttentionDialog {
     private SwipeRefreshLayout srlAccount;
     private View mView;
     private RecyclerView rcvListAccount;
@@ -177,8 +177,8 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClickDeleteOptionAccount() {
-        new AttentionDialog(getContext(), this,
-                AttentionDialog.ATTENTION_DELETE_ACCOUNT).show();
+        new AttentionDeleteDialog(getContext(), this,
+                AttentionDeleteDialog.ATTENTION_DELETE_ACCOUNT).show();
     }
 
     @Override

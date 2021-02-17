@@ -88,8 +88,8 @@
 
                     <ImageView
                         android:id="@+id/ivCheckAccount"
-                        android:layout_width="@dimen/height_width_ic_select_image"
-                        android:layout_height="@dimen/height_width_ic_select_image"
+                        android:layout_width="@dimen/height_width_ic_arrow"
+                        android:layout_height="@dimen/height_width_ic_arrow"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/margin_large"

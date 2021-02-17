@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.data.db.MoneyCollect;
+package vn.com.nghiemduong.moneykeeper.data.db.moneyCollect;
 
 import java.util.ArrayList;
 
@@ -15,10 +15,6 @@ public interface MoneyCollectDatabaseMvpPresenter {
     long updateMoneyCollect(MoneyCollect moneyCollect, int numberMoneyPrevious);
 
     long deleteMoneyCollect(MoneyCollect moneyCollect);
-
-    long updateMoneyOfAccountWhenInsertCollect(int accountId, int numberMoney);
-
-    long updateMoneyOfAccountWhenDeleteCollect(int accountId, int numberMoney);
 
     long updateMoneyOfAccountWhenUpdateCollect(int accountId, int numberMoneyCurrent,
                                                int numberMoneyPrevious);

@@ -16,9 +16,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 /**
- * -
  * Lớp thực hiện thêm sửa xóa table Account trong database
- * <p>
  * - @created_by nxduong on 26/1/2021
  **/
 public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMoneyDatabaseMvpPresenter {
@@ -229,5 +227,73 @@ public class AccountMoneyDatabase extends SQLiteOpenHelper implements AccountMon
 
         db.close();
         return delete;
+    }
+
+    /**
+     * Hàm trừ tiền trong tài khoản
+     *
+     * @param accountId   id tài khoản
+     * @param numberMoney số tiền
+     * @created_by nxduong on 16/2/2021
+     */
+
+    @Override
+    public long subtractMoneyOfAccount(int accountId, int numberMoney) {
+        db = this.getReadableDatabase();
+        db = this.getWritableDatabase();
+        String querySelectMoneyCurrentAccount = "SELECT " + ACCOUNT_MONEY_CURRENT
+                + " FROM " + NAME_TABLE_ACCOUNT + " WHERE " + ACCOUNT_ID + " = " + accountId;
+        long update = DBUtils.checkDBFail;
+        try {
+            Cursor cursor = db.rawQuery(querySelectMoneyCurrentAccount, null);
+            cursor.moveToNext();
+
+            int moneyCurrentAccount = cursor.getInt(0);
+            moneyCurrentAccount -= numberMoney;
+
+            ContentValues values = new ContentValues();
+            values.put(ACCOUNT_MONEY_CURRENT, moneyCurrentAccount);
+            update = db.update(NAME_TABLE_ACCOUNT, values, ACCOUNT_ID + " = ? ",
+                    new String[]{String.valueOf(accountId)});
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
+        db.close();
+        return update;
+    }
+
+    /**
+     * Hàm cộng tiền trong tài khoản
+     *
+     * @param accountId   id tài khoản
+     * @param numberMoney số tiền
+     * @created_by nxduong on 16/2/2021
+     */
+
+    @Override
+    public long plusMoneyOfAccount(int accountId, int numberMoney) {
+        db = this.getReadableDatabase();
+        db = this.getWritableDatabase();
+        String querySelectMoneyCurrentAccount = "SELECT " + ACCOUNT_MONEY_CURRENT
+                + " FROM " + NAME_TABLE_ACCOUNT + " WHERE " + ACCOUNT_ID + " = " + accountId;
+        long update = DBUtils.checkDBFail;
+        try {
+            Cursor cursor = db.rawQuery(querySelectMoneyCurrentAccount, null);
+            cursor.moveToNext();
+
+            int moneyCurrentAccount = cursor.getInt(0);
+            moneyCurrentAccount += numberMoney;
+
+            ContentValues values = new ContentValues();
+            values.put(ACCOUNT_MONEY_CURRENT, moneyCurrentAccount);
+            update = db.update(NAME_TABLE_ACCOUNT, values, ACCOUNT_ID + " = ? ",
+                    new String[]{String.valueOf(accountId)});
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
+        db.close();
+        return update;
     }
 }

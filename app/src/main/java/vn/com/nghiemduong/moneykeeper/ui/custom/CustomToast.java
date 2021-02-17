@@ -67,7 +67,7 @@ public class CustomToast extends Toast {
         }
 
         toast.setDuration(LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 140);
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
         toast.setView(view);
         return toast;
     }

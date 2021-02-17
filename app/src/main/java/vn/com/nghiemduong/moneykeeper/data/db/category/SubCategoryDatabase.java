@@ -60,7 +60,7 @@ public class SubCategoryDatabase extends SQLiteOpenHelper implements SubCategory
         db = this.getReadableDatabase();
         ArrayList<SubCategory> listSubCategories = new ArrayList<>();
         String query = "SELECT * FROM " + NAME_TABLE_SUBCATEGORY
-                + " WHERE " + CATEGORY_ID + " = " + categoryId;
+                + " WHERE " + CATEGORY_ID + " = " + categoryId + " ORDER BY " + SUB_NAME;
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {

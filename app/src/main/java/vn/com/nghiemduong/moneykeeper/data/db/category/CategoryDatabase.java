@@ -21,10 +21,8 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  **/
 public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDatabaseMvpPresenter {
 
-
     private final static String NAME_TABLE_CATEGORY = "tb_Category";
     public final static String CATEGORY_ID = "categoryId";
-    //private final static String SUB_ = "categoryId";
     private final static String CATEGORY_NAME = "categoryName";
     private final static String CATEGORY_PATH = "categoryPath";
     private final static String CATEGORY_EXPLAIN = "explain";
@@ -56,7 +54,7 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
         db = this.getReadableDatabase();
         ArrayList<Category> listCategories = new ArrayList<>();
         String query = "SELECT * FROM " + NAME_TABLE_CATEGORY +
-                " WHERE " + CATEGORY_TYPE + " = " + type;
+                " WHERE " + CATEGORY_TYPE + " = " + type + " ORDER BY " + CATEGORY_NAME;
 
         SubCategoryDatabase subCategoryDatabase = new SubCategoryDatabase(context);
         ArrayList<SubCategory> subCategories;

@@ -3,10 +3,13 @@ package vn.com.nghiemduong.moneykeeper.ui.main.plus.transfer;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
 
 /**
  * -
@@ -19,6 +22,22 @@ public class TransferFragmentPresenter implements TransferFragmentMvpPresenter {
     public TransferFragmentPresenter(TransferFragmentMvpView transferFragmentMvpView, Context context) {
         this.mTransferFragmentMvpView = transferFragmentMvpView;
         this.mContext = context;
+    }
+
+    @Override
+    public void doGetTransferFromBundle(Fragment fm, Context context) {
+        if (fm.getArguments() != null) {
+            Transfer transfer = (Transfer) fm.getArguments().getSerializable("BUNDLE_TRANSFER");
+            if (transfer != null) {
+                Account fromAccount, toAccount;
+
+                AccountMoneyDatabase accountMoneyDatabase = new AccountMoneyDatabase(context);
+                fromAccount = accountMoneyDatabase.getAccount(transfer.getFromAccountId());
+                toAccount = accountMoneyDatabase.getAccount(transfer.getToAccountId());
+
+                mTransferFragmentMvpView.resultGetTransferFromBundle(transfer, fromAccount, toAccount);
+            }
+        }
     }
 
     /**

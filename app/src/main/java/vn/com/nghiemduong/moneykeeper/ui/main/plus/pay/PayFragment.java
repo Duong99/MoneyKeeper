@@ -24,15 +24,15 @@ import java.io.IOException;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.db.MoneyPay.MoneyPayDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.moneyPay.MoneyPayDatabase;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.Category;
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
 import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
-import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDialog;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionReportDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
@@ -50,7 +50,8 @@ import static android.app.Activity.RESULT_OK;
  * - @created_by nxduong on 26/1/2021
  **/
 public class PayFragment extends BaseFragment implements PayFragmentMvpView, View.OnClickListener,
-        CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDialog.IOnClickAttentionDialog {
+        CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDeleteDialog.IOnClickAttentionDialog,
+        AttentionReportDialog.IOnClickAttentionReportDialog {
 
     private View mView;
     private RelativeLayout rlChooseCategoryPay, rlChooseAccountPay, rlSelectCategoryFee,
@@ -66,8 +67,12 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swtFee, swtLoanToPayAmount, swNotIncludeReport;
-    private LinearLayout llContentFee, llContentLoanToPayAmount, llSelectImage, llSave,
-            llContentDetail, llLayoutDetail, llDelete;
+    private LinearLayout llContentFee;
+    private LinearLayout llContentLoanToPayAmount;
+    private LinearLayout llSelectImage;
+    private LinearLayout llSave;
+    private LinearLayout llContentDetail;
+    private LinearLayout llDelete;
     private Bitmap imagePay = null;
     private MoneyPayDatabase mMoneyPayDatabase;
     private AccountMoneyDatabase mAccountMoneyDatabase;
@@ -102,6 +107,16 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 extendOrCloseLoanToPayAmount(isChecked);
+            }
+        });
+
+        swNotIncludeReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    new AttentionReportDialog(Objects.requireNonNull(getContext()),
+                            PayFragment.this).show();
+                }
             }
         });
         return mView;
@@ -147,7 +162,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
         llSave = mView.findViewById(R.id.llSave);
         llSave.setOnClickListener(this);
 
-        llLayoutDetail = mView.findViewById(R.id.llLayoutDetail);
+        LinearLayout llLayoutDetail = mView.findViewById(R.id.llLayoutDetail);
         llLayoutDetail.setOnClickListener(this);
 
         llDelete = mView.findViewById(R.id.llDelete);
@@ -194,6 +209,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
         tvDetail = mView.findViewById(R.id.tvDetail);
 
         etInputMoney = mView.findViewById(R.id.etInputMoney);
+        AppUtils.formatNumberEditText(etInputMoney);
         etInputMoney.setTextColor(getResources().getColor(R.color.red));
 
         etExplain = mView.findViewById(R.id.etExplain);
@@ -339,7 +355,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.llSave:
+            case R.id.llSave: // Chọn vào lưu hặc sửa chi tiền
                 if (AppUtils.getEditText(etInputMoney).isEmpty()) {
 
                     etInputMoney.requestFocus();
@@ -348,20 +364,25 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                     tvTitleSelectCategoryPay.setTextColor(getResources()
                             .getColor(R.color.text_warring));
                 } else if (mAccount == null) {
-
+                    showCustomToast(getString(R.string.please_choose_account), AppUtils.TOAST_WARRING);
+                    tvTitleAccountPay.setTextColor(getResources()
+                            .getColor(R.color.text_warring));
                 } else {
-                    int report = 1;
+                    int report;
 
                     if (swNotIncludeReport.isChecked()) {
-                        report = 0;
+                        report = AppUtils.KHONG_BAO_CAO;
+                    } else {
+                        report = AppUtils.CO_BAO_CAO;
                     }
+
                     byte[] image = null;
                     if (imagePay != null) {
                         image = AppUtils.convertBitmapToByteArray(imagePay);
                     }
 
                     int accountId = mAccount.getAccountId();
-                    int amountOfMoney = Integer.parseInt(AppUtils.getEditText(etInputMoney));
+                    int amountOfMoney = Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputMoney));
                     int subCategoryId;
                     int categoryId;
                     String explain = AppUtils.getEditText(etExplain);
@@ -429,10 +450,10 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 }
                 break;
 
-            case R.id.llDelete:
+            case R.id.llDelete: // chọn vào xóa chi tiền
                 try {
-                    new AttentionDialog(Objects.requireNonNull(getContext()),
-                            this, AttentionDialog.ATTENTION_DELETE_DATA).show();
+                    new AttentionDeleteDialog(Objects.requireNonNull(getContext()),
+                            this, AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -493,14 +514,13 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
     @Override
     public void onClickYesDelete() {
         try {
-            if (mMoneyPay != null) {
+            if (mMoneyPay != null) { // Xóa chi tiền
                 long delete = mMoneyPayDatabase.deleteMoneyPay(mMoneyPay);
 
                 if (delete == DBUtils.checkDBFail) {
                     showToast(getString(R.string.delete_pay_fail));
                 } else {
                     showCustomToast(getString(R.string.data_delete_success), AppUtils.TOAST_SUCCESS);
-                    ;
                     mMoneyPay = null;
                     onBackPressed();
                 }
@@ -510,6 +530,12 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
         }
     }
 
+    /**
+     * Hàm trả được gọi khi người dùng sử dựng chức năng sửa xóa
+     *
+     * @param moneyPay đối tượng chi tiền
+     * @created_by nxduong on 17/2/2021
+     */
     @Override
     public void resultGetMoneyPayFromBundle(MoneyPay moneyPay, Account account,
                                             Category category, SubCategory subCategory) {
@@ -553,15 +579,23 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
         }
     }
 
+    /**
+     * Hàm trả về đối tượng hạng mục cha và con để setview khi người dùng chọn hạng mục
+     *
+     * @param category    hạng mục cha
+     * @param subCategory hạng mục con
+     * @created_by nxduong on 17/2/2021
+     */
+
     @Override
     public void resultOnActivityResultChooseCategoryPay(Category category, SubCategory subCategory) {
         this.mCategory = category;
         this.mSubCategory = subCategory;
         if (mSubCategory != null) {
             ivImageCategoriesPay.setImageBitmap(
-                    AppUtils.convertPathFileImageAssetsToBitmap(mCategory.getCategoryPath(),
+                    AppUtils.convertPathFileImageAssetsToBitmap(mSubCategory.getSubCategoryPath(),
                             Objects.requireNonNull(getContext())));
-            tvTitleSelectCategoryPay.setText(mCategory.getCategoryName());
+            tvTitleSelectCategoryPay.setText(mSubCategory.getSubCategoryName());
             tvTitleSelectCategoryPay.setTextColor(getResources().getColor(R.color.text_selected));
         } else {
             if (mCategory != null) {
@@ -573,6 +607,13 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
             }
         }
     }
+
+    /**
+     * Hàm trả về đối tượng tài khoản khi người dùng chọn tài khoản
+     *
+     * @param account đối tượng tài khoản
+     * @created_by nxduong on 17/2/2021
+     */
 
     @Override
     public void resultOnFinishChooseAccountPay(Account account) {
@@ -596,5 +637,15 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 tvTitleAccountPay.setTextColor(getResources().getColor(R.color.text_selected));
             }
         }
+    }
+
+    @Override
+    public void onNoReport() {
+        swNotIncludeReport.setChecked(false);
+    }
+
+    @Override
+    public void onYesReport() {
+        swNotIncludeReport.setChecked(true);
     }
 }

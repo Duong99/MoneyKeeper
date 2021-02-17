@@ -5,14 +5,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.doodle.android.chips.model.Contact;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import vn.com.nghiemduong.moneykeeper.R;
 
@@ -68,6 +74,11 @@ public class AppUtils {
     // Hàm lấy giá trị trong EditText
     public static String getEditText(EditText et) {
         return et.getText().toString();
+    }
+
+    // Hàm lấy giá trị trong EditText khi format số
+    public static String getEditTextFormatNumber(EditText et) {
+        return et.getText().toString().replaceAll(",", "");
     }
 
     // Hàm convert từ  byte[] sang bitmap
@@ -153,10 +164,69 @@ public class AppUtils {
      * @return uid: id người dùng
      * @created_by nxduong on 2/2/2021
      */
-    public String getUIDAuthenticationFirebase(Activity activity) {
+    public static String getUIDAuthenticationFirebase(Activity activity) {
         SharedPreferences sharedPreferences =
                 activity.getSharedPreferences(MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
-        String uid = sharedPreferences.getString(KEY_UID, "");
-        return uid;
+        return sharedPreferences.getString(KEY_UID, "");
     }
+
+    /**
+     * Hàm format số trong EditText khi EditText thay đổi
+     *
+     * @param et EditText cần format
+     * @created_by nxduong on 17/2/2021
+     */
+
+    public static void formatNumberEditText(final EditText et) {
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() == 0) {
+                    et.setText("0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                et.removeTextChangedListener(this);
+
+                try {
+                    String originalString = s.toString();
+
+                    Long longval;
+                    if (originalString.contains(",")) {
+                        originalString = originalString.replaceAll(",", "");
+                    }
+                    longval = Long.parseLong(originalString);
+
+                    DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+                    formatter.applyPattern("#,###,###,###");
+                    String formattedString = formatter.format(longval);
+
+                    //setting text after format to EditText
+                    et.setText(formattedString);
+                    et.setSelection(et.getText().length());
+                } catch (NumberFormatException nfe) {
+                    nfe.printStackTrace();
+                }
+
+                et.addTextChangedListener(this);
+            }
+        });
+    }
+
+    private String getStringSplitSpace(String number) {
+        String s = "";
+        String[] word = number.split(",");
+        for (String w : word) {
+            s += w;
+        }
+        return s;
+    }
+
 }

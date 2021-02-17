@@ -2,10 +2,7 @@ package vn.com.nghiemduong.moneykeeper.ui.main.overview.overviewmain;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,21 +27,19 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.HistoryNoteRcvAdapter;
-import vn.com.nghiemduong.moneykeeper.data.db.MoneyCollect.MoneyCollectDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.MoneyPay.MoneyPayDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.db.moneyCollect.MoneyCollectDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.moneyPay.MoneyPayDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.transfer.TransferDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
+import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
-import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentMvpView;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentPresenter;
-import vn.com.nghiemduong.moneykeeper.ui.main.overview.OverviewFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.PlusFragment;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
@@ -62,11 +57,13 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
     private TextView tvTotalMoney;
     private RelativeLayout rlTotalMoneyBackground;
     private AccountFragmentPresenter mAccountFragmentPresenter;
+    private TransferDatabase mTransferDatabase;
     private MainActivity mMainActivity;
     private PieChart pieChart;
     private MoneyPayDatabase mMoneyPayDatabase;
     private MoneyCollectDatabase mMoneyCollectDatabase;
     private ArrayList<MoneyPay> mListMoneyPays;
+    private ArrayList<Transfer> mListTransfers;
     private ArrayList<MoneyCollect> mListMoneyCollect;
     private RecyclerView rcvRecentNotes;
     private HistoryNoteRcvAdapter mHistoryNoteAdapter;
@@ -116,12 +113,15 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         pieChart.setDrawEntryLabels(true);
         mMoneyCollectDatabase = new MoneyCollectDatabase(getContext());
         mMoneyPayDatabase = new MoneyPayDatabase(getContext());
+        mTransferDatabase = new TransferDatabase(getContext());
         //mListMoneyPays = new ArrayList<>();
         mListMoneyPays = mMoneyPayDatabase.getAllMoneyPay();
         mListMoneyCollect = mMoneyCollectDatabase.getAllMoneyCollect();
+        mListTransfers = mTransferDatabase.getAllTransfer();
 
         mHistoryNoteAdapter = new HistoryNoteRcvAdapter(getContext(), mListMoneyCollect,
-                mListMoneyPays, this);
+                mListMoneyPays, mListTransfers, this);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvRecentNotes.setLayoutManager(layoutManager);
         rcvRecentNotes.setAdapter(mHistoryNoteAdapter);
@@ -209,32 +209,6 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
     }
 
     /**
-     * Hàm click vào ghi chép gần đây
-     *
-     * @param moneyCollect đối tượng thu tiền
-     * @param moneyPay     đối tượng chi tiền
-     * @created_by nxduong on 5/2/2021
-     */
-    @Override
-    public void onClickHistoryNote(MoneyCollect moneyCollect, MoneyPay moneyPay) {
-        try {
-            Bundle bundle = new Bundle();
-            if (moneyCollect != null) {
-                bundle.putSerializable("BUNDLE_MONEY_COLLECT", moneyCollect);
-                beginTransactionCategoriesLayout(new PlusFragment(), bundle);
-            } else {
-                if (moneyPay != null) {
-                    bundle.putSerializable("BUNDLE_MONEY_PAY", moneyPay);
-                    beginTransactionCategoriesLayout(new PlusFragment(), bundle);
-                }
-            }
-
-        } catch (Exception e) {
-            AppUtils.handlerException(e);
-        }
-    }
-
-    /**
      * Hàm chuyển màn hình giữa các fragment và truyền dữ liệu với Bundle
      *
      * @param fg fragment cần chuyển tới
@@ -249,6 +223,64 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
             FragmentTransaction ft = fmManager.beginTransaction();
             ft.replace(R.id.flOverView, fg);
             ft.commit();
+        }
+    }
+
+    /**
+     * Sự kiện khi click vào lịch sử ghi thu tiền
+     *
+     * @created_by nxduong on 17/2/2021
+     */
+
+    @Override
+    public void onClickMoneyCollectHistoryNote(MoneyCollect moneyCollect) {
+        try {
+            Bundle bundle = new Bundle();
+            if (moneyCollect != null) {
+                bundle.putSerializable("BUNDLE_MONEY_COLLECT", moneyCollect);
+                beginTransactionCategoriesLayout(new PlusFragment(), bundle);
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+    }
+
+
+    /**
+     * Sự kiện khi click vào lịch sử ghi chi tiền
+     *
+     * @created_by nxduong on 17/2/2021
+     */
+
+    @Override
+    public void onClickMoneyPayHistoryNote(MoneyPay moneyPay) {
+        try {
+            Bundle bundle = new Bundle();
+            if (moneyPay != null) {
+                bundle.putSerializable("BUNDLE_MONEY_PAY", moneyPay);
+                beginTransactionCategoriesLayout(new PlusFragment(), bundle);
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+    }
+
+
+    /**
+     * Sự kiện khi click vào lịch sử ghi chuyển tiền
+     *
+     * @created_by nxduong on 17/2/2021
+     */
+    @Override
+    public void onClickTransferHistoryNote(Transfer transfer) {
+        try {
+            Bundle bundle = new Bundle();
+            if (transfer != null) {
+                bundle.putSerializable("BUNDLE_TRANSFER", transfer);
+                beginTransactionCategoriesLayout(new PlusFragment(), bundle);
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
         }
     }
 }

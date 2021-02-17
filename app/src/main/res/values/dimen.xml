@@ -54,6 +54,7 @@
     <dimen name="height_width_ic_picture_spinner">25dp</dimen>
     <dimen name="height_width_ic_check_spinner">15dp</dimen>
     <dimen name="height_width_ic_select_image">30dp</dimen>
+    <dimen name="height_width_ic_arrow">20dp</dimen>
     <dimen name="height_event_trip">60dp</dimen>
     <dimen name="height_width_image_normal">30dp</dimen>
     <dimen name="height_width_image_account">35dp</dimen>

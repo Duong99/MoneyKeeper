@@ -17,4 +17,8 @@ public interface AccountMoneyDatabaseMvpPresenter {
     long updateAccount(Account account);
 
     long deleteAccount(int accountId);
+
+    long subtractMoneyOfAccount(int accountId, int numberMoney);
+
+    long plusMoneyOfAccount(int accountId, int numberMoney);
 }

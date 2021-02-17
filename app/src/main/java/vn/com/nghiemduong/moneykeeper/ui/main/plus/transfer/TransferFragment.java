@@ -1,5 +1,6 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.plus.transfer;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,23 +13,31 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.data.db.transfer.TransferDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionReportDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.pay.PayFragment;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
+import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -38,15 +47,19 @@ import static android.app.Activity.RESULT_OK;
  * - @created_by nxduong on 26/1/2021
  **/
 public class TransferFragment extends BaseFragment implements View.OnClickListener,
-        TransferFragmentMvpView, CustomDateTimeDialog.IOnClickSaveDateTime {
+        TransferFragmentMvpView, CustomDateTimeDialog.IOnClickSaveDateTime,
+        AttentionReportDialog.IOnClickAttentionReportDialog, AttentionDeleteDialog.IOnClickAttentionDialog {
 
     private static final int REQUEST_CODE_CHOOSE_FROM_ACCOUNT = 21;
     private static final int REQUEST_CODE_CHOOSE_TO_ACCOUNT = 22;
 
     private View mView;
     private EditText etMoney, etExplain;
+    private Switch swNotIncludeReport;
 
-    private LinearLayout llLayoutDetail, llContentDetail, llSelectImage;
+    private LinearLayout llLayoutDetail, llDelete;
+    private LinearLayout llContentDetail;
+    private LinearLayout llSelectImage;
 
     private RelativeLayout rlChooseFromAccount, rlChooseToAccount, rlSelectFolder,
             rlSelectCamera, rlContentImage;
@@ -58,8 +71,11 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
 
     private Account mFromAccount, mToAccount; // Tài khoản chuyển tiền và tài khoản chuyển tiền đến
 
+    private Transfer mTransfer; // Đối tượng chuyển tiền
+
     private TransferFragmentPresenter mTransferFragmentPresenter;
     private Bitmap imageTransfer;
+    private TransferDatabase mTransferDatabase;
 
     public TransferFragment() {
         // Required empty public constructor
@@ -73,6 +89,18 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
 
         init();
         mTransferFragmentPresenter.doGetFromAccountFirstFromDB();
+
+        mTransferFragmentPresenter.doGetTransferFromBundle(this, getContext());
+
+        swNotIncludeReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    new AttentionReportDialog(Objects.requireNonNull(getContext()),
+                            TransferFragment.this).show();
+                }
+            }
+        });
         return mView;
     }
 
@@ -84,11 +112,13 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
     private void init() {
         etExplain = mView.findViewById(R.id.etExplain);
         etMoney = mView.findViewById(R.id.etInputMoney);
+        AppUtils.formatNumberEditText(etMoney);
         etMoney.setTextColor(getResources().getColor(R.color.blue));
 
         ivDetail = mView.findViewById(R.id.ivDetail);
         tvDetail = mView.findViewById(R.id.tvDetail);
         llContentDetail = mView.findViewById(R.id.llContentDetail);
+        swNotIncludeReport = mView.findViewById(R.id.swNotIncludeReport);
 
         ivImageSelected = mView.findViewById(R.id.ivImageSelected);
         llSelectImage = mView.findViewById(R.id.llSelectImage);
@@ -112,6 +142,12 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
         rlSelectCamera = mView.findViewById(R.id.rlSelectCamera);
         rlSelectCamera.setOnClickListener(this);
 
+        LinearLayout llSave = mView.findViewById(R.id.llSave);
+        llSave.setOnClickListener(this);
+
+        llDelete = mView.findViewById(R.id.llDelete);
+        llDelete.setOnClickListener(this);
+
         ivRemoveImageSelected = mView.findViewById(R.id.ivRemoveImageSelected);
         ivRemoveImageSelected.setOnClickListener(this);
 
@@ -126,9 +162,12 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
         llLayoutDetail = mView.findViewById(R.id.llLayoutDetail);
         llLayoutDetail.setOnClickListener(this);
 
-        mTransferFragmentPresenter = new TransferFragmentPresenter(this, getContext());
+        mTransferDatabase = new TransferDatabase(getContext());
+        mTransferFragmentPresenter = new TransferFragmentPresenter(
+                this, getContext());
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -198,7 +237,6 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
-
                 break;
 
             case R.id.rlSelectCamera: // Chọn camera chụp ảnh
@@ -220,6 +258,64 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
+                break;
+
+            case R.id.llSave: // Bấm lưu chuyển tiền
+                if (AppUtils.getEditText(etMoney).isEmpty()) {
+                    showCustomToast(getString(R.string.enter_money), AppUtils.TOAST_WARRING);
+                    etMoney.requestFocus();
+                } else if (mFromAccount == null) {
+                    showCustomToast(getString(R.string.please_choose_from_account), AppUtils.TOAST_WARRING);
+                } else if (mToAccount == null) {
+                    showCustomToast(getString(R.string.please_choose_to_account), AppUtils.TOAST_WARRING);
+                } else {
+                    int amountOfMoney = Integer.parseInt(AppUtils.getEditTextFormatNumber(etMoney));
+                    int fromAccountId = mFromAccount.getAccountId();
+                    int toAccountId = mToAccount.getAccountId();
+                    String explain = AppUtils.getEditText(etExplain);
+                    String date = tvCalendar.getText().toString();
+                    String time = tvTime.getText().toString();
+                    int report;
+                    if (swNotIncludeReport.isChecked()) {
+                        report = AppUtils.KHONG_BAO_CAO;
+                    } else {
+                        report = AppUtils.CO_BAO_CAO;
+                    }
+
+                    byte[] image = null;
+                    if (imageTransfer != null) {
+                        image = AppUtils.convertBitmapToByteArray(imageTransfer);
+                    }
+                    if (mTransfer == null) { // Thêm chuyển tiền
+                        Transfer transfer = new Transfer(amountOfMoney, fromAccountId
+                                , toAccountId, explain, date, time, report, image);
+                        long insert = mTransferDatabase.insertTransfer(transfer);
+                        if (insert == DBUtils.checkDBFail) {
+                            showCustomToast(getString(R.string.error_writing), AppUtils.TOAST_ERROR);
+                        } else {
+                            etMoney.setText(getString(R.string._0));
+                            showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
+                        }
+                    } else { // Sửa chuyển tiền
+                        int transferId = mTransfer.getTransferId();
+                        Transfer transfer = new Transfer(transferId, amountOfMoney, fromAccountId
+                                , toAccountId, explain, date, time, report, image);
+
+                        long update = mTransferDatabase.updateTransfer(transfer, mTransfer.getAmountOfMoney());
+                        if (update == DBUtils.checkDBFail) {
+                            showCustomToast(getString(R.string.error_writing), AppUtils.TOAST_ERROR);
+                        } else {
+                            showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
+                            onBackPressed();
+                        }
+                    }
+                }
+
+                break;
+
+            case R.id.llDelete:
+                new AttentionDeleteDialog(getContext(), this,
+                        AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
                 break;
         }
     }
@@ -260,6 +356,48 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
+    /**
+     * @param transfer đối tượng chuyển khoản
+     * @created_by nxduong on 17/2/2021
+     */
+
+    @Override
+    public void resultGetTransferFromBundle(Transfer transfer,
+                                            Account fromAccount, Account toAccount) {
+        this.mTransfer = transfer;
+        this.mFromAccount = fromAccount;
+        this.mToAccount = toAccount;
+        if (mTransfer != null) {
+            etMoney.setText(String.valueOf(mTransfer.getAmountOfMoney()));
+            etExplain.setText(mTransfer.getExplain());
+
+            tvCalendar.setText(mTransfer.getDate());
+            tvTime.setText(mTransfer.getTime());
+            llDelete.setVisibility(View.VISIBLE);
+        }
+
+        if (mFromAccount != null) {
+            ivImageFromAccount.setImageBitmap(
+                    AppUtils.convertPathFileImageAssetsToBitmap(
+                            mFromAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
+            tvTitleFromAccount.setText(mFromAccount.getAccountName());
+        }
+
+        if (mToAccount != null) {
+            ivImageToAccount.setImageBitmap(
+                    AppUtils.convertPathFileImageAssetsToBitmap(
+                            mToAccount.getAccountTypePath(), Objects.requireNonNull(getContext())));
+            tvTitleToAccount.setText(mToAccount.getAccountName());
+        }
+    }
+
+    /**
+     * Hàm lấy đối tượng tài khoản chuyển tiền
+     * LẤy tài khoản đầu tiền trong DB
+     *
+     * @param fromAccount đối tượng tài khoản chuyển tiền
+     * @created_by nxduong on
+     */
     @Override
     public void resultGetFromAccountFirstFromDB(Account fromAccount) {
         if (mFromAccount == null) {
@@ -321,5 +459,33 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
     public void saveDateTime(String date, String time) {
         tvCalendar.setText(date);
         tvTime.setText(time);
+    }
+
+    @Override
+    public void onNoReport() {
+        swNotIncludeReport.setChecked(false);
+    }
+
+    @Override
+    public void onYesReport() {
+        swNotIncludeReport.setChecked(true);
+    }
+
+    @Override
+    public void onClickYesDelete() {
+        try {
+            if (mTransfer != null) {
+                long delete = mTransferDatabase.deleteTransfer(mTransfer);
+                if (delete == DBUtils.checkDBFail) {
+                    showToast(getString(R.string.delete_pay_fail));
+                } else {
+                    showCustomToast(getString(R.string.data_delete_success), AppUtils.TOAST_SUCCESS);
+                    mTransfer = null;
+                    onBackPressed();
+                }
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 }

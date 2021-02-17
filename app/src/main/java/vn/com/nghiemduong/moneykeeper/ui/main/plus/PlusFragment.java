@@ -15,12 +15,14 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerCategoriesArrayAdapter;
 import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
+import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.collect.CollectMoneyFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.pay.PayFragment;
@@ -70,6 +72,13 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
                 if (moneyPay != null) {
                     mBundle.putSerializable("BUNDLE_MONEY_PAY", moneyPay);
                     spinnerCategories.setSelection(0);
+                } else {
+                    Transfer transfer =
+                            (Transfer) this.getArguments().getSerializable("BUNDLE_TRANSFER");
+                    if (transfer != null) {
+                        mBundle.putSerializable("BUNDLE_TRANSFER", transfer);
+                        spinnerCategories.setSelection(4);
+                    }
                 }
             }
         }
@@ -125,7 +134,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
 
     @Override
     public void resultListCategories(ArrayList<HeaderCategory> listCategory) {
-        mSpinnerAdapter = new CustomSpinnerCategoriesArrayAdapter(getContext(), listCategory);
+        mSpinnerAdapter = new CustomSpinnerCategoriesArrayAdapter(
+                Objects.requireNonNull(getContext()), listCategory);
         spinnerCategories.setAdapter(mSpinnerAdapter);
     }
 

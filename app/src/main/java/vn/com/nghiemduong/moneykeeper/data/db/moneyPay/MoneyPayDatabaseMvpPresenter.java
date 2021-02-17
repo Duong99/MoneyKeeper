@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.data.db.MoneyPay;
+package vn.com.nghiemduong.moneykeeper.data.db.moneyPay;
 
 import java.util.ArrayList;
 
@@ -15,10 +15,6 @@ public interface MoneyPayDatabaseMvpPresenter {
     long updateMoneyPay(MoneyPay moneyPay, int numberMoneyPrevious);
 
     long deleteMoneyPay(MoneyPay moneyPay);
-
-    long updateMoneyOfAccountWhenInsertPay(int accountId, int numberMoney);
-
-    long updateMoneyOfAccountWhenDeletePay(int accountId, int numberMoney);
 
     long updateMoneyOfAccountWhenUpdatePay(int accountId, int numberMoneyCurrent,
                                            int numberMoneyPrevious);

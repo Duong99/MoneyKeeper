@@ -15,19 +15,18 @@ import vn.com.nghiemduong.moneykeeper.R;
  * Dialog hiển thị các chú ý
  * - @created_by nxduong on 2/2/2021
  **/
-public class AttentionDialog extends Dialog implements View.OnClickListener {
+public class AttentionDeleteDialog extends Dialog implements View.OnClickListener {
 
     public final static int ATTENTION_DELETE_ACCOUNT = 657;
     public final static int ATTENTION_DELETE_DATA = 658;
     public final static int ATTENTION_DELETE_CATEGORY = 651;
 
     private TextView tvContentAttention;
-    private TextView tvNoAttention, tvYesAttention;
     private IOnClickAttentionDialog mIOnClickDialogAttention;
     private int mKeyAttention;
 
-    public AttentionDialog(@NonNull Context context,
-                           IOnClickAttentionDialog onClickDialogAttention, int keyAttention) {
+    public AttentionDeleteDialog(@NonNull Context context,
+                                 IOnClickAttentionDialog onClickDialogAttention, int keyAttention) {
         super(context);
 
         setContentView(R.layout.dialog_attention);
@@ -68,10 +67,10 @@ public class AttentionDialog extends Dialog implements View.OnClickListener {
     private void init() {
         tvContentAttention = findViewById(R.id.tvContentAttention);
 
-        tvNoAttention = findViewById(R.id.tvNoAttention);
+        TextView tvNoAttention = findViewById(R.id.tvNoAttention);
         tvNoAttention.setOnClickListener(this);
 
-        tvYesAttention = findViewById(R.id.tvYesAttention);
+        TextView tvYesAttention = findViewById(R.id.tvYesAttention);
         tvYesAttention.setOnClickListener(this);
     }
 
