@@ -39,14 +39,11 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     public final static int EDIT_ACCOUNT = 1;
     public final static String KEY_ADD_EDIT_ACCOUNT = "KEY_ADD_EDIT_ACCOUNT";
 
-    private ImageView ivCloseAddAccount, ivDoneAddAccount;
     private EditText etInputMoney, etExplain, etAccountName;
-    private RelativeLayout rlSelectMoneyType, rlSelectAccountType;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swNotIncludeReport;
-    private LinearLayout llSave;
     private ImageView ivImageAccountType;
-    private TextView tvTitleAccountType, tvTitleBarAddAccount;
+    private TextView tvTitleAccountType;
     private AccountType mAccountType;
     private AccountMoneyDatabase mAccountDatabase;
     private Account mAccount;
@@ -61,23 +58,28 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     }
 
     private void init() {
-        ivCloseAddAccount = findViewById(R.id.ivCloseAddAccount);
+        ImageView ivCloseAddAccount = findViewById(R.id.ivCloseAddAccount);
         ivCloseAddAccount.setOnClickListener(this);
 
-        ivDoneAddAccount = findViewById(R.id.ivDoneAddAccount);
+        ImageView ivDoneAddAccount = findViewById(R.id.ivDoneAddAccount);
         ivDoneAddAccount.setOnClickListener(this);
 
-        rlSelectMoneyType = findViewById(R.id.rlSelectMoneyType);
+        RelativeLayout rlSelectMoneyType = findViewById(R.id.rlSelectMoneyType);
         rlSelectMoneyType.setOnClickListener(this);
 
-        rlSelectAccountType = findViewById(R.id.rlSelectAccountType);
+        RelativeLayout rlSelectAccountType = findViewById(R.id.rlSelectAccountType);
         rlSelectAccountType.setOnClickListener(this);
 
-        llSave = findViewById(R.id.llSave);
+        LinearLayout llSave = findViewById(R.id.llSave);
         llSave.setOnClickListener(this);
 
+        LinearLayout llDelete = findViewById(R.id.llDelete);
+        llDelete.setOnClickListener(this);
+
         etInputMoney = findViewById(R.id.etInputMoney);
-        tvTitleBarAddAccount = findViewById(R.id.tvTitleBarAddAccount);
+        etInputMoney.setTextColor(getResources().getColor(R.color.blue));
+
+        TextView tvTitleBarAddAccount = findViewById(R.id.tvTitleBarAddAccount);
         etExplain = findViewById(R.id.etExplain);
         swNotIncludeReport = findViewById(R.id.swNotIncludeReport);
         ivImageAccountType = findViewById(R.id.ivAccountType);
@@ -85,6 +87,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         etAccountName = findViewById(R.id.etAccountName);
         mAccountDatabase = new AccountMoneyDatabase(this);
 
+        // Kiểm tra xem thực hiện thêm hay sửa
         keyAddEditAccount = getIntent().getIntExtra(KEY_ADD_EDIT_ACCOUNT, -1);
         if (keyAddEditAccount == ADD_ACCOUNT) {
             tvTitleBarAddAccount.setText(getString(R.string.add_account));
@@ -134,7 +137,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.ivDoneAddAccount:
-            case R.id.llSave:
+            case R.id.llSave: // Thêm tài khoản
                 try {
                     insertOrUpdateAccount();
                 } catch (Exception e) {
@@ -142,7 +145,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 }
                 break;
 
-            case R.id.rlSelectAccountType:
+            case R.id.rlSelectAccountType: // Chọn loại tài khoản
                 try {
                     Intent intentAccountType = new Intent(this, AccountTypeActivity.class);
                     Bundle bundle = new Bundle();
@@ -150,6 +153,25 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                     intentAccountType.putExtra("BUNDLE", bundle);
                     startActivityForResult(intentAccountType,
                             AccountTypeActivity.REQUEST_CODE_ACCOUNT_TYPE);
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+                break;
+
+            case R.id.llDelete: // Xóa tài khoản
+                try {
+                    if (mAccount != null) {
+                        long delete = mAccountDatabase.deleteAccount(mAccount.getAccountId());
+
+                        if (delete == DBUtils.checkDBFail) {
+                            showToast(getResources().getString(R.string.delete_account_fail));
+                        } else {
+                            showCustomToast(getResources().getString(R.string.delete_account_success),
+                                    AppUtils.TOAST_SUCCESS);
+                            finishInsertOrUpdateSuccess();
+                        }
+                    }
+
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -187,12 +209,12 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
 
             // Thêm tài khoản
             if (keyAddEditAccount == ADD_ACCOUNT) {
-                mAccount = new Account(AppUtils.getEditText(etAccountName),
+                Account account = new Account(AppUtils.getEditText(etAccountName),
                         Integer.parseInt(AppUtils.getEditText(etInputMoney)),
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppUtils.VND,
                         AppUtils.getEditText(etExplain), report);
-                long insert = mAccountDatabase.insertAccount(mAccount);
+                long insert = mAccountDatabase.insertAccount(account);
                 if (insert == DBUtils.checkDBFail) {
                     showToast(getResources().getString(R.string.insert_account_fail));
                 } else {

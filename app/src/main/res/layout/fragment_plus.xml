@@ -22,6 +22,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_centerVertical="true"
                 android:id="@+id/ivHistoryPlus"
                 android:background="@drawable/ic_history"

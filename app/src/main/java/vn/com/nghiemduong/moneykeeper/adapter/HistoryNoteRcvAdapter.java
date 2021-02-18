@@ -82,20 +82,29 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                         holder.tvDateHistoryNote.setText(moneyPay.getDate());
                         if (moneyPay.getSubCategoryId() == 0) {
                             category = mCategoryDatabase.getCategory(moneyPay.getCategoryId());
-                            holder.ivCategoryHistoryNote.setImageBitmap(
-                                    AppUtils.convertPathFileImageAssetsToBitmap(
-                                            category.getCategoryPath(), mContext));
-                            holder.tvCategoryNameHistoryNote.setText(category.getCategoryName());
+                            if (category != null) {
+                                holder.ivCategoryHistoryNote.setImageBitmap(
+                                        AppUtils.convertPathFileImageAssetsToBitmap(
+                                                category.getCategoryPath(), mContext));
+                                holder.tvCategoryNameHistoryNote.setText(category.getCategoryName());
+                            }
                         } else {
                             subCategory = mSubCategoryDatabase.getSubCategory(
                                     moneyPay.getSubCategoryId());
-                            holder.ivCategoryHistoryNote.setImageBitmap(
-                                    AppUtils.convertPathFileImageAssetsToBitmap(
-                                            subCategory.getSubCategoryPath(), mContext));
-                            holder.tvCategoryNameHistoryNote.setText(subCategory.getSubCategoryName());
+                            if (subCategory != null) {
+                                holder.ivCategoryHistoryNote.setImageBitmap(
+                                        AppUtils.convertPathFileImageAssetsToBitmap(
+                                                subCategory.getSubCategoryPath(), mContext));
+                                holder.tvCategoryNameHistoryNote.setText(subCategory.getSubCategoryName());
+                            }
                         }
                         account = mAccountMoneyDatabase.getAccount(moneyPay.getAccountId());
-                        holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
+                        if (account != null) {
+                            holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
+                        } else {
+                            holder.tvAccountNameHistoryRecent.setText(mContext.getResources()
+                                    .getString(R.string.unknown));
+                        }
                         break;
                     }
                 }
@@ -110,28 +119,35 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
 
                         if (moneyCollect.getSubCategoryId() == 0) {
                             category = mCategoryDatabase.getCategory(moneyCollect.getCategoryId());
-                            holder.ivCategoryHistoryNote.setImageBitmap(
-                                    AppUtils.convertPathFileImageAssetsToBitmap(
-                                            category.getCategoryPath(), mContext));
-                            holder.tvCategoryNameHistoryNote.setText(category.getCategoryName());
+                            if (category != null) {
+                                holder.ivCategoryHistoryNote.setImageBitmap(
+                                        AppUtils.convertPathFileImageAssetsToBitmap(
+                                                category.getCategoryPath(), mContext));
+                                holder.tvCategoryNameHistoryNote.setText(category.getCategoryName());
+                            }
                         } else {
                             subCategory = mSubCategoryDatabase.getSubCategory(
                                     moneyCollect.getSubCategoryId());
-                            holder.ivCategoryHistoryNote.setImageBitmap(
-                                    AppUtils.convertPathFileImageAssetsToBitmap(
-                                            subCategory.getSubCategoryPath(), mContext));
-                            holder.tvCategoryNameHistoryNote.setText(subCategory.getSubCategoryName());
+                            if (subCategory != null) {
+                                holder.ivCategoryHistoryNote.setImageBitmap(
+                                        AppUtils.convertPathFileImageAssetsToBitmap(
+                                                subCategory.getSubCategoryPath(), mContext));
+                                holder.tvCategoryNameHistoryNote.setText(subCategory.getSubCategoryName());
+                            }
                         }
 
                         holder.tvNumberMoneyHistoryNote.setText(String.valueOf(
                                 moneyCollect.getAmountOfMoney()));
                         holder.tvNumberMoneyHistoryNote.setTextColor(mContext.getResources()
-                                .getColor(R.color.green));
+                                .getColor(R.color.color_green_collect));
                         holder.tvDateHistoryNote.setText(moneyCollect.getDate());
 
                         account = mAccountMoneyDatabase.getAccount(moneyCollect.getAccountId());
                         if (account != null) {
                             holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
+                        } else {
+                            holder.tvAccountNameHistoryRecent.setText(
+                                    mContext.getResources().getString(R.string.unknown));
                         }
                         break;
                     }
@@ -155,8 +171,12 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                                 .getString(R.string.transfer_to_account));
 
                         account = mAccountMoneyDatabase.getAccount(transfer.getFromAccountId());
+
                         if (account != null) {
                             holder.tvAccountNameHistoryRecent.setText(account.getAccountName());
+                        } else {
+                            holder.tvAccountNameHistoryRecent.setText(mContext.getResources()
+                                    .getString(R.string.unknown));
                         }
 
                         holder.ivCategoryHistoryNote.setImageBitmap(

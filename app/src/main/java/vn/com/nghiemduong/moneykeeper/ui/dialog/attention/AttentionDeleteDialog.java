@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * Dialog hiển thị các chú ý
@@ -82,8 +83,13 @@ public class AttentionDeleteDialog extends Dialog implements View.OnClickListene
                 break;
 
             case R.id.tvYesAttention:
-                mIOnClickDialogAttention.onClickYesDelete();
-                dismiss();
+                try {
+                    mIOnClickDialogAttention.onClickYesDelete();
+                    dismiss();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+
                 break;
         }
     }

@@ -47,7 +47,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
-        style="@style/TextViewNormal"
+        style="@style/TextViewNormalBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -71,7 +71,7 @@
                 android:background="@drawable/bg_et_enter_money"
                 android:maxLength="255"
                 android:id="@+id/etAccountName"
-                style="@style/TextViewNormal"
+                style="@style/TextViewNormalBlack"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_item_plus"
                 android:layout_centerVertical="true"
@@ -128,7 +128,7 @@
 
             <TextView
                 android:id="@+id/tvAccountType"
-                style="@style/TextViewNormal"
+                style="@style/TextViewNormalBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -172,7 +172,7 @@
 
             <TextView
                 android:id="@+id/tvVND"
-                style="@style/TextViewNormal"
+                style="@style/TextViewNormalBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -197,9 +197,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_large" />
 
-    <include
-        layout="@layout/item_button_save"
+    <LinearLayout
+        android:weightSum="2"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_large" />
+        android:layout_height="wrap_content">
+
+        <include
+            android:visibility="gone"
+            android:layout_weight="1"
+            layout="@layout/item_layout_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large" />
+
+        <include
+            android:layout_weight="1"
+            layout="@layout/item_button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large" />
+
+    </LinearLayout>
+
 </LinearLayout>

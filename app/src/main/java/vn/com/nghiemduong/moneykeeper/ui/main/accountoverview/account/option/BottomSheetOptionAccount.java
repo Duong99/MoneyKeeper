@@ -19,8 +19,6 @@ import vn.com.nghiemduong.moneykeeper.R;
  * - @created_by nxduong on 27/1/2021
  **/
 public class BottomSheetOptionAccount extends BottomSheetDialog implements View.OnClickListener {
-    private LinearLayout llSwapOptionAccount, llAdjustOptionAccount, llDeleteOptionAccount,
-            llEditOptionAccount, llShareOptionAccount, llLockOptionAccount;
 
     private BottomSheetOptionAccountMvpView mOptionAccountMvpView;
     private BottomSheetDialog mBottomSheetDialog;
@@ -41,22 +39,22 @@ public class BottomSheetOptionAccount extends BottomSheetDialog implements View.
     }
 
     private void initBottomSheet(View viewBts) {
-        llSwapOptionAccount = viewBts.findViewById(R.id.llSwapOptionAccount);
+        LinearLayout llSwapOptionAccount = viewBts.findViewById(R.id.llSwapOptionAccount);
         llSwapOptionAccount.setOnClickListener(this);
 
-        llAdjustOptionAccount = viewBts.findViewById(R.id.llAdjustOptionAccount);
+        LinearLayout llAdjustOptionAccount = viewBts.findViewById(R.id.llAdjustOptionAccount);
         llAdjustOptionAccount.setOnClickListener(this);
 
-        llDeleteOptionAccount = viewBts.findViewById(R.id.llDeleteOptionAccount);
+        LinearLayout llDeleteOptionAccount = viewBts.findViewById(R.id.llDeleteOptionAccount);
         llDeleteOptionAccount.setOnClickListener(this);
 
-        llEditOptionAccount = viewBts.findViewById(R.id.llEditOptionAccount);
+        LinearLayout llEditOptionAccount = viewBts.findViewById(R.id.llEditOptionAccount);
         llEditOptionAccount.setOnClickListener(this);
 
-        llShareOptionAccount = viewBts.findViewById(R.id.llShareAccountOptionAccount);
+        LinearLayout llShareOptionAccount = viewBts.findViewById(R.id.llShareAccountOptionAccount);
         llShareOptionAccount.setOnClickListener(this);
 
-        llLockOptionAccount = viewBts.findViewById(R.id.llLockOptionAccount);
+        LinearLayout llLockOptionAccount = viewBts.findViewById(R.id.llLockOptionAccount);
         llLockOptionAccount.setOnClickListener(this);
     }
 

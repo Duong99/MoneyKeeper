@@ -49,7 +49,7 @@
     <dimen name="height_item">60dp</dimen>
     <dimen name="padding_start_edit_text">7.5dp</dimen>
 
-    <dimen name="height_width_dot">5dp</dimen>
+    <dimen name="height_width_dot">10dp</dimen>
     <dimen name="height_bottom_navigation_main">50dp</dimen>
     <dimen name="height_width_ic_picture_spinner">25dp</dimen>
     <dimen name="height_width_ic_check_spinner">15dp</dimen>

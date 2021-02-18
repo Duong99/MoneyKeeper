@@ -16,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -27,8 +29,10 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerStageAdapter;
 import vn.com.nghiemduong.moneykeeper.adapter.HistoryNoteRcvAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.moneyCollect.MoneyCollectDatabase;
 import vn.com.nghiemduong.moneykeeper.data.db.moneyPay.MoneyPayDatabase;
@@ -50,13 +54,14 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  **/
 
 public class OverviewMainFragment extends BaseFragment implements View.OnClickListener,
-        AccountFragmentMvpView, HistoryNoteRcvAdapter.IOnClickHistoryNoteMvpView {
+        AccountFragmentMvpView, HistoryNoteRcvAdapter.IOnClickHistoryNoteMvpView,
+        OverviewMainMvpView {
 
     private View mView;
-    private ImageView ivVisibilityTotalMoney;
-    private TextView tvTotalMoney;
-    private RelativeLayout rlTotalMoneyBackground;
-    private AccountFragmentPresenter mAccountFragmentPresenter;
+    private TextView tvTotalMoney, tvTotalMoneyHidden, tvAmountStages, tvTotalAmountCollectStages,
+            tvTotalAmountSpendingStages;
+    private ImageView ivVisibilityTotalMoney, ivChartCollect, ivChartSpending;
+    private Spinner spnStage;
     private TransferDatabase mTransferDatabase;
     private MainActivity mMainActivity;
     private PieChart pieChart;
@@ -67,6 +72,7 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
     private ArrayList<MoneyCollect> mListMoneyCollect;
     private RecyclerView rcvRecentNotes;
     private HistoryNoteRcvAdapter mHistoryNoteAdapter;
+    private OverviewMainPresenter mOverviewMainPresenter;
 
     private int mTotalMoney = 0;
 
@@ -80,6 +86,7 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_overview_main, container, false);
         init();
+
         return mView;
     }
 
@@ -93,14 +100,28 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         ivVisibilityTotalMoney = mView.findViewById(R.id.ivVisibilityTotalMoney);
         ivVisibilityTotalMoney.setOnClickListener(this);
 
-        rlTotalMoneyBackground = mView.findViewById(R.id.rlTotalMoneyBackground);
+        RelativeLayout rlTotalMoneyBackground = mView.findViewById(R.id.rlTotalMoneyBackground);
         rlTotalMoneyBackground.setOnClickListener(this);
 
+        tvAmountStages = mView.findViewById(R.id.tvAmountStages);
+        tvTotalAmountCollectStages = mView.findViewById(R.id.tvTotalAmountCollectStages);
+        tvTotalAmountSpendingStages = mView.findViewById(R.id.tvTotalAmountSpendingStages);
+
+        ivChartCollect = mView.findViewById(R.id.ivChartCollect);
+        ivChartSpending = mView.findViewById(R.id.ivChartSpending);
+
         tvTotalMoney = mView.findViewById(R.id.tvTotalMoney);
+        tvTotalMoneyHidden = mView.findViewById(R.id.tvTotalMoneyHidden);
+
+        spnStage = mView.findViewById(R.id.spnStage);
         rcvRecentNotes = mView.findViewById(R.id.rcvRecentNotes);
         rcvRecentNotes.setNestedScrollingEnabled(false);
-        mAccountFragmentPresenter = new AccountFragmentPresenter(this);
+        AccountFragmentPresenter mAccountFragmentPresenter = new AccountFragmentPresenter(this);
         mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mMainActivity.getAllAccount());
+
+        mOverviewMainPresenter = new OverviewMainPresenter(this);
+        mOverviewMainPresenter.doInsertListSpinnerStage(Objects.requireNonNull(getContext()));
+        mOverviewMainPresenter.doGetTotalAmountFromDB(getContext());
 
         pieChart = mView.findViewById(R.id.pieChart);
 
@@ -186,7 +207,17 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivVisibilityTotalMoney:
-
+                if (tvTotalMoneyHidden.getVisibility() == View.GONE) {
+                    ivVisibilityTotalMoney.setBackground(
+                            getResources().getDrawable(R.drawable.ic_visibility_off));
+                    tvTotalMoneyHidden.setVisibility(View.VISIBLE);
+                    tvTotalMoney.setVisibility(View.GONE);
+                } else {
+                    ivVisibilityTotalMoney.setBackground(
+                            getResources().getDrawable(R.drawable.ic_visibility));
+                    tvTotalMoneyHidden.setVisibility(View.GONE);
+                    tvTotalMoney.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.rlTotalMoneyBackground:
@@ -265,7 +296,6 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
-
     /**
      * Sự kiện khi click vào lịch sử ghi chuyển tiền
      *
@@ -282,5 +312,34 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
+    }
+
+    // setAdapter cho spinner khoảng thời gian
+    @Override
+    public void resultListStage(ArrayList<String> listStage) {
+        CustomSpinnerStageAdapter spinnerStageAdapter =
+                new CustomSpinnerStageAdapter(Objects.requireNonNull(getContext()),
+                        listStage, listStage.get(2));
+        spnStage.setAdapter(spinnerStageAdapter);
+        spnStage.setSelection(2);
+    }
+
+    /**
+     * Hàm trả về các giá trị tổng tiền thu, chi
+     * vào độ cao đổ tháp thu, chi
+     *
+     * @created_by nxduong on 18/2/2021
+     */
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void resultGetTotalAmountFromDB(int amountCollectStages, int amountSpendingStages,
+                                           int totalMoneyStages, int heightChartCollect,
+                                           int heightChartSpending) {
+        tvAmountStages.setText(totalMoneyStages + " " + getString(R.string.dong));
+        tvTotalAmountCollectStages.setText(amountCollectStages + " " + getString(R.string.dong));
+        tvTotalAmountSpendingStages.setText(amountSpendingStages + " " + getString(R.string.dong));
+
+        ivChartCollect.getLayoutParams().height = heightChartCollect;
+        ivChartSpending.getLayoutParams().height = heightChartSpending;
     }
 }

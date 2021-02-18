@@ -20,7 +20,6 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 public class UpdateCategoryActivity extends BaseActivity {
 
     private Toolbar tbEditCategory;
-    private TabLayout tlEditCategory;
     private ViewPager vpEditCategory;
     private ViewPagerEditCategoryAdapter mViewPagerEditCategoryAdapter;
 
@@ -46,7 +45,7 @@ public class UpdateCategoryActivity extends BaseActivity {
      */
     private void init() {
         tbEditCategory = findViewById(R.id.tbEditCategory);
-        tlEditCategory = findViewById(R.id.tlEditCategory);
+        TabLayout tlEditCategory = findViewById(R.id.tlEditCategory);
         vpEditCategory = findViewById(R.id.vpEditCategory);
 
         mViewPagerEditCategoryAdapter = new ViewPagerEditCategoryAdapter(getSupportFragmentManager());

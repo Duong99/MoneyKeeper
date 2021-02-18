@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -32,12 +33,13 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 /**
  * - @created_by nxduong on 25/1/2021
  **/
-public class PlusFragment extends BaseFragment implements PlusMvpView {
+public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnClickListener {
     private View mView;
     private Spinner spinnerCategories;
     private CustomSpinnerCategoriesArrayAdapter mSpinnerAdapter;
     private PlusPresenter mPlusPresenter;
     private Bundle mBundle = null;
+    private IOnClickSave mIOnClickSave;
 
     public PlusFragment() {
     }
@@ -50,6 +52,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
         init();
         onClickSpinnerCategories();
         getDataBundle();
+
         return mView;
     }
 
@@ -127,6 +130,9 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
 
     // Khởi tạo / ánh xạ cho các view
     private void init() {
+        ImageView ivSaveDonePlus = mView.findViewById(R.id.ivSaveDonePlus);
+        ivSaveDonePlus.setOnClickListener(this);
+
         spinnerCategories = mView.findViewById(R.id.spinnerCategories);
         mPlusPresenter = new PlusPresenter(this, getContext(), getActivity());
         mPlusPresenter.addCategories();
@@ -152,6 +158,33 @@ public class PlusFragment extends BaseFragment implements PlusMvpView {
         FragmentTransaction ft = fmManager.beginTransaction();
         ft.replace(R.id.framelayoutCategory, fg);
         ft.commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ivSaveDonePlus:
+                try {
+                    mIOnClickSave.onClickSave();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+                break;
+        }
+    }
+
+    /**
+     * Lớp interface thực hiện sự kiệnlưu sửa
+     *
+     * @created_by nxduong on 18/2/2021
+     **/
+
+    public interface IOnClickSave {
+        void onClickSave();
+    }
+
+    public void setIOnClickSave(IOnClickSave onClickSave) {
+        this.mIOnClickSave = onClickSave;
     }
 
 }

@@ -21,7 +21,7 @@
         android:id="@+id/tlChooseCategory"
         app:tabSelectedTextColor="@color/white"
         app:tabInlineLabel="true"
-        app:tabTextColor="@color/gray_image_bottom_sheet"
+        app:tabTextColor="@color/bg_tab_unselect"
         android:background="@color/blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

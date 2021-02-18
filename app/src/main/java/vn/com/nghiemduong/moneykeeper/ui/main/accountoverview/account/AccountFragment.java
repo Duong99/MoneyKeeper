@@ -46,7 +46,6 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     private SwipeRefreshLayout srlAccount;
     private View mView;
     private RecyclerView rcvListAccount;
-    private ImageView ivAddAccount;
     private TextView tvTotalMoney, tvTotalMoneyUsing;
     private AccountAdapter mAccountAdapter;
     private AccountMoneyDatabase mAccountDatabase;
@@ -80,16 +79,14 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         if (resultCode == RESULT_OK) {
             if (data != null) {
                 if (requestCode == AddAccountActivity.REQUEST_CODE_ACCOUNT_ADD) {
-                    mAccount = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
-                            .getSerializable("BUNDLE_ACCOUNT");
-                    mAccountAdapter.addAccount(mAccount);
+                    mAccountAdapter = new AccountAdapter(getContext(), mMainActivity.getAllAccount(), this);
+                    rcvListAccount.setAdapter(mAccountAdapter);
                     mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());
                 }
 
                 if (requestCode == AddAccountActivity.REQUEST_CODE_ACCOUNT_EDIT) {
-                    mAccount = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
-                            .getSerializable("BUNDLE_ACCOUNT");
-                    mAccountAdapter.updateAccount(mAccount, mPosition);
+                    mAccountAdapter = new AccountAdapter(getContext(), mMainActivity.getAllAccount(), this);
+                    rcvListAccount.setAdapter(mAccountAdapter);
                     mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());
                 }
             }
@@ -112,11 +109,12 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         srlAccount.setColorSchemeColors(Objects.requireNonNull(getContext())
                 .getResources().getColor(R.color.blue));
 
-        ivAddAccount = mView.findViewById(R.id.ivAddAccount);
+        ImageView ivAddAccount = mView.findViewById(R.id.ivAddAccount);
         ivAddAccount.setOnClickListener(this);
 
         mAccountFragmentPresenter = new AccountFragmentPresenter(this);
 
+        mAccountDatabase = new AccountMoneyDatabase(getContext());
         mAccountAdapter = new AccountAdapter(getContext(), mMainActivity.getAllAccount(), this);
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -144,10 +142,15 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClickOptionAccount(Account account, int position) {
-        mAccount = account;
-        mPosition = position;
-        new BottomSheetOptionAccount(Objects.requireNonNull(getContext()),
-                this);
+        try {
+            mAccount = account;
+            mPosition = position;
+            new BottomSheetOptionAccount(Objects.requireNonNull(getContext()),
+                    this);
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
     }
 
     @Override
@@ -177,8 +180,12 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClickDeleteOptionAccount() {
-        new AttentionDeleteDialog(getContext(), this,
-                AttentionDeleteDialog.ATTENTION_DELETE_ACCOUNT).show();
+        try {
+            new AttentionDeleteDialog(Objects.requireNonNull(getContext()), this,
+                    AttentionDeleteDialog.ATTENTION_DELETE_ACCOUNT).show();
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 
     @Override
@@ -199,10 +206,11 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
             if (mAccount != null) {
                 long delete = mAccountDatabase.deleteAccount(mAccount.getAccountId());
                 if (delete == DBUtils.checkDBFail) {
-                    showToast(getString(R.string.delete_account_fail));
+                    showCustomToast(getString(R.string.delete_account_fail), AppUtils.TOAST_ERROR);
                 } else {
-                    showToast(getString(R.string.delete_account_success));
-                    mAccountAdapter.deleteAccount(mAccount);
+                    showCustomToast(getString(R.string.delete_account_success), AppUtils.TOAST_SUCCESS);
+                    mAccountAdapter = new AccountAdapter(getContext(), mAccountDatabase.getAllAccount(), this);
+                    rcvListAccount.setAdapter(mAccountAdapter);
                     mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());
                     mAccount = null;
                 }

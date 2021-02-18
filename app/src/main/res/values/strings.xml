@@ -82,6 +82,9 @@
     <string name="save">Lưu</string>
     <string name="number_money">Số tiền</string>
 
+    <string name="collection">Thu</string>
+    <string name="spending">Chi</string>
+
     <string name="dong">đ</string>
     <string name="total_money">Tổng tiền: </string>
     <string name="using">Đang sử dụng</string>
@@ -186,7 +189,6 @@
     // Dialog calendar, time
     <string name="current_time">Giờ hiện tại</string>
     <string name="close">Đóng</string>
-    <string name="today">Hôm nay</string>
 
     <string name="with_whom">Với ai</string>
     <string name="select_or_enter_a_new_object_name">Chọn hoặc nhập mới tên đối tượng</string>
@@ -237,4 +239,18 @@
     <string name="enter_money">Vui lòng nhập số tiền</string>
     <string name="please_choose_from_account">Vui lòng chọn tài khoản chuyển tiền</string>
     <string name="please_choose_to_account">Vui lòng chọn tài khoản nhận tiền đến</string>
+    <string name="you_can_not_transfer_same_account">Bạn không thể thực hiện
+        chuyển khoản trong cùng một tài khoản</string>
+
+    <string name="revenue_situation">Tình hình thu chi</string>
+
+    // Stage
+    <string name="today">Hôm nay</string>
+    <string name="this_week">Tuần này</string>
+    <string name="this_month">Tháng này</string>
+    <string name="this_quarter">Quý này</string>
+    <string name="this_year">Năm nay</string>
+
+    <string name="unknown">Không xác định</string>
+
 </resources>

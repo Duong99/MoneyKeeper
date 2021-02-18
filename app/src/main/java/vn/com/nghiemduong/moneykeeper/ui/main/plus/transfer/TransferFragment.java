@@ -268,6 +268,9 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                     showCustomToast(getString(R.string.please_choose_from_account), AppUtils.TOAST_WARRING);
                 } else if (mToAccount == null) {
                     showCustomToast(getString(R.string.please_choose_to_account), AppUtils.TOAST_WARRING);
+                } else if (mFromAccount.getAccountId() == mToAccount.getAccountId()) {
+                    showCustomToast(getString(R.string.you_can_not_transfer_same_account),
+                            AppUtils.TOAST_WARRING);
                 } else {
                     int amountOfMoney = Integer.parseInt(AppUtils.getEditTextFormatNumber(etMoney));
                     int fromAccountId = mFromAccount.getAccountId();
@@ -301,7 +304,8 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                         Transfer transfer = new Transfer(transferId, amountOfMoney, fromAccountId
                                 , toAccountId, explain, date, time, report, image);
 
-                        long update = mTransferDatabase.updateTransfer(transfer, mTransfer.getAmountOfMoney());
+                        long update = mTransferDatabase.updateTransfer(transfer,
+                                mTransfer.getAmountOfMoney());
                         if (update == DBUtils.checkDBFail) {
                             showCustomToast(getString(R.string.error_writing), AppUtils.TOAST_ERROR);
                         } else {
@@ -314,8 +318,12 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                 break;
 
             case R.id.llDelete:
-                new AttentionDeleteDialog(getContext(), this,
-                        AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
+                try {
+                    new AttentionDeleteDialog(Objects.requireNonNull(getContext()), this,
+                            AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
                 break;
         }
     }

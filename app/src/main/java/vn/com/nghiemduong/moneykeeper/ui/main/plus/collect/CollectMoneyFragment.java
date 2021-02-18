@@ -51,15 +51,18 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
         CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDeleteDialog.IOnClickAttentionDialog,
         CollectMoneyFragmentMvpView, AttentionReportDialog.IOnClickAttentionReportDialog {
     private View mView;
-    private RelativeLayout rlChooseCategoryCollect, rlChooseAccountCollect,
-            rlSelectFolder, rlSelectCamera, rlContentImage;
-    private ImageView ivImageCategoriesCollect, ivImageAccountCollect, ivRemoveImageSelected,
-            ivImageSelected, ivDetail;
+    private RelativeLayout rlContentImage;
+    private ImageView ivImageCategoriesCollect;
+    private ImageView ivImageAccountCollect;
+    private ImageView ivImageSelected;
+    private ImageView ivDetail;
     private TextView tvTitleSelectCategoryCollect, tvCalendarCollect, tvTimeCollect,
             tvTitleAccountCollect, tvDetail;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swNotIncludeReport;
-    private LinearLayout llSelectImage, llSave, llDelete, llContentDetail, llLayoutDetail;
+    private LinearLayout llSelectImage;
+    private LinearLayout llDelete;
+    private LinearLayout llContentDetail;
     private Bitmap imageCollect;
     private EditText etInputMoney, etExplain;
     private MoneyCollectDatabase mMoneyCollectDatabase;
@@ -116,31 +119,31 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
      */
 
     private void init() {
-        rlChooseCategoryCollect = mView.findViewById(R.id.rlChooseCategory);
+        RelativeLayout rlChooseCategoryCollect = mView.findViewById(R.id.rlChooseCategory);
         rlChooseCategoryCollect.setOnClickListener(this);
 
-        llSave = mView.findViewById(R.id.llSave);
+        LinearLayout llSave = mView.findViewById(R.id.llSave);
         llSave.setOnClickListener(this);
 
         llDelete = mView.findViewById(R.id.llDelete);
         llDelete.setOnClickListener(this);
 
-        llLayoutDetail = mView.findViewById(R.id.llLayoutDetail);
+        LinearLayout llLayoutDetail = mView.findViewById(R.id.llLayoutDetail);
         llLayoutDetail.setOnClickListener(this);
 
-        rlChooseAccountCollect = mView.findViewById(R.id.rlChooseAccount);
+        RelativeLayout rlChooseAccountCollect = mView.findViewById(R.id.rlChooseAccount);
         rlChooseAccountCollect.setOnClickListener(this);
 
-        rlSelectFolder = mView.findViewById(R.id.rlSelectFolder);
+        RelativeLayout rlSelectFolder = mView.findViewById(R.id.rlSelectFolder);
         rlSelectFolder.setOnClickListener(this);
 
-        rlSelectCamera = mView.findViewById(R.id.rlSelectCamera);
+        RelativeLayout rlSelectCamera = mView.findViewById(R.id.rlSelectCamera);
         rlSelectCamera.setOnClickListener(this);
 
         rlContentImage = mView.findViewById(R.id.rlContentImage);
         rlContentImage.setOnClickListener(this);
 
-        ivRemoveImageSelected = mView.findViewById(R.id.ivRemoveImageSelected);
+        ImageView ivRemoveImageSelected = mView.findViewById(R.id.ivRemoveImageSelected);
         ivRemoveImageSelected.setOnClickListener(this);
 
         tvCalendarCollect = mView.findViewById(R.id.tvCalendar);
@@ -164,7 +167,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
 
         etInputMoney = mView.findViewById(R.id.etInputMoney);
         AppUtils.formatNumberEditText(etInputMoney);
-        etInputMoney.setTextColor(getResources().getColor(R.color.green));
+        etInputMoney.setTextColor(getResources().getColor(R.color.color_green_collect));
 
         etExplain = mView.findViewById(R.id.etExplain);
         swNotIncludeReport = mView.findViewById(R.id.swNotIncludeReport);

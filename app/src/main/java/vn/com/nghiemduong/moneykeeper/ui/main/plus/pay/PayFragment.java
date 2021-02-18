@@ -33,6 +33,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionReportDialog;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.PlusFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
@@ -51,7 +52,7 @@ import static android.app.Activity.RESULT_OK;
  **/
 public class PayFragment extends BaseFragment implements PayFragmentMvpView, View.OnClickListener,
         CustomDateTimeDialog.IOnClickSaveDateTime, AttentionDeleteDialog.IOnClickAttentionDialog,
-        AttentionReportDialog.IOnClickAttentionReportDialog {
+        AttentionReportDialog.IOnClickAttentionReportDialog, PlusFragment.IOnClickSave {
 
     private View mView;
     private RelativeLayout rlChooseCategoryPay, rlChooseAccountPay, rlSelectCategoryFee,
@@ -70,7 +71,6 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
     private LinearLayout llContentFee;
     private LinearLayout llContentLoanToPayAmount;
     private LinearLayout llSelectImage;
-    private LinearLayout llSave;
     private LinearLayout llContentDetail;
     private LinearLayout llDelete;
     private Bitmap imagePay = null;
@@ -81,6 +81,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
     private SubCategory mSubCategory;
     private MoneyPay mMoneyPay;
     private PayFragmentPresenter mPayFragmentPresenter;
+    private PlusFragment mPlusFragment;
 
 
     public PayFragment() {
@@ -92,6 +93,9 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_pay, container, false);
+
+        mPlusFragment = new PlusFragment();
+        mPlusFragment.setIOnClickSave(this);
         init();
 
         getDataMoneyPayFromBundle();
@@ -159,7 +163,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
         rlLender = mView.findViewById(R.id.rlLender);
         rlLender.setOnClickListener(this);
 
-        llSave = mView.findViewById(R.id.llSave);
+        LinearLayout llSave = mView.findViewById(R.id.llSave);
         llSave.setOnClickListener(this);
 
         LinearLayout llLayoutDetail = mView.findViewById(R.id.llLayoutDetail);
@@ -356,86 +360,7 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 break;
 
             case R.id.llSave: // Chọn vào lưu hặc sửa chi tiền
-                if (AppUtils.getEditText(etInputMoney).isEmpty()) {
-
-                    etInputMoney.requestFocus();
-                } else if (mCategory == null) {
-                    showCustomToast(getString(R.string.please_choose_category), AppUtils.TOAST_WARRING);
-                    tvTitleSelectCategoryPay.setTextColor(getResources()
-                            .getColor(R.color.text_warring));
-                } else if (mAccount == null) {
-                    showCustomToast(getString(R.string.please_choose_account), AppUtils.TOAST_WARRING);
-                    tvTitleAccountPay.setTextColor(getResources()
-                            .getColor(R.color.text_warring));
-                } else {
-                    int report;
-
-                    if (swNotIncludeReport.isChecked()) {
-                        report = AppUtils.KHONG_BAO_CAO;
-                    } else {
-                        report = AppUtils.CO_BAO_CAO;
-                    }
-
-                    byte[] image = null;
-                    if (imagePay != null) {
-                        image = AppUtils.convertBitmapToByteArray(imagePay);
-                    }
-
-                    int accountId = mAccount.getAccountId();
-                    int amountOfMoney = Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputMoney));
-                    int subCategoryId;
-                    int categoryId;
-                    String explain = AppUtils.getEditText(etExplain);
-                    String date = tvCalenderPay.getText().toString();
-                    String time = tvTimePay.getText().toString();
-
-                    if (mMoneyPay == null) { // Thêm chi tiền
-                        MoneyPay moneyPay;
-                        if (mSubCategory != null) { // Đối tượng có hạng mục con
-                            subCategoryId = mSubCategory.getSubCategoryId();
-                            categoryId = mSubCategory.getCategoryId();
-
-                            moneyPay = new MoneyPay(accountId, amountOfMoney,
-                                    categoryId, subCategoryId, explain, date, time, report, image);
-                        } else { // Đối tượng không có hạng mục con
-                            categoryId = mCategory.getCategoryId();
-                            moneyPay = new MoneyPay(accountId, amountOfMoney,
-                                    categoryId, explain, date, time, report, image);
-                        }
-                        long insert = mMoneyPayDatabase.insertMoneyPay(moneyPay);
-                        if (insert == DBUtils.checkDBFail) {
-                            showToast(getResources().getString(R.string.insert_pay_fail));
-                        } else {
-                            showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
-                            etInputMoney.setText(getString(R.string._0));
-                            etExplain.setText(null);
-                        }
-                    } else { // Sửa chi tiền
-                        int moneyPrevious = mMoneyPay.getAmountOfMoney();
-                        MoneyPay moneyPay;
-                        if (mSubCategory != null) { // Đối tượng có hạng mục con
-                            subCategoryId = mSubCategory.getSubCategoryId();
-                            categoryId = mSubCategory.getCategoryId();
-
-                            moneyPay = new MoneyPay(mMoneyPay.getPayId(),
-                                    accountId, amountOfMoney, categoryId, subCategoryId,
-                                    explain, date, time, report, image);
-                        } else { // Đối tượng không có hạng mục con
-                            categoryId = mMoneyPay.getCategoryId();
-                            moneyPay = new MoneyPay(mMoneyPay.getPayId(),
-                                    accountId, amountOfMoney, categoryId, 0,
-                                    explain, date, time, report, image);
-                        }
-
-                        long update = mMoneyPayDatabase.updateMoneyPay(moneyPay, moneyPrevious);
-                        if (update == DBUtils.checkDBFail) {
-                            showToast(getResources().getString(R.string.update_pay_fail));
-                        } else {
-                            showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
-                            onBackPressed();
-                        }
-                    }
-                }
+                onSavePay();
                 break;
 
             case R.id.llLayoutDetail:
@@ -647,5 +572,99 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
     @Override
     public void onYesReport() {
         swNotIncludeReport.setChecked(true);
+    }
+
+    @Override
+    public void onClickSave() {
+        onSavePay();
+    }
+
+    /**
+     * Hàm thực hiện lưu và kiểm tra các điều kiện khi lưu chi tiền
+     *
+     * @created_by nxduong on 18/2/2021
+     */
+
+    private void onSavePay() {
+        if (AppUtils.getEditText(etInputMoney).isEmpty()) {
+
+            etInputMoney.requestFocus();
+        } else if (mCategory == null) {
+            showCustomToast(getString(R.string.please_choose_category), AppUtils.TOAST_WARRING);
+            tvTitleSelectCategoryPay.setTextColor(getResources()
+                    .getColor(R.color.text_warring));
+        } else if (mAccount == null) {
+            showCustomToast(getString(R.string.please_choose_account), AppUtils.TOAST_WARRING);
+            tvTitleAccountPay.setTextColor(getResources()
+                    .getColor(R.color.text_warring));
+        } else {
+            int report;
+
+            if (swNotIncludeReport.isChecked()) {
+                report = AppUtils.KHONG_BAO_CAO;
+            } else {
+                report = AppUtils.CO_BAO_CAO;
+            }
+
+            byte[] image = null;
+            if (imagePay != null) {
+                image = AppUtils.convertBitmapToByteArray(imagePay);
+            }
+
+            int accountId = mAccount.getAccountId();
+            int amountOfMoney = Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputMoney));
+            int subCategoryId;
+            int categoryId;
+            String explain = AppUtils.getEditText(etExplain);
+            String date = tvCalenderPay.getText().toString();
+            String time = tvTimePay.getText().toString();
+
+            if (mMoneyPay == null) { // Thêm chi tiền
+                MoneyPay moneyPay;
+                if (mSubCategory != null) { // Đối tượng có hạng mục con
+                    subCategoryId = mSubCategory.getSubCategoryId();
+                    categoryId = mSubCategory.getCategoryId();
+
+                    moneyPay = new MoneyPay(accountId, amountOfMoney,
+                            categoryId, subCategoryId, explain, date, time, report, image);
+                } else { // Đối tượng không có hạng mục con
+                    categoryId = mCategory.getCategoryId();
+                    moneyPay = new MoneyPay(accountId, amountOfMoney,
+                            categoryId, explain, date, time, report, image);
+                }
+                long insert = mMoneyPayDatabase.insertMoneyPay(moneyPay);
+                if (insert == DBUtils.checkDBFail) {
+                    showToast(getResources().getString(R.string.insert_pay_fail));
+                } else {
+                    showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
+                    etInputMoney.setText(getString(R.string._0));
+                    etExplain.setText(null);
+                }
+            } else { // Sửa chi tiền
+                int moneyPrevious = mMoneyPay.getAmountOfMoney();
+                MoneyPay moneyPay;
+                if (mSubCategory != null) { // Đối tượng có hạng mục con
+                    subCategoryId = mSubCategory.getSubCategoryId();
+                    categoryId = mSubCategory.getCategoryId();
+
+                    moneyPay = new MoneyPay(mMoneyPay.getPayId(),
+                            accountId, amountOfMoney, categoryId, subCategoryId,
+                            explain, date, time, report, image);
+                } else { // Đối tượng không có hạng mục con
+                    categoryId = mMoneyPay.getCategoryId();
+                    moneyPay = new MoneyPay(mMoneyPay.getPayId(),
+                            accountId, amountOfMoney, categoryId, 0,
+                            explain, date, time, report, image);
+                }
+
+                long update = mMoneyPayDatabase.updateMoneyPay(moneyPay, moneyPrevious);
+                if (update == DBUtils.checkDBFail) {
+                    showToast(getResources().getString(R.string.update_pay_fail));
+                } else {
+                    showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
+                    onBackPressed();
+                }
+            }
+        }
     }
 }

@@ -48,10 +48,21 @@
                         android:textStyle="bold"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/font_size_input_money"
-                        android:id="@+id/tvTotalMoney"
+                        android:id="@+id/tvTotalMoneyHidden"
                         android:layout_marginStart="@dimen/margin_large"
                         android:layout_below="@id/tvTotalBalance"
                         android:text="@string/total_balance_hidden"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:textStyle="bold"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/font_size_input_money"
+                        android:id="@+id/tvTotalMoney"
+                        android:layout_marginStart="@dimen/margin_large"
+                        android:layout_below="@id/tvTotalBalance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -68,10 +79,153 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pieChart"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginStart="@dimen/margin_large"
+                        android:text="@string/revenue_situation"
+                        android:layout_weight="1"
+                        style="@style/TextViewNormalBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Spinner
+                        android:layout_weight="1"
+                        android:id="@+id/spnStage"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginEnd="@dimen/margin_large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginStart="@dimen/margin_large"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal|bottom"
+                        android:id="@+id/llChart"
+                        android:layout_width="90dp"
+                        android:layout_height="100dp">
+
+                        <ImageView
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_large"
+                            android:layout_weight="1"
+                            android:background="@color/color_green_collect"
+                            android:id="@+id/ivChartCollect"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <ImageView
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:layout_marginEnd="@dimen/margin_large"
+                            android:layout_weight="1"
+                            android:background="@color/color_spending"
+                            android:id="@+id/ivChartSpending"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/margin_account_start_end"
+                        android:layout_marginStart="@dimen/margin_account_start_end"
+                        android:orientation="vertical"
+                        android:layout_toEndOf="@id/llChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@color/black_text_normal_default"
+                                android:drawablePadding="@dimen/padding_large"
+                                android:drawableTint="@color/color_green_collect"
+                                android:text="@string/collection"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:drawableStartCompat="@drawable/dot_slide_selected" />
+
+                            <TextView
+                                android:id="@+id/tvTotalAmountCollectStages"
+                                android:layout_marginEnd="@dimen/margin_large"
+                                android:layout_alignParentEnd="true"
+                                android:textColor="@color/color_green_collect"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_marginTop="@dimen/margin_large"
+                                android:textColor="@color/black_text_normal_default"
+                                android:drawablePadding="@dimen/padding_large"
+                                android:drawableTint="@color/color_spending"
+                                android:text="@string/spending"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:drawableStartCompat="@drawable/dot_slide_selected" />
+
+                            <TextView
+                                android:layout_marginTop="@dimen/margin_large"
+                                android:id="@+id/tvTotalAmountSpendingStages"
+                                android:layout_marginEnd="@dimen/margin_large"
+                                android:layout_alignParentEnd="true"
+                                android:textColor="@color/color_spending"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </RelativeLayout>
+
+                        <include
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_view_line"
+                            android:layout_margin="@dimen/margin_large"
+                            layout="@layout/view_line" />
+
+                        <TextView
+                            android:id="@+id/tvAmountStages"
+                            android:layout_marginEnd="@dimen/margin_large"
+                            android:gravity="end"
+                            style="@style/TextViewNormalBlack"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <include
+                    android:layout_margin="@dimen/margin_large"
+                    android:layout_height="@dimen/height_view_line"
+                    android:layout_width="match_parent"
+                    layout="@layout/view_line" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"

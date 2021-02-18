@@ -17,6 +17,7 @@
         app:titleTextColor="@color/white" />
 
     <com.google.android.material.tabs.TabLayout
+        app:tabTextColor="@color/bg_tab_unselect"
         android:id="@+id/tlEditCategory"
         app:tabSelectedTextColor="@color/white"
         android:background="@color/blue"

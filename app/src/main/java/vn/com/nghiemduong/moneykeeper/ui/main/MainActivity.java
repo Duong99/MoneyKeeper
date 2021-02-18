@@ -2,6 +2,8 @@ package vn.com.nghiemduong.moneykeeper.ui.main;
 
 import androidx.annotation.NonNull;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -44,6 +46,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         switch (item.getItemId()) {
                             case R.id.item_overview:
                                 try {
+                                    fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                                     hvpMain.setCurrentItem(0);
                                 } catch (Exception e) {
                                     AppUtils.handlerException(e);
@@ -51,6 +54,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                                 break;
                             case R.id.item_account:
                                 try {
+                                    fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                                     hvpMain.setCurrentItem(1);
                                 } catch (Exception e) {
                                     AppUtils.handlerException(e);
@@ -58,7 +62,8 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                                 break;
                             case R.id.item_plus:
                                 try {
-                                    fabPlusMain.setBackgroundColor(getResources().getColor(R.color.blue));
+                                    fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(
+                                            getResources().getColor(R.color.blue)));
                                     hvpMain.setCurrentItem(2);
                                 } catch (Exception e) {
                                     AppUtils.handlerException(e);
@@ -66,6 +71,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                                 break;
                             case R.id.item_report:
                                 try {
+                                    fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                                     hvpMain.setCurrentItem(3);
                                 } catch (Exception e) {
                                     AppUtils.handlerException(e);
@@ -73,6 +79,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                                 break;
                             case R.id.item_more:
                                 try {
+                                    fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                                     hvpMain.setCurrentItem(4);
                                 } catch (Exception e) {
                                     AppUtils.handlerException(e);
@@ -90,6 +97,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
         bnvMain = findViewById(R.id.bnvMain);
         fabPlusMain = findViewById(R.id.fabPlusMain);
+        fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
 
         mNavigationAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
         hvpMain.setAdapter(mNavigationAdapter);

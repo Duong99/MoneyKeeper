@@ -53,25 +53,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         }
     }
 
-    // Thêm tài khoảnrong danh sách ở màn hình tài khoản
-    public void addAccount(Account account) {
-        mListAccount.add(account);
-        notifyDataSetChanged();
-    }
-
-    // Xóa tài khoản trong danh sách ở màn hình tài khoản
-    public void deleteAccount(Account account) {
-        mListAccount.remove(account);
-        notifyDataSetChanged();
-    }
-
-    // Sửa tài khoản trong danh sách ở màn hình tài khoản
-    public void updateAccount(Account account, int position) {
-        mListAccount.remove(position);
-        mListAccount.add(position, account);
-        notifyDataSetChanged();
-    }
-
     // Lấy danh sách tài khoản
     public ArrayList<Account> getAllAccount() {
         return mListAccount;

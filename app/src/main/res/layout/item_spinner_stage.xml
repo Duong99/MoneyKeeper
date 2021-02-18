@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="@dimen/margin_large"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/ivStage"
+        android:background="@drawable/v2_ic_check_blue"
+        android:layout_width="@dimen/height_width_ic_picture_spinner"
+        android:layout_height="@dimen/height_width_ic_picture_spinner" />
+
+    <TextView
+        android:id="@+id/tvTitleStage"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_gravity="center_vertical"
+        android:text="@string/today"
+        style="@style/TextViewNormalBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

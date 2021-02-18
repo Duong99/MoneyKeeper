@@ -265,9 +265,9 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
                     mCategoryPath, AppUtils.getEditText(etExplainCategoryAdd), mType);
             long insert = mCategoryDatabase.insertCategory(categoryParent);
             if (insert == DBUtils.checkDBFail) {
-                showToast(getString(R.string.insert_category_fail));
+                showCustomToast(getString(R.string.insert_category_fail), AppUtils.TOAST_ERROR);
             } else {
-                showToast(getString(R.string.insert_category_success));
+                showCustomToast(getString(R.string.insert_category_success), AppUtils.TOAST_SUCCESS);
                 onFinishActivityResult();
             }
         } else { // Thêm hạng mục con
@@ -276,9 +276,9 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
                     AppUtils.getEditText(etExplainCategoryAdd));
             long insert = mSubCategoryDatabase.insertSubCategory(subCategory);
             if (insert == DBUtils.checkDBFail) {
-                showToast(getString(R.string.insert_sub_category_fail));
+                showCustomToast(getString(R.string.insert_sub_category_fail), AppUtils.TOAST_ERROR);
             } else {
-                showToast(getString(R.string.insert_sub_category_success));
+                showCustomToast(getString(R.string.insert_sub_category_success), AppUtils.TOAST_SUCCESS);
                 onFinishActivityResult();
             }
         }
