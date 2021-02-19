@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.google.common.collect.Table;
+
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
@@ -92,6 +94,52 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
     }
 
     /**
+     * -  Hàm tìm kiếm theo thời gian
+     *
+     * @param fromDate từ ngày
+     * @param fromDate đến ngày
+     *                 - @created_by nxduong on 19/2/2021
+     **/
+
+    @Override
+    public ArrayList<MoneyCollect> searchMoneyCollectByDate(String fromDate, String toDate) {
+        db = this.getWritableDatabase();
+        ArrayList<MoneyCollect> listMoneyCollect = new ArrayList<>();
+        String query;
+        if (toDate.equals("")) {
+            query = "SELECT * FROM " + NAME_TABLE_COLLECT
+                    + " WHERE " + COLLECT_DATE + " = '" + fromDate + "'";
+        } else {
+            query = "SELECT * FROM " + NAME_TABLE_COLLECT
+                    + " WHERE " + COLLECT_DATE + " between '" + fromDate + "' and '" + toDate + "'";
+        }
+
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    MoneyCollect moneyCollect = new MoneyCollect(cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getInt(2),
+                            cursor.getInt(3),
+                            cursor.getInt(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            cursor.getString(7),
+                            cursor.getInt(8),
+                            cursor.getBlob(9));
+
+                    listMoneyCollect.add(moneyCollect);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+        return listMoneyCollect;
+    }
+
+    /**
      * Hàm thêm thu tiền trong bảng MoneyCollect vào trong database
      * và cập nhật lại tiền hiệ tại trong bảng tài khoản (Account)
      *
@@ -112,24 +160,21 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
         values.put(COLLECT_TIME, moneyCollect.getTime());
         values.put(COLLECT_REPORT, moneyCollect.getReport());
         values.put(COLLECT_IMAGE, moneyCollect.getImage());
+        long insert = DBUtils.checkDBFail;
 
         try {
-            long insert = db.insert(NAME_TABLE_COLLECT, null, values);
+            insert = db.insert(NAME_TABLE_COLLECT, null, values);
 
-            if (insert == DBUtils.checkDBFail) {
-                db.close();
-                return insert;
-            } else {
-                // Cộng tiền vào tài khoản
-                long update = new AccountMoneyDatabase(mContext)
+            if (insert != DBUtils.checkDBFail) {
+                new AccountMoneyDatabase(mContext)
                         .plusMoneyOfAccount(moneyCollect.getAccountId(),
                                 moneyCollect.getAmountOfMoney());
-                return update;
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
-        return DBUtils.checkDBFail;
+
+        return insert;
     }
 
     /**
@@ -153,23 +198,20 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
         values.put(COLLECT_TIME, moneyCollect.getTime());
         values.put(COLLECT_REPORT, moneyCollect.getReport());
         values.put(COLLECT_IMAGE, moneyCollect.getImage());
+        long update = DBUtils.checkDBFail;
         try {
-            long update = db.update(NAME_TABLE_COLLECT, values, COLLECT_ID + " = ? ",
+            update = db.update(NAME_TABLE_COLLECT, values, COLLECT_ID + " = ? ",
                     new String[]{String.valueOf(moneyCollect.getCollectId())});
 
-            if (update == DBUtils.checkDBFail) {
-                db.close();
-                return update;
-            } else {
-                long updateAccount = updateMoneyOfAccountWhenUpdateCollect(moneyCollect.getAccountId(),
+            if (update != DBUtils.checkDBFail) {
+                updateMoneyOfAccountWhenUpdateCollect(moneyCollect.getAccountId(),
                         moneyCollect.getAmountOfMoney(), numberMoneyPrevious);
-                db.close();
-                return updateAccount;
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
-        return DBUtils.checkDBFail;
+        db.close();
+        return update;
     }
 
     /**
@@ -183,25 +225,21 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
     @Override
     public long deleteMoneyCollect(MoneyCollect moneyCollect) {
         db = this.getWritableDatabase();
+        long delete = DBUtils.checkDBFail;
         try {
-            long delete = db.delete(NAME_TABLE_COLLECT, COLLECT_ID + " = ?",
+            delete = db.delete(NAME_TABLE_COLLECT, COLLECT_ID + " = ?",
                     new String[]{String.valueOf(moneyCollect.getCollectId())});
 
-            if (delete == DBUtils.checkDBFail) {
-                db.close();
-                return delete;
-            } else {
+            if (delete != DBUtils.checkDBFail) {
                 // Trừ tiền trong tài khoản
-                long update = new AccountMoneyDatabase(mContext)
+                new AccountMoneyDatabase(mContext)
                         .subtractMoneyOfAccount(moneyCollect.getAccountId(),
                                 moneyCollect.getAmountOfMoney());
-                db.close();
-                return update;
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
-        return DBUtils.checkDBFail;
+        return delete;
     }
 
     /**
@@ -232,11 +270,10 @@ public class MoneyCollectDatabase extends SQLiteOpenHelper implements MoneyColle
             update = db.update(AccountMoneyDatabase.NAME_TABLE_ACCOUNT, values,
                     AccountMoneyDatabase.ACCOUNT_ID + " = ? ",
                     new String[]{String.valueOf(accountId)});
-            db.close();
-            return update;
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
+        db.close();
         return update;
     }
 }

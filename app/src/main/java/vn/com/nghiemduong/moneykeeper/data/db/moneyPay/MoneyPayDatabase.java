@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.db.category.SubCategoryDatabase;
+import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
@@ -89,6 +90,51 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
     }
 
     /**
+     * -  Hàm tìm kiếm theo thời gian
+     *
+     * @param fromDate từ ngày
+     * @param fromDate đến ngày
+     *                 - @created_by nxduong on 19/2/2021
+     **/
+
+    @Override
+    public ArrayList<MoneyPay> searchMoneyPayByDate(String fromDate, String toDate) {
+        db = this.getWritableDatabase();
+        ArrayList<MoneyPay> listMoneyPay = new ArrayList<>();
+        String query;
+        if (toDate.equals("")) {
+            query = "SELECT * FROM " + NAME_TABLE_PAY
+                    + " WHERE " + PAY_DATE + " = '" + fromDate + "'";
+        } else {
+            query = "SELECT * FROM " + NAME_TABLE_PAY
+                    + " WHERE " + PAY_DATE + " between '" + fromDate + "' and '" + toDate + "'";
+        }
+
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    MoneyPay moneyPay = new MoneyPay(cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getInt(2),
+                            cursor.getInt(3),
+                            cursor.getInt(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            cursor.getString(7),
+                            cursor.getInt(8),
+                            cursor.getBlob(9));
+
+                    listMoneyPay.add(moneyPay);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+        return listMoneyPay;
+    }
+
+    /**
      * Hàm thêm chi tiền vào bảng MoneyPay trong database
      * và cập nhật lại tiền hiệ tại trong bảng tài khoản (Account)
      *
@@ -109,23 +155,20 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
         values.put(PAY_TIME, moneyPay.getTime());
         values.put(PAY_REPORT, moneyPay.getReport());
         values.put(PAY_IMAGE, moneyPay.getImage());
+        long insert = DBUtils.checkDBFail;
         try {
-            long insert = db.insert(NAME_TABLE_PAY, null, values);
-            if (insert == DBUtils.checkDBFail) {
-                db.close();
-                return insert;
-            } else {
+            insert = db.insert(NAME_TABLE_PAY, null, values);
+            if (insert != DBUtils.checkDBFail) {
                 // Xóa tiền trong tài khoản khi chi tiền
-                long update = new AccountMoneyDatabase(mContext)
+                new AccountMoneyDatabase(mContext)
                         .subtractMoneyOfAccount(moneyPay.getAccountId(),
                                 moneyPay.getAmountOfMoney());
-                db.close();
-                return update;
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
-        return DBUtils.checkDBFail;
+        db.close();
+        return insert;
     }
 
     /**
@@ -149,25 +192,20 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
         values.put(PAY_TIME, moneyPay.getTime());
         values.put(PAY_REPORT, moneyPay.getReport());
         values.put(PAY_IMAGE, moneyPay.getImage());
-
+        long update = DBUtils.checkDBFail;
         try {
-            long update = db.update(NAME_TABLE_PAY, values, PAY_ID + " = ? ",
+            update = db.update(NAME_TABLE_PAY, values, PAY_ID + " = ? ",
                     new String[]{String.valueOf(moneyPay.getPayId())});
 
-            if (update == DBUtils.checkDBFail) {
-                db.close();
-                return update;
-            } else {
+            if (update != DBUtils.checkDBFail) {
                 // Cập nhật lại tiền trong tài khoản khi thay đổi số tiền chi
-                long updateAccount = updateMoneyOfAccountWhenUpdatePay(moneyPay.getAccountId(),
+                updateMoneyOfAccountWhenUpdatePay(moneyPay.getAccountId(),
                         moneyPay.getAmountOfMoney(), numberMoneyPrevious);
-                db.close();
-                return updateAccount;
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
-        return DBUtils.checkDBFail;
+        return update;
     }
 
     /**
@@ -180,25 +218,21 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
     @Override
     public long deleteMoneyPay(MoneyPay moneyPay) {
         db = this.getWritableDatabase();
-        long delete = db.delete(NAME_TABLE_PAY, PAY_ID + " = ?",
-                new String[]{String.valueOf(moneyPay.getPayId())});
 
+        long delete = DBUtils.checkDBFail;
         try {
-            if (delete == DBUtils.checkDBFail) {
-                db.close();
-                return delete;
-            } else {
+            delete = db.delete(NAME_TABLE_PAY, PAY_ID + " = ?",
+                    new String[]{String.valueOf(moneyPay.getPayId())});
+            if (delete != DBUtils.checkDBFail) {
                 // Cộng lại tiền vào tài khoản khi xóa chi tiền
-                long update = new AccountMoneyDatabase(mContext)
+                new AccountMoneyDatabase(mContext)
                         .plusMoneyOfAccount(moneyPay.getAccountId(),
                                 moneyPay.getAmountOfMoney());
-                db.close();
-                return update;
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
         }
-        return DBUtils.checkDBFail;
+        return delete;
     }
 
     /**

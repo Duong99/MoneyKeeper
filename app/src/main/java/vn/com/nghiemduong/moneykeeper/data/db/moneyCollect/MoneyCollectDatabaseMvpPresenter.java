@@ -10,6 +10,8 @@ import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 public interface MoneyCollectDatabaseMvpPresenter {
     ArrayList<MoneyCollect> getAllMoneyCollect();
 
+    ArrayList<MoneyCollect> searchMoneyCollectByDate(String fromDate, String toDate);
+
     long insertMoneyCollect(MoneyCollect moneyCollect);
 
     long updateMoneyCollect(MoneyCollect moneyCollect, int numberMoneyPrevious);

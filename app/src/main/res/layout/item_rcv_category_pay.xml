@@ -17,18 +17,20 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:background="@drawable/thu_unknow"
             android:layout_marginStart="@dimen/margin_large"
             android:id="@+id/ivImageCategoryPay"
             android:layout_width="@dimen/height_width_image_normal"
             android:layout_height="@dimen/height_width_image_normal" />
 
         <TextView
-            style="@style/TextViewNormalBlack"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_gravity="center_vertical"
+            android:text="@string/unknown"
             android:id="@+id/tvTitleCategoryPay"
+            style="@style/TextViewNormalBlack"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_medium" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

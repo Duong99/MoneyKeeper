@@ -56,9 +56,9 @@ public class CustomSpinnerStageAdapter extends ArrayAdapter<String> {
         ImageView ivStage = convertView.findViewById(R.id.ivStage);
 
         tvTitleStage.setText(mListStage.get(position));
-        if (mListStage.get(position).equals(s)) {
-            ivStage.setVisibility(View.VISIBLE);
-        }
+//        if (mListStage.get(position).equals(s)) {
+//            ivStage.setVisibility(View.VISIBLE);
+//        }
 
         return convertView;
     }

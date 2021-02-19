@@ -38,8 +38,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.ivReport.setBackgroundResource(mListReports.get(position).getImage());
-        holder.tvReport.setText(mListReports.get(position).getTitle());
+        Report report = mListReports.get(position);
+        if (report != null) {
+            holder.ivReport.setBackgroundResource(report.getImage());
+            holder.tvReport.setText(report.getTitle());
+        }
     }
 
     @Override

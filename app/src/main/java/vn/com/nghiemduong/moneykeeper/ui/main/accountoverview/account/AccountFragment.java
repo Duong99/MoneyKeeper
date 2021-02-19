@@ -35,7 +35,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * -  Màn hình chứa tài khoản
+ * -  Màn hình hiển thị danh sách tài khoản tài khoản
  * <p>
  * - @created_by nxduong on 26/1/2021
  **/
@@ -196,8 +196,8 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     @SuppressLint("SetTextI18n")
     @Override
     public void onTotalMoneyOfAllAccount(int totalMoney) {
-        tvTotalMoney.setText(String.valueOf(totalMoney));
-        tvTotalMoneyUsing.setText("( " + totalMoney + " đ )");
+        tvTotalMoney.setText(AppUtils.formatNumber(String.valueOf(totalMoney)));
+        tvTotalMoneyUsing.setText("( " + AppUtils.formatNumber(String.valueOf(totalMoney)) + " đ )");
     }
 
     @Override

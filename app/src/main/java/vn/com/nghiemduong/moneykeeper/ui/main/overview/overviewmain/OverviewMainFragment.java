@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,6 +46,7 @@ import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentMvpView;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentPresenter;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.PlusFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -87,6 +89,34 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         mView = inflater.inflate(R.layout.fragment_overview_main, container, false);
         init();
 
+        spnStage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    switch (position) {
+                        case 0: // Thống kê hôm nay
+                            mOverviewMainPresenter.doGetTotalAmountFromDB(
+                                    getContext(), UtilsPlus.getDateCurrent(), "");
+                            break;
+
+                        default:
+                            mOverviewMainPresenter.doGetTotalAmountFromDB(
+                                    getContext(), AppUtils.UpDownDate(position),
+                                    UtilsPlus.getDateCurrent());
+                            break;
+                    }
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         return mView;
     }
 
@@ -121,7 +151,7 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
 
         mOverviewMainPresenter = new OverviewMainPresenter(this);
         mOverviewMainPresenter.doInsertListSpinnerStage(Objects.requireNonNull(getContext()));
-        mOverviewMainPresenter.doGetTotalAmountFromDB(getContext());
+        mOverviewMainPresenter.doGetTotalAmountFromDB(getContext(), UtilsPlus.getDateCurrent(), "");
 
         pieChart = mView.findViewById(R.id.pieChart);
 
@@ -230,7 +260,16 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onTotalMoneyOfAllAccount(int totalMoney) {
         mTotalMoney = totalMoney;
-        tvTotalMoney.setText(String.valueOf(mTotalMoney));
+        tvTotalMoney.setText(AppUtils.formatNumber(String.valueOf(mTotalMoney)));
+
+        if (totalMoney < 0) {
+            tvTotalMoney.setTextColor(getResources().getColor(R.color.red));
+            tvTotalMoneyHidden.setTextColor(getResources().getColor(R.color.red));
+
+        } else {
+            tvTotalMoney.setTextColor(getResources().getColor(R.color.blue));
+            tvTotalMoneyHidden.setTextColor(getResources().getColor(R.color.blue));
+        }
     }
 
     @Override
@@ -335,10 +374,15 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
     public void resultGetTotalAmountFromDB(int amountCollectStages, int amountSpendingStages,
                                            int totalMoneyStages, int heightChartCollect,
                                            int heightChartSpending) {
-        tvAmountStages.setText(totalMoneyStages + " " + getString(R.string.dong));
-        tvTotalAmountCollectStages.setText(amountCollectStages + " " + getString(R.string.dong));
-        tvTotalAmountSpendingStages.setText(amountSpendingStages + " " + getString(R.string.dong));
+        tvAmountStages.setText(
+                AppUtils.formatNumber(String.valueOf(totalMoneyStages)) + " " + getString(R.string.dong));
+        tvTotalAmountCollectStages.setText(
+                AppUtils.formatNumber(String.valueOf(amountCollectStages)) + " " + getString(R.string.dong));
+        tvTotalAmountSpendingStages.setText(
+                AppUtils.formatNumber(String.valueOf(amountSpendingStages)) + " " + getString(R.string.dong));
 
+        ivChartCollect.requestLayout();
+        ivChartSpending.requestLayout();
         ivChartCollect.getLayoutParams().height = heightChartCollect;
         ivChartSpending.getLayoutParams().height = heightChartSpending;
     }

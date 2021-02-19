@@ -25,6 +25,7 @@
                 android:layout_height="@dimen/height_width_ic_picture_spinner" />
 
             <ImageView
+                android:background="@drawable/thu_unknow"
                 android:layout_marginStart="@dimen/margin_small"
                 android:id="@+id/ivImageCategoryEdit"
                 android:layout_width="@dimen/height_width_image_account"
@@ -37,6 +38,7 @@
             android:layout_height="@dimen/height_category_edit">
 
             <TextView
+                android:text="@string/unknown"
                 android:layout_centerVertical="true"
                 style="@style/TextViewNormalBlack"
                 android:layout_marginStart="@dimen/margin_medium"

@@ -16,11 +16,15 @@ import com.doodle.android.chips.model.Contact;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -220,13 +224,61 @@ public class AppUtils {
         });
     }
 
-    private String getStringSplitSpace(String number) {
-        String s = "";
-        String[] word = number.split(",");
-        for (String w : word) {
-            s += w;
+    public static String formatNumber(String number) {
+        Long longval;
+        if (number.contains(",")) {
+            number = number.replaceAll(",", "");
         }
-        return s;
+        longval = Long.parseLong(number);
+
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        formatter.applyPattern("#,###,###,###");
+        String formattedString = formatter.format(longval);
+        return formattedString;
+    }
+
+    /**
+     * Hàm tính khoảng thời gian
+     *
+     * @param i khoảng thời gian cần tính
+     * @created_by nxduong on 19/2/2021
+     */
+    public static String UpDownDate(int i) {
+        // Định dạng thời gian
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Calendar c1 = Calendar.getInstance();
+
+        Date date = Date.valueOf(sdf.format(new java.util.Date().getTime()));
+        c1.setTime(date);
+        switch (i) {
+            case 1: // Thống kê tuần này
+                c1.roll(Calendar.DATE, -7);
+                return dateFormat.format(c1.getTime());
+
+            case 2: // Thống kê tháng này
+                c1.roll(Calendar.DATE, -(Integer.parseInt(UtilsPlus.getDateCurrent().substring(0, 2)) - 1));
+                return dateFormat.format(c1.getTime());
+
+            case 3: // Thống kê quý này
+                if (Calendar.MONTH < 4) {
+                    c1.roll(Calendar.MONTH, -(Calendar.MONTH - 1));
+                    c1.roll(Calendar.DATE,
+                            -(Integer.parseInt(UtilsPlus.getDateCurrent().substring(0, 2)) - 1));
+                } else {
+                    c1.roll(Calendar.MONTH, -3);
+                }
+
+                return dateFormat.format(c1.getTime());
+
+            case 4: // Thống kê năm nay
+                c1.roll(Calendar.MONTH, -(Calendar.MONTH - 1));
+                c1.roll(Calendar.DATE,
+                        -(Integer.parseInt(UtilsPlus.getDateCurrent().substring(0, 2)) - 1));
+                return dateFormat.format(c1.getTime());
+        }
+
+        return "";
     }
 
 }

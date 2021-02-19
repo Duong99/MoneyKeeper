@@ -50,8 +50,12 @@ public class ViewPagerIntroAdapter extends PagerAdapter {
         ImageView ivPictureSlideIntro = view.findViewById(R.id.ivPictureSlideIntro);
         TextView tvTitleSlideIntro = view.findViewById(R.id.tvTitleSlideIntro);
 
-        ivPictureSlideIntro.setBackgroundResource(mListIntro.get(position).getPicture());
-        tvTitleSlideIntro.setText(mListIntro.get(position).getTitle());
+        Intro intro = mListIntro.get(position);
+        if (intro != null) {
+            ivPictureSlideIntro.setBackgroundResource(intro.getPicture());
+            tvTitleSlideIntro.setText(intro.getTitle());
+        }
+
         container.addView(view);
         return view;
     }

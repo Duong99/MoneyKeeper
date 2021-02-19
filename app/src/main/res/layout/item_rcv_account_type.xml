@@ -14,18 +14,17 @@
             android:id="@+id/ivImageAccountType"
             android:layout_width="@dimen/height_width_ic_select_image"
             android:layout_height="@dimen/height_width_ic_select_image"
-            android:background="@drawable/ic_event"
-            android:backgroundTint="@color/black_text_normal" />
+            android:background="@drawable/thu_unknow" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tvTitleAccountType"
-        style="@style/TextViewNormal"
+        style="@style/TextViewNormalBlack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/rlImageAccountType"
-        android:text="@string/account_type" />
+        android:text="@string/unknown" />
 
     <ImageView
         android:visibility="gone"

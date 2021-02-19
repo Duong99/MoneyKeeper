@@ -360,7 +360,12 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                 break;
 
             case R.id.llSave: // Chọn vào lưu hặc sửa chi tiền
-                onSavePay();
+                try {
+                    onSavePay();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+
                 break;
 
             case R.id.llLayoutDetail:
@@ -639,6 +644,14 @@ public class PayFragment extends BaseFragment implements PayFragmentMvpView, Vie
                     showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
                     etInputMoney.setText(getString(R.string._0));
                     etExplain.setText(null);
+                    mCategory = null;
+                    mSubCategory = null;
+                    ivImageCategoriesPay.setImageBitmap(null);
+                    ivImageCategoriesPay.setBackground(
+                            getResources().getDrawable(R.drawable.ic_help_white));
+                    tvTitleSelectCategoryPay.setText(getString(R.string.select_item));
+                    tvTitleSelectCategoryPay.setTextColor(getResources()
+                            .getColor(R.color.black_text_normal_default));
                 }
             } else { // Sửa chi tiền
                 int moneyPrevious = mMoneyPay.getAmountOfMoney();

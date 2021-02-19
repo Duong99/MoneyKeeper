@@ -45,12 +45,14 @@ public class OverviewMainPresenter implements OverviewMainMvpPresenter {
      */
 
     @Override
-    public void doGetTotalAmountFromDB(Context context) {
+    public void doGetTotalAmountFromDB(Context context, String fromDate, String toDate) {
         MoneyCollectDatabase moneyCollectDatabase = new MoneyCollectDatabase(context);
         MoneyPayDatabase moneyPayDatabase = new MoneyPayDatabase(context);
 
-        ArrayList<MoneyCollect> moneyCollects = moneyCollectDatabase.getAllMoneyCollect();
-        ArrayList<MoneyPay> moneyPays = moneyPayDatabase.getAllMoneyPay();
+        ArrayList<MoneyCollect> moneyCollects
+                = moneyCollectDatabase.searchMoneyCollectByDate(fromDate, toDate);
+        ArrayList<MoneyPay> moneyPays
+                = moneyPayDatabase.searchMoneyPayByDate(fromDate, toDate);
 
         int totalAmountCollectStages = 0;
         int totalAmountPayStages = 0;
@@ -84,6 +86,5 @@ public class OverviewMainPresenter implements OverviewMainMvpPresenter {
                 totalAmountCollectStages - totalAmountPayStages,
                 (int) Math.round(heightChartCollect),
                 (int) Math.round(heightChartSpending));
-
     }
 }

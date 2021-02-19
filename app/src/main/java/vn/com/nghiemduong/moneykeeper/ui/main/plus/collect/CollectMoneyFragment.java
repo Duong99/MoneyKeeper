@@ -179,7 +179,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rlChooseCategory:
+            case R.id.rlChooseCategory: // chọn hạng mục
                 try {
                     startActivityForResult(new Intent(getContext(), ChooseCategoriesActivity.class),
                             ChooseCategoriesActivity.REQUEST_CODE_CHOOSE_CATEGORY);
@@ -188,7 +188,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
 
-            case R.id.tvCalendar:
+            case R.id.tvCalendar: // Chọn ngày tháng năm
                 try {
                     CustomDateTimeDialog customDateDialog =
                             new CustomDateTimeDialog(Objects.requireNonNull(getContext()),
@@ -200,7 +200,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
 
-            case R.id.tvTime:
+            case R.id.tvTime: // Chọn thời gain
                 try {
                     CustomDateTimeDialog customTimeDialog =
                             new CustomDateTimeDialog(Objects.requireNonNull(getContext()),
@@ -212,7 +212,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
 
-            case R.id.rlChooseAccount:
+            case R.id.rlChooseAccount: // Chọn tài khoản
                 try {
                     Intent intent = new Intent(getContext(), ChooseAccountActivity.class);
                     Bundle bundle = new Bundle();
@@ -224,7 +224,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
 
-            case R.id.rlSelectFolder:
+            case R.id.rlSelectFolder: // Chọn ảnh trong thư mục
                 try {
                     if (AppPermission.requestCameraPermission(getContext(), getActivity())) {
                         Intent intentFolder = new Intent(Intent.ACTION_PICK);
@@ -236,7 +236,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
 
-            case R.id.rlSelectCamera:
+            case R.id.rlSelectCamera: // Chọn chụp ảnh từ camera
                 try {
                     if (AppPermission.requestCameraPermission(getContext(), getActivity())) {
                         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -247,7 +247,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
 
-            case R.id.ivRemoveImageSelected:
+            case R.id.ivRemoveImageSelected: // Xóa ảnh
                 try {
                     llSelectImage.setVisibility(View.VISIBLE);
                     rlContentImage.setVisibility(View.GONE);
@@ -257,7 +257,7 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
 
-            case R.id.llSave:
+            case R.id.llSave: // Lưu thu tiền
                 if (AppUtils.getEditText(etInputMoney).isEmpty()) {
                     etInputMoney.requestFocus();
                 } else if (mCategory == null) {
@@ -312,7 +312,14 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                             showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
                             etInputMoney.setText(getString(R.string._0));
                             etExplain.setText(null);
-                            mMoneyCollect = null;
+                            mCategory = null;
+                            mSubCategory = null;
+                            ivImageCategoriesCollect.setImageBitmap(null);
+                            ivImageCategoriesCollect.setBackground(
+                                    getResources().getDrawable(R.drawable.ic_help_white));
+                            tvTitleSelectCategoryCollect.setText(getString(R.string.select_item));
+                            tvTitleSelectCategoryCollect.setTextColor(getResources()
+                                    .getColor(R.color.black_text_normal_default));
                         }
                     } else { // Sửa thu tiền
                         int moneyPrevious = mMoneyCollect.getAmountOfMoney();
@@ -357,9 +364,14 @@ public class CollectMoneyFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
 
-            case R.id.llDelete:
-                new AttentionDeleteDialog(Objects.requireNonNull(getContext()),
-                        this, AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
+            case R.id.llDelete: // Chọn xóa thu tiền
+                try {
+                    new AttentionDeleteDialog(Objects.requireNonNull(getContext()),
+                            this, AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+
                 break;
         }
     }

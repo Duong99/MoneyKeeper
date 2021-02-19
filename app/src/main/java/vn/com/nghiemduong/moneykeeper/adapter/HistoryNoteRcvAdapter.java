@@ -76,7 +76,8 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                     if (mListTimes.get(position).equals(moneyPay.getDate()
                             + moneyPay.getTime())) {
 
-                        holder.tvNumberMoneyHistoryNote.setText(String.valueOf(moneyPay.getAmountOfMoney()));
+                        holder.tvNumberMoneyHistoryNote.setText(
+                                AppUtils.formatNumber(String.valueOf(moneyPay.getAmountOfMoney())));
                         holder.tvNumberMoneyHistoryNote.setTextColor(mContext.getResources()
                                 .getColor(R.color.red));
                         holder.tvDateHistoryNote.setText(moneyPay.getDate());
@@ -136,8 +137,8 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                             }
                         }
 
-                        holder.tvNumberMoneyHistoryNote.setText(String.valueOf(
-                                moneyCollect.getAmountOfMoney()));
+                        holder.tvNumberMoneyHistoryNote.setText(
+                                AppUtils.formatNumber(String.valueOf(moneyCollect.getAmountOfMoney())));
                         holder.tvNumberMoneyHistoryNote.setTextColor(mContext.getResources()
                                 .getColor(R.color.color_green_collect));
                         holder.tvDateHistoryNote.setText(moneyCollect.getDate());
@@ -161,8 +162,8 @@ public class HistoryNoteRcvAdapter extends RecyclerView.Adapter<HistoryNoteRcvAd
                     if (mListTimes.get(position).equals(transfer.getDate()
                             + transfer.getTime())) {
 
-                        holder.tvNumberMoneyHistoryNote.setText(String.valueOf(
-                                transfer.getAmountOfMoney()));
+                        holder.tvNumberMoneyHistoryNote.setText(
+                                AppUtils.formatNumber(String.valueOf(transfer.getAmountOfMoney())));
                         holder.tvNumberMoneyHistoryNote.setTextColor(mContext.getResources()
                                 .getColor(R.color.black));
                         holder.tvDateHistoryNote.setText(transfer.getDate());

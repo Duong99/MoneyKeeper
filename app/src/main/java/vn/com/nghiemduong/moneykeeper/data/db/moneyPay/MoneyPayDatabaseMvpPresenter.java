@@ -2,6 +2,7 @@ package vn.com.nghiemduong.moneykeeper.data.db.moneyPay;
 
 import java.util.ArrayList;
 
+import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
 import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
 
 /**
@@ -9,6 +10,8 @@ import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
  **/
 public interface MoneyPayDatabaseMvpPresenter {
     ArrayList<MoneyPay> getAllMoneyPay();
+
+    ArrayList<MoneyPay> searchMoneyPayByDate(String fromDate, String toDate);
 
     long insertMoneyPay(MoneyPay moneyPay);
 

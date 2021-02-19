@@ -71,7 +71,6 @@ public class SubCategoryEditAdapter extends RecyclerView.Adapter<SubCategoryEdit
             holder.ivImageCategoryEdit.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     subCategory.getSubCategoryPath(), mContext));
             holder.tvTitleCategoryEdit.setText(subCategory.getSubCategoryName());
-
         }
     }
 

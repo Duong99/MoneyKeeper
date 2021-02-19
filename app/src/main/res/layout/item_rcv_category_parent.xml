@@ -10,6 +10,7 @@
         android:layout_height="@dimen/height_item_plus">
 
         <ImageView
+            android:background="@drawable/thu_unknow"
             android:layout_centerInParent="true"
             android:id="@+id/ivPictureCategoryParent"
             android:layout_width="@dimen/height_width_image_account"
@@ -33,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/rlImageTripEvent"
-        android:text="@string/name_category" />
+        android:text="@string/unknown" />
 
     <include
         android:layout_alignParentBottom="true"

@@ -21,6 +21,7 @@ import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.AccountType;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.type.AccountTypeActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
@@ -31,7 +32,8 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * <p>
  * - @created_by nxduong on 26/1/2021
  **/
-public class AddAccountActivity extends BaseActivity implements View.OnClickListener {
+public class AddAccountActivity extends BaseActivity implements View.OnClickListener,
+        AttentionDeleteDialog.IOnClickAttentionDialog {
 
     public final static int REQUEST_CODE_ACCOUNT_ADD = 321;
     public final static int REQUEST_CODE_ACCOUNT_EDIT = 121;
@@ -77,6 +79,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         llDelete.setOnClickListener(this);
 
         etInputMoney = findViewById(R.id.etInputMoney);
+        AppUtils.formatNumberEditText(etInputMoney);
         etInputMoney.setTextColor(getResources().getColor(R.color.blue));
 
         TextView tvTitleBarAddAccount = findViewById(R.id.tvTitleBarAddAccount);
@@ -102,11 +105,13 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                     .getSerializable("BUNDLE_ACCOUNT");
 
             if (mAccount != null) {
-                etInputMoney.setText(String.valueOf(mAccount.getMoneyCurrent()));
+                etInputMoney.setText(AppUtils.formatNumber(String.valueOf(mAccount.getMoneyCurrent())));
                 etAccountName.setText(mAccount.getAccountName());
                 etExplain.setText(mAccount.getExplain());
                 mAccountType = new AccountType(mAccount.getAccountTypePath(),
                         mAccount.getAccountTypeName());
+
+                llDelete.setVisibility(View.VISIBLE);
 
                 if (mAccount.getReport() == AppUtils.CO_BAO_CAO) {
                     swNotIncludeReport.setChecked(false);
@@ -127,7 +132,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ivCloseAddAccount:
+            case R.id.ivCloseAddAccount: // Đóng thêm tài khoản
                 try {
                     onBackPressed();
                 } catch (Exception e) {
@@ -161,17 +166,10 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
             case R.id.llDelete: // Xóa tài khoản
                 try {
                     if (mAccount != null) {
-                        long delete = mAccountDatabase.deleteAccount(mAccount.getAccountId());
+                        new AttentionDeleteDialog(this, this,
+                                AttentionDeleteDialog.ATTENTION_DELETE_ACCOUNT).show();
 
-                        if (delete == DBUtils.checkDBFail) {
-                            showToast(getResources().getString(R.string.delete_account_fail));
-                        } else {
-                            showCustomToast(getResources().getString(R.string.delete_account_success),
-                                    AppUtils.TOAST_SUCCESS);
-                            finishInsertOrUpdateSuccess();
-                        }
                     }
-
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -196,8 +194,12 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
 
     private void insertOrUpdateAccount() {
         if (AppUtils.getEditText(etInputMoney).isEmpty()) {
+            showCustomToast(getResources().getString(R.string.enter_money),
+                    AppUtils.TOAST_WARRING);
             etInputMoney.requestFocus();
         } else if (AppUtils.getEditText(etAccountName).isEmpty()) {
+            showCustomToast(getResources().getString(R.string.enter_account_name),
+                    AppUtils.TOAST_WARRING);
             etAccountName.requestFocus();
         } else {
             int report;
@@ -210,22 +212,22 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
             // Thêm tài khoản
             if (keyAddEditAccount == ADD_ACCOUNT) {
                 Account account = new Account(AppUtils.getEditText(etAccountName),
-                        Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+                        Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputMoney)),
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppUtils.VND,
                         AppUtils.getEditText(etExplain), report);
                 long insert = mAccountDatabase.insertAccount(account);
                 if (insert == DBUtils.checkDBFail) {
-                    showToast(getResources().getString(R.string.insert_account_fail));
+                    showCustomToast(getResources().getString(R.string.insert_account_fail), AppUtils.TOAST_ERROR);
                 } else {
-                    showToast(getResources().getString(R.string.insert_account_success));
+                    showCustomToast(getResources().getString(R.string.insert_account_success), AppUtils.TOAST_SUCCESS);
                     finishInsertOrUpdateSuccess();
                 }
             } else { // Sửa tài khoản
                 mAccount = new Account(
                         mAccount.getAccountId(),
                         AppUtils.getEditText(etAccountName),
-                        Integer.parseInt(AppUtils.getEditText(etInputMoney)),
+                        Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputMoney)),
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppUtils.VND,
                         AppUtils.getEditText(etExplain), report);
@@ -247,5 +249,22 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         intent.putExtra("BUNDLE", bundle);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void onClickYesDelete() {
+        try {
+            long delete = mAccountDatabase.deleteAccount(mAccount.getAccountId());
+
+            if (delete == DBUtils.checkDBFail) {
+                showToast(getResources().getString(R.string.delete_account_fail));
+            } else {
+                showCustomToast(getResources().getString(R.string.delete_account_success),
+                        AppUtils.TOAST_SUCCESS);
+                finishInsertOrUpdateSuccess();
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 }

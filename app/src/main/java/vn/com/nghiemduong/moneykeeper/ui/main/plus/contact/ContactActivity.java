@@ -63,7 +63,7 @@ public class ContactActivity extends BaseActivity implements ContactActivityMvpV
 
             @Override
             public void onTextChanged(CharSequence text) {
-                mContactAdapter.getFilter().filter(text.toString());
+                //mContactAdapter.getFilter().filter(text.toString());
             }
 
             @Override

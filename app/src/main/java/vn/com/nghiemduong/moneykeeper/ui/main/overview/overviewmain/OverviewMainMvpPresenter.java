@@ -8,5 +8,5 @@ import android.content.Context;
 public interface OverviewMainMvpPresenter {
     void doInsertListSpinnerStage(Context context);
 
-    void doGetTotalAmountFromDB(Context context);
+    void doGetTotalAmountFromDB(Context context, String fromDate, String toDate);
 }

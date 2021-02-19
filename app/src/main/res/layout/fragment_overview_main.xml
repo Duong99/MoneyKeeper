@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/blue" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -233,6 +233,9 @@
                 android:layout_height="@dimen/height_recent_notes">
 
                 <TextView
+                    android:textSize="@dimen/font_medium"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
                     android:gravity="center_vertical"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_start_recent_notes"
@@ -246,15 +249,16 @@
                     android:layout_height="@dimen/height_rcv_recent_notes" />
 
                 <TextView
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/font_medium"
                     android:layout_marginEnd="@dimen/margin_large"
                     android:gravity="end|center_vertical"
                     android:text="@string/view_history_notes"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_text_recent_notes" />
 
-
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

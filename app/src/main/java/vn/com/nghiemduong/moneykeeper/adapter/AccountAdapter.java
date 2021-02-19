@@ -49,7 +49,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             holder.ivPictureAccountType.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     account.getAccountTypePath(), mContext));
             holder.tvAccountName.setText(account.getAccountName());
-            holder.tvTotalMoneyAccount.setText(String.valueOf(account.getMoneyCurrent()));
+            holder.tvTotalMoneyAccount.setText(AppUtils.formatNumber(String.valueOf(account.getMoneyCurrent())));
         }
     }
 

@@ -18,7 +18,7 @@
     <color name="bg_gray_select_category">#EDEDED</color>
     <color name="bg_white">#e9e9e9</color>
     <color name="green">#00FF0A</color>
-    <color name="red">#FF0000</color>
+    <color name="red">#F80909</color>
 
     <color name="contact_color_blue">#58a2bd</color>
     <color name="contact_color_violet">#ad62a7</color>
@@ -58,7 +58,7 @@
     <color name="bg_toast_warring">#FF9800</color>
     <color name="bg_toast_error">#FF0000</color>
 
-    <color name="bg_tab_unselect">#D8D8D8</color>
+    <color name="bg_tab_unselect">#DDDDDD</color>
 
     <color name="text_selected">#1E1E1E</color>
     <color name="text_warring">#FF4C4C</color>
