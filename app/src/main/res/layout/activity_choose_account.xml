@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbChooseAccount"
         app:titleTextColor="@color/white"
-        app:title="@string/select_item"
+        app:title="@string/select_account"
         android:background="@color/blue"
         app:navigationIcon="@drawable/ic_arrow_back"
         android:layout_width="match_parent"

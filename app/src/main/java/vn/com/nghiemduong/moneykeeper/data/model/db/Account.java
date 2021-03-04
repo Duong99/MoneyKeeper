@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.data.model;
+package vn.com.nghiemduong.moneykeeper.data.model.db;
 
 import java.io.Serializable;
 
@@ -11,20 +11,20 @@ import java.io.Serializable;
 public class Account implements Serializable {
     private int accountId;    //(INTEGER): id tài khoản
     private String accountName;    //(TEXT): Tên tài khoản
-    private int moneyCurrent;    //(INTEGER): Tiền hiện tại trong tài khoản
+    private int currentAmount;    //(INTEGER): Tiền hiện tại trong tài khoản
     private String accountTypePath; //(TEXT) : Đường dẫn ảnh của loại tài khoản trong assets
     private String accountTypeName; //(TEXT) : Tên loại tài khoản
     private String moneyType;    //(TEXT) : Loại tiền tệ mặc định VND
     private String explain;     // (TEXT) : Diễn giải
     private int report;       /// (INTEGER): Có tính vào báo cáo không 1 là có, 0 là không
 
-    public Account(int accountId, String accountName, int moneyCurrent,
+    public Account(int accountId, String accountName, int currentAmount,
                    String accountTypePath, String accountTypeName, String moneyType,
                    String explain, int report) {
         this.accountId = accountId;
         this.accountName = accountName;
 
-        this.moneyCurrent = moneyCurrent;
+        this.currentAmount = currentAmount;
         this.accountTypePath = accountTypePath;
         this.accountTypeName = accountTypeName;
         this.moneyType = moneyType;
@@ -32,10 +32,10 @@ public class Account implements Serializable {
         this.report = report;
     }
 
-    public Account(String accountName, int moneyCurrent, String accountTypePath,
+    public Account(String accountName, int currentAmount, String accountTypePath,
                    String accountTypeName, String moneyType, String explain, int report) {
         this.accountName = accountName;
-        this.moneyCurrent = moneyCurrent;
+        this.currentAmount = currentAmount;
         this.accountTypePath = accountTypePath;
         this.accountTypeName = accountTypeName;
         this.moneyType = moneyType;
@@ -59,12 +59,12 @@ public class Account implements Serializable {
         this.accountName = accountName;
     }
 
-    public int getMoneyCurrent() {
-        return moneyCurrent;
+    public int getCurrentAmount() {
+        return currentAmount;
     }
 
-    public void setMoneyCurrent(int moneyCurrent) {
-        this.moneyCurrent = moneyCurrent;
+    public void setCurrentAmount(int currentAmount) {
+        this.currentAmount = currentAmount;
     }
 
     public String getAccountTypePath() {

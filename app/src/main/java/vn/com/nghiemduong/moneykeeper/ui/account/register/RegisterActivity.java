@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.model.User;
+import vn.com.nghiemduong.moneykeeper.data.model.db.User;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -78,11 +78,7 @@ public class RegisterActivity extends BaseActivity implements RegisterMvpView, V
                 } else if (AppUtils.getEditText(etPasswordRegister).isEmpty()) {
                     etPasswordRegister.requestFocus();
                 } else {
-                    User user = new User(AppUtils.getEditText(etLastNameRegister),
-                            AppUtils.getEditText(etFirstNameRegister),
-                            AppUtils.getEditText(etEmailRegister),
-                            AppUtils.getEditText(etNumberPhoneRegister),
-                            AppUtils.getEditText(etPasswordRegister));
+                    User user = null;
                     mRegisterPresenter = new RegisterPresenter(this, this);
                     mRegisterPresenter.registerAccount(user);
                 }

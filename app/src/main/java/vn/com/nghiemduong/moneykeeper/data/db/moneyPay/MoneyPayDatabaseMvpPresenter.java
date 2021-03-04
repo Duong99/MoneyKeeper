@@ -2,8 +2,7 @@ package vn.com.nghiemduong.moneykeeper.data.db.moneyPay;
 
 import java.util.ArrayList;
 
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
+import vn.com.nghiemduong.moneykeeper.data.model.db.MoneyPay;
 
 /**
  * - @created_by nxduong on 2/2/2021

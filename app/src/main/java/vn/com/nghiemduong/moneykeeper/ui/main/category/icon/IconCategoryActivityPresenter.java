@@ -5,7 +5,7 @@ import android.content.Context;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 
 /**
  * - @created_by nxduong on 7/2/2021

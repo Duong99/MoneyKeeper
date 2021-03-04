@@ -2,7 +2,7 @@ package vn.com.nghiemduong.moneykeeper.data.db.transfer;
 
 import java.util.ArrayList;
 
-import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Transfer;
 
 /**
  * -

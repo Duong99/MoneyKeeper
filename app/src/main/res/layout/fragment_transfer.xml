@@ -119,8 +119,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include layout="@layout/item_layout_address_plus" />
-
                 <include
                     layout="@layout/item_layout_fee"
                     android:layout_width="match_parent"

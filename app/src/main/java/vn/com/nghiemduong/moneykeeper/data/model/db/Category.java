@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.data.model;
+package vn.com.nghiemduong.moneykeeper.data.model.db;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,31 +14,26 @@ public class Category implements Serializable {
     private String categoryPath; //(TEXT) : tên file ảnh
     private String explain; //(TEXT): chú giải
     private int type; // (INTEGER) lại hạng mục Chi Tiền (-1), Thu Tiền (1), Vay nợ (0)
-    private ArrayList<SubCategory> subCategories;
+    private int categoryParentId; // Id thể loại cha của hạng mục, nếu null hạng mục chính là cha
 
     public Category(int categoryId, String categoryName, String categoryPath, String explain,
-                    int type, ArrayList<SubCategory> subCategories) {
+                    int type, int categoryParentId) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryPath = categoryPath;
         this.explain = explain;
         this.type = type;
-        this.subCategories = subCategories;
+        this.categoryParentId = categoryParentId;
     }
 
-    public Category(int categoryId, String categoryName, String categoryPath, String explain, int type) {
+    public Category(String categoryName, String categoryPath, String explain,
+                    int type, int categoryParentId) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryPath = categoryPath;
         this.explain = explain;
         this.type = type;
-    }
-
-    public Category(String categoryName, String categoryPath, String explain, int type) {
-        this.categoryName = categoryName;
-        this.categoryPath = categoryPath;
-        this.explain = explain;
-        this.type = type;
+        this.categoryParentId = categoryParentId;
     }
 
     /**
@@ -84,19 +79,19 @@ public class Category implements Serializable {
         this.explain = explain;
     }
 
-    public ArrayList<SubCategory> getSubCategories() {
-        return subCategories;
-    }
-
-    public void setSubCategories(ArrayList<SubCategory> subCategories) {
-        this.subCategories = subCategories;
-    }
-
     public int getType() {
         return type;
     }
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getCategoryParentId() {
+        return categoryParentId;
+    }
+
+    public void setCategoryParentId(int categoryParentId) {
+        this.categoryParentId = categoryParentId;
     }
 }

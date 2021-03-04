@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -26,15 +25,14 @@ import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.transfer.TransferDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
-import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Transfer;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionReportDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.chooseaccount.ChooseAccountActivity;
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.pay.PayFragment;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
@@ -290,8 +288,9 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                         image = AppUtils.convertBitmapToByteArray(imageTransfer);
                     }
                     if (mTransfer == null) { // Thêm chuyển tiền
-                        Transfer transfer = new Transfer(amountOfMoney, fromAccountId
-                                , toAccountId, explain, date, time, report, image);
+                        Transfer transfer = null;
+
+
                         long insert = mTransferDatabase.insertTransfer(transfer);
                         if (insert == DBUtils.checkDBFail) {
                             showCustomToast(getString(R.string.error_writing), AppUtils.TOAST_ERROR);
@@ -301,11 +300,10 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                         }
                     } else { // Sửa chuyển tiền
                         int transferId = mTransfer.getTransferId();
-                        Transfer transfer = new Transfer(transferId, amountOfMoney, fromAccountId
-                                , toAccountId, explain, date, time, report, image);
+                        Transfer transfer = null;
 
                         long update = mTransferDatabase.updateTransfer(transfer,
-                                mTransfer.getAmountOfMoney());
+                                mTransfer.getAmount());
                         if (update == DBUtils.checkDBFail) {
                             showCustomToast(getString(R.string.error_writing), AppUtils.TOAST_ERROR);
                         } else {
@@ -376,7 +374,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
         this.mFromAccount = fromAccount;
         this.mToAccount = toAccount;
         if (mTransfer != null) {
-            etMoney.setText(String.valueOf(mTransfer.getAmountOfMoney()));
+            etMoney.setText(String.valueOf(mTransfer.getAmount()));
             etExplain.setText(mTransfer.getExplain());
 
             tvCalendar.setText(mTransfer.getDate());

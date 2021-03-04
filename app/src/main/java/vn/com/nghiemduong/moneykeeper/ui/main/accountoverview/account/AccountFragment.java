@@ -22,7 +22,7 @@ import java.util.Objects;
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.AccountAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;

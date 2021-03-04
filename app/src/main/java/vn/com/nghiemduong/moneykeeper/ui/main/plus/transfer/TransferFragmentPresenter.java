@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
-import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Transfer;
 
 /**
  * -

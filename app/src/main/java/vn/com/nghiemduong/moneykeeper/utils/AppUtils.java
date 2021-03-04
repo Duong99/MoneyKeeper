@@ -44,10 +44,6 @@ public class AppUtils {
     public static final int TAI_KHOAN_DAU_TU = 4;
     public static final int KHAC = 5;
 
-    // Loại hạng mục
-    public static final int CHI_TIEN = -1;
-    public static final int THU_TIEN = 1;
-    public static final int VAY_NO = 0;
 
     // Path
     public static final String PATH_THU = "assets/ImageCategory/THU/";
@@ -68,6 +64,20 @@ public class AppUtils {
     public static final int TOAST_SUCCESS = 21;
     public static final int TOAST_WARRING = 22;
     public static final int TOAST_ERROR = 23;
+
+    // Các trạng thái của kế hoạch /định kỳ
+    public static final int WAIT_PAY = 2;
+    public static final int PAID = 1;
+
+    // Các kiểu /Loại hạng mục
+    public static final int CHI_TIEN = 1;
+    public static final int THU_TIEN = 2;
+    public static final int CHO_VAY = 3;
+    public static final int THU_NO = 4;
+    public static final int DI_VAY = 5;
+    public static final int TRA_NO = 6;
+
+    public static final int VAY_NO = 3;
 
 
     // hàm sử lý khi ứng dụng Exception

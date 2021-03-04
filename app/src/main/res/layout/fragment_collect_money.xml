@@ -54,20 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:background="@color/white"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <include layout="@layout/item_layout_trip_event_plus" />
-
-                    <include layout="@layout/item_who_with_pay_plus" />
-
-                    <include layout="@layout/item_layout_address_plus" />
-                </LinearLayout>
-
                 <include
                     layout="@layout/item_layout_not_include_report"
                     android:layout_width="match_parent"

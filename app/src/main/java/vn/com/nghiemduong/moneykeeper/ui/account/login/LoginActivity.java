@@ -1,13 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.ui.account.login;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +23,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.Arrays;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.model.User;
+import vn.com.nghiemduong.moneykeeper.data.model.db.User;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.account.forget.ForgetPasswordActivity;
 import vn.com.nghiemduong.moneykeeper.ui.account.register.RegisterActivity;

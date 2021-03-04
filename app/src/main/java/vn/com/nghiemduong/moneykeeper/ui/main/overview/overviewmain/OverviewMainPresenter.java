@@ -5,11 +5,9 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.db.moneyCollect.MoneyCollectDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.moneyPay.MoneyPayDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
-import vn.com.nghiemduong.moneykeeper.ui.main.overview.OverviewFragmentMvpPresenter;
+
+import vn.com.nghiemduong.moneykeeper.data.db.moneyPay.PayDatabase;
+import vn.com.nghiemduong.moneykeeper.data.model.db.MoneyPay;
 
 /**
  * - @created_by nxduong on 2/2/2021
@@ -46,22 +44,17 @@ public class OverviewMainPresenter implements OverviewMainMvpPresenter {
 
     @Override
     public void doGetTotalAmountFromDB(Context context, String fromDate, String toDate) {
-        MoneyCollectDatabase moneyCollectDatabase = new MoneyCollectDatabase(context);
-        MoneyPayDatabase moneyPayDatabase = new MoneyPayDatabase(context);
 
-        ArrayList<MoneyCollect> moneyCollects
-                = moneyCollectDatabase.searchMoneyCollectByDate(fromDate, toDate);
-        ArrayList<MoneyPay> moneyPays
-                = moneyPayDatabase.searchMoneyPayByDate(fromDate, toDate);
-
+        ArrayList<MoneyPay> moneyCollects = new ArrayList<>();
+        ArrayList<MoneyPay> moneyPays = new ArrayList<>();
         int totalAmountCollectStages = 0;
         int totalAmountPayStages = 0;
         for (int i = 0; i < moneyCollects.size(); i++) {
-            totalAmountCollectStages += moneyCollects.get(i).getAmountOfMoney();
+            totalAmountCollectStages += moneyCollects.get(i).getAmount();
         }
 
         for (int i = 0; i < moneyPays.size(); i++) {
-            totalAmountPayStages += moneyPays.get(i).getAmountOfMoney();
+            totalAmountPayStages += moneyPays.get(i).getAmount();
         }
         double maxHeight = 400;
         double heightChartCollect = 5;

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 
 /**
  * - @created_by nxduong on 6/2/2021

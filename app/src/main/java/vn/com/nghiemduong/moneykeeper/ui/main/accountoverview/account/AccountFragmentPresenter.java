@@ -2,7 +2,7 @@ package vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account;
 
 import java.util.ArrayList;
 
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 
 /**
  * - @created_by nxduong on 2/1/2021
@@ -24,7 +24,7 @@ public class AccountFragmentPresenter implements AccountFragmentMvpPresenter {
     public void doSumOfMoneyOfAllAccount(ArrayList<Account> listAccount) {
         int totalMoney = 0;
         for (int i = 0; i < listAccount.size(); i++) {
-            totalMoney += listAccount.get(i).getMoneyCurrent();
+            totalMoney += listAccount.get(i).getCurrentAmount();
         }
 
         mAccountFragmentMvpView.onTotalMoneyOfAllAccount(totalMoney);

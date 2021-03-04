@@ -1,9 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.plus.transfer;
 
-import android.content.Intent;
-
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
-import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Transfer;
 
 /**
  * -

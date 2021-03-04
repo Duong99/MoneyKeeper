@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.data.model;
+package vn.com.nghiemduong.moneykeeper.data.model.db;
 
 /**
  * -  Đối tượng User cung cấp tên tài khoản, mật khẩu, email, ...
@@ -8,8 +8,7 @@ package vn.com.nghiemduong.moneykeeper.data.model;
  **/
 public class User {
     private int userId;
-    private String lastName;
-    private String firstName;
+    private String name;
     private String image;
     private String email;
     private String numberPhone;
@@ -22,13 +21,6 @@ public class User {
 
     // Hàm tạo để đăng ký người dùng
 
-    public User(String lastName, String firstName, String email, String numberPhone, String password) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.numberPhone = numberPhone;
-        this.email = email;
-        this.password = password;
-    }
 
     //Hàm tạo để đăng nhập
     public User(String email, String password) {
@@ -42,22 +34,6 @@ public class User {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getImage() {

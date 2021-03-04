@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
 
-import vn.com.nghiemduong.moneykeeper.data.model.User;
+import vn.com.nghiemduong.moneykeeper.data.model.db.User;
 
 /**
  * - @created_by nxduong on 20/1/2021

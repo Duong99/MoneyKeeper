@@ -1,9 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.plus;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,11 +19,12 @@ import java.util.Objects;
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerCategoriesArrayAdapter;
 import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
-import vn.com.nghiemduong.moneykeeper.data.model.Transfer;
+import vn.com.nghiemduong.moneykeeper.data.model.db.MoneyPay;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Transfer;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.borrow.BorrowFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.collect.CollectMoneyFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.loan.LoanFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.pay.PayFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.transfer.TransferFragment;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -62,29 +61,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
      * @created_by nxduong on 5/2/2021
      */
     private void getDataBundle() {
-        if (this.getArguments() != null) {
-            mBundle = new Bundle();
-            MoneyCollect moneyCollects =
-                    (MoneyCollect) this.getArguments().getSerializable("BUNDLE_MONEY_COLLECT");
-            if (moneyCollects != null) {
-                mBundle.putSerializable("BUNDLE_MONEY_COLLECT", moneyCollects);
-                spinnerCategories.setSelection(1);
-            } else {
-                MoneyPay moneyPay =
-                        (MoneyPay) this.getArguments().getSerializable("BUNDLE_MONEY_PAY");
-                if (moneyPay != null) {
-                    mBundle.putSerializable("BUNDLE_MONEY_PAY", moneyPay);
-                    spinnerCategories.setSelection(0);
-                } else {
-                    Transfer transfer =
-                            (Transfer) this.getArguments().getSerializable("BUNDLE_TRANSFER");
-                    if (transfer != null) {
-                        mBundle.putSerializable("BUNDLE_TRANSFER", transfer);
-                        spinnerCategories.setSelection(4);
-                    }
-                }
-            }
-        }
+
     }
 
     private void onClickSpinnerCategories() {
@@ -92,26 +69,36 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0:
+                    case 0: // Chọn màn hình chi tiền
                         try {
                             beginTransactionCategoriesLayout(new PayFragment());
                         } catch (Exception e) {
                             AppUtils.handlerException(e);
                         }
                         break;
-                    case 1:
+                    case 1: // Chọn màn hình thu tiền
                         try {
                             beginTransactionCategoriesLayout(new CollectMoneyFragment());
                         } catch (Exception e) {
                             AppUtils.handlerException(e);
                         }
                         break;
-                    case 2:
-                    case 3:
-                    case 5:
-                        showToast(getString(R.string.evolving_functions));
+                    case 2: // Chọn màn hình cho vay
+                        try {
+                            beginTransactionCategoriesLayout(new LoanFragment());
+                        } catch (Exception e) {
+                            AppUtils.handlerException(e);
+                        }
                         break;
-                    case 4:
+
+                    case 3: // Chọn màn hình đi vay
+                        try {
+                            beginTransactionCategoriesLayout(new BorrowFragment());
+                        } catch (Exception e) {
+                            AppUtils.handlerException(e);
+                        }
+                        break;
+                    case 4: // Chọn màn hình chuyển khoản
                         try {
                             beginTransactionCategoriesLayout(new TransferFragment());
                         } catch (Exception e) {

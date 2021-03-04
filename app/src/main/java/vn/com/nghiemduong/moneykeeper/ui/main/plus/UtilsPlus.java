@@ -9,14 +9,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
-import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -42,39 +40,6 @@ public class UtilsPlus {
                 account.getAccountTypePath(), context));
         tvTitleAccount.setText(account.getAccountName());
         return account;
-    }
-
-    /**
-     * @param data, ivImageCategory, tvTitleCategory, context
-     *              <p>
-     *              Hàm có nhiệm vụ đọc giữ liệu khi người dùng chọn hạng mục
-     *              vài trả dữ liệu lên View
-     * @return category
-     * - @created_by nxduong on 28/1/2021
-     **/
-    public static Category onFinishChooseCategory(Intent data, ImageView ivImageCategory,
-                                                  TextView tvTitleCategory, Context context) {
-        Category category =
-                (Category) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
-                        .getSerializable("BUNDLE_PARENT_CATEGORY");
-
-        SubCategory subCategory =
-                (SubCategory) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
-                        .getSerializable("BUNDLE_SUB_CATEGORY");
-
-        if (subCategory != null) {
-            tvTitleCategory.setText(subCategory.getSubCategoryName());
-            ivImageCategory.setImageBitmap(
-                    AppUtils.convertPathFileImageAssetsToBitmap(subCategory.getSubCategoryPath(), context));
-        } else {
-            if (category != null) {
-                tvTitleCategory.setText(category.getCategoryName());
-                ivImageCategory.setImageBitmap(
-                        AppUtils.convertPathFileImageAssetsToBitmap(category.getCategoryPath(), context));
-            }
-        }
-
-        return category;
     }
 
     /**

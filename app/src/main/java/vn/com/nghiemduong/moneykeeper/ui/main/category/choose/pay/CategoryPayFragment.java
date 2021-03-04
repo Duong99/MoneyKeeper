@@ -12,11 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.adapter.CategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 
-import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -27,12 +25,9 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * <p>
  * - @created_by nxduong on 27/1/2021
  **/
-public class CategoryPayFragment extends BaseFragment implements CategoryPayFragmentMvpView
-        , CategoryAdapter.IOnClickCategory {
+public class CategoryPayFragment extends BaseFragment {
     private View mView;
     private RecyclerView rcvCategoryPay;
-    private CategoryAdapter mCategoryAdapter;
-    private CategoryPayFragmentPresenter mCategoryPayFragmentPresenter;
     private ChooseCategoriesActivity mChooseCategoriesActivity;
 
     public CategoryPayFragment() {
@@ -57,42 +52,16 @@ public class CategoryPayFragment extends BaseFragment implements CategoryPayFrag
      * @created_by nxduong on 6/2/2021
      */
     private void setUpRecyclerViewCategory() {
-        mCategoryAdapter = new CategoryAdapter(getContext(),
-                mChooseCategoriesActivity.getListCategories(AppUtils.CHI_TIEN), this);
+
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(getContext());
         rcvCategoryPay.setLayoutManager(layoutManager);
-        rcvCategoryPay.setAdapter(mCategoryAdapter);
+
     }
 
     // Khởi tạo / Ánh xạ
     private void init() {
-
         rcvCategoryPay = mView.findViewById(R.id.rcvCategoryPay);
-
-        mCategoryPayFragmentPresenter =
-                new CategoryPayFragmentPresenter(this, getContext());
-        mCategoryPayFragmentPresenter.getListCategoryPay();
-    }
-
-    @Override
-    public void onClickCategoryPay(Category category) {
-        try {
-            mChooseCategoriesActivity.onFinishChooseCategory(category, null);
-        } catch (Exception e) {
-            AppUtils.handlerException(e);
-        }
-    }
-
-    @Override
-    public void onClickSubCategoryPay(SubCategory subCategory) {
-        try {
-            CategoryDatabase categoryDatabase = new CategoryDatabase(getContext());
-            mChooseCategoriesActivity.onFinishChooseCategory(
-                    categoryDatabase.getCategory(subCategory.getCategoryId()), subCategory);
-        } catch (Exception e) {
-            AppUtils.handlerException(e);
-        }
     }
 
     @Override

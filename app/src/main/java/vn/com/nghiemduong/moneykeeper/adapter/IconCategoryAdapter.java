@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**

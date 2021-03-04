@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -49,7 +49,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             holder.ivPictureAccountType.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     account.getAccountTypePath(), mContext));
             holder.tvAccountName.setText(account.getAccountName());
-            holder.tvTotalMoneyAccount.setText(AppUtils.formatNumber(String.valueOf(account.getMoneyCurrent())));
+            holder.tvTotalMoneyAccount.setText(AppUtils.formatNumber(String.valueOf(account.getCurrentAmount())));
         }
     }
 

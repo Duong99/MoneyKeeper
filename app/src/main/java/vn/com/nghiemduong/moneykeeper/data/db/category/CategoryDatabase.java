@@ -4,14 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
-import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
+import vn.com.nghiemduong.moneykeeper.data.db.BaseSqLite;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
@@ -19,7 +18,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * Class có tác dụng thêm, sửa, xóa, lấy dữ liệu trong bảng Danh mục (category)
  * - @created_by nxduong on 6/2/2021
  **/
-public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDatabaseMvpPresenter {
+public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpPresenter {
 
     private final static String NAME_TABLE_CATEGORY = "tb_Category";
     public final static String CATEGORY_ID = "categoryId";
@@ -27,20 +26,11 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
     private final static String CATEGORY_PATH = "categoryPath";
     private final static String CATEGORY_EXPLAIN = "explain";
     private final static String CATEGORY_TYPE = "type";
+    private final static String CATEGORY_PARENT_ID = "categoryParentId";
     private SQLiteDatabase db;
 
     public CategoryDatabase(@Nullable Context context) {
-        super(context, DBUtils.DB_NAME, null, DBUtils.DATABASE_VERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        super(context);
     }
 
     /**
@@ -56,19 +46,16 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
         String query = "SELECT * FROM " + NAME_TABLE_CATEGORY +
                 " WHERE " + CATEGORY_TYPE + " = " + type + " ORDER BY " + CATEGORY_NAME;
 
-        SubCategoryDatabase subCategoryDatabase = new SubCategoryDatabase(context);
-        ArrayList<SubCategory> subCategories;
         try {
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 do {
-                    subCategories = subCategoryDatabase.getAllSubCategory(cursor.getInt(0));
                     Category category = new Category(cursor.getInt(0),
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getInt(4),
-                            subCategories);
+                            cursor.getInt(5));
 
                     listCategories.add(category);
                 } while (cursor.moveToNext());
@@ -101,7 +88,8 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
-                            cursor.getInt(4));
+                            cursor.getInt(4),
+                            cursor.getInt(5));
 
                 } while (cursor.moveToNext());
             }
@@ -127,6 +115,7 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
         values.put(CATEGORY_PATH, category.getCategoryPath());
         values.put(CATEGORY_EXPLAIN, category.getExplain());
         values.put(CATEGORY_TYPE, category.getType());
+        values.put(CATEGORY_PARENT_ID, category.getCategoryParentId());
         long insert = DBUtils.checkDBFail;
         try {
             insert = db.insert(NAME_TABLE_CATEGORY, null, values);
@@ -152,6 +141,7 @@ public class CategoryDatabase extends SQLiteOpenHelper implements CategoryDataba
         values.put(CATEGORY_PATH, category.getCategoryPath());
         values.put(CATEGORY_EXPLAIN, category.getExplain());
         values.put(CATEGORY_TYPE, category.getType());
+        values.put(CATEGORY_PARENT_ID, category.getCategoryParentId());
         long update = DBUtils.checkDBFail;
         try {
             update = db.update(NAME_TABLE_CATEGORY, values, CATEGORY_ID + " = ? ",

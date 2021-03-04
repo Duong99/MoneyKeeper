@@ -2,7 +2,6 @@ package vn.com.nghiemduong.moneykeeper.ui.main.plus;
 
 import java.util.ArrayList;
 
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
 
 /**

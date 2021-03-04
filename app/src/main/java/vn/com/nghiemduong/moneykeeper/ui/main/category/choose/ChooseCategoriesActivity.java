@@ -5,7 +5,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,21 +16,19 @@ import java.util.ArrayList;
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ViewPagerChooseCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
-import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.UpdateCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
- * -    Màn hình chọn hạn mục
+ * -    Màn hình chọn hạng mục
  * - @created_by nxduong on 27/1/2021
  **/
 
 public class ChooseCategoriesActivity extends BaseActivity {
 
     public final static int REQUEST_CODE_CHOOSE_CATEGORY = 912;
-    public final static int REQUEST_CODE_CHOOSE_CATEGORY_FEE = 212;
     private TabLayout tlChooseCategory;
     private ViewPager vpChooseCategory;
     private Toolbar tbChooseCategory;
@@ -97,35 +94,6 @@ public class ChooseCategoriesActivity extends BaseActivity {
         vpChooseCategory.setAdapter(mChooseCategoryAdapter);
 
         mCategoryDatabase = new CategoryDatabase(this);
-    }
-
-    /**
-     * Khi người dùng chọn một hạng mục hàm này sẽ được được
-     * để trả dữ liệu về activity trước
-     *
-     * @param category    hạng mục cha được chọn
-     * @param subCategory hạng mục con được chọn
-     *                    <p>
-     *                    - @created_by nxduong on 28/1/2021
-     **/
-    public void onFinishChooseCategory(Category category, SubCategory subCategory) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("BUNDLE_PARENT_CATEGORY", category);
-        bundle.putSerializable("BUNDLE_SUB_CATEGORY", subCategory);
-        intent.putExtra("BUNDLE", bundle);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    /**
-     * hàm đọc dữ liệu bảng Category trong database và trả về ArrayList<Category>
-     *
-     * @param type loại hạng mục muốn lấy
-     * @created_by nxduong on 6/2/2021
-     */
-    public ArrayList<Category> getListCategories(int type) {
-        return mCategoryDatabase.getAllCategory(type, this);
     }
 
     @Override

@@ -13,12 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.AccountType;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
@@ -105,7 +104,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                     .getSerializable("BUNDLE_ACCOUNT");
 
             if (mAccount != null) {
-                etInputMoney.setText(AppUtils.formatNumber(String.valueOf(mAccount.getMoneyCurrent())));
+                etInputMoney.setText(AppUtils.formatNumber(String.valueOf(mAccount.getCurrentAmount())));
                 etAccountName.setText(mAccount.getAccountName());
                 etExplain.setText(mAccount.getExplain());
                 mAccountType = new AccountType(mAccount.getAccountTypePath(),

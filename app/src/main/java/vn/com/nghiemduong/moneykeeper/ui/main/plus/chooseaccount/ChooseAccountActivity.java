@@ -8,14 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.adapter.AccountAdapter;
 import vn.com.nghiemduong.moneykeeper.adapter.AccountChooseAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Account;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 
 /**
@@ -50,6 +48,7 @@ public class ChooseAccountActivity extends BaseActivity implements
         });
     }
 
+    // Khởi tạo / Ánh xạ view
     private void init() {
         rcvChooseAccount = findViewById(R.id.rcvChooseAccount);
         tbChooseAccount = findViewById(R.id.tbChooseAccount);

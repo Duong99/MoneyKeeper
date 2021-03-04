@@ -1,9 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.category.icon;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -13,10 +11,8 @@ import android.view.View;
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.adapter.CategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.adapter.IconCategoryAdapter;
-import vn.com.nghiemduong.moneykeeper.adapter.SubCategoryAdapter;
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.add.AddCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -56,19 +52,12 @@ public class IconCategoryActivity extends BaseActivity implements IconCategoryAc
      * @created_by nxduong on 7/2/2021
      */
     private void init() {
-        mKey = getIntent().getIntExtra(AddCategoryActivity.VALUE_REQUEST, -1);
+        mKey = getIntent().getIntExtra("", -1);
         rcvIconCategory = findViewById(R.id.rcvIconCategory);
         tbChooseIcon = findViewById(R.id.tbChooseIcon);
 
         mIconCategoryActivityPresenter = new IconCategoryActivityPresenter(this);
 
-        if (mKey == AddCategoryActivity.REQUEST_CODE_KEY_CATEGORY_COLLECT) {
-            mIconCategoryActivityPresenter.doGetPathCategoryFromAssets(AppUtils.PATH_THU, this);
-        }
-
-        if (mKey == AddCategoryActivity.REQUEST_CODE_KEY_CATEGORY_PAY) {
-            mIconCategoryActivityPresenter.doGetPathCategoryFromAssets(AppUtils.PATH_CHI, this);
-        }
 
     }
 

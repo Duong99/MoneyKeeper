@@ -4,7 +4,6 @@ package vn.com.nghiemduong.moneykeeper.data.db;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,7 +21,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * - @created_by nxduong on 26/1/2021
  **/
 
-public class CopyMoneyDatabase extends SQLiteOpenHelper {
+public class CopyMoneyDatabase extends BaseSqLite {
 
     private Context context;
     private String DB_PATH = "data/data/" + BuildConfig.APPLICATION_ID + "/databases/";
@@ -31,7 +30,7 @@ public class CopyMoneyDatabase extends SQLiteOpenHelper {
     private SQLiteDatabase db;
 
     public CopyMoneyDatabase(Context context) {
-        super(context, DBUtils.DB_NAME, null, DBUtils.DATABASE_VERSION);
+        super(context);
         this.context = context;
 
         boolean dbExist = checkDatabase();

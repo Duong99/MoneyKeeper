@@ -11,11 +11,5 @@ import androidx.fragment.app.Fragment;
  * - @created_by nxduong on 1/2/2021
  **/
 public interface CollectMoneyFragmentMvpPresenter {
-    void doGetMoneyCollectFromBundle(Fragment fm, Context context);
-
-    void onActivityResultChooseCategoryCollect(Intent data, Context context);
-
-    void onActivityResultAccountCollect(Intent data);
-
     void doGetAccountFirstFromDB(Context context);
 }

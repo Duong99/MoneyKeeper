@@ -4,55 +4,47 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+import vn.com.nghiemduong.moneykeeper.data.db.BaseSqLite;
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.category.SubCategoryDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyCollect;
-import vn.com.nghiemduong.moneykeeper.data.model.MoneyPay;
+import vn.com.nghiemduong.moneykeeper.data.model.db.MoneyPay;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 /**
- * - * Lớp thực hiện thêm sửa xóa table MoneyPay (Chi tiền) trong database
+ * - * Lớp thực hiện thêm sửa xóa table Pay trong database chi các kiểu :
+ * Chi tiền, thu tiền, cho vay, đi vay, trả nợ, thu nợ
+ * <p>
  * - @created_by nxduong on 2/2/2021
  **/
-public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDatabaseMvpPresenter {
+public class PayDatabase extends BaseSqLite implements MoneyPayDatabaseMvpPresenter {
 
-    private final static String NAME_TABLE_PAY = "tb_MoneyPay";
-    private final static String PAY_ID = "payId";
-    private final static String PAY_ACCOUNT_ID = AccountMoneyDatabase.ACCOUNT_ID;
-    private final static String PAY_AMOUNT_OF_MONEY = "amountOfMoney";
+    private final static String NAME_TABLE_PAY = "tb_Pay";
+    public final static String PAY_ID = "payId";
+    private final static String AMOUNT = "amount";
     private final static String CATEGORY_ID = CategoryDatabase.CATEGORY_ID;
-    private final static String SUB_CATEGORY_ID = SubCategoryDatabase.SUB_ID;
-    private final static String PAY_EXPLAIN = "explain";
-    private final static String PAY_DATE = "date";
-    private final static String PAY_TIME = "time";
-    private final static String PAY_REPORT = "report";
-    private final static String PAY_IMAGE = "image";
+    private final static String DEBTOR = "debtor";
+    private final static String EXPLAIN = "explain";
+    private final static String DATE = "date";
+    private final static String TIME = "time";
+    private final static String ACCOUNT_ID = AccountMoneyDatabase.ACCOUNT_ID;
+    private final static String REPORT = "report";
+    private final static String IMAGE = "image";
+    private final static String TYPE = "type";
+    private final static String STATUS = "status";
 
     private SQLiteDatabase db;
     private Context mContext;
 
 
-    public MoneyPayDatabase(@Nullable Context context) {
-        super(context, DBUtils.DB_NAME, null, DBUtils.DATABASE_VERSION);
+    public PayDatabase(@Nullable Context context) {
+        super(context);
         this.mContext = context;
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     /**
@@ -72,13 +64,15 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
                     MoneyPay moneyPay = new MoneyPay(cursor.getInt(0),
                             cursor.getInt(1),
                             cursor.getInt(2),
-                            cursor.getInt(3),
-                            cursor.getInt(4),
+                            cursor.getString(3),
+                            cursor.getString(4),
                             cursor.getString(5),
                             cursor.getString(6),
-                            cursor.getString(7),
+                            cursor.getInt(7),
                             cursor.getInt(8),
-                            cursor.getBlob(9));
+                            cursor.getBlob(9),
+                            cursor.getInt(10),
+                            cursor.getInt(11));
                     listMoneyPay.add(moneyPay);
                 } while (cursor.moveToNext());
             }
@@ -104,10 +98,10 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
         String query;
         if (toDate.equals("")) {
             query = "SELECT * FROM " + NAME_TABLE_PAY
-                    + " WHERE " + PAY_DATE + " = '" + fromDate + "'";
+                    + " WHERE " + DATE + " = '" + fromDate + "'";
         } else {
             query = "SELECT * FROM " + NAME_TABLE_PAY
-                    + " WHERE " + PAY_DATE + " between '" + fromDate + "' and '" + toDate + "'";
+                    + " WHERE " + DATE + " between '" + fromDate + "' and '" + toDate + "'";
         }
 
         try {
@@ -117,13 +111,15 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
                     MoneyPay moneyPay = new MoneyPay(cursor.getInt(0),
                             cursor.getInt(1),
                             cursor.getInt(2),
-                            cursor.getInt(3),
-                            cursor.getInt(4),
+                            cursor.getString(3),
+                            cursor.getString(4),
                             cursor.getString(5),
                             cursor.getString(6),
-                            cursor.getString(7),
+                            cursor.getInt(7),
                             cursor.getInt(8),
-                            cursor.getBlob(9));
+                            cursor.getBlob(9),
+                            cursor.getInt(10),
+                            cursor.getInt(11));
 
                     listMoneyPay.add(moneyPay);
                 } while (cursor.moveToNext());
@@ -146,23 +142,24 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
     public long insertMoneyPay(MoneyPay moneyPay) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(PAY_ACCOUNT_ID, moneyPay.getAccountId());
-        values.put(PAY_AMOUNT_OF_MONEY, moneyPay.getAmountOfMoney());
+        values.put(AMOUNT, moneyPay.getAmount());
         values.put(CATEGORY_ID, moneyPay.getCategoryId());
-        values.put(SUB_CATEGORY_ID, moneyPay.getSubCategoryId());
-        values.put(PAY_EXPLAIN, moneyPay.getExplain());
-        values.put(PAY_DATE, moneyPay.getDate());
-        values.put(PAY_TIME, moneyPay.getTime());
-        values.put(PAY_REPORT, moneyPay.getReport());
-        values.put(PAY_IMAGE, moneyPay.getImage());
+        values.put(DEBTOR, moneyPay.getDebtor());
+        values.put(EXPLAIN, moneyPay.getExplain());
+        values.put(DATE, moneyPay.getDate());
+        values.put(TIME, moneyPay.getTime());
+        values.put(ACCOUNT_ID, moneyPay.getAccountId());
+        values.put(REPORT, moneyPay.getReport());
+        values.put(IMAGE, moneyPay.getImage());
+        values.put(TYPE, moneyPay.getType());
+        values.put(STATUS, moneyPay.getStatus());
+
         long insert = DBUtils.checkDBFail;
         try {
             insert = db.insert(NAME_TABLE_PAY, null, values);
             if (insert != DBUtils.checkDBFail) {
                 // Xóa tiền trong tài khoản khi chi tiền
-                new AccountMoneyDatabase(mContext)
-                        .subtractMoneyOfAccount(moneyPay.getAccountId(),
-                                moneyPay.getAmountOfMoney());
+
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
@@ -183,15 +180,18 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
     public long updateMoneyPay(MoneyPay moneyPay, int numberMoneyPrevious) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(PAY_ACCOUNT_ID, moneyPay.getAccountId());
-        values.put(PAY_AMOUNT_OF_MONEY, moneyPay.getAmountOfMoney());
+        values.put(AMOUNT, moneyPay.getAmount());
         values.put(CATEGORY_ID, moneyPay.getCategoryId());
-        values.put(SUB_CATEGORY_ID, moneyPay.getSubCategoryId());
-        values.put(PAY_EXPLAIN, moneyPay.getExplain());
-        values.put(PAY_DATE, moneyPay.getDate());
-        values.put(PAY_TIME, moneyPay.getTime());
-        values.put(PAY_REPORT, moneyPay.getReport());
-        values.put(PAY_IMAGE, moneyPay.getImage());
+        values.put(DEBTOR, moneyPay.getDebtor());
+        values.put(EXPLAIN, moneyPay.getExplain());
+        values.put(DATE, moneyPay.getDate());
+        values.put(TIME, moneyPay.getTime());
+        values.put(ACCOUNT_ID, moneyPay.getAccountId());
+        values.put(REPORT, moneyPay.getReport());
+        values.put(IMAGE, moneyPay.getImage());
+        values.put(TYPE, moneyPay.getType());
+        values.put(STATUS, moneyPay.getStatus());
+
         long update = DBUtils.checkDBFail;
         try {
             update = db.update(NAME_TABLE_PAY, values, PAY_ID + " = ? ",
@@ -199,8 +199,7 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
 
             if (update != DBUtils.checkDBFail) {
                 // Cập nhật lại tiền trong tài khoản khi thay đổi số tiền chi
-                updateMoneyOfAccountWhenUpdatePay(moneyPay.getAccountId(),
-                        moneyPay.getAmountOfMoney(), numberMoneyPrevious);
+
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
@@ -225,9 +224,8 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
                     new String[]{String.valueOf(moneyPay.getPayId())});
             if (delete != DBUtils.checkDBFail) {
                 // Cộng lại tiền vào tài khoản khi xóa chi tiền
-                new AccountMoneyDatabase(mContext)
-                        .plusMoneyOfAccount(moneyPay.getAccountId(),
-                                moneyPay.getAmountOfMoney());
+
+
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
@@ -248,7 +246,7 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
 
         db = this.getReadableDatabase();
         db = this.getWritableDatabase();
-        String querySelectMoneyCurrentAccount = "SELECT " + AccountMoneyDatabase.ACCOUNT_MONEY_CURRENT
+        String querySelectMoneyCurrentAccount = "SELECT " + AccountMoneyDatabase.MONEY_CURRENT
                 + " FROM " + AccountMoneyDatabase.NAME_TABLE_ACCOUNT
                 + " WHERE " + AccountMoneyDatabase.ACCOUNT_ID + " = " + accountId;
         long update = DBUtils.checkDBFail;
@@ -261,7 +259,7 @@ public class MoneyPayDatabase extends SQLiteOpenHelper implements MoneyPayDataba
             moneyCurrentAccount -= numberMoneyCurrent;
 
             ContentValues values = new ContentValues();
-            values.put(AccountMoneyDatabase.ACCOUNT_MONEY_CURRENT, moneyCurrentAccount);
+            values.put(AccountMoneyDatabase.MONEY_CURRENT, moneyCurrentAccount);
             update = db.update(AccountMoneyDatabase.NAME_TABLE_ACCOUNT, values,
                     AccountMoneyDatabase.ACCOUNT_ID + " = ? ",
                     new String[]{String.valueOf(accountId)});

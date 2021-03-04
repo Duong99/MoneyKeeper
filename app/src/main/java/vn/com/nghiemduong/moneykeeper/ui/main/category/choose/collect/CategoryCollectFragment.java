@@ -12,10 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.adapter.CategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.Category;
-import vn.com.nghiemduong.moneykeeper.data.model.SubCategory;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -26,13 +24,11 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * <p>
  * - @created_by nxduong on 27/1/2021
  **/
-public class CategoryCollectFragment extends BaseFragment implements CategoryCollectFragmentMvpView,
-        CategoryAdapter.IOnClickCategory {
+public class CategoryCollectFragment extends BaseFragment {
 
     private View mView;
     private RecyclerView rcvCategoryCollect;
-    private CategoryAdapter mCategoryAdapter;
-    private CategoryCollectFragmentMvpPresenter mCollectFragmentMvpPresenter;
+
     private ChooseCategoriesActivity mChooseCategoriesActivity;
 
     public CategoryCollectFragment() {
@@ -54,31 +50,8 @@ public class CategoryCollectFragment extends BaseFragment implements CategoryCol
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvCategoryCollect.setLayoutManager(layoutManager);
 
-        mCategoryAdapter = new CategoryAdapter(getContext(),
-                mChooseCategoriesActivity.getListCategories(AppUtils.THU_TIEN), this);
-        rcvCategoryCollect.setAdapter(mCategoryAdapter);
     }
 
-
-    @Override
-    public void onClickCategoryPay(Category category) {
-        try {
-            mChooseCategoriesActivity.onFinishChooseCategory(category, null);
-        } catch (Exception e) {
-            AppUtils.handlerException(e);
-        }
-    }
-
-    @Override
-    public void onClickSubCategoryPay(SubCategory subCategory) {
-        try {
-            CategoryDatabase categoryDatabase = new CategoryDatabase(getContext());
-            mChooseCategoriesActivity.onFinishChooseCategory(
-                    categoryDatabase.getCategory(subCategory.getCategoryId()), subCategory);
-        } catch (Exception e) {
-            AppUtils.handlerException(e);
-        }
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
