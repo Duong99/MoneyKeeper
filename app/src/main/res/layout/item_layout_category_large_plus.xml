@@ -13,7 +13,7 @@
 
         <ImageView
             android:layout_centerInParent="true"
-            android:id="@+id/ivImageCategories"
+            android:id="@+id/ivImageCategory"
             android:layout_width="@dimen/height_width_image_normal"
             android:layout_height="@dimen/height_width_image_normal"
             android:layout_centerVertical="true"
@@ -27,17 +27,17 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/margin_large"
         android:background="@drawable/ic_arrow_right"
-        android:backgroundTint="@color/black_text_normal_default" />
+        android:backgroundTint="@color/text_unvalue" />
 
     <TextView
-        android:id="@+id/tvTitleSelectCategory"
+        android:id="@+id/tvTitleCategory"
         android:textSize="@dimen/font_size_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/rlImageCategory"
         android:text="@string/select_item"
-        android:textColor="@color/black_text_normal_default" />
+        android:textColor="@color/text_unvalue" />
 
     <include
         layout="@layout/view_line"

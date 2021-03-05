@@ -27,6 +27,7 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
     private final static String CATEGORY_EXPLAIN = "explain";
     private final static String CATEGORY_TYPE = "type";
     private final static String CATEGORY_PARENT_ID = "categoryParentId";
+    private final static String CATEGORY_LEVEL = "level";
     private SQLiteDatabase db;
 
     public CategoryDatabase(@Nullable Context context) {
@@ -34,30 +35,32 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
     }
 
     /**
-     * Hàm lấy tất cả dữ liệu từ trong bảng Hạng Mục (Category)
+     * Hàm lấy danh sác hạng mục cha trong database
      *
-     * @created_by nxduong on 6/2/2021
+     * @return parentCategories danh sách hạng mục cha
+     * @created_by nxduong on 5/3/2021
      */
-
     @Override
-    public ArrayList<Category> getAllCategory(int type, Context context) {
+    public ArrayList<Category> getAllParentCategory(int type, int level) {
         db = this.getReadableDatabase();
-        ArrayList<Category> listCategories = new ArrayList<>();
-        String query = "SELECT * FROM " + NAME_TABLE_CATEGORY +
-                " WHERE " + CATEGORY_TYPE + " = " + type + " ORDER BY " + CATEGORY_NAME;
+        ArrayList<Category> parentCategories = new ArrayList<>();
+        String query = "SELECT * FROM " + NAME_TABLE_CATEGORY
+                + " WHERE " + CATEGORY_TYPE + " = " + type
+                + " AND " + CATEGORY_LEVEL + " = " + level;
 
         try {
+            Category category;
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 do {
-                    Category category = new Category(cursor.getInt(0),
+                    category = new Category(cursor.getInt(0),
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getInt(4),
-                            cursor.getInt(5));
-
-                    listCategories.add(category);
+                            cursor.getInt(5),
+                            cursor.getInt(6));
+                    parentCategories.add(category);
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -65,7 +68,43 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
         }
 
         db.close();
-        return listCategories;
+        return parentCategories;
+    }
+
+    /**
+     * Hàm lấy danh sác hạng mục con trong database
+     *
+     * @return subCategories danh sách hạng mục con
+     * @created_by nxduong on 5/3/2021
+     */
+    @Override
+    public ArrayList<Category> getAllSubCategory(int idParentCategory) {
+        db = this.getReadableDatabase();
+        ArrayList<Category> subCategories = new ArrayList<>();
+        String query = "SELECT * FROM " + NAME_TABLE_CATEGORY
+                + " WHERE " + CATEGORY_PARENT_ID + " = " + idParentCategory;
+
+        try {
+            Category category;
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    category = new Category(cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getInt(4),
+                            cursor.getInt(5),
+                            cursor.getInt(6));
+                    subCategories.add(category);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+
+        db.close();
+        return subCategories;
     }
 
     /**
@@ -89,7 +128,8 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getInt(4),
-                            cursor.getInt(5));
+                            cursor.getInt(5),
+                            cursor.getInt(6));
 
                 } while (cursor.moveToNext());
             }
@@ -116,6 +156,7 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
         values.put(CATEGORY_EXPLAIN, category.getExplain());
         values.put(CATEGORY_TYPE, category.getType());
         values.put(CATEGORY_PARENT_ID, category.getCategoryParentId());
+        values.put(CATEGORY_LEVEL, category.getLevel());
         long insert = DBUtils.checkDBFail;
         try {
             insert = db.insert(NAME_TABLE_CATEGORY, null, values);
@@ -142,6 +183,7 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
         values.put(CATEGORY_EXPLAIN, category.getExplain());
         values.put(CATEGORY_TYPE, category.getType());
         values.put(CATEGORY_PARENT_ID, category.getCategoryParentId());
+        values.put(CATEGORY_LEVEL, category.getLevel());
         long update = DBUtils.checkDBFail;
         try {
             update = db.update(NAME_TABLE_CATEGORY, values, CATEGORY_ID + " = ? ",

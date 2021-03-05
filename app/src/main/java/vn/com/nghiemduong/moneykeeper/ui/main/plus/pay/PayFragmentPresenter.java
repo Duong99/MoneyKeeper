@@ -3,12 +3,9 @@ package vn.com.nghiemduong.moneykeeper.ui.main.plus.pay;
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.fragment.app.Fragment;
-
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.data.model.db.MoneyPay;
@@ -21,6 +18,33 @@ public class PayFragmentPresenter implements PayFragmentMvpPresenter {
 
     public PayFragmentPresenter(PayFragmentMvpView payMvpView) {
         this.mPayMvpView = payMvpView;
+    }
+
+    /**
+     * Lấy giá trị hạng mục được chọn
+     *
+     * @return category hạng mục được chọn
+     * @created_by nxduong on 5/3/2021
+     */
+    @Override
+    public void doGetChooseCategory(Intent data) {
+        Category category = (Category)
+                Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
+                        .getSerializable("BUNDLE_CATEGORY");
+        mPayMvpView.resultChooseCategory(category);
+    }
+
+    /**
+     * Hàm lấy giá trị tài khoản được chọn
+     *
+     * @return data
+     * @created_by nxduong on 5/3/2021
+     */
+    @Override
+    public void doGetChooseAccount(Intent data) {
+        Account account = (Account) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
+                .getSerializable("BUNDLE_ACCOUNT");
+        mPayMvpView.resultChooseAccount(account);
     }
 
     /**

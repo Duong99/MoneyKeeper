@@ -60,8 +60,14 @@
 
     <color name="bg_tab_unselect">#DDDDDD</color>
 
-    <color name="text_selected">#1E1E1E</color>
+    // Màu cho text
+    <color name="text_valuable">#2B2B2B</color>
+    <color name="text_unvalue">#8E8E8E</color>
     <color name="text_warring">#FF4C4C</color>
+
+    // Màu cho input amount
+    <color name="input_amount_red_pay">#FF2F2F</color>
+    <color name="input_amount_collect_pay">#1F7A23</color>
 
     <color name="color_spending">#E65858</color>
 </resources>

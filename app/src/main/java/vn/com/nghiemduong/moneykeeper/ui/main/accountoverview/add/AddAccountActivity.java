@@ -40,7 +40,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     public final static int EDIT_ACCOUNT = 1;
     public final static String KEY_ADD_EDIT_ACCOUNT = "KEY_ADD_EDIT_ACCOUNT";
 
-    private EditText etInputMoney, etExplain, etAccountName;
+    private EditText etInputAmount, etExplain, etAccountName;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swNotIncludeReport;
     private ImageView ivImageAccountType;
@@ -77,9 +77,9 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         LinearLayout llDelete = findViewById(R.id.llDelete);
         llDelete.setOnClickListener(this);
 
-        etInputMoney = findViewById(R.id.etInputMoney);
-        AppUtils.formatNumberEditText(etInputMoney);
-        etInputMoney.setTextColor(getResources().getColor(R.color.blue));
+        etInputAmount = findViewById(R.id.etInputAmount);
+        AppUtils.formatNumberEditText(etInputAmount);
+        etInputAmount.setTextColor(getResources().getColor(R.color.blue));
 
         TextView tvTitleBarAddAccount = findViewById(R.id.tvTitleBarAddAccount);
         etExplain = findViewById(R.id.etExplain);
@@ -104,7 +104,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                     .getSerializable("BUNDLE_ACCOUNT");
 
             if (mAccount != null) {
-                etInputMoney.setText(AppUtils.formatNumber(String.valueOf(mAccount.getCurrentAmount())));
+                etInputAmount.setText(AppUtils.formatNumber(String.valueOf(mAccount.getCurrentAmount())));
                 etAccountName.setText(mAccount.getAccountName());
                 etExplain.setText(mAccount.getExplain());
                 mAccountType = new AccountType(mAccount.getAccountTypePath(),
@@ -192,10 +192,10 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     }
 
     private void insertOrUpdateAccount() {
-        if (AppUtils.getEditText(etInputMoney).isEmpty()) {
+        if (AppUtils.getEditText(etInputAmount).isEmpty()) {
             showCustomToast(getResources().getString(R.string.enter_money),
                     AppUtils.TOAST_WARRING);
-            etInputMoney.requestFocus();
+            etInputAmount.requestFocus();
         } else if (AppUtils.getEditText(etAccountName).isEmpty()) {
             showCustomToast(getResources().getString(R.string.enter_account_name),
                     AppUtils.TOAST_WARRING);
@@ -211,7 +211,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
             // Thêm tài khoản
             if (keyAddEditAccount == ADD_ACCOUNT) {
                 Account account = new Account(AppUtils.getEditText(etAccountName),
-                        Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputMoney)),
+                        Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount)),
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppUtils.VND,
                         AppUtils.getEditText(etExplain), report);
@@ -226,7 +226,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 mAccount = new Account(
                         mAccount.getAccountId(),
                         AppUtils.getEditText(etAccountName),
-                        Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputMoney)),
+                        Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount)),
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppUtils.VND,
                         AppUtils.getEditText(etExplain), report);

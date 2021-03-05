@@ -52,7 +52,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
     private static final int REQUEST_CODE_CHOOSE_TO_ACCOUNT = 22;
 
     private View mView;
-    private EditText etMoney, etExplain;
+    private EditText etInputAmount, etExplain;
     private Switch swNotIncludeReport;
 
     private LinearLayout llLayoutDetail, llDelete;
@@ -109,9 +109,9 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
      */
     private void init() {
         etExplain = mView.findViewById(R.id.etExplain);
-        etMoney = mView.findViewById(R.id.etInputMoney);
-        AppUtils.formatNumberEditText(etMoney);
-        etMoney.setTextColor(getResources().getColor(R.color.blue));
+        etInputAmount = mView.findViewById(R.id.etInputAmount);
+        AppUtils.formatNumberEditText(etInputAmount);
+        etInputAmount.setTextColor(getResources().getColor(R.color.blue));
 
         ivDetail = mView.findViewById(R.id.ivDetail);
         tvDetail = mView.findViewById(R.id.tvDetail);
@@ -259,9 +259,9 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                 break;
 
             case R.id.llSave: // Bấm lưu chuyển tiền
-                if (AppUtils.getEditText(etMoney).isEmpty()) {
+                if (AppUtils.getEditText(etInputAmount).isEmpty()) {
                     showCustomToast(getString(R.string.enter_money), AppUtils.TOAST_WARRING);
-                    etMoney.requestFocus();
+                    etInputAmount.requestFocus();
                 } else if (mFromAccount == null) {
                     showCustomToast(getString(R.string.please_choose_from_account), AppUtils.TOAST_WARRING);
                 } else if (mToAccount == null) {
@@ -270,7 +270,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                     showCustomToast(getString(R.string.you_can_not_transfer_same_account),
                             AppUtils.TOAST_WARRING);
                 } else {
-                    int amountOfMoney = Integer.parseInt(AppUtils.getEditTextFormatNumber(etMoney));
+                    int amountOfMoney = Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount));
                     int fromAccountId = mFromAccount.getAccountId();
                     int toAccountId = mToAccount.getAccountId();
                     String explain = AppUtils.getEditText(etExplain);
@@ -295,7 +295,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
                         if (insert == DBUtils.checkDBFail) {
                             showCustomToast(getString(R.string.error_writing), AppUtils.TOAST_ERROR);
                         } else {
-                            etMoney.setText(getString(R.string._0));
+                            etInputAmount.setText(getString(R.string._0));
                             showCustomToast(getString(R.string.finished_writing), AppUtils.TOAST_SUCCESS);
                         }
                     } else { // Sửa chuyển tiền
@@ -374,7 +374,7 @@ public class TransferFragment extends BaseFragment implements View.OnClickListen
         this.mFromAccount = fromAccount;
         this.mToAccount = toAccount;
         if (mTransfer != null) {
-            etMoney.setText(String.valueOf(mTransfer.getAmount()));
+            etInputAmount.setText(String.valueOf(mTransfer.getAmount()));
             etExplain.setText(mTransfer.getExplain());
 
             tvCalendar.setText(mTransfer.getDate());

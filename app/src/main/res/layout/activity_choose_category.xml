@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.category.choose.ChooseCategoriesActivity">
+    tools:context=".ui.main.category.choose.ChooseCategoryActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbChooseCategory"

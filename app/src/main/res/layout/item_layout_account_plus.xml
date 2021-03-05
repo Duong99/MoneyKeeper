@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/margin_large"
             android:background="@drawable/ic_help_white"
-            android:backgroundTint="@color/black_text_normal_default" />
+            android:backgroundTint="@color/text_unvalue" />
 
     </RelativeLayout>
 
@@ -39,7 +39,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/margin_large"
         android:background="@drawable/ic_arrow_right"
-        android:backgroundTint="@color/black_text_normal" />
+        android:backgroundTint="@color/text_unvalue" />
 
     <include
         layout="@layout/view_line"

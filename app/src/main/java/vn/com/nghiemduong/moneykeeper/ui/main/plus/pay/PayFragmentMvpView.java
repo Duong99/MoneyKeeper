@@ -8,5 +8,10 @@ import vn.com.nghiemduong.moneykeeper.data.model.db.MoneyPay;
  * - @created_by nxduong on 26/1/2021
  **/
 public interface PayFragmentMvpView {
+
+    void resultChooseCategory(Category category);
+
+    void resultChooseAccount(Account account);
+
     void resultGetAccountFirstFromDB(Account account);
 }

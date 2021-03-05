@@ -22,7 +22,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * <p>
  * - @created_by nxduong on 2/2/2021
  **/
-public class PayDatabase extends BaseSqLite implements MoneyPayDatabaseMvpPresenter {
+public class PayDatabase extends BaseSqLite implements PayDatabaseMvpPresenter {
 
     private final static String NAME_TABLE_PAY = "tb_Pay";
     public final static String PAY_ID = "payId";
@@ -134,7 +134,7 @@ public class PayDatabase extends BaseSqLite implements MoneyPayDatabaseMvpPresen
      * Hàm thêm chi tiền vào bảng MoneyPay trong database
      * và cập nhật lại tiền hiệ tại trong bảng tài khoản (Account)
      *
-     * @param moneyPay
+     * @param moneyPay đối tượng chi tiền, thu tiền, cho vay, ....
      * @created_by nxduong on  2/2/2021
      */
 

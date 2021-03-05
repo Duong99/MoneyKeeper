@@ -78,6 +78,9 @@ public class AppUtils {
     public static final int TRA_NO = 6;
 
     public static final int VAY_NO = 3;
+    // Cập độ hạng mục
+    public static final int CAP_DO_1 = 1;
+    public static final int CAP_DO_2 = 2;
 
 
     // hàm sử lý khi ứng dụng Exception

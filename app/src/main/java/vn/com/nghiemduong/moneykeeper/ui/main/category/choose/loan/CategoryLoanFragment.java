@@ -12,11 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
-import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
-import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoryActivity;
 
 /**
  * -
@@ -27,7 +24,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 public class CategoryLoanFragment extends BaseFragment {
     private View mView;
     private RecyclerView rcvCategoryLoan;
-    private ChooseCategoriesActivity mChooseCategoriesActivity;
+    private ChooseCategoryActivity mChooseCategoriesActivity;
 
     public CategoryLoanFragment() {
         // Required empty public constructor
@@ -52,6 +49,6 @@ public class CategoryLoanFragment extends BaseFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mChooseCategoriesActivity = (ChooseCategoriesActivity) context;
+        mChooseCategoriesActivity = (ChooseCategoryActivity) context;
     }
 }

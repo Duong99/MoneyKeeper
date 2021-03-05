@@ -14,7 +14,7 @@
         android:background="@drawable/bg_et_enter_money"
         android:maxLength="20"
         android:inputType="number"
-        android:id="@+id/etInputMoney"
+        android:id="@+id/etInputAmount"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_toStartOf="@id/tvDong"
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
     <include
         android:layout_marginStart="@dimen/margin_large"
         android:layout_toStartOf="@id/tvDong"
-        android:layout_below="@id/etInputMoney"
+        android:layout_below="@id/etInputAmount"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_view_line"
         layout="@layout/view_line" />

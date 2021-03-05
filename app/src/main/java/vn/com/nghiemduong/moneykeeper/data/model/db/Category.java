@@ -15,25 +15,27 @@ public class Category implements Serializable {
     private String explain; //(TEXT): chú giải
     private int type; // (INTEGER) lại hạng mục Chi Tiền (-1), Thu Tiền (1), Vay nợ (0)
     private int categoryParentId; // Id thể loại cha của hạng mục, nếu null hạng mục chính là cha
+    private int level; // cấp độ của hạng mục có 2 cấp độ 1 và 2
 
     public Category(int categoryId, String categoryName, String categoryPath, String explain,
-                    int type, int categoryParentId) {
+                    int type, int categoryParentId, int level) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryPath = categoryPath;
         this.explain = explain;
         this.type = type;
         this.categoryParentId = categoryParentId;
+        this.level = level;
     }
 
     public Category(String categoryName, String categoryPath, String explain,
-                    int type, int categoryParentId) {
-        this.categoryId = categoryId;
+                    int type, int categoryParentId, int level) {
         this.categoryName = categoryName;
         this.categoryPath = categoryPath;
         this.explain = explain;
         this.type = type;
         this.categoryParentId = categoryParentId;
+        this.level = level;
     }
 
     /**
@@ -93,5 +95,13 @@ public class Category implements Serializable {
 
     public void setCategoryParentId(int categoryParentId) {
         this.categoryParentId = categoryParentId;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

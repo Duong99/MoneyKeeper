@@ -12,10 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.adapter.ParentCategoryContainSubCategoryPayAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
-import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -24,12 +25,12 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * <p>
  * - @created_by nxduong on 27/1/2021
  **/
-public class CategoryCollectFragment extends BaseFragment {
+public class CategoryCollectFragment extends BaseFragment implements ParentCategoryContainSubCategoryPayAdapter.IOnClickCategoryPay {
 
     private View mView;
     private RecyclerView rcvCategoryCollect;
 
-    private ChooseCategoriesActivity mChooseCategoriesActivity;
+    private ChooseCategoryActivity mChooseCategoryActivity;
 
     public CategoryCollectFragment() {
         // Required empty public constructor
@@ -49,13 +50,20 @@ public class CategoryCollectFragment extends BaseFragment {
         rcvCategoryCollect = mView.findViewById(R.id.rcvCategoryCollect);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvCategoryCollect.setLayoutManager(layoutManager);
-
+        rcvCategoryCollect.setAdapter(new ParentCategoryContainSubCategoryPayAdapter(getContext(),
+                new CategoryDatabase(getContext()).getAllParentCategory(AppUtils.THU_TIEN,
+                        AppUtils.CAP_DO_1), this));
     }
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mChooseCategoriesActivity = (ChooseCategoriesActivity) context;
+        mChooseCategoryActivity = (ChooseCategoryActivity) context;
+    }
+
+    @Override
+    public void onClickCategoryPay(Category category) {
+        mChooseCategoryActivity.onFinishChooseCategory(category);
     }
 }

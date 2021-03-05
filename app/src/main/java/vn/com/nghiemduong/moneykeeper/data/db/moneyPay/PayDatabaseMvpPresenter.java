@@ -7,7 +7,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.db.MoneyPay;
 /**
  * - @created_by nxduong on 2/2/2021
  **/
-public interface MoneyPayDatabaseMvpPresenter {
+public interface PayDatabaseMvpPresenter {
     ArrayList<MoneyPay> getAllMoneyPay();
 
     ArrayList<MoneyPay> searchMoneyPayByDate(String fromDate, String toDate);

@@ -1,6 +1,8 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.category.choose.pay;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,12 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Objects;
+
 import vn.com.nghiemduong.moneykeeper.R;
+
+import vn.com.nghiemduong.moneykeeper.adapter.ParentCategoryContainSubCategoryPayAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
-
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
-import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoriesActivity;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -25,10 +30,11 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * <p>
  * - @created_by nxduong on 27/1/2021
  **/
-public class CategoryPayFragment extends BaseFragment {
+public class CategoryPayFragment extends BaseFragment
+        implements ParentCategoryContainSubCategoryPayAdapter.IOnClickCategoryPay {
     private View mView;
     private RecyclerView rcvCategoryPay;
-    private ChooseCategoriesActivity mChooseCategoriesActivity;
+    private ChooseCategoryActivity mChooseCategoryActivity;
 
     public CategoryPayFragment() {
         // Required empty public constructor
@@ -45,18 +51,18 @@ public class CategoryPayFragment extends BaseFragment {
         return mView;
     }
 
-
     /**
      * Hàm lấy danh sách hạng mục trong database và đổ lên Recycelrview
      *
      * @created_by nxduong on 6/2/2021
      */
     private void setUpRecyclerViewCategory() {
-
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(getContext());
         rcvCategoryPay.setLayoutManager(layoutManager);
-
+        rcvCategoryPay.setAdapter(new ParentCategoryContainSubCategoryPayAdapter(getContext(),
+                new CategoryDatabase(getContext()).getAllParentCategory(AppUtils.CHI_TIEN,
+                        AppUtils.CAP_DO_1), this));
     }
 
     // Khởi tạo / Ánh xạ
@@ -66,8 +72,12 @@ public class CategoryPayFragment extends BaseFragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
-        mChooseCategoriesActivity = (ChooseCategoriesActivity) context;
+        mChooseCategoryActivity = (ChooseCategoryActivity) context;
         super.onAttach(context);
     }
 
+    @Override
+    public void onClickCategoryPay(Category category) {
+        mChooseCategoryActivity.onFinishChooseCategory(category);
+    }
 }

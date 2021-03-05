@@ -11,25 +11,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.adapter.CategoryParentAdapter;
+import vn.com.nghiemduong.moneykeeper.adapter.ParentCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
-import vn.com.nghiemduong.moneykeeper.ui.main.category.update.add.AddCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * - @created_by nxduong on 8/2/2021
  **/
 public class CategoryParentActivity extends BaseActivity implements View.OnClickListener,
-        CategoryParentAdapter.IOnClickCategoryParentView {
+        ParentCategoryAdapter.IOnClickCategoryParentView {
 
     public final static int REQUEST_CODE_CATEGORY_PARENT = 6325;
     private RecyclerView rcvCategoryParent;
     private Toolbar tbCategoryParent;
     private RelativeLayout rlNotSelectCategoryParent;
     private CategoryDatabase mCategoryDatabase;
-    private CategoryParentAdapter mCategoryParentAdapter;
+    private ParentCategoryAdapter mCategoryParentAdapter;
     private ImageView ivTickCategoryParent;
     private int mCategoryParentID = -1; // id của category parent đã được chọn
     private int mKey = -1; // Kiểm tra xem là hạng mục nào thu hay chi

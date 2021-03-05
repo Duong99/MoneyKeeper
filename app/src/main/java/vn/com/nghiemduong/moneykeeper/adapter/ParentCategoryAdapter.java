@@ -19,13 +19,13 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 /**
  * - @created_by nxduong on 8/2/2021
  **/
-public class CategoryParentAdapter extends RecyclerView.Adapter<CategoryParentAdapter.ViewHolder> {
+public class ParentCategoryAdapter extends RecyclerView.Adapter<ParentCategoryAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<Category> mListCategoriesParent;
     private IOnClickCategoryParentView mOnClickCategoryParent;
     private int mCategoryParentId;
 
-    public CategoryParentAdapter(Context context, ArrayList<Category> listCategoriesParent,
+    public ParentCategoryAdapter(Context context, ArrayList<Category> listCategoriesParent,
                                  IOnClickCategoryParentView onClickCategoryParent, int categoryParentId) {
         this.mContext = context;
         this.mListCategoriesParent = listCategoriesParent;
