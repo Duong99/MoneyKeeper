@@ -23,14 +23,14 @@ public class ParentCategoryAdapter extends RecyclerView.Adapter<ParentCategoryAd
     private Context mContext;
     private ArrayList<Category> mListCategoriesParent;
     private IOnClickCategoryParentView mOnClickCategoryParent;
-    private int mCategoryParentId;
+    private Category mParentCategory;
 
     public ParentCategoryAdapter(Context context, ArrayList<Category> listCategoriesParent,
-                                 IOnClickCategoryParentView onClickCategoryParent, int categoryParentId) {
+                                 IOnClickCategoryParentView onClickCategoryParent, Category parentCategory) {
         this.mContext = context;
         this.mListCategoriesParent = listCategoriesParent;
         this.mOnClickCategoryParent = onClickCategoryParent;
-        this.mCategoryParentId = categoryParentId;
+        this.mParentCategory = parentCategory;
     }
 
     @NonNull
@@ -45,8 +45,10 @@ public class ParentCategoryAdapter extends RecyclerView.Adapter<ParentCategoryAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Category category = mListCategoriesParent.get(position);
         if (category != null) {
-            if (mCategoryParentId == category.getCategoryId()) {
-                holder.ivTickCategoryParent.setVisibility(View.VISIBLE);
+            if (mParentCategory != null) {
+                if (mParentCategory.getCategoryId() == category.getCategoryId()) {
+                    holder.ivTickCategoryParent.setVisibility(View.VISIBLE);
+                }
             }
             holder.tvTitleCategoryParent.setText(category.getCategoryName());
             holder.ivPictureCategoryParent.setImageBitmap(

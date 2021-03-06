@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/padding_large"
+    android:layout_height="@dimen/height_category_edit"
+    android:background="@drawable/bg_select_ripple_gray"
+    android:orientation="horizontal"
+    tools:ignore="RtlSymmetry">
+
+
+    <ImageView
+        android:id="@+id/ivImageSubCategoryEdit"
+        android:layout_width="@dimen/height_width_image_account"
+        android:layout_height="@dimen/height_width_image_account"
+        android:layout_marginStart="@dimen/weight_logo_misa"
+        android:background="@drawable/thu_unknow" />
+
+    <RelativeLayout
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_category_edit">
+
+        <TextView
+            android:id="@+id/tvTitleSubCategoryEdit"
+            style="@style/TextViewNormalBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:text="@string/unknown" />
+
+        <include
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_view_line"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+</LinearLayout>
+
+

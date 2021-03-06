@@ -1,8 +1,6 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.category.choose.pay;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,11 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Objects;
-
 import vn.com.nghiemduong.moneykeeper.R;
 
-import vn.com.nghiemduong.moneykeeper.adapter.ParentCategoryContainSubCategoryPayAdapter;
+import vn.com.nghiemduong.moneykeeper.adapter.CategoryContainSubCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
@@ -31,7 +27,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * - @created_by nxduong on 27/1/2021
  **/
 public class CategoryPayFragment extends BaseFragment
-        implements ParentCategoryContainSubCategoryPayAdapter.IOnClickCategoryPay {
+        implements CategoryContainSubCategoryAdapter.IOnClickCategory {
     private View mView;
     private RecyclerView rcvCategoryPay;
     private ChooseCategoryActivity mChooseCategoryActivity;
@@ -60,7 +56,7 @@ public class CategoryPayFragment extends BaseFragment
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(getContext());
         rcvCategoryPay.setLayoutManager(layoutManager);
-        rcvCategoryPay.setAdapter(new ParentCategoryContainSubCategoryPayAdapter(getContext(),
+        rcvCategoryPay.setAdapter(new CategoryContainSubCategoryAdapter(getContext(),
                 new CategoryDatabase(getContext()).getAllParentCategory(AppUtils.CHI_TIEN,
                         AppUtils.CAP_DO_1), this));
     }
@@ -77,7 +73,7 @@ public class CategoryPayFragment extends BaseFragment
     }
 
     @Override
-    public void onClickCategoryPay(Category category) {
+    public void onClickCategory(Category category) {
         mChooseCategoryActivity.onFinishChooseCategory(category);
     }
 }

@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import java.util.Objects;
+
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ParentCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
@@ -30,7 +32,7 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
     private CategoryDatabase mCategoryDatabase;
     private ParentCategoryAdapter mCategoryParentAdapter;
     private ImageView ivTickCategoryParent;
-    private int mCategoryParentID = -1; // id của category parent đã được chọn
+    private Category mParentCategory; // id của category parent đã được chọn
     private int mKey = -1; // Kiểm tra xem là hạng mục nào thu hay chi
 
     @Override
@@ -47,11 +49,14 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
      * @created_by nxduong on 8/2/2021
      */
     private void init() {
-        mKey = getIntent().getIntExtra("", -1);
-        mCategoryParentID = getIntent().getIntExtra("CATEGORY_PARENT_ID", -1);
+        mKey = getIntent().getIntExtra("KEY_CATEGORY", -1);
+        mParentCategory = (Category) Objects.requireNonNull(getIntent()
+                .getBundleExtra("BUNDLE"))
+                .getSerializable("BUNDLE_PARENT_CATEGORY");
+
         ivTickCategoryParent = findViewById(R.id.ivTickCategoryParent);
 
-        if (mCategoryParentID == -1) {
+        if (mParentCategory == null) {
             ivTickCategoryParent.setVisibility(View.VISIBLE);
         }
 
@@ -67,6 +72,9 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
 
         mCategoryDatabase = new CategoryDatabase(this);
 
+        mCategoryParentAdapter = new ParentCategoryAdapter(
+                this, mCategoryDatabase.getAllParentCategory(mKey, AppUtils.CAP_DO_1),
+                this, mParentCategory);
         rcvCategoryParent.setAdapter(mCategoryParentAdapter);
     }
 
@@ -109,7 +117,7 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
         try {
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("BUNDLE_CATEGORY_PARENT", category);
+            bundle.putSerializable("BUNDLE_PARENT_CATEGORY", category);
             intent.putExtra("BUNDLE", bundle);
             setResult(RESULT_OK, intent);
             finish();

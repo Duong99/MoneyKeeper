@@ -49,6 +49,7 @@
         android:layout_height="@dimen/height_add_category">
 
         <LinearLayout
+            android:id="@+id/llChooseIconCategory"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_width="@dimen/height_add_category"
@@ -56,7 +57,7 @@
 
             <ImageView
                 android:id="@+id/ivIconCategoryAdd"
-
+                android:background="@drawable/thu_unknow"
                 android:layout_width="@dimen/height_width_image_icon_large_add_category"
                 android:layout_height="@dimen/height_width_image_icon_large_add_category" />
 
@@ -98,31 +99,31 @@
             <ImageView
                 android:id="@+id/ivIconCategoryParentAdd"
                 android:layout_centerInParent="true"
-
+                android:background="@drawable/thu_unknow"
                 android:layout_width="@dimen/height_width_image_icon_small_add_category"
                 android:layout_height="@dimen/height_width_image_icon_small_add_category" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:background="@drawable/bg_select_ripple_gray"
             android:id="@+id/rlSelectCategoryParent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:gravity="center"
-                android:text="@string/select_category_parent"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_select_ripple_gray">
 
             <ImageView
-                android:layout_marginEnd="@dimen/margin_large"
-                android:backgroundTint="@color/gray_image_bottom_sheet"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/ic_arrow_right"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:background="@drawable/ic_arrow_right"
+                android:backgroundTint="@color/gray_image_bottom_sheet" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/select_category_parent" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -146,7 +147,7 @@
                 <TextView
                     style="@style/TextViewNormalBlack"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:id="@+id/tvTitleIconParent"
+                    android:id="@+id/tvTitleParentCategory"
                     android:textSize="@dimen/font_large"
                     android:gravity="center"
                     android:layout_width="wrap_content"
@@ -176,9 +177,11 @@
         android:weightSum="2"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
 
         <include
+            android:visibility="gone"
             android:layout_margin="@dimen/margin_large"
             android:layout_weight="1"
             android:layout_height="wrap_content"

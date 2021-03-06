@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -17,6 +17,7 @@
         app:titleTextColor="@color/white" />
 
     <com.google.android.material.tabs.TabLayout
+        android:layout_below="@+id/tbEditCategory"
         app:tabTextColor="@color/bg_tab_unselect"
         android:id="@+id/tlEditCategory"
         app:tabSelectedTextColor="@color/white"
@@ -25,7 +26,19 @@
         android:layout_height="wrap_content" />
 
     <androidx.viewpager.widget.ViewPager
+        android:layout_below="@+id/tlEditCategory"
         android:id="@+id/vpEditCategory"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddCategory"
+        android:background="@color/blue"
+        app:fabSize="normal"
+        android:src="@drawable/ic_action_plus"
+        android:layout_margin="@dimen/margin_large"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

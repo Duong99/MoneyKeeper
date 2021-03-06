@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.adapter.ParentCategoryContainSubCategoryPayAdapter;
+import vn.com.nghiemduong.moneykeeper.adapter.CategoryContainSubCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
@@ -25,7 +25,8 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * <p>
  * - @created_by nxduong on 27/1/2021
  **/
-public class CategoryCollectFragment extends BaseFragment implements ParentCategoryContainSubCategoryPayAdapter.IOnClickCategoryPay {
+public class CategoryCollectFragment extends BaseFragment
+        implements CategoryContainSubCategoryAdapter.IOnClickCategory {
 
     private View mView;
     private RecyclerView rcvCategoryCollect;
@@ -50,7 +51,7 @@ public class CategoryCollectFragment extends BaseFragment implements ParentCateg
         rcvCategoryCollect = mView.findViewById(R.id.rcvCategoryCollect);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvCategoryCollect.setLayoutManager(layoutManager);
-        rcvCategoryCollect.setAdapter(new ParentCategoryContainSubCategoryPayAdapter(getContext(),
+        rcvCategoryCollect.setAdapter(new CategoryContainSubCategoryAdapter(getContext(),
                 new CategoryDatabase(getContext()).getAllParentCategory(AppUtils.THU_TIEN,
                         AppUtils.CAP_DO_1), this));
     }
@@ -63,7 +64,7 @@ public class CategoryCollectFragment extends BaseFragment implements ParentCateg
     }
 
     @Override
-    public void onClickCategoryPay(Category category) {
+    public void onClickCategory(Category category) {
         mChooseCategoryActivity.onFinishChooseCategory(category);
     }
 }

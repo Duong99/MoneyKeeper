@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.adapter.CategoryContainDebtorAdapter;
+import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoryActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * -
@@ -44,6 +47,9 @@ public class CategoryLoanFragment extends BaseFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvCategoryLoan.setLayoutManager(layoutManager);
 
+        rcvCategoryLoan.setAdapter(new CategoryContainDebtorAdapter(getContext(),
+                new CategoryDatabase(getContext()).getAllParentCategory(
+                        AppUtils.VAY_NO, AppUtils.CAP_DO_1)));
     }
 
     @Override

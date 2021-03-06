@@ -19,29 +19,29 @@ import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
- * - Adapter hạng mục cha chứa hạng mục con trong chọn hạng mục chi tiền
+ * - Adapter hạng mục cha chứa hạng mục con trong chọn hạng mục chi tiền và thu tiền
  * - @created_by nxduong on 5/3/2021
  **/
-public class ParentCategoryContainSubCategoryPayAdapter
-        extends RecyclerView.Adapter<ParentCategoryContainSubCategoryPayAdapter.ViewHolder>
+public class CategoryContainSubCategoryAdapter
+        extends RecyclerView.Adapter<CategoryContainSubCategoryAdapter.ViewHolder>
         implements SubCategoryPayAdapter.IOnClickSubCategoryPay {
 
     private Context mContext;
     private ArrayList<Category> mParentCategories;
-    private IOnClickCategoryPay mOnClickCategoryPay;
+    private IOnClickCategory mOnClickCategory;
 
-    public ParentCategoryContainSubCategoryPayAdapter(Context context, ArrayList<Category> parentCategories,
-                                                      IOnClickCategoryPay onClickCategoryPay) {
+    public CategoryContainSubCategoryAdapter(Context context, ArrayList<Category> parentCategories,
+                                             IOnClickCategory onClickCategory) {
         this.mContext = context;
         this.mParentCategories = parentCategories;
-        this.mOnClickCategoryPay = onClickCategoryPay;
+        this.mOnClickCategory = onClickCategory;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.item_rcv_parent_category_pay, parent, false);
+        View view = inflater.inflate(R.layout.item_rcv_parent_category, parent, false);
         return new ViewHolder(view);
     }
 
@@ -73,7 +73,7 @@ public class ParentCategoryContainSubCategoryPayAdapter
 
     @Override
     public void onClickSubCategoryPay(Category subCategory) {
-        mOnClickCategoryPay.onClickCategoryPay(subCategory);
+        mOnClickCategory.onClickCategory(subCategory);
     }
 
 
@@ -97,7 +97,7 @@ public class ParentCategoryContainSubCategoryPayAdapter
                     try {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mOnClickCategoryPay.onClickCategoryPay(mParentCategories.get(position));
+                            mOnClickCategory.onClickCategory(mParentCategories.get(position));
                         }
                     } catch (Exception e) {
                         AppUtils.handlerException(e);
@@ -107,7 +107,7 @@ public class ParentCategoryContainSubCategoryPayAdapter
         }
     }
 
-    public interface IOnClickCategoryPay {
-        void onClickCategoryPay(Category category);
+    public interface IOnClickCategory {
+        void onClickCategory(Category category);
     }
 }

@@ -17,6 +17,14 @@ public class IconCategoryActivityPresenter implements IconCategoryActivityMvpPre
         this.mIconCategoryActivityMvpView = iconCategoryActivityMvpView;
     }
 
+    /**
+     * Hàm lấy danh sách dường dẫn icon của hạng mục
+     *
+     * @param path đường dẫn chứa danh sách đường dẫn icon
+     * @created_by nxduong on 7/2/2021
+     * @see
+     */
+
     @Override
     public void doGetPathCategoryFromAssets(String path, Context context) {
         ArrayList<Category> listCategoriesPath = new ArrayList<>();

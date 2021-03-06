@@ -17,7 +17,7 @@
             android:layout_height="@dimen/height_category_edit">
 
             <ImageView
-                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_large"
                 android:id="@+id/ivExpandCategoryEdit"
                 android:backgroundTint="@color/gray_image_bottom_sheet"
                 android:background="@drawable/ic_arrow_up"
@@ -54,8 +54,6 @@
                 android:layout_alignParentBottom="true" />
 
         </RelativeLayout>
-
-
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -25,6 +25,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 public class IconCategoryActivity extends BaseActivity implements IconCategoryActivityMvpView,
         IconCategoryAdapter.IOnClickIconCategory {
 
+    public final static int REQUEST_CODE_CHOOSE_ICON_CATEGORY = 982;
     private RecyclerView rcvIconCategory;
     private IconCategoryActivityPresenter mIconCategoryActivityPresenter;
     private IconCategoryAdapter mIconCategoryAdapter;
@@ -52,13 +53,16 @@ public class IconCategoryActivity extends BaseActivity implements IconCategoryAc
      * @created_by nxduong on 7/2/2021
      */
     private void init() {
-        mKey = getIntent().getIntExtra("", -1);
+        mKey = getIntent().getIntExtra("KEY_CATEGORY", -1);
         rcvIconCategory = findViewById(R.id.rcvIconCategory);
         tbChooseIcon = findViewById(R.id.tbChooseIcon);
-
         mIconCategoryActivityPresenter = new IconCategoryActivityPresenter(this);
 
-
+        if (mKey == AppUtils.CHI_TIEN) {
+            mIconCategoryActivityPresenter.doGetPathCategoryFromAssets(AppUtils.PATH_CHI, this);
+        } else {
+            mIconCategoryActivityPresenter.doGetPathCategoryFromAssets(AppUtils.PATH_THU, this);
+        }
     }
 
     @Override

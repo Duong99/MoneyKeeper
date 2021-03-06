@@ -82,7 +82,8 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
         db = this.getReadableDatabase();
         ArrayList<Category> subCategories = new ArrayList<>();
         String query = "SELECT * FROM " + NAME_TABLE_CATEGORY
-                + " WHERE " + CATEGORY_PARENT_ID + " = " + idParentCategory;
+                + " WHERE " + CATEGORY_PARENT_ID + " = " + idParentCategory
+                + " AND " + CATEGORY_LEVEL + " = " + AppUtils.CAP_DO_2;
 
         try {
             Category category;
