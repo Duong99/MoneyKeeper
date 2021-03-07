@@ -51,6 +51,16 @@ public class AddCategoryActivityPresenter implements AddCategoryActivityMvpPrese
     }
 
     @Override
+    public void updateCategory(Category category, Context context) {
+        long update = new CategoryDatabase(context).updateCategory(category);
+        if (update == DBUtils.checkDBFail) {
+            mAddCategoryActivityMvpView.updateCategoryFail();
+        } else {
+            mAddCategoryActivityMvpView.updateCategorySuccess();
+        }
+    }
+
+    @Override
     public void getCategoryFromBundle() {
         Category category = (Category) Objects.requireNonNull(mActivity.getIntent()
                 .getBundleExtra("BUNDLE")).getSerializable("BUNDLE_CATEGORY");

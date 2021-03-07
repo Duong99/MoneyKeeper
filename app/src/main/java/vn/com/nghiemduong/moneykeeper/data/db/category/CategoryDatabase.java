@@ -208,7 +208,12 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
         db = this.getWritableDatabase();
         long delete = DBUtils.checkDBFail;
         try {
+            // Xóa hạng mục
             delete = db.delete(NAME_TABLE_CATEGORY, CATEGORY_ID + " = ?",
+                    new String[]{String.valueOf(categoryId)});
+
+            // Xóa hạng mục con của hạng mục cha
+            delete = db.delete(NAME_TABLE_CATEGORY, CATEGORY_PARENT_ID + " = ?",
                     new String[]{String.valueOf(categoryId)});
         } catch (Exception e) {
             AppUtils.handlerException(e);

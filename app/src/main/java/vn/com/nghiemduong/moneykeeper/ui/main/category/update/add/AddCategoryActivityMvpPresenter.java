@@ -15,5 +15,7 @@ public interface AddCategoryActivityMvpPresenter {
 
     void insertCategory(Category category, Context context);
 
+    void updateCategory(Category category, Context context);
+
     void getCategoryFromBundle();
 }

@@ -14,5 +14,9 @@ public interface AddCategoryActivityMvpView {
 
     void insertCategoryFail();
 
+    void updateCategorySuccess();
+
+    void updateCategoryFail();
+
     void resultGetCategoryFromBundle(Category category);
 }

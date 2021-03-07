@@ -42,7 +42,8 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
     private RelativeLayout rlSelectedCategoryParent, rlSelectCategoryParent;
     private TextView tvTitleParentCategory;
     private EditText etNameCategoryAdd, etExplain;
-    private LinearLayout llDelete;
+    private LinearLayout llDelete, llSelectCategoryParent;
+    private CategoryDatabase mCategoryDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
         ivDoneAddCategory.setOnClickListener(this);
 
         // Hạng mục cha
-        LinearLayout llSelectCategoryParent = findViewById(R.id.llSelectCategoryParent);
+        llSelectCategoryParent = findViewById(R.id.llSelectCategoryParent);
         llSelectCategoryParent.setOnClickListener(this);
         ivIconCategoryParentAdd = findViewById(R.id.ivIconCategoryParentAdd);
         tvTitleParentCategory = findViewById(R.id.tvTitleParentCategory);
@@ -90,6 +91,7 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
         LinearLayout llSave = findViewById(R.id.llSave);
         llSave.setOnClickListener(this);
 
+        mCategoryDatabase = new CategoryDatabase(this);
         mAddCategoryActivityPresenter = new AddCategoryActivityPresenter(this, this);
         mAddCategoryActivityPresenter.getCategoryFromBundle();
     }
@@ -144,23 +146,47 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
             case R.id.ivDoneAddCategory:
             case R.id.llSave:
                 if (AppUtils.getEditText(etNameCategoryAdd).isEmpty()) {
-
+                    showCustomToast(getString(R.string.enter_name_category), AppUtils.TOAST_WARRING);
+                    etNameCategoryAdd.requestFocus();
                 } else {
-                    if (mParentCategory == null) { // Thêm hạng mục cha
-                        Category category = new Category(AppUtils.getEditText(etNameCategoryAdd), mPathCategory,
-                                AppUtils.getEditText(etExplain), mKeyType, 0, AppUtils.CAP_DO_1);
-                        mAddCategoryActivityPresenter.insertCategory(category, this);
-                    } else { // Thêm hạng mục con
-                        Category category = new Category(AppUtils.getEditText(etNameCategoryAdd), mPathCategory,
-                                AppUtils.getEditText(etExplain), mKeyType,
-                                mParentCategory.getCategoryId(), AppUtils.CAP_DO_2);
-                        mAddCategoryActivityPresenter.insertCategory(category, this);
+                    if (mCategory == null) { // Thêm hạng mục
+                        if (mParentCategory == null) { // Thêm hạng mục cha
+                            Category category = new Category(AppUtils.getEditText(etNameCategoryAdd),
+                                    mPathCategory, AppUtils.getEditText(etExplain),
+                                    mKeyType, 0, AppUtils.CAP_DO_1);
+                            mAddCategoryActivityPresenter.insertCategory(category, this);
+                        } else { // Thêm hạng mục con
+                            Category category = new Category(AppUtils.getEditText(etNameCategoryAdd),
+                                    mPathCategory, AppUtils.getEditText(etExplain), mKeyType,
+                                    mParentCategory.getCategoryId(), AppUtils.CAP_DO_2);
+                            mAddCategoryActivityPresenter.insertCategory(category, this);
+                        }
+                    } else { // Sửa hạng mục
+                        if (mParentCategory == null) { // Sửa hạng mục con/cha thành hạng mục cha
+                            Category category = new Category(mCategory.getCategoryId(),
+                                    AppUtils.getEditText(etNameCategoryAdd), mPathCategory,
+                                    AppUtils.getEditText(etExplain), mKeyType, 0,
+                                    AppUtils.CAP_DO_1);
+                            mAddCategoryActivityPresenter.updateCategory(category, this);
+                        } else { // Sửa hạng mục con/cha thành hạng mục con
+                            // Kiểm tra 2 hạng mục cha và con này có cùng id của nhau ko
+                            if (mCategory.getCategoryId() == mParentCategory.getCategoryId()) {
+                                showCustomToast(getString(R.string.same_category), AppUtils.TOAST_WARRING);
+                            } else {
+                                Category category = new Category(mCategory.getCategoryId(),
+                                        AppUtils.getEditText(etNameCategoryAdd), mPathCategory,
+                                        AppUtils.getEditText(etExplain), mKeyType,
+                                        mParentCategory.getCategoryId(), AppUtils.CAP_DO_2);
+                                mAddCategoryActivityPresenter.updateCategory(category, this);
+                            }
+                        }
                     }
                 }
                 break;
 
             case R.id.llDelete: // Xóa hạng mục
                 try {
+                    // Hiện dialog chú ý
                     new AttentionDeleteDialog(this, this,
                             AttentionDeleteDialog.ATTENTION_DELETE_CATEGORY).show();
                 } catch (Exception e) {
@@ -230,6 +256,21 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    public void updateCategorySuccess() {
+        showCustomToast(getString(R.string.update_category_success), AppUtils.TOAST_SUCCESS);
+        Intent intent = new Intent();
+        intent.putExtra("KEY_CATEGORY", mKeyType);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void updateCategoryFail() {
+        showCustomToast(getString(R.string.update_category_fail), AppUtils.TOAST_ERROR);
+        onBackPressed();
+    }
+
+    @Override
     public void resultGetCategoryFromBundle(Category category) {
         this.mCategory = category;
         if (this.mCategory != null) {
@@ -237,6 +278,24 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
             ivIconCategoryAdd.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     mCategory.getCategoryPath(), this));
             llDelete.setVisibility(View.VISIBLE);
+
+            // Kiểm tra xem hạng mục cần sửa này là hạng mục cha hay con
+            // Nếu hạng mục cha khác 0 thì hạng mục này là hạng mục con
+            if (mCategory.getCategoryParentId() != 0) {
+                // Lấy hạng mục cha và set view cha hạng mục cha
+                mParentCategory = mCategoryDatabase.getCategory(mCategory.getCategoryParentId());
+                ivIconCategoryParentAdd.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+                        mParentCategory.getCategoryPath(), this));
+                rlSelectedCategoryParent.setVisibility(View.VISIBLE);
+                rlSelectCategoryParent.setVisibility(View.GONE);
+                tvTitleParentCategory.setText(mParentCategory.getCategoryName());
+            } else { // Bằng 0 là thì hạng mục này là hạng mục cha
+                // Kiểm tra xem hạng mục sửa này có hạng mục con không
+                // Hạng mục này có hạng mục con thì ẩn layout hạng mục cha đi
+                if (mCategoryDatabase.getAllSubCategory(mCategory.getCategoryId()).size() != 0) {
+                    llSelectCategoryParent.setVisibility(View.GONE);
+                }
+            }
         }
     }
 

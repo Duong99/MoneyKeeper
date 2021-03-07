@@ -139,6 +139,7 @@
     <string name="update_category_fail">Sửa hạng mục thất bại</string>
     <string name="delete_category_success">Xóa hạng mục thành công</string>
     <string name="delete_category_fail">Xóa hạng mục thất bại</string>
+    <string name="same_category">Không thể sửa 2 hạng mục cha và con giống nhau</string>
 
     <string name="insert_sub_category_success">Thêm hạng mục con thành công</string>
     <string name="insert_sub_category_fail">Thêm hạng mục con thất bại</string>
@@ -237,6 +238,7 @@
     <string name="please_choose_account">Vui lòng chọn tài khoản của ghi chép</string>
     <string name="data_delete_success">Dữ liệu đã xóa thành công</string>
     <string name="enter_money">Vui lòng nhập số tiền</string>
+    <string name="enter_name_category">Vui lòng nhập tên hạng mục</string>
     <string name="enter_account_name">Vui lòng nhập tên tài khoản</string>
     <string name="please_choose_from_account">Vui lòng chọn tài khoản chuyển tiền</string>
     <string name="please_choose_to_account">Vui lòng chọn tài khoản nhận tiền đến</string>
