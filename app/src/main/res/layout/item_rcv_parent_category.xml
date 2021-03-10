@@ -16,12 +16,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:background="@drawable/thu_unknow"
+        <RelativeLayout
             android:layout_marginStart="@dimen/margin_large"
-            android:id="@+id/ivImageCategoryPay"
             android:layout_width="@dimen/height_width_image_normal"
-            android:layout_height="@dimen/height_width_image_normal" />
+            android:layout_height="@dimen/height_width_image_normal">
+
+            <ImageView
+                android:background="@drawable/thu_unknow"
+                android:id="@+id/ivImageCategoryPay"
+                android:layout_width="@dimen/height_width_image_normal"
+                android:layout_height="@dimen/height_width_image_normal" />
+
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/ivSelectedParentCategory"
+                android:background="@drawable/done_icon_main_color"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="@dimen/icon_selected_category"
+                android:layout_height="@dimen/icon_selected_category" />
+        </RelativeLayout>
+
 
         <TextView
             android:text="@string/unknown"

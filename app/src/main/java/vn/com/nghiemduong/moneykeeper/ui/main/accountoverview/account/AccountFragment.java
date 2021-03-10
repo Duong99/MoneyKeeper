@@ -29,6 +29,7 @@ import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccount;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.option.BottomSheetOptionAccountMvpView;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.add.AddAccountActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
@@ -206,9 +207,9 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
             if (mAccount != null) {
                 long delete = mAccountDatabase.deleteAccount(mAccount.getAccountId());
                 if (delete == DBUtils.checkDBFail) {
-                    showCustomToast(getString(R.string.delete_account_fail), AppUtils.TOAST_ERROR);
+                    showCustomToast(getString(R.string.delete_account_fail), AppConstants.TOAST_ERROR);
                 } else {
-                    showCustomToast(getString(R.string.delete_account_success), AppUtils.TOAST_SUCCESS);
+                    showCustomToast(getString(R.string.delete_account_success), AppConstants.TOAST_SUCCESS);
                     mAccountAdapter = new AccountAdapter(getContext(), mAccountDatabase.getAllAccount(), this);
                     rcvListAccount.setAdapter(mAccountAdapter);
                     mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mAccountAdapter.getAllAccount());

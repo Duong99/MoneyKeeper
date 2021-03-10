@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.collect.CategoryCollectFragment;
-import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.loan.CategoryLoanFragment;
+import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.debt.CategoryDebtFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.pay.CategoryPayFragment;
 
 /**
@@ -29,7 +29,7 @@ public class ViewPagerChooseCategoryAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return new CategoryCollectFragment();
             case 2:
-                return new CategoryLoanFragment();
+                return new CategoryDebtFragment();
         }
         return null;
     }

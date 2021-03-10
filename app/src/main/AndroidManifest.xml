@@ -14,7 +14,7 @@
         <activity android:name=".ui.main.category.update.add.AddCategoryActivity" />
         <activity android:name=".ui.main.category.update.UpdateCategoryActivity" />
         <activity android:name=".ui.main.category.choose.editcategory.EditCategoryActivity" />
-        <activity android:name=".ui.main.plus.contact.ContactActivity" />
+        <activity android:name=".ui.main.plus.debtor.DebtorActivity" />
         <activity android:name=".ui.main.plus.chooseaccount.ChooseAccountActivity" />
         <activity android:name=".ui.main.category.choose.ChooseCategoryActivity" />
         <activity android:name=".ui.main.accountoverview.type.AccountTypeActivity" />

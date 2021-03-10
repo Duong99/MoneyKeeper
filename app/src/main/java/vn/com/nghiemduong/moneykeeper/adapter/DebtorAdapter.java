@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.doodle.android.chips.model.Contact;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -23,19 +21,19 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 /**
  * - @created_by nxduong on 31/1/2021
  **/
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> implements Filterable {
+public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder> implements Filterable {
 
     private Context mContext;
-    private ArrayList<Contact> mListContacts;
-    private ArrayList<Contact> mListContactsFiltered;
+    private ArrayList<Contact> mListDebtors;
+    private ArrayList<Contact> mListDebtorsFiltered;
     private IOnClickContact mOnClickContact;
     private CustomFilter mCustomFilter;
 
-    public ContactAdapter(Context mContext, ArrayList<Contact> listContacts,
-                          IOnClickContact onClickContact) {
+    public DebtorAdapter(Context mContext, ArrayList<Contact> listDebtors,
+                         IOnClickContact onClickContact) {
         this.mContext = mContext;
-        this.mListContacts = listContacts;
-        this.mListContactsFiltered = listContacts;
+        this.mListDebtors = listDebtors;
+        this.mListDebtorsFiltered = listDebtors;
         this.mOnClickContact = onClickContact;
     }
 
@@ -49,7 +47,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Contact contact = mListContacts.get(position);
+        Contact contact = mListDebtors.get(position);
         if (contact != null) {
             holder.tvContactName.setText(contact.getDisplayName());
             holder.tvDefaultContactImage.setText(contact.getDisplayName().substring(0, 1));
@@ -73,7 +71,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return mListContacts.size();
+        return mListDebtors.size();
     }
 
     @Override
@@ -95,17 +93,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             ArrayList<Contact> filters = new ArrayList<>();
             if (constraint != null && constraint.length() > 0) {
                 constraint = constraint.toString().toUpperCase();
-                for (int i = 0; i < mListContactsFiltered.size(); i++) {
-                    if (mListContactsFiltered.get(i).getDisplayName().toUpperCase().contains(constraint)) {
-                        Contact model = new Contact(mListContactsFiltered.get(i).getDisplayName(),
-                                mListContactsFiltered.get(i).getDisplayName(),
-                                mListContactsFiltered.get(i).getDisplayName(),
-                                mListContactsFiltered.get(i).getDisplayName(),
+                for (int i = 0; i < mListDebtorsFiltered.size(); i++) {
+                    if (mListDebtorsFiltered.get(i).getDisplayName().toUpperCase().contains(constraint)) {
+                        Contact model = new Contact(mListDebtorsFiltered.get(i).getDisplayName(),
+                                mListDebtorsFiltered.get(i).getDisplayName(),
+                                mListDebtorsFiltered.get(i).getDisplayName(),
+                                mListDebtorsFiltered.get(i).getDisplayName(),
                                 null);
                         filters.add(model);
                     }
-
                 }
+            } else {
+                filters = mListDebtorsFiltered;
             }
             results.values = filters;
             return results;
@@ -113,7 +112,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mListContacts = (ArrayList<Contact>) results.values;
+            mListDebtors = (ArrayList<Contact>) results.values;
             notifyDataSetChanged();
         }
     }
@@ -134,7 +133,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     try {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mOnClickContact.onClickContact(mListContacts.get(position));
+                            mOnClickContact.onClickContact(mListDebtors.get(position));
                         }
                     } catch (Exception e) {
                         AppUtils.handlerException(e);

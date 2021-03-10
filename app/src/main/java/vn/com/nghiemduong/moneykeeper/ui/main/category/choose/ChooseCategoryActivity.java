@@ -12,6 +12,8 @@ import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Objects;
+
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ViewPagerChooseCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
@@ -27,12 +29,13 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 public class ChooseCategoryActivity extends BaseActivity {
 
-    public final static int REQUEST_CODE_CHOOSE_CATEGORY = 912;
+    public final static int REQUEST_CODE_CHOOSE_CATEGORY = 111;
     private TabLayout tlChooseCategory;
     private ViewPager vpChooseCategory;
     private Toolbar tbChooseCategory;
     private ViewPagerChooseCategoryAdapter mChooseCategoryAdapter;
     private CategoryDatabase mCategoryDatabase;
+    private Category mCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,9 @@ public class ChooseCategoryActivity extends BaseActivity {
 
     // Khởi tạo ánh xạ
     private void init() {
+        mCategory = (Category) Objects.requireNonNull(getIntent().getBundleExtra("BUNDLE"))
+                .getSerializable("BUNDLE_CATEGORY");
+
         tlChooseCategory = findViewById(R.id.tlChooseCategory);
         vpChooseCategory = findViewById(R.id.vpChooseCategory);
         tbChooseCategory = findViewById(R.id.tbChooseCategory);
@@ -93,6 +99,10 @@ public class ChooseCategoryActivity extends BaseActivity {
                 new TabLayout.ViewPagerOnTabSelectedListener(vpChooseCategory));
         vpChooseCategory.setAdapter(mChooseCategoryAdapter);
 
+        if (mCategory != null) {
+            Objects.requireNonNull(tlChooseCategory.getTabAt(mCategory.getType() - 1)).select();
+        }
+
         mCategoryDatabase = new CategoryDatabase(this);
     }
 
@@ -109,5 +119,9 @@ public class ChooseCategoryActivity extends BaseActivity {
         intent.putExtra("BUNDLE", bundle);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    public Category getCategory() {
+        return mCategory;
     }
 }

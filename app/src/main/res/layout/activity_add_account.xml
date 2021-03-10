@@ -68,6 +68,7 @@
             android:background="@drawable/bg_select_ripple_gray">
 
             <EditText
+                android:inputType="textCapSentences"
                 android:background="@drawable/bg_et_enter_money"
                 android:maxLength="255"
                 android:id="@+id/etAccountName"
@@ -88,7 +89,8 @@
                 android:layout_marginEnd="@dimen/margin_account_start_end"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_large"
-                android:background="@drawable/thu_unknow" />
+                android:background="@drawable/ic_wallet"
+                android:backgroundTint="@color/black_text_normal_default" />
 
             <include
                 layout="@layout/view_line"
@@ -159,7 +161,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:background="@drawable/ic_unit_price"
-                android:backgroundTint="@color/black_text_normal" />
+                android:backgroundTint="@color/black_text_normal_default" />
 
             <ImageView
                 android:layout_width="@dimen/height_width_ic_select_image"

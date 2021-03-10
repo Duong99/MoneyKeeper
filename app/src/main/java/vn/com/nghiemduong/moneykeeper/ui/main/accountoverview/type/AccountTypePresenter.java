@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.model.AccountType;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -35,15 +36,15 @@ public class AccountTypePresenter implements AccountTypeMvpPresenter {
     public void addAccountType() {
         ArrayList<AccountType> listAccountType = new ArrayList<>();
         listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_tra_no.png",
-                AppUtils.getNameAccountType(AppUtils.TIEN_MAT, mContext)));
+                AppUtils.getNameAccountType(AppConstants.TIEN_MAT, mContext)));
         listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_nha_cua.png",
-                AppUtils.getNameAccountType(AppUtils.TAI_KHOAN_NGAN_HANG, mContext)));
+                AppUtils.getNameAccountType(AppConstants.TAI_KHOAN_NGAN_HANG, mContext)));
         listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_the.png",
-                AppUtils.getNameAccountType(AppUtils.THE_TIN_DUNG, mContext)));
+                AppUtils.getNameAccountType(AppConstants.THE_TIN_DUNG, mContext)));
         listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_dau_tu.png",
-                AppUtils.getNameAccountType(AppUtils.TAI_KHOAN_DAU_TU, mContext)));
+                AppUtils.getNameAccountType(AppConstants.TAI_KHOAN_DAU_TU, mContext)));
         listAccountType.add(new AccountType("assets/ImageCategory/THU/THU_cho_vay.png",
-                AppUtils.getNameAccountType(AppUtils.KHAC, mContext)));
+                AppUtils.getNameAccountType(AppConstants.KHAC, mContext)));
 
         mAccountTypeMvpView.resultListAccountType(listAccountType);
     }

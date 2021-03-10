@@ -11,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CategoryContainSubCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoryActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -26,10 +29,11 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * - @created_by nxduong on 27/1/2021
  **/
 public class CategoryCollectFragment extends BaseFragment
-        implements CategoryContainSubCategoryAdapter.IOnClickCategory {
+        implements CategoryContainSubCategoryAdapter.IOnClickCategory, CategoryCollectFragmentMvpView {
 
     private View mView;
     private RecyclerView rcvCategoryCollect;
+    private CategoryCollectFragmentPresenter mCategoryCollectFragmentPresenter;
 
     private ChooseCategoryActivity mChooseCategoryActivity;
 
@@ -49,11 +53,10 @@ public class CategoryCollectFragment extends BaseFragment
     // Khởi tạo / ánh xạ
     private void init() {
         rcvCategoryCollect = mView.findViewById(R.id.rcvCategoryCollect);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        rcvCategoryCollect.setLayoutManager(layoutManager);
-        rcvCategoryCollect.setAdapter(new CategoryContainSubCategoryAdapter(getContext(),
-                new CategoryDatabase(getContext()).getAllParentCategory(AppUtils.THU_TIEN,
-                        AppUtils.CAP_DO_1), this));
+        mCategoryCollectFragmentPresenter = new CategoryCollectFragmentPresenter(this);
+        mCategoryCollectFragmentPresenter.getListCategoriesAndPositionSmooth(
+                mChooseCategoryActivity.getCategory(), getContext());
+
     }
 
 
@@ -66,5 +69,16 @@ public class CategoryCollectFragment extends BaseFragment
     @Override
     public void onClickCategory(Category category) {
         mChooseCategoryActivity.onFinishChooseCategory(category);
+    }
+
+    @Override
+    public void resultListCategoriesPayAndPositionSmooth(ArrayList<Category> listCategoriesPay, int positionSmooth) {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rcvCategoryCollect.setLayoutManager(layoutManager);
+        rcvCategoryCollect.setAdapter(new CategoryContainSubCategoryAdapter(getContext(),
+                listCategoriesPay, this, mChooseCategoryActivity.getCategory()));
+        if (positionSmooth != -1) {
+            rcvCategoryCollect.smoothScrollToPosition(positionSmooth);
+        }
     }
 }

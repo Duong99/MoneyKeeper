@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.plus.contact.ContactActivity">
+    tools:context=".ui.main.plus.debtor.DebtorActivity">
 
     <androidx.appcompat.widget.Toolbar
         app:contentInsetStart="@dimen/dp_0"
@@ -35,15 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/ivDoneSelectedContact"
-                android:layout_centerVertical="true"
-                android:backgroundTint="@color/white"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/ic_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -53,14 +44,22 @@
         android:background="@color/bg_white"
         android:orientation="vertical">
 
-        <com.doodle.android.chips.ChipsView
-            android:layout_gravity="center_vertical"
-            app:cv_text_hint="@string/select_or_enter_a_new_object_name"
-            android:background="@color/white"
-            android:id="@+id/chipViewContact"
-            android:paddingStart="@dimen/padding_large"
+        <EditText
+            android:inputType="textCapSentences"
+            android:maxLength="55"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:id="@+id/etSearchDebtor"
+            android:paddingStart="@dimen/padding_medium"
+            android:drawablePadding="@dimen/padding_medium"
+            android:drawableTint="@color/black_text_normal_default"
+            android:drawableStart="@drawable/ic_search"
+            android:textSize="@dimen/font_medium"
+            android:hint="@string/select_or_enter_a_new_object_name"
+            android:background="@drawable/bg_et_enter_money"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_item_plus" />
+            android:layout_height="@dimen/height_item_plus"
+            tools:ignore="RtlSymmetry" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvContact"
@@ -70,5 +69,4 @@
             android:background="@color/white" />
 
     </LinearLayout>
-
 </LinearLayout>

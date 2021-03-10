@@ -2,6 +2,7 @@ package vn.com.nghiemduong.moneykeeper.data.model.db;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * D
@@ -104,4 +105,5 @@ public class Category implements Serializable {
     public void setLevel(int level) {
         this.level = level;
     }
+
 }

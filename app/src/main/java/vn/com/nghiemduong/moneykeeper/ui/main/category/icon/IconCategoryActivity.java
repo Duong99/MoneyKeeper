@@ -15,6 +15,7 @@ import vn.com.nghiemduong.moneykeeper.adapter.IconCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.add.AddCategoryActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -58,10 +59,10 @@ public class IconCategoryActivity extends BaseActivity implements IconCategoryAc
         tbChooseIcon = findViewById(R.id.tbChooseIcon);
         mIconCategoryActivityPresenter = new IconCategoryActivityPresenter(this);
 
-        if (mKey == AppUtils.CHI_TIEN) {
-            mIconCategoryActivityPresenter.doGetPathCategoryFromAssets(AppUtils.PATH_CHI, this);
+        if (mKey == AppConstants.CHI_TIEN) {
+            mIconCategoryActivityPresenter.doGetPathCategoryFromAssets(AppConstants.PATH_CHI, this);
         } else {
-            mIconCategoryActivityPresenter.doGetPathCategoryFromAssets(AppUtils.PATH_THU, this);
+            mIconCategoryActivityPresenter.doGetPathCategoryFromAssets(AppConstants.PATH_THU, this);
         }
     }
 

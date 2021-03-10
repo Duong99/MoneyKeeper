@@ -5,10 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.google.gson.internal.$Gson$Preconditions;
 
 /**
  * - class kiểm tra quyền trong ứng dụng
@@ -16,10 +20,13 @@ import androidx.core.content.ContextCompat;
  **/
 
 public class AppPermission extends AppCompatActivity {
-    public final static int PERMISSIONS_REQUEST_READ_CONTACTS = 123;
+    public final static int PERMISSIONS_REQUEST_CONTACTS = 123;
     public final static int PERMISSIONS_REQUEST_SEND_SMS = 128;
     public final static int PERMISSIONS_REQUEST_CALL_PHONE = 129;
     public final static int PERMISSIONS_REQUEST_CAMERA = 1291;
+
+    public AppPermission() {
+    }
 
     /**
      * Hàm kiểm tra quyền đọc danh bạ trong điện thoại
@@ -28,25 +35,22 @@ public class AppPermission extends AppCompatActivity {
      * @return checkPermission
      * @created_by nxduong on 21/1/2021
      */
-    public static boolean requestReadContactPermission(Context context, Activity activity) {
-        boolean checkPermission = false;
+    public void requestContactPermission(Context context, Activity activity,
+                                         IOnRequestPermissionContactResult onRequestPermissionContactResult) {
+        this.mOnRequestPermissionContactResult = onRequestPermissionContactResult;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                        Manifest.permission.READ_CONTACTS)) {
-                    ActivityCompat.requestPermissions(activity,
-                            new String[]{Manifest.permission.READ_CONTACTS},
-                            PERMISSIONS_REQUEST_READ_CONTACTS);
-                }
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        PERMISSIONS_REQUEST_CONTACTS);
+
             } else {
-                checkPermission = true;
+                mOnRequestPermissionContactResult.onPermissionContactGranted();
             }
         } else {
-            checkPermission = true;
+            mOnRequestPermissionContactResult.onPermissionContactGranted();
         }
-
-        return checkPermission;
     }
 
     /**
@@ -142,25 +146,37 @@ public class AppPermission extends AppCompatActivity {
      * @created_by nxduong on 1/2/2021
      */
 
-    public static boolean requestCameraPermission(Context context, Activity activity) {
-        boolean checkPermission = false;
+    public void requestCameraPermission(Context context,
+                                        IOnRequestPermissionCameraResult onRequestPermissionCameraResult) {
+        this.mOnRequestPermissionCameraResult = onRequestPermissionCameraResult;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                        Manifest.permission.CAMERA)) {
-
-                    ActivityCompat.requestPermissions(activity,
-                            new String[]{Manifest.permission.CAMERA},
-                            PERMISSIONS_REQUEST_CAMERA);
-                }
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        PERMISSIONS_REQUEST_CAMERA);
             } else {
-                checkPermission = true;
+                mOnRequestPermissionCameraResult.onPermissionCameraGranted();
             }
         } else {
-            checkPermission = true;
+            mOnRequestPermissionCameraResult.onPermissionCameraGranted();
         }
-
-        return checkPermission;
     }
+
+    private IOnRequestPermissionCameraResult mOnRequestPermissionCameraResult;
+
+    public interface IOnRequestPermissionCameraResult {
+        void onPermissionCameraGranted();
+
+        void onPermissionCameraNotGranted();
+    }
+
+    private IOnRequestPermissionContactResult mOnRequestPermissionContactResult;
+
+    public interface IOnRequestPermissionContactResult {
+        void onPermissionContactGranted();
+
+        void onPermissionContactNotGranted();
+    }
+
 }

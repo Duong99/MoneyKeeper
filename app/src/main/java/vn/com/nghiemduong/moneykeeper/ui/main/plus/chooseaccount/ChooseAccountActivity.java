@@ -17,7 +17,6 @@ import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 
 /**
- * -
  * Màn hình cho phép chọn tài khoản
  * <p>
  * - @created_by nxduong on 28/1/2021
@@ -26,7 +25,9 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 public class ChooseAccountActivity extends BaseActivity implements
         AccountChooseAdapter.IOnClickAccount {
 
-    public final static int REQUEST_CODE_CHOOSE_ACCOUNT = 119;
+    public final static int REQUEST_CODE_CHOOSE_ACCOUNT = 112;
+    public final static int REQUEST_CODE_FROM_ACCOUNT = 113;
+    public final static int REQUEST_CODE_TO_ACCOUNT = 114;
 
     private RecyclerView rcvChooseAccount;
     private AccountChooseAdapter mAccountAdapter;

@@ -22,6 +22,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.UpdateCategoryActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.add.AddCategoryActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 import static android.app.Activity.RESULT_OK;
@@ -63,7 +64,7 @@ public class EditCategoryCollectFragment extends BaseFragment
         rcvCategoryCollect.setAdapter(
                 new CategoryEditContainSubCategoryAdapter(getContext(),
                         new CategoryDatabase(getContext()).getAllParentCategory(
-                                AppUtils.THU_TIEN, AppUtils.CAP_DO_1), this));
+                                AppConstants.THU_TIEN, AppConstants.CAP_DO_1), this));
 
     }
 
@@ -79,7 +80,7 @@ public class EditCategoryCollectFragment extends BaseFragment
         rcvCategoryCollect.setAdapter(
                 new CategoryEditContainSubCategoryAdapter(getContext(),
                         new CategoryDatabase(getContext()).getAllParentCategory(
-                                AppUtils.THU_TIEN, AppUtils.CAP_DO_1), this));
+                                AppConstants.THU_TIEN, AppConstants.CAP_DO_1), this));
     }
 
     @Override
@@ -87,7 +88,7 @@ public class EditCategoryCollectFragment extends BaseFragment
         try {
             Intent intentEditCategory = new Intent(getContext(), AddCategoryActivity.class);
             Bundle bundle = new Bundle();
-            intentEditCategory.putExtra("KEY_CATEGORY", AppUtils.THU_TIEN);
+            intentEditCategory.putExtra("KEY_CATEGORY", AppConstants.THU_TIEN);
             bundle.putSerializable("BUNDLE_CATEGORY", category);
             intentEditCategory.putExtra("BUNDLE", bundle);
             startActivityForResult(intentEditCategory, AddCategoryActivity.REQUEST_CODE_ADD_CATEGORY);

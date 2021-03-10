@@ -1,4 +1,4 @@
-package vn.com.nghiemduong.moneykeeper.ui.main.plus.contact;
+package vn.com.nghiemduong.moneykeeper.ui.main.plus.debtor;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 /**
  * - @created_by nxduong on 31/1/2021
  **/
-public class ContactActivityPresenter implements ContactActivityMvpPresenter {
-    private ContactActivityMvpView mContactActivityMvpView;
+public class DebtorActivityPresenter implements DebtorActivityMvpPresenter {
+    private DebtorActivityMvpView mContactActivityMvpView;
     private Context mContext;
 
-    public ContactActivityPresenter(ContactActivityMvpView contactActivityMvpView, Context context) {
+    public DebtorActivityPresenter(DebtorActivityMvpView contactActivityMvpView, Context context) {
         this.mContactActivityMvpView = contactActivityMvpView;
         this.mContext = context;
     }

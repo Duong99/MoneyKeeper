@@ -33,59 +33,10 @@ import static android.content.Context.MODE_PRIVATE;
  * - @created_by nxduong on 21/1/2021
  **/
 public class AppUtils {
-    public static final String MY_SHARED_PREFERENCES_UID = "MY_SHARED_PREFERENCES_UID";
-    public static final String KEY_UID = "UID";
-    public static final String TAG = "fata";
-
-    // Loại tài khoản
-    public static final int TIEN_MAT = 1;
-    public static final int TAI_KHOAN_NGAN_HANG = 2;
-    public static final int THE_TIN_DUNG = 3;
-    public static final int TAI_KHOAN_DAU_TU = 4;
-    public static final int KHAC = 5;
-
-
-    // Path
-    public static final String PATH_THU = "assets/ImageCategory/THU/";
-    public static final String PATH_CHI = "assets/ImageCategory/CHI/";
-    public static final String PATH_UN_KNOW = "assets/ImageCategory/CHI/CHI_UnKnow.png";
-
-    // Loại tiền
-    public static final String VND = "VND";
-
-    //Có báo cho vào báo cáo không
-    public static final int CO_BAO_CAO = 1;
-    public static final int KHONG_BAO_CAO = 0;
-
-    public static final int REQUEST_CODE_IMAGE_FROM_FOLDER = 120;
-    public static final int REQUEST_CODE_IMAGE_FROM_CAMERA = 121;
-
-    // Custom toast
-    public static final int TOAST_SUCCESS = 21;
-    public static final int TOAST_WARRING = 22;
-    public static final int TOAST_ERROR = 23;
-
-    // Các trạng thái của kế hoạch /định kỳ
-    public static final int WAIT_PAY = 2;
-    public static final int PAID = 1;
-
-    // Các kiểu /Loại hạng mục
-    public static final int CHI_TIEN = 1;
-    public static final int THU_TIEN = 2;
-    public static final int CHO_VAY = 3;
-    public static final int THU_NO = 4;
-    public static final int DI_VAY = 5;
-    public static final int TRA_NO = 6;
-
-    public static final int VAY_NO = 3;
-    // Cập độ hạng mục
-    public static final int CAP_DO_1 = 1;
-    public static final int CAP_DO_2 = 2;
-
 
     // hàm sử lý khi ứng dụng Exception
     public static void handlerException(Exception e) {
-        Log.e(TAG, e.toString());
+        Log.e(AppConstants.TAG, e.toString());
     }
 
     // Hàm lấy giá trị trong EditText
@@ -140,19 +91,19 @@ public class AppUtils {
     // Hàm trả về tên loại tài khoản
     public static String getNameAccountType(int accountTypeId, Context context) {
         switch (accountTypeId) {
-            case TIEN_MAT:
+            case AppConstants.TIEN_MAT:
                 return context.getResources().getString(R.string.cash);
 
-            case TAI_KHOAN_NGAN_HANG:
+            case AppConstants.TAI_KHOAN_NGAN_HANG:
                 return context.getResources().getString(R.string.account_bank);
 
-            case THE_TIN_DUNG:
+            case AppConstants.THE_TIN_DUNG:
                 return context.getResources().getString(R.string.credit);
 
-            case TAI_KHOAN_DAU_TU:
+            case AppConstants.TAI_KHOAN_DAU_TU:
                 return context.getResources().getString(R.string.account_invest);
 
-            case KHAC:
+            case AppConstants.KHAC:
                 return context.getResources().getString(R.string.account_more);
 
         }
@@ -183,8 +134,8 @@ public class AppUtils {
      */
     public static String getUIDAuthenticationFirebase(Activity activity) {
         SharedPreferences sharedPreferences =
-                activity.getSharedPreferences(MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_UID, "");
+                activity.getSharedPreferences(AppConstants.MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
+        return sharedPreferences.getString(AppConstants.KEY_UID, "");
     }
 
     /**

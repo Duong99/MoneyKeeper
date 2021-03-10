@@ -22,6 +22,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.AccountType;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.type.AccountTypeActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
@@ -112,7 +113,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
 
                 llDelete.setVisibility(View.VISIBLE);
 
-                if (mAccount.getReport() == AppUtils.CO_BAO_CAO) {
+                if (mAccount.getReport() == AppConstants.CO_BAO_CAO) {
                     swNotIncludeReport.setChecked(false);
                 } else {
                     swNotIncludeReport.setChecked(true);
@@ -194,18 +195,18 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     private void insertOrUpdateAccount() {
         if (AppUtils.getEditText(etInputAmount).isEmpty()) {
             showCustomToast(getResources().getString(R.string.enter_money),
-                    AppUtils.TOAST_WARRING);
+                    AppConstants.TOAST_WARRING);
             etInputAmount.requestFocus();
         } else if (AppUtils.getEditText(etAccountName).isEmpty()) {
             showCustomToast(getResources().getString(R.string.enter_account_name),
-                    AppUtils.TOAST_WARRING);
+                    AppConstants.TOAST_WARRING);
             etAccountName.requestFocus();
         } else {
             int report;
             if (swNotIncludeReport.isChecked()) {
-                report = AppUtils.KHONG_BAO_CAO;
+                report = AppConstants.KHONG_BAO_CAO;
             } else {
-                report = AppUtils.CO_BAO_CAO;
+                report = AppConstants.CO_BAO_CAO;
             }
 
             // Thêm tài khoản
@@ -213,13 +214,13 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 Account account = new Account(AppUtils.getEditText(etAccountName),
                         Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount)),
                         mAccountType.getAccountTypePath(),
-                        mAccountType.getAccountTypeName(), AppUtils.VND,
+                        mAccountType.getAccountTypeName(), AppConstants.VND,
                         AppUtils.getEditText(etExplain), report);
                 long insert = mAccountDatabase.insertAccount(account);
                 if (insert == DBUtils.checkDBFail) {
-                    showCustomToast(getResources().getString(R.string.insert_account_fail), AppUtils.TOAST_ERROR);
+                    showCustomToast(getResources().getString(R.string.insert_account_fail), AppConstants.TOAST_ERROR);
                 } else {
-                    showCustomToast(getResources().getString(R.string.insert_account_success), AppUtils.TOAST_SUCCESS);
+                    showCustomToast(getResources().getString(R.string.insert_account_success), AppConstants.TOAST_SUCCESS);
                     finishInsertOrUpdateSuccess();
                 }
             } else { // Sửa tài khoản
@@ -228,7 +229,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                         AppUtils.getEditText(etAccountName),
                         Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount)),
                         mAccountType.getAccountTypePath(),
-                        mAccountType.getAccountTypeName(), AppUtils.VND,
+                        mAccountType.getAccountTypeName(), AppConstants.VND,
                         AppUtils.getEditText(etExplain), report);
                 long update = mAccountDatabase.updateAccount(mAccount);
                 if (update == DBUtils.checkDBFail) {
@@ -259,7 +260,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                 showToast(getResources().getString(R.string.delete_account_fail));
             } else {
                 showCustomToast(getResources().getString(R.string.delete_account_success),
-                        AppUtils.TOAST_SUCCESS);
+                        AppConstants.TOAST_SUCCESS);
                 finishInsertOrUpdateSuccess();
             }
         } catch (Exception e) {

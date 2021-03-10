@@ -35,9 +35,9 @@
 
         <include layout="@layout/view_line" />
 
-        <include layout="@layout/item_layout_lender_plus" />
+        <include layout="@layout/item_layout_debtor_plus" />
 
-        <include layout="@layout/item_layout_repayment_date_plus" />
+        <include layout="@layout/item_layout_duration_plus" />
     </LinearLayout>
 
 </LinearLayout>

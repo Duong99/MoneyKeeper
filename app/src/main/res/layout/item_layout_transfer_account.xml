@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlLayoutTransferAccount"
+    android:layout_width="match_parent"
+    android:background="@color/bg_white"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TextViewNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/done_icon"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/from_account" />
+
+        <RelativeLayout
+            android:id="@+id/rlChooseFromAccount"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_item_plus"
+            android:background="@drawable/bg_select_ripple_gray">
+
+            <ImageView
+                android:id="@+id/ivCheckFromAccount"
+                android:layout_width="@dimen/height_width_ic_arrow"
+                android:layout_height="@dimen/height_width_ic_arrow"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:background="@drawable/ic_arrow_right"
+                android:backgroundTint="@color/black_text_normal"
+                tools:ignore="ContentDescription" />
+
+            <RelativeLayout
+                android:id="@+id/rlImageChooseFromAccount"
+                android:layout_width="@dimen/width_item_image_plus"
+                android:layout_height="@dimen/height_item_plus">
+
+                <ImageView
+                    android:id="@+id/ivImageFromAccount"
+                    android:layout_width="@dimen/height_width_image_normal"
+                    android:layout_height="@dimen/height_width_image_normal"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:background="@drawable/ic_help_white"
+                    android:backgroundTint="@color/black_text_normal_default" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvTitleFromAccount"
+                style="@style/TextViewNormalBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/rlImageChooseFromAccount"
+                android:text="@string/select_account" />
+
+            <include
+                android:layout_toEndOf="@id/rlImageChooseFromAccount"
+                layout="@layout/view_line"
+                android:layout_height="@dimen/height_view_line"
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+        <TextView
+            style="@style/TextViewNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/done_icon"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/to_account" />
+
+
+        <RelativeLayout
+            android:id="@+id/rlChooseToAccount"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_item_plus"
+            android:background="@drawable/bg_select_ripple_gray">
+
+            <ImageView
+                android:id="@+id/ivCheckAccount"
+                android:layout_width="@dimen/height_width_ic_arrow"
+                android:layout_height="@dimen/height_width_ic_arrow"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:background="@drawable/ic_arrow_right"
+                android:backgroundTint="@color/black_text_normal"
+                tools:ignore="ContentDescription" />
+
+            <RelativeLayout
+                android:id="@+id/rlImageChooseToAccount"
+                android:layout_width="@dimen/width_item_image_plus"
+                android:layout_height="@dimen/height_item_plus">
+
+                <ImageView
+                    android:id="@+id/ivImageToAccount"
+                    android:layout_width="@dimen/height_width_image_normal"
+                    android:layout_height="@dimen/height_width_image_normal"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:background="@drawable/ic_help_white"
+                    android:backgroundTint="@color/black_text_normal_default" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvTitleToAccount"
+                style="@style/TextViewNormalBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/rlImageChooseToAccount"
+                android:text="@string/select_account" />
+
+            <include
+                android:layout_toEndOf="@id/rlImageChooseToAccount"
+                layout="@layout/view_line"
+                android:layout_height="@dimen/height_view_line"
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+

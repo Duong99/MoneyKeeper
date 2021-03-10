@@ -11,6 +11,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import vn.com.nghiemduong.moneykeeper.data.model.db.User;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -42,9 +43,9 @@ public class RegisterPresenter implements RegisterMvpPresenter {
                             // Sign in success, update UI with the signed-in user's information
 
                             mSharedPreferences = mActivity.getSharedPreferences(
-                                    AppUtils.MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
+                                    AppConstants.MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
                             SharedPreferences.Editor editor = mSharedPreferences.edit();
-                            editor.putString(AppUtils.KEY_UID, mAuth.getUid());
+                            editor.putString(AppConstants.KEY_UID, mAuth.getUid());
                             editor.apply();
 
                             mRegisterMvpView.registerAccountSuccess();

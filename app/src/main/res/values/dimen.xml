@@ -59,6 +59,7 @@
     <dimen name="height_width_image_normal">30dp</dimen>
     <dimen name="height_width_image_account">35dp</dimen>
     <dimen name="done_icon">20dp</dimen>
+    <dimen name="icon_selected_category">12.5dp</dimen>
 
     <dimen name="width_sub_category">65dp</dimen>
     <dimen name="height_item_plus">50dp</dimen>

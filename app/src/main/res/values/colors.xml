@@ -67,7 +67,8 @@
 
     // Màu cho input amount
     <color name="input_amount_red_pay">#FF2F2F</color>
-    <color name="input_amount_collect_pay">#1F7A23</color>
+    <color name="input_amount_green_collect">#259E2A</color>
+    <color name="input_amount_blue_transfer">#0A8CC6</color>
 
     <color name="color_spending">#E65858</color>
 </resources>

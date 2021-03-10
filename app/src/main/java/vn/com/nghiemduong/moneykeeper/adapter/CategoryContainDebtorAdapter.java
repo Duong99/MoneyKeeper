@@ -26,10 +26,15 @@ public class CategoryContainDebtorAdapter extends RecyclerView.Adapter<CategoryC
 
     private Context mContext;
     private ArrayList<Category> mParentCategories;
+    private IOnClickCategoryDebt mOnClickCategoryDebt;
+    private Category mCategory;
 
-    public CategoryContainDebtorAdapter(Context context, ArrayList<Category> parentCategories) {
+    public CategoryContainDebtorAdapter(Context context, ArrayList<Category> parentCategories,
+                                        IOnClickCategoryDebt onClickCategoryDebt, Category category) {
         this.mContext = context;
         this.mParentCategories = parentCategories;
+        this.mOnClickCategoryDebt = onClickCategoryDebt;
+        this.mCategory = category;
     }
 
     @NonNull
@@ -45,6 +50,11 @@ public class CategoryContainDebtorAdapter extends RecyclerView.Adapter<CategoryC
         Category parentCategory = mParentCategories.get(position);
 
         if (parentCategory != null) {
+            if (mCategory != null) {
+                if (mCategory.getCategoryId() == parentCategory.getCategoryId()) {
+                    holder.ivSelectedParentCategory.setVisibility(View.VISIBLE);
+                }
+            }
             holder.ivImageCategoryPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     parentCategory.getCategoryPath(), mContext));
             holder.tvTitleCategoryPay.setText(parentCategory.getCategoryName());
@@ -59,7 +69,7 @@ public class CategoryContainDebtorAdapter extends RecyclerView.Adapter<CategoryC
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivImageCategoryPay;
+        ImageView ivImageCategoryPay, ivSelectedParentCategory;
         TextView tvTitleCategoryPay;
         RecyclerView rcvSubCategoryPay;
 
@@ -67,8 +77,28 @@ public class CategoryContainDebtorAdapter extends RecyclerView.Adapter<CategoryC
             super(itemView);
 
             ivImageCategoryPay = itemView.findViewById(R.id.ivImageCategoryPay);
+            ivSelectedParentCategory = itemView.findViewById(R.id.ivSelectedParentCategory);
             tvTitleCategoryPay = itemView.findViewById(R.id.tvTitleCategoryPay);
             rcvSubCategoryPay = itemView.findViewById(R.id.rcvSubCategoryPay);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mOnClickCategoryDebt.onClickCategoryDebt(mParentCategories.get(position));
+                        }
+                    } catch (Exception e) {
+                        AppUtils.handlerException(e);
+                    }
+
+                }
+            });
         }
+    }
+
+    public interface IOnClickCategoryDebt {
+        void onClickCategoryDebt(Category category);
     }
 }

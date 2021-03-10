@@ -13,8 +13,10 @@ import com.google.android.material.tabs.TabLayout;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.ViewPagerEditCategoryAdapter;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.update.add.AddCategoryActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -71,6 +73,9 @@ public class UpdateCategoryActivity extends BaseActivity implements View.OnClick
             case R.id.fabAddCategory:
                 try {
                     Intent intentAddCategory = new Intent(this, AddCategoryActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("BUNDLE_CATEGORY", null);
+                    intentAddCategory.putExtra("BUNDLE", bundle);
                     intentAddCategory.putExtra("KEY_CATEGORY", (vpEditCategory.getCurrentItem() + 1));
                     startActivityForResult(intentAddCategory, AddCategoryActivity.REQUEST_CODE_ADD_CATEGORY);
                 } catch (Exception e) {
@@ -87,10 +92,10 @@ public class UpdateCategoryActivity extends BaseActivity implements View.OnClick
             if (data != null) {
                 if (requestCode == AddCategoryActivity.REQUEST_CODE_ADD_CATEGORY) {
                     int mTypeKey = data.getIntExtra("KEY_CATEGORY", -1);
-                    if (mTypeKey == AppUtils.THU_TIEN) {
+                    if (mTypeKey == AppConstants.THU_TIEN) {
                         mIOnGetRestartCategoryCollect.onRestartCategoryCollect();
                     }
-                    if (mTypeKey == AppUtils.CHI_TIEN) {
+                    if (mTypeKey == AppConstants.CHI_TIEN) {
                         mOnGetRestartCategoryPay.onRestartCategoryPay();
                     }
                 }

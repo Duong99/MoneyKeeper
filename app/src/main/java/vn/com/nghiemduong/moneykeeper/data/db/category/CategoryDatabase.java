@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.data.db.BaseSqLite;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
@@ -83,7 +84,7 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
         ArrayList<Category> subCategories = new ArrayList<>();
         String query = "SELECT * FROM " + NAME_TABLE_CATEGORY
                 + " WHERE " + CATEGORY_PARENT_ID + " = " + idParentCategory
-                + " AND " + CATEGORY_LEVEL + " = " + AppUtils.CAP_DO_2;
+                + " AND " + CATEGORY_LEVEL + " = " + AppConstants.CAP_DO_2;
 
         try {
             Category category;

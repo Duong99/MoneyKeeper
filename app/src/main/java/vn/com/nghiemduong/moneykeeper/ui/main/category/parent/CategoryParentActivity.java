@@ -17,6 +17,7 @@ import vn.com.nghiemduong.moneykeeper.adapter.ParentCategoryAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -73,7 +74,7 @@ public class CategoryParentActivity extends BaseActivity implements View.OnClick
         mCategoryDatabase = new CategoryDatabase(this);
 
         mCategoryParentAdapter = new ParentCategoryAdapter(
-                this, mCategoryDatabase.getAllParentCategory(mKey, AppUtils.CAP_DO_1),
+                this, mCategoryDatabase.getAllParentCategory(mKey, AppConstants.CAP_DO_1),
                 this, mParentCategory);
         rcvCategoryParent.setAdapter(mCategoryParentAdapter);
     }

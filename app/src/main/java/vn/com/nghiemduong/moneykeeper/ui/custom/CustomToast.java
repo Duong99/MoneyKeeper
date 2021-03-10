@@ -15,6 +15,7 @@ import android.widget.Toast;
 import javax.xml.datatype.Duration;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -44,7 +45,7 @@ public class CustomToast extends Toast {
         tvMessageCustomToast.setText(message);
 
         switch (type) {
-            case AppUtils.TOAST_SUCCESS:
+            case AppConstants.TOAST_SUCCESS:
                 llBackgroundCustomToast.setBackgroundResource(R.drawable.bg_custom_toast_success);
                 ivImageCustomToast.setBackground(context.getResources()
                         .getDrawable(R.drawable.ic_success_sync_40dp));
@@ -52,7 +53,7 @@ public class CustomToast extends Toast {
                         .getColor(R.color.bg_toast_success));
                 break;
 
-            case AppUtils.TOAST_WARRING:
+            case AppConstants.TOAST_WARRING:
                 llBackgroundCustomToast.setBackgroundResource(R.drawable.bg_custom_toast_warring);
                 ivImageCustomToast.setBackground(context.getResources()
                         .getDrawable(R.drawable.v2_ic_info_white));
@@ -60,7 +61,7 @@ public class CustomToast extends Toast {
                         .getColor(R.color.bg_toast_warring));
                 break;
 
-            case AppUtils.TOAST_ERROR:
+            case AppConstants.TOAST_ERROR:
                 llBackgroundCustomToast.setBackgroundColor(context.getResources()
                         .getColor(R.color.bg_toast_error));
                 break;

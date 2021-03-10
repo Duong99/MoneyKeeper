@@ -22,6 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import vn.com.nghiemduong.moneykeeper.data.model.db.User;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -84,7 +85,7 @@ public class LoginPresenter implements LoginMvpPresenter {
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(AppUtils.TAG, "signInResult:failed code=" + e.getStatusCode());
+            Log.w(AppConstants.TAG, "signInResult:failed code=" + e.getStatusCode());
             mLoginMvpView.loginGoogleFail();
         }
     }

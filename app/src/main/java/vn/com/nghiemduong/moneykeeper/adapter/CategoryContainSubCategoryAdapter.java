@@ -24,17 +24,19 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  **/
 public class CategoryContainSubCategoryAdapter
         extends RecyclerView.Adapter<CategoryContainSubCategoryAdapter.ViewHolder>
-        implements SubCategoryPayAdapter.IOnClickSubCategoryPay {
+        implements SubCategoryAdapter.IOnClickSubCategoryPay {
 
     private Context mContext;
     private ArrayList<Category> mParentCategories;
     private IOnClickCategory mOnClickCategory;
+    private Category mCategory;
 
     public CategoryContainSubCategoryAdapter(Context context, ArrayList<Category> parentCategories,
-                                             IOnClickCategory onClickCategory) {
+                                             IOnClickCategory onClickCategory, Category category) {
         this.mContext = context;
         this.mParentCategories = parentCategories;
         this.mOnClickCategory = onClickCategory;
+        this.mCategory = category;
     }
 
     @NonNull
@@ -50,6 +52,11 @@ public class CategoryContainSubCategoryAdapter
         Category parentCategory = mParentCategories.get(position);
 
         if (parentCategory != null) {
+            if (mCategory != null) {
+                if (mCategory.getCategoryId() == parentCategory.getCategoryId()) {
+                    holder.ivSelectedParentCategory.setVisibility(View.VISIBLE);
+                }
+            }
             holder.ivImageCategoryPay.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
                     parentCategory.getCategoryPath(), mContext));
             holder.tvTitleCategoryPay.setText(parentCategory.getCategoryName());
@@ -58,8 +65,8 @@ public class CategoryContainSubCategoryAdapter
                     .getAllSubCategory(parentCategory.getCategoryId());
 
             if (subCategories.size() != 0) {
-                holder.rcvSubCategoryPay.setAdapter(new SubCategoryPayAdapter(
-                        mContext, subCategories, this));
+                holder.rcvSubCategoryPay.setAdapter(new SubCategoryAdapter(
+                        mContext, subCategories, this, mCategory));
             } else {
                 holder.rcvSubCategoryPay.setVisibility(View.GONE);
             }
@@ -78,7 +85,7 @@ public class CategoryContainSubCategoryAdapter
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivImageCategoryPay;
+        ImageView ivImageCategoryPay, ivSelectedParentCategory;
         TextView tvTitleCategoryPay;
         RecyclerView rcvSubCategoryPay;
 
@@ -86,6 +93,7 @@ public class CategoryContainSubCategoryAdapter
             super(itemView);
 
             ivImageCategoryPay = itemView.findViewById(R.id.ivImageCategoryPay);
+            ivSelectedParentCategory = itemView.findViewById(R.id.ivSelectedParentCategory);
             tvTitleCategoryPay = itemView.findViewById(R.id.tvTitleCategoryPay);
 
             rcvSubCategoryPay = itemView.findViewById(R.id.rcvSubCategoryPay);
