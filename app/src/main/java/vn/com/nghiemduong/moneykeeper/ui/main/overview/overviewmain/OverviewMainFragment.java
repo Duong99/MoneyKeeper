@@ -33,11 +33,13 @@ import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerStageAdapter;
 import vn.com.nghiemduong.moneykeeper.adapter.RecordOverviewAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.record.RecordDatabase;
 
+import vn.com.nghiemduong.moneykeeper.data.model.db.Record;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentMvpView;
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentPresenter;
 
+import vn.com.nghiemduong.moneykeeper.ui.main.plus.PlusFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
@@ -48,7 +50,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  **/
 
 public class OverviewMainFragment extends BaseFragment implements View.OnClickListener,
-        AccountFragmentMvpView,
+        AccountFragmentMvpView, RecordOverviewAdapter.IOnClickRecordOverview,
         OverviewMainMvpView {
 
     private View mView;
@@ -153,7 +155,8 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvRecentRecord.setLayoutManager(layoutManager);
-        rcvRecentRecord.setAdapter(new RecordOverviewAdapter(getContext(), mRecordDatabase.getAllRecord()));
+        rcvRecentRecord.setAdapter(new RecordOverviewAdapter(getContext(),
+                mRecordDatabase.getAllRecord(), this));
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -256,5 +259,16 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         ivChartSpending.requestLayout();
         ivChartCollect.getLayoutParams().height = heightChartCollect;
         ivChartSpending.getLayoutParams().height = heightChartSpending;
+    }
+
+    @Override
+    public void onClickRecord(Record record) {
+        try {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("BUNDLE_RECORD", record);
+            beginTransactionCategoriesLayout(new PlusFragment(), bundle);
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 }

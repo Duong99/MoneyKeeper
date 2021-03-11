@@ -14,8 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.doodle.android.chips.model.Contact;
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,7 +32,8 @@ public class DebtorActivity extends BaseActivity implements DebtorActivityMvpVie
         DebtorAdapter.IOnClickContact, View.OnClickListener,
         AppPermission.IOnRequestPermissionContactResult {
 
-    public final static int REQUEST_CODE_CHOOSE_DEBTOR = 543;
+    public final static int REQUEST_CODE_CHOOSE_LENDER = 543;
+    public final static int REQUEST_CODE_CHOOSE_BORROWER = 544;
     public final static String KEY_CONTACT_ACTIVITY_TYPE = "KEY_CONTACT_ACTIVITY_TYPE";
 
     private TextView tvTitleBarContact;
@@ -114,24 +113,24 @@ public class DebtorActivity extends BaseActivity implements DebtorActivityMvpVie
     private void getKeyIntent() {
         mKeyContactType = getIntent().getIntExtra(KEY_CONTACT_ACTIVITY_TYPE, -1);
         switch (mKeyContactType) {
-//            case REQUEST_CODE_CHOOSE_CONTACT_WITH_WHOM:
-//                tvTitleBarContact.setText(getResources().getString(R.string.with_whom));
-//                break;
-//
-//            case REQUEST_CODE_CHOOSE_DEBTOR:
-//                tvTitleBarContact.setText(getResources().getString(R.string.lender));
-//                break;
+            case REQUEST_CODE_CHOOSE_LENDER:
+                tvTitleBarContact.setText(getResources().getString(R.string.lender));
+                break;
+
+            case REQUEST_CODE_CHOOSE_BORROWER:
+                tvTitleBarContact.setText(getResources().getString(R.string.borrower));
+                break;
         }
     }
 
     @Override
-    public void resultGetAllContact(ArrayList<Contact> listContact) {
+    public void resultGetAllContact(ArrayList<String> listContact) {
         mDebtorAdapter = new DebtorAdapter(this, listContact, this);
         rcvContact.setAdapter(mDebtorAdapter);
     }
 
     @Override
-    public void onClickContact(Contact contact) {
+    public void onClickContact(String contact) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("BUNDLE_CONTACT", contact);

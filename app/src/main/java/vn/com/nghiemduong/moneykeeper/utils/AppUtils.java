@@ -9,9 +9,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
-
-import com.doodle.android.chips.model.Contact;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

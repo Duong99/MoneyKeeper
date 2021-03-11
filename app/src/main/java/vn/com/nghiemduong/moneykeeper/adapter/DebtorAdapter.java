@@ -1,6 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.adapter;
 
 import android.content.Context;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.doodle.android.chips.model.Contact;
 
 import java.util.ArrayList;
 
@@ -24,17 +23,17 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder> implements Filterable {
 
     private Context mContext;
-    private ArrayList<Contact> mListDebtors;
-    private ArrayList<Contact> mListDebtorsFiltered;
-    private IOnClickContact mOnClickContact;
+    private ArrayList<String> mListDebtors;
+    private ArrayList<String> mListDebtorsFiltered;
+    private IOnClickContact mOnClickString;
     private CustomFilter mCustomFilter;
 
-    public DebtorAdapter(Context mContext, ArrayList<Contact> listDebtors,
-                         IOnClickContact onClickContact) {
+    public DebtorAdapter(Context mContext, ArrayList<String> listDebtors,
+                         IOnClickContact onClickString) {
         this.mContext = mContext;
         this.mListDebtors = listDebtors;
         this.mListDebtorsFiltered = listDebtors;
-        this.mOnClickContact = onClickContact;
+        this.mOnClickString = onClickString;
     }
 
     @NonNull
@@ -47,23 +46,23 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Contact contact = mListDebtors.get(position);
+        String contact = mListDebtors.get(position);
         if (contact != null) {
-            holder.tvContactName.setText(contact.getDisplayName());
-            holder.tvDefaultContactImage.setText(contact.getDisplayName().substring(0, 1));
+            holder.tvStringName.setText(contact);
+            holder.tvDefaultStringImage.setText(contact.substring(0, 1));
 
-            // Set màu cho ảnh contact
+            // Set màu cho ảnh String
             if (position % 3 == 0) {
-                holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
+                holder.tvDefaultStringImage.setBackgroundColor(mContext.getResources()
                         .getColor(R.color.contact_color_blue));
             } else if (position % 4 == 0) {
-                holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
+                holder.tvDefaultStringImage.setBackgroundColor(mContext.getResources()
                         .getColor(R.color.contact_color_violet));
             } else if (position % 5 == 0) {
-                holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
+                holder.tvDefaultStringImage.setBackgroundColor(mContext.getResources()
                         .getColor(R.color.contact_color_pink));
             } else {
-                holder.tvDefaultContactImage.setBackgroundColor(mContext.getResources()
+                holder.tvDefaultStringImage.setBackgroundColor(mContext.getResources()
                         .getColor(R.color.contact_color_orange));
             }
         }
@@ -83,23 +82,19 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
     }
 
     /**
-     * -  Lớp bộ lọc contact, tìm kiếm contact
+     * -  Lớp bộ lọc String, tìm kiếm String
      * - @created_by nxduong on 31/1/2021
      **/
     private class CustomFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            ArrayList<Contact> filters = new ArrayList<>();
+            ArrayList<String> filters = new ArrayList<>();
             if (constraint != null && constraint.length() > 0) {
                 constraint = constraint.toString().toUpperCase();
                 for (int i = 0; i < mListDebtorsFiltered.size(); i++) {
-                    if (mListDebtorsFiltered.get(i).getDisplayName().toUpperCase().contains(constraint)) {
-                        Contact model = new Contact(mListDebtorsFiltered.get(i).getDisplayName(),
-                                mListDebtorsFiltered.get(i).getDisplayName(),
-                                mListDebtorsFiltered.get(i).getDisplayName(),
-                                mListDebtorsFiltered.get(i).getDisplayName(),
-                                null);
+                    if (mListDebtorsFiltered.get(i).toUpperCase().contains(constraint)) {
+                        String model = new String(mListDebtorsFiltered.get(i));
                         filters.add(model);
                     }
                 }
@@ -112,20 +107,20 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mListDebtors = (ArrayList<Contact>) results.values;
+            mListDebtors = (ArrayList<String>) results.values;
             notifyDataSetChanged();
         }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvDefaultContactImage, tvContactName;
+        private TextView tvDefaultStringImage, tvStringName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvDefaultContactImage = itemView.findViewById(R.id.tvDefaultContactImage);
-            tvContactName = itemView.findViewById(R.id.tvContactName);
+            tvDefaultStringImage = itemView.findViewById(R.id.tvDefaultContactImage);
+            tvStringName = itemView.findViewById(R.id.tvContactName);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,7 +128,7 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
                     try {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mOnClickContact.onClickContact(mListDebtors.get(position));
+                            mOnClickString.onClickContact(mListDebtors.get(position));
                         }
                     } catch (Exception e) {
                         AppUtils.handlerException(e);
@@ -144,6 +139,6 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
     }
 
     public interface IOnClickContact {
-        void onClickContact(Contact contact);
+        void onClickContact(String String);
     }
 }

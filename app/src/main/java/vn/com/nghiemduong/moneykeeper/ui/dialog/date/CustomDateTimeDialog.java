@@ -26,12 +26,14 @@ import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 public class CustomDateTimeDialog extends Dialog implements View.OnClickListener,
         CustomDateTimeDialogMvpView {
     public final static int KEY_CALENDAR = 873;
+    public final static int KEY_JUST_CALENDAR = 874;
     public final static int KEY_WATCH = 872;
+
 
     private CalendarView calendarView;
     private TimePicker timePicker;
     private int mKey;
-    private Button btnCurrentDate, btnCloseDate, btnSaveDate;
+    private TextView btnCurrentDate;
     private TextView tvTime, tvDate;
     private ImageView ivTime;
     private String mDate, mTime;
@@ -83,10 +85,10 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
         btnCurrentDate = findViewById(R.id.btnCurrentDate);
         btnCurrentDate.setOnClickListener(this);
 
-        btnCloseDate = findViewById(R.id.btnCloseDate);
+        TextView btnCloseDate = findViewById(R.id.btnCloseDate);
         btnCloseDate.setOnClickListener(this);
 
-        btnSaveDate = findViewById(R.id.btnSaveDate);
+        TextView btnSaveDate = findViewById(R.id.btnSaveDate);
         btnSaveDate.setOnClickListener(this);
 
         tvTime = findViewById(R.id.tvTime);
@@ -132,6 +134,16 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
             ivTime.setColorFilter(mContext.getResources().getColor(R.color.white));
             tvDate.setTextColor(mContext.getResources().getColor(R.color.gray_image_bottom_sheet));
         }
+
+        if (mKey == KEY_JUST_CALENDAR) {
+            timePicker.setVisibility(View.GONE);
+            rlCenterTimePicker.setVisibility(View.GONE);
+            calendarView.setVisibility(View.VISIBLE);
+            btnCurrentDate.setText(R.string.today);
+            tvTime.setVisibility(View.GONE);
+            ivTime.setVisibility(View.GONE);
+            tvDate.setTextColor(mContext.getResources().getColor(R.color.white));
+        }
     }
 
     @Override
@@ -144,11 +156,12 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
                     timePicker.setCurrentMinute(date.getMinutes());
                 }
 
-                if (mKey == KEY_CALENDAR) {
+                if (mKey == KEY_CALENDAR || mKey == KEY_JUST_CALENDAR) {
                     calendarView.setDate(date.getTime());
                     mDate = UtilsPlus.getDateCurrent();
                     tvDate.setText(mDate);
                 }
+
                 break;
 
             case R.id.btnCloseDate: // Đóng
@@ -156,7 +169,12 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
                 break;
 
             case R.id.btnSaveDate: // Chọn lưu ngày, thời gian được chọn
-                mOnClickSaveDateTime.saveDateTime(mDate, mTime);
+                if (mKey == KEY_JUST_CALENDAR) {
+                    mOnClickSaveDateTime.saveDateDuration(mDate);
+                } else {
+                    mOnClickSaveDateTime.saveDateTime(mDate, mTime);
+                }
+
                 dismiss();
                 break;
 
@@ -200,5 +218,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
 
     public interface IOnClickSaveDateTime {
         void saveDateTime(String date, String time);
+
+        void saveDateDuration(String dateDuration);
     }
 }

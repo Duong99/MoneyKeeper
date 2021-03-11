@@ -19,7 +19,9 @@ public class AppConstants {
     // Path
     public static final String PATH_THU = "assets/ImageCategory/THU/";
     public static final String PATH_CHI = "assets/ImageCategory/CHI/";
-    public static final String PATH_UN_KNOW = "assets/ImageCategory/CHI/CHI_UnKnow.png";
+    public static final String PATH_UN_KNOW = PATH_CHI + "CHI_UnKnow.png";
+    public static final String PATH_CHUYEN_KHOAN = PATH_CHI + "CHI_phi_chuyen_khoan.png";
+
 
     // Loại tiền
     public static final String VND = "VND";

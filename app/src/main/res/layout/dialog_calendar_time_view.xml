@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:gravity="center_horizontal"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -50,15 +52,15 @@
         </RelativeLayout>
     </LinearLayout>
 
-
     <CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="350dp" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rlCenterTimePicker"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="350dp">
 
         <TimePicker
@@ -71,38 +73,51 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:gravity="center"
+        android:weightSum="5"
+        android:orientation="horizontal"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/height_item_plus">
 
-        <Button
-            android:gravity="center"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/btnCloseDate"
+        <TextView
+            android:textAllCaps="true"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_weight="3"
             android:id="@+id/btnCurrentDate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:text="@string/today"
-            android:textColor="@color/green" />
+            android:layout_height="@dimen/height_item_plus"
+            android:paddingStart="@dimen/padding_large"
+            android:gravity="start|center_vertical"
+            android:text="@string/current_time"
+            android:textColor="@color/green"
+            android:textSize="@dimen/font_medium"
+            tools:ignore="NestedWeights,RtlSymmetry" />
 
-        <Button
+        <TextView
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_weight="1"
+            android:textSize="@dimen/font_medium"
             android:id="@+id/btnCloseDate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/btnSaveDate"
-            android:background="@color/white"
+            android:layout_height="@dimen/height_item_plus"
             android:text="@string/close"
             android:textColor="@color/red" />
 
-        <Button
+        <TextView
+            android:gravity="center"
             android:id="@+id/btnSaveDate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:background="@color/white"
+            android:layout_height="@dimen/height_item_plus"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_weight="1"
             android:text="@string/save"
-            android:textColor="@color/blue" />
-    </RelativeLayout>
-
+            android:textAllCaps="true"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/font_medium" />
+    </LinearLayout>
 </LinearLayout>

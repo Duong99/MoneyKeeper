@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rlLayoutDebtor"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlLayoutDebtor"
     android:layout_width="match_parent"
-    android:background="@drawable/bg_select_ripple_gray"
-    android:layout_height="@dimen/height_item_plus">
-
-    <RelativeLayout
-        android:id="@+id/rlImageLender"
-        android:layout_width="@dimen/width_item_image_plus"
-        android:layout_height="@dimen/height_item_plus">
-
-        <ImageView
-            android:layout_centerInParent="true"
-            android:id="@+id/ivDebtor"
-            android:layout_width="@dimen/height_width_ic_select_image"
-            android:layout_height="@dimen/height_width_ic_select_image"
-            android:background="@drawable/ic_person"
-            android:backgroundTint="@color/black_text_normal_default" />
-    </RelativeLayout>
+    android:layout_height="@dimen/height_item_plus"
+    android:background="@drawable/bg_select_ripple_gray">
 
     <ImageView
         android:id="@+id/ivArrowDebtor"
@@ -31,28 +17,50 @@
         android:background="@drawable/ic_arrow_right"
         android:backgroundTint="@color/black_text_normal" />
 
-    <com.doodle.android.chips.ChipsView
-        android:layout_toStartOf="@id/ivArrowDebtor"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/rlImageLender"
-        android:layout_gravity="center_vertical"
-        app:cv_text_hint="@string/who_with_pay"
-        android:background="@color/white"
+    <RelativeLayout
+        android:id="@+id/rlImageLender"
+        android:layout_width="@dimen/width_item_image_plus"
+        android:layout_height="@dimen/height_item_plus">
 
-        android:id="@+id/chipViewDebtor"
-        android:paddingStart="@dimen/padding_large"
-        app:cv_max_height="@dimen/height_item_plus"
-        app:cv_icon_delete="@drawable/ic_delete"
+        <ImageView
+            android:id="@+id/ivDebtor"
+            android:layout_width="@dimen/height_width_ic_select_image"
+            android:layout_height="@dimen/height_width_ic_select_image"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_person"
+            android:backgroundTint="@color/black_text_normal_default" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_item_plus"
-        tools:ignore="RtlSymmetry" />
+        android:layout_toStartOf="@id/ivArrowDebtor"
+        android:layout_toEndOf="@id/rlImageLender">
 
+        <TextView
+            android:id="@+id/tvDebtor"
+            style="@style/TextViewNormalBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/please_choose_debtor"
+            android:textColor="@color/text_unvalue" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDebtor"
+            style="@style/Widget.MaterialComponents.Chip.Entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
     <include
-        android:layout_alignParentBottom="true"
         layout="@layout/view_line"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
         android:layout_toEndOf="@id/rlImageLender" />
 
 </RelativeLayout>

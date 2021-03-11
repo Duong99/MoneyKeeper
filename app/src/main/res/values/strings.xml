@@ -155,6 +155,34 @@
     <string name="delete_collect_success">Xóa thu tiền thành công</string>
     <string name="delete_collect_fail">Xóa thu tiền thất bại</string>
 
+    <string name="insert_debt_collect_success">Thêm thu nợ thành công</string>
+    <string name="insert_debt_collect_fail">Thêm thu nợ thất bại</string>
+    <string name="update_debt_collect_success">Sửa thu nợ thành công</string>
+    <string name="update_debt_collect_fail">Sửa thu nợ thất bại</string>
+    <string name="delete_debt_collect_success">Xóa thu nợ thành công</string>
+    <string name="delete_debt_collect_fail">Xóa thu nợ thất bại</string>
+
+    <string name="insert_debt_pay_success">Thêm trả nợ thành công</string>
+    <string name="insert_debt_pay_fail">Thêm trả nợ thất bại</string>
+    <string name="update_debt_pay_success">Sửa trả nợ thành công</string>
+    <string name="update_debt_pay_fail">Sửa trả nợ thất bại</string>
+    <string name="delete_debt_pay_success">Xóa trả nợ thành công</string>
+    <string name="delete_debt_pay_fail">Xóa trả nợ thất bại</string>
+
+    <string name="insert_loan_success">Thêm cho vay thành công</string>
+    <string name="insert_loan_fail">Thêm cho vay thất bại</string>
+    <string name="update_loan_success">Sửa cho vay thành công</string>
+    <string name="update_loan_fail">Sửa cho vay thất bại</string>
+    <string name="delete_loan_success">Xóa cho vay thành công</string>
+    <string name="delete_loan_fail">Xóa cho vay thất bại</string>
+
+    <string name="insert_borrow_success">Thêm cho vay thành công</string>
+    <string name="insert_borrow_fail">Thêm cho vay thất bại</string>
+    <string name="update_borrow_success">Sửa cho vay thành công</string>
+    <string name="update_borrow_fail">Sửa cho vay thất bại</string>
+    <string name="delete_borrow_success">Xóa cho vay thành công</string>
+    <string name="delete_borrow_fail">Xóa cho vay thất bại</string>
+
     <string name="insert_transfer_success">Thêm chuyển khoản thành công</string>
     <string name="insert_transfer_fail">Thêm chuyển khoản thất bại</string>
     <string name="update_transfer_success">Sửa chuyển khoản thành công</string>
@@ -172,6 +200,9 @@
     <string name="edit">Sửa</string>
     <string name="setting">Cài đặt</string>
     <string name="delete">Xóa</string>
+    <string name="success">thành công</string>
+    <string name="fail">thất bại</string>
+
     <string name="stop_using">Ngừng sử dụng</string>
 
     <string name="no">Không</string>
@@ -191,8 +222,10 @@
     // Phí
     <string name="fee">Phí</string>
     <string name="take_a_loan_to_pay_this_amount">Đi vay để trả khoản này</string>
-    <string name="lender">Người cho vay</string>
     <string name="repayment_date">Ngày trả nợ</string>
+    <string name="lender">Người cho vay</string>
+    <string name="borrower">Người vay</string>
+
 
     // Dialog calendar, time
     <string name="current_time">Giờ hiện tại</string>
@@ -237,6 +270,7 @@
     <string name="category_parent">Hạng mục cha</string>
 
     <string name="transfer_to_account">Chuyển khoản tới tài khoản …</string>
+    <string name="attached_photo">(Có ảnh đính kèm)</string>
 
     // Toast
     <string name="error_writing">Đã ghi thất bại</string>

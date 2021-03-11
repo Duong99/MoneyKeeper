@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -76,6 +78,17 @@ public class PlusPresenter implements PlusMvpPresenter {
         }
     }
 
+    @Override
+    public void doGetBundleRecord(Fragment fg) {
+        Record record = null;
+        if (fg != null) {
+            if (fg.getArguments() != null) {
+                record = (Record) fg.getArguments().getSerializable("BUNDLE_RECORD");
+            }
+        }
+        mPlusMvpView.resultGetBundleRecord(record);
+    }
+
     /**
      * Lấy giá trị hạng mục được chọn
      *
@@ -118,6 +131,18 @@ public class PlusPresenter implements PlusMvpPresenter {
     public void doGetAccountFirstFromDB(Context context) {
         mPlusMvpView.resultGetAccountFirstFromDB(
                 new AccountDatabase(context).getAccountFirstly());
+    }
+
+    /**
+     * Hàm lấy dữ liệu người vay nợ
+     *
+     * @created_by nxduong on 11/3/2021
+     */
+    @Override
+    public void doGetDebtor(Intent data) {
+        String debtor = (String) Objects.requireNonNull(data.getBundleExtra("BUNDLE"))
+                .getSerializable("BUNDLE_CONTACT");
+        mPlusMvpView.resultChooseDebtor(debtor);
     }
 
     /**
@@ -165,7 +190,6 @@ public class PlusPresenter implements PlusMvpPresenter {
                 mPlusMvpView.showCustomToastChooseToAccountWarring(
                         mContext.getString(R.string.please_choose_to_account));
             } else { // Thêm chuyển khoản
-
                 record = new Record(amount, mAccount.getAccountId(), mToAccount.getAccountId(),
                         explain, date, time, report, image, recordConstant);
                 long insert = mRecordDatabase.insertRecord(record);
@@ -187,15 +211,58 @@ public class PlusPresenter implements PlusMvpPresenter {
                         mContext.getString(R.string.please_choose_account));
             } else {
                 if (recordConstant == AppConstants.THU_NO || recordConstant == AppConstants.TRA_NO) {
-                    if (debtor == null) {
+                    if (debtor.equals("")) {
                         mPlusMvpView.showCustomToastChooseDebtorWarring(
                                 mContext.getString(R.string.please_choose_debtor));
-                    } else {
-
+                    } else { // Thêm thu nợ, trả nợ
+                        record = new Record(amount, mCategory.getCategoryId(), debtor, explain, date, time,
+                                mAccount.getAccountId(), image, recordConstant);
+                        long insert = mRecordDatabase.insertRecord(record);
+                        if (insert == DBUtils.checkDBFail) {
+                            if (recordConstant == AppConstants.THU_NO) {
+                                mPlusMvpView.saveRecordFail(
+                                        mContext.getString(R.string.insert_debt_collect_fail));
+                            } else { // trả nợ
+                                mPlusMvpView.saveRecordFail(
+                                        mContext.getString(R.string.insert_debt_pay_fail));
+                            }
+                        } else {
+                            if (recordConstant == AppConstants.THU_NO) {
+                                mPlusMvpView.saveRecordSuccess(
+                                        mContext.getString(R.string.insert_debt_collect_success));
+                            } else { // thu tiền
+                                mPlusMvpView.saveRecordSuccess(
+                                        mContext.getString(R.string.insert_debt_pay_success));
+                            }
+                        }
                     }
                 } else {
                     if (recordConstant == AppConstants.DI_VAY || recordConstant == AppConstants.CHO_VAY) {
-
+                        if (debtor.equals("")) {
+                            mPlusMvpView.showCustomToastChooseDebtorWarring(
+                                    mContext.getString(R.string.please_choose_debtor));
+                        } else {
+                            record = new Record(amount, mCategory.getCategoryId(), debtor, explain, date, time,
+                                    mAccount.getAccountId(), dateDuration, image, recordConstant);
+                            long insert = mRecordDatabase.insertRecord(record);
+                            if (insert == DBUtils.checkDBFail) {
+                                if (recordConstant == AppConstants.DI_VAY) {
+                                    mPlusMvpView.saveRecordFail(
+                                            mContext.getString(R.string.insert_borrow_fail));
+                                } else { // cho vay
+                                    mPlusMvpView.saveRecordFail(
+                                            mContext.getString(R.string.insert_loan_fail));
+                                }
+                            } else {
+                                if (recordConstant == AppConstants.DI_VAY) {
+                                    mPlusMvpView.saveRecordSuccess(
+                                            mContext.getString(R.string.insert_borrow_success));
+                                } else { // cho vay
+                                    mPlusMvpView.saveRecordSuccess(
+                                            mContext.getString(R.string.insert_loan_success));
+                                }
+                            }
+                        }
                     } else { // Đối tượng chi tiền và thu tiền
                         record = new Record(amount, mCategory.getCategoryId(), explain, date, time,
                                 mAccount.getAccountId(),

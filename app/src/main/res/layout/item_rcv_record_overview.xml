@@ -31,7 +31,6 @@
             android:layout_height="match_parent">
 
             <TextView
-
                 android:id="@+id/tvCategoryNameRecordOverview"
                 style="@style/TextViewNormalBlack"
                 android:layout_width="wrap_content"
@@ -46,22 +45,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-
         </RelativeLayout>
 
         <RelativeLayout
-
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:layout_marginEnd="@dimen/margin_small"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/margin_small"
+                android:id="@+id/ivAttachFileOverview"
+                android:backgroundTint="@color/text_unvalue"
+                android:background="@drawable/ic_attach_file"
+                android:layout_width="@dimen/height_width_ic_check_spinner"
+                android:layout_height="@dimen/height_width_ic_check_spinner" />
+
             <TextView
-                style="@style/TextViewNormalBlack"
+                android:visibility="gone"
+                android:layout_toEndOf="@id/ivAttachFileOverview"
+                android:id="@+id/tvExplainOverview"
+                style="@style/TextViewNormal"
                 android:textSize="@dimen/font_small"
-                android:id="@+id/tvDateRecordOverview"
                 android:text="@string/unknown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
 
             <ImageView
                 android:layout_marginEnd="@dimen/margin_medium"
@@ -72,12 +82,22 @@
                 android:background="@drawable/ic_wallet" />
 
             <TextView
+                style="@style/TextViewNormal"
                 android:textSize="@dimen/font_small"
                 android:id="@+id/tvAccountNameRecordOverview"
                 android:layout_alignParentEnd="true"
                 android:text="@string/unknown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
         </RelativeLayout>
+
+        <TextView
+            style="@style/TextViewNormal"
+            android:textSize="@dimen/font_small"
+            android:id="@+id/tvDateRecordOverview"
+            android:text="@string/unknown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

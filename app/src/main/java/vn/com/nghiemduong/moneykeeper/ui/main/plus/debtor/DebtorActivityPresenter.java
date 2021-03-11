@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
-import com.doodle.android.chips.model.Contact;
-
 import java.util.ArrayList;
 
 /**
@@ -30,11 +28,10 @@ public class DebtorActivityPresenter implements DebtorActivityMvpPresenter {
     @Override
     public void getAllContactFromDevice() {
         ContentResolver contentResolver = mContext.getContentResolver();
-        String contactId;
         String contactName = null;
-        String phoneNumber = null;
+        String contactId = null;
 
-        ArrayList<Contact> listContacts = new ArrayList<>();
+        ArrayList<String> listContacts = new ArrayList<>();
 
         Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null,
@@ -61,7 +58,7 @@ public class DebtorActivityPresenter implements DebtorActivityMvpPresenter {
                                 .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     }*/
 
-                    listContacts.add(new Contact(contactName, contactName, contactName, contactId, null));
+                    listContacts.add(contactName);
                     //phoneCursor.close();
                 }
             }

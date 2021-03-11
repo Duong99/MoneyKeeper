@@ -138,11 +138,4 @@
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
-
-    <FrameLayout
-        android:visibility="gone"
-        android:id="@+id/framelayoutCategory"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </LinearLayout>

@@ -23,8 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.doodle.android.chips.ChipsView;
+import com.google.android.material.chip.Chip;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 
 import vn.com.nghiemduong.moneykeeper.data.model.db.Record;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
+import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionReportDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
 import vn.com.nghiemduong.moneykeeper.ui.main.category.choose.ChooseCategoryActivity;
@@ -58,7 +60,7 @@ import static android.app.Activity.RESULT_OK;
  **/
 public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnClickListener,
         CustomDateTimeDialog.IOnClickSaveDateTime, AppPermission.IOnRequestPermissionCameraResult,
-        AttentionReportDialog.IOnClickAttentionReportDialog {
+        AttentionReportDialog.IOnClickAttentionReportDialog, AttentionDeleteDialog.IOnClickAttentionDialog {
     private View mView;
     private Spinner spinnerCategories;
     private PlusPresenter mPlusPresenter;
@@ -68,20 +70,21 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     private EditText etInputAmount;
     private ImageView ivImageCategory, ivImageAccount, ivImageSelected,
             ivImageFromAccount, ivImageToAccount;
-    private TextView tvTitleCategory, tvTitleAccount, tvDate, tvTime, tvNameDebtor,
-            tvTitleFromAccount, tvTitleToAccount;
+    private TextView tvTitleCategory, tvTitleAccount, tvDate, tvTime, tvDateDuration,
+            tvTitleFromAccount, tvTitleToAccount, tvDebtor;
     private EditText etExplain;
     private Account mAccount, mToAccount;
     private Category mCategory;
-    private LinearLayout llSelectImage;
+    private LinearLayout llSelectImage, llDelete;
     private RelativeLayout rlContentImage, rlLayoutDebtor, rlLayoutDuration,
             rlLayoutTransferAccount, rlChooseCategory, rlChooseAccount;
 
     private CategoryDatabase mCategoryDatabase;
-    private RecordDatabase mRecordDatabase;
+    private Record mRecord;
 
     private Bitmap imageBitmap;
-    private ChipsView chipViewDebtor;
+    private Chip chipDebtor;
+    private String mDebtor = "", mDateDuration = "";
     private int recordConstant = AppConstants.CHI_TIEN; // Biến ghi chép giúp biết dươc ghi chép cái gì, Chi tiền, trả tiền ....
 
     public PlusFragment() {
@@ -102,6 +105,33 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 if (isChecked) {
                     new AttentionReportDialog(Objects.requireNonNull(getContext()),
                             PlusFragment.this).show();
+                }
+            }
+        });
+
+        chipDebtor.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDebtor = "";
+                chipDebtor.setVisibility(View.GONE);
+                tvDebtor.setVisibility(View.VISIBLE);
+            }
+        });
+
+        chipDebtor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intentDebtor = new Intent(getContext(), DebtorActivity.class);
+                    if (recordConstant == AppConstants.CHO_VAY || recordConstant == AppConstants.THU_NO) {
+                        startActivityForResult(intentDebtor, DebtorActivity.REQUEST_CODE_CHOOSE_BORROWER);
+                    }
+
+                    if (recordConstant == AppConstants.DI_VAY || recordConstant == AppConstants.TRA_NO) {
+                        startActivityForResult(intentDebtor, DebtorActivity.REQUEST_CODE_CHOOSE_LENDER);
+                    }
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
                 }
             }
         });
@@ -144,7 +174,6 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                         mPlusPresenter.initView(AppConstants.CHUYEN_KHOAN);
                         break;
                 }
-
             }
 
             @Override
@@ -177,8 +206,10 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         rlLayoutDebtor = mView.findViewById(R.id.rlLayoutDebtor);
         rlLayoutDebtor.setOnClickListener(this);
 
-        chipViewDebtor = mView.findViewById(R.id.chipViewDebtor);
-        chipViewDebtor.setEnabled(false);
+        chipDebtor = mView.findViewById(R.id.chipDebtor);
+        chipDebtor.setCheckedIconVisible(false);
+        tvDebtor = mView.findViewById(R.id.tvDebtor);
+
         // Chuyển khoản
         rlLayoutTransferAccount = mView.findViewById(R.id.rlLayoutTransferAccount);
         RelativeLayout rlChooseFromAccount = mView.findViewById(R.id.rlChooseFromAccount);
@@ -213,7 +244,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         // Thời hạn
         rlLayoutDuration = mView.findViewById(R.id.rlLayoutDuration);
         rlLayoutDuration.setOnClickListener(this);
-
+        tvDateDuration = mView.findViewById(R.id.tvDateDuration);
+        //tvDateDuration.setText(UtilsPlus.getDateCurrent());
         swNotIncludeReport = mView.findViewById(R.id.swNotIncludeReport);
 
         // Ảnh
@@ -229,7 +261,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         rlContentImage = mView.findViewById(R.id.rlContentImage);
         ivImageSelected = mView.findViewById(R.id.ivImageSelected);
 
-        LinearLayout llDelete = mView.findViewById(R.id.llDelete);
+        llDelete = mView.findViewById(R.id.llDelete);
         llDelete.setOnClickListener(this);
 
         LinearLayout llSave = mView.findViewById(R.id.llSave);
@@ -239,10 +271,18 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         ivSaveDonePlus.setOnClickListener(this);
 
         mCategoryDatabase = new CategoryDatabase(getContext());
-        mRecordDatabase = new RecordDatabase(getContext());
+        mPlusPresenter.doGetBundleRecord(this);
 
         spinnerCategories = mView.findViewById(R.id.spinnerCategories);
         mPlusPresenter.addCategories();
+    }
+
+    @Override
+    public void resultGetBundleRecord(Record record) {
+        this.mRecord = record;
+        if (mRecord != null) {
+            llDelete.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -269,7 +309,6 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         } else {
             spinnerCategories.setSelection(0);
         }
-
     }
 
     /**
@@ -287,6 +326,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         rlChooseAccount.setVisibility(View.VISIBLE);
         rlLayoutDebtor.setVisibility(View.VISIBLE);
         rlLayoutDuration.setVisibility(View.GONE);
+        tvDebtor.setText(getString(R.string.lender));
 
         rlLayoutTransferAccount.setVisibility(View.GONE); // Ẩn chuyển tài khoản
     }
@@ -334,6 +374,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         rlChooseAccount.setVisibility(View.VISIBLE);
         rlLayoutDebtor.setVisibility(View.VISIBLE);
         rlLayoutDuration.setVisibility(View.GONE);
+        tvDebtor.setText(getString(R.string.borrower));
 
         rlLayoutTransferAccount.setVisibility(View.GONE); // Ẩn chuyển tài khoản
     }
@@ -353,6 +394,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             rlChooseAccount.setVisibility(View.VISIBLE);
             rlLayoutDebtor.setVisibility(View.VISIBLE);
             rlLayoutDuration.setVisibility(View.VISIBLE);
+
+            tvDebtor.setText(getString(R.string.borrower));
 
             rlLayoutTransferAccount.setVisibility(View.GONE); // Ẩn chuyển tài khoản
 
@@ -384,6 +427,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             rlLayoutDebtor.setVisibility(View.VISIBLE);
             rlLayoutDuration.setVisibility(View.VISIBLE);
 
+            tvDebtor.setText(getString(R.string.lender));
+
             rlLayoutTransferAccount.setVisibility(View.GONE);// Ẩn chuyển tài khoản
 
             // set hạng mục đi vay
@@ -397,8 +442,6 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         } else {
             spinnerCategories.setSelection(3);
         }
-
-
     }
 
     @Override
@@ -438,7 +481,18 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             case R.id.rlLayoutDebtor: // Chọn người vay nợ
                 try {
                     Intent intentDebtor = new Intent(getContext(), DebtorActivity.class);
-                    startActivityForResult(intentDebtor, DebtorActivity.REQUEST_CODE_CHOOSE_DEBTOR);
+                    if (recordConstant == AppConstants.CHO_VAY || recordConstant == AppConstants.THU_NO) {
+                        intentDebtor.putExtra(DebtorActivity.KEY_CONTACT_ACTIVITY_TYPE,
+                                DebtorActivity.REQUEST_CODE_CHOOSE_BORROWER);
+                        startActivityForResult(intentDebtor, DebtorActivity.REQUEST_CODE_CHOOSE_BORROWER);
+                    }
+
+                    if (recordConstant == AppConstants.DI_VAY || recordConstant == AppConstants.TRA_NO) {
+                        intentDebtor.putExtra(DebtorActivity.KEY_CONTACT_ACTIVITY_TYPE,
+                                DebtorActivity.REQUEST_CODE_CHOOSE_LENDER);
+                        startActivityForResult(intentDebtor, DebtorActivity.REQUEST_CODE_CHOOSE_LENDER);
+                    }
+
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -450,7 +504,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     Bundle bundleChooseAccount = new Bundle();
                     bundleChooseAccount.putSerializable("BUNDLE_ACCOUNT", mAccount);
                     intentChooseAccount.putExtra("BUNDLE", bundleChooseAccount);
-                    startActivityForResult(intentChooseAccount, ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT);
+                    startActivityForResult(intentChooseAccount,
+                            ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT);
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -478,6 +533,17 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 }
                 break;
 
+            case R.id.rlLayoutDuration: // thời ngày thời hạn
+                try {
+                    new CustomDateTimeDialog(Objects.requireNonNull(getContext()),
+                            CustomDateTimeDialog.KEY_JUST_CALENDAR,
+                            tvDateDuration.getText().toString(), tvTime.getText().toString(),
+                            this).show();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+                break;
+
             case R.id.rlSelectFolder: // Chọn ảnh từ thư mục
                 try {
                     Intent intentFolder = new Intent(Intent.ACTION_PICK);
@@ -490,7 +556,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
             case R.id.rlSelectCamera: // Chọn ảnh bằng chụp ảnh từ camera
                 try {
-                    new AppPermission().requestCameraPermission(getContext(), this);
+                    new AppPermission().requestCameraPermission(getContext(),
+                            this);
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -533,7 +600,12 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 break;
 
             case R.id.llDelete:
-
+                try {
+                    new AttentionDeleteDialog(getContext(), this,
+                            AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
                 break;
 
             case R.id.llSave:
@@ -550,10 +622,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
                     byte[] image = AppUtils.convertBitmapToByteArray(imageBitmap);
 
-                    String debtor = "";
-                    String dateDuration = "";
-                    mPlusPresenter.saveRecord(amount, mCategory, debtor, explain, date, time,
-                            mAccount, mToAccount, dateDuration, report, image, recordConstant);
+                    mPlusPresenter.saveRecord(amount, mCategory, mDebtor, explain, date, time,
+                            mAccount, mToAccount, mDateDuration, report, image, recordConstant);
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -574,6 +644,11 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                         requestCode == ChooseAccountActivity.REQUEST_CODE_TO_ACCOUNT ||
                         requestCode == ChooseAccountActivity.REQUEST_CODE_FROM_ACCOUNT) {
                     mPlusPresenter.doGetChooseAccount(data, requestCode);
+                }
+
+                if (requestCode == DebtorActivity.REQUEST_CODE_CHOOSE_LENDER ||
+                        requestCode == DebtorActivity.REQUEST_CODE_CHOOSE_BORROWER) {
+                    mPlusPresenter.doGetDebtor(data);
                 }
 
                 if (requestCode == AppConstants.REQUEST_CODE_IMAGE_FROM_FOLDER) {
@@ -634,6 +709,19 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             ivImageCategory.setBackground(getResources().getDrawable(R.drawable.ic_help_white));
             tvTitleCategory.setText(getResources().getString(R.string.select_item));
             tvTitleCategory.setTextColor(getResources().getColor(R.color.text_unvalue));
+        }
+    }
+
+    @Override
+    public void resultChooseDebtor(String debtor) {
+        this.mDebtor = debtor;
+        if (!mDebtor.equals("")) {
+            tvDebtor.setVisibility(View.GONE);
+            chipDebtor.setVisibility(View.VISIBLE);
+            chipDebtor.setText(mDebtor);
+        } else {
+            chipDebtor.setVisibility(View.GONE);
+            tvDebtor.setVisibility(View.VISIBLE);
         }
     }
 
@@ -701,7 +789,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
     @Override
     public void showCustomToastChooseDebtorWarring(String message) {
-
+        showCustomToast(message, AppConstants.TOAST_WARRING);
+        tvDebtor.setTextColor(getResources().getColor(R.color.text_warring));
     }
 
     @Override
@@ -729,6 +818,13 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     public void saveDateTime(String date, String time) {
         tvDate.setText(date);
         tvTime.setText(time);
+    }
+
+    @Override
+    public void saveDateDuration(String dateDuration) {
+        this.mDateDuration = dateDuration;
+        tvDateDuration.setText(mDateDuration);
+        tvDateDuration.setTextColor(getResources().getColor(R.color.text_valuable));
     }
 
     /**
@@ -763,5 +859,24 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 account.getAccountTypePath(), Objects.requireNonNull(getContext())));
         tvTitleAccount.setText(mAccount.getAccountName());
         tvTitleAccount.setTextColor(getResources().getColor(R.color.text_valuable));
+    }
+
+    @Override
+    public void onClickYesDelete() {
+        try {
+            if (mRecord != null) {
+                long delete = new RecordDatabase(getContext()).deleteRecord(mRecord);
+                if (delete == DBUtils.checkDBFail) {
+                    showCustomToast(getString(R.string.delete) +
+                            " " + getString(R.string.fail), AppConstants.TOAST_ERROR);
+                } else {
+                    showCustomToast(getString(R.string.delete) +
+                            " " + getString(R.string.success), AppConstants.TOAST_SUCCESS);
+                    onBackPressed();
+                }
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
     }
 }

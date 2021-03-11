@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,7 +26,7 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * - @created_by nxduong on 21/1/2021
  **/
 
-public class MainActivity extends BaseActivity implements MainMvpView {
+public class MainActivity extends BaseActivity implements MainMvpView, View.OnClickListener {
     private HackyViewPager hvpMain;
     private BottomNavigationAdapter mNavigationAdapter;
     private BottomNavigationView bnvMain;
@@ -97,6 +98,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
         bnvMain = findViewById(R.id.bnvMain);
         fabPlusMain = findViewById(R.id.fabPlusMain);
+        fabPlusMain.setOnClickListener(this);
         fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
 
         mNavigationAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
@@ -107,5 +109,21 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
     public ArrayList<Account> getAllAccount() {
         return mAccountMoneyDatabase.getAllAccount();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fabPlusMain:
+                try {
+
+                    fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(
+                            getResources().getColor(R.color.blue)));
+                    hvpMain.setCurrentItem(2, true);
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
+                break;
+        }
     }
 }
