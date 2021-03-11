@@ -32,4 +32,20 @@ public interface PlusMvpView {
     void resultChooseAccount(Account account, int request_code);
 
     void resultGetAccountFirstFromDB(Account account);
+
+    void showCustomToastChooseCategoryWarring(String message);
+
+    void showCustomToastChooseAccountWarring(String message);
+
+    void showCustomToastChooseFromAccountWarring(String message);
+
+    void showCustomToastChooseToAccountWarring(String message);
+
+    void showCustomToastChooseDebtorWarring(String message);
+
+    void showCustomToastChooseDateDurationWarring(String message);
+
+    void saveRecordSuccess(String message);
+
+    void saveRecordFail(String message);
 }

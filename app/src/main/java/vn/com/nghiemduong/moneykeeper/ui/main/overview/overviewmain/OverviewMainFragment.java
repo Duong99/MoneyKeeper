@@ -2,7 +2,6 @@ package vn.com.nghiemduong.moneykeeper.ui.main.overview.overviewmain;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,10 +22,6 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -35,8 +30,8 @@ import java.util.Objects;
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerStageAdapter;
 
-import vn.com.nghiemduong.moneykeeper.data.db.moneyPay.PayDatabase;
-import vn.com.nghiemduong.moneykeeper.data.db.transfer.TransferDatabase;
+import vn.com.nghiemduong.moneykeeper.adapter.RecordOverviewAdapter;
+import vn.com.nghiemduong.moneykeeper.data.db.record.RecordDatabase;
 
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
@@ -61,11 +56,10 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
             tvTotalAmountSpendingStages;
     private ImageView ivVisibilityTotalMoney, ivChartCollect, ivChartSpending;
     private Spinner spnStage;
-    private TransferDatabase mTransferDatabase;
     private MainActivity mMainActivity;
     private PieChart pieChart;
-    private PayDatabase mMoneyPayDatabase;
-    private RecyclerView rcvRecentNotes;
+    private RecordDatabase mRecordDatabase;
+    private RecyclerView rcvRecentRecord;
 
     private OverviewMainPresenter mOverviewMainPresenter;
 
@@ -137,8 +131,8 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
         tvTotalMoneyHidden = mView.findViewById(R.id.tvTotalMoneyHidden);
 
         spnStage = mView.findViewById(R.id.spnStage);
-        rcvRecentNotes = mView.findViewById(R.id.rcvRecentNotes);
-        rcvRecentNotes.setNestedScrollingEnabled(false);
+        rcvRecentRecord = mView.findViewById(R.id.rcvRecentRecord);
+        rcvRecentRecord.setNestedScrollingEnabled(false);
         AccountFragmentPresenter mAccountFragmentPresenter = new AccountFragmentPresenter(this);
         mAccountFragmentPresenter.doSumOfMoneyOfAllAccount(mMainActivity.getAllAccount());
 
@@ -153,12 +147,13 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
 
         pieChart.setDrawEntryLabels(true);
 
-        mMoneyPayDatabase = new PayDatabase(getContext());
-        mTransferDatabase = new TransferDatabase(getContext());
+        mRecordDatabase = new RecordDatabase(getContext());
+
         //mListMoneyPays = new ArrayList<>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        rcvRecentNotes.setLayoutManager(layoutManager);
+        rcvRecentRecord.setLayoutManager(layoutManager);
+        rcvRecentRecord.setAdapter(new RecordOverviewAdapter(getContext(), mRecordDatabase.getAllRecord()));
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

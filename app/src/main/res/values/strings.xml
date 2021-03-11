@@ -155,6 +155,13 @@
     <string name="delete_collect_success">Xóa thu tiền thành công</string>
     <string name="delete_collect_fail">Xóa thu tiền thất bại</string>
 
+    <string name="insert_transfer_success">Thêm chuyển khoản thành công</string>
+    <string name="insert_transfer_fail">Thêm chuyển khoản thất bại</string>
+    <string name="update_transfer_success">Sửa chuyển khoản thành công</string>
+    <string name="update_transfer_fail">Sửa chuyển khoản thất bại</string>
+    <string name="delete_transfer_success">Xóa chuyển khoản thành công</string>
+    <string name="delete_transfer_fail">Xóa chuyển khoản thất bại</string>
+
 
     <string name="note">Chú ý</string>
     <string name="you_want_delete_account">Bạn có muốn xóa tài khoản này không</string>
@@ -236,6 +243,8 @@
     <string name="finished_writing">Đã ghi xong</string>
     <string name="please_choose_category">Vui lòng chọn hạng mục của ghi chép</string>
     <string name="please_choose_account">Vui lòng chọn tài khoản của ghi chép</string>
+    <string name="please_choose_debtor">Vui lòng chọn người vay nợ</string>
+    <string name="please_choose_date_duration">Vui lòng chọn ngày thời hạn</string>
     <string name="data_delete_success">Dữ liệu đã xóa thành công</string>
     <string name="enter_money">Vui lòng nhập số tiền</string>
     <string name="enter_name_category">Vui lòng nhập tên hạng mục</string>

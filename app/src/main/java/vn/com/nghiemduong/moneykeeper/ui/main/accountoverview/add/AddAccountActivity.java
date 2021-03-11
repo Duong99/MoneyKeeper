@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.AccountType;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
@@ -47,7 +47,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
     private ImageView ivImageAccountType;
     private TextView tvTitleAccountType;
     private AccountType mAccountType;
-    private AccountMoneyDatabase mAccountDatabase;
+    private AccountDatabase mAccountDatabase;
     private Account mAccount;
     private int keyAddEditAccount = -1;
 
@@ -88,7 +88,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         ivImageAccountType = findViewById(R.id.ivAccountType);
         tvTitleAccountType = findViewById(R.id.tvAccountType);
         etAccountName = findViewById(R.id.etAccountName);
-        mAccountDatabase = new AccountMoneyDatabase(this);
+        mAccountDatabase = new AccountDatabase(this);
 
         // Kiểm tra xem thực hiện thêm hay sửa
         keyAddEditAccount = getIntent().getIntExtra(KEY_ADD_EDIT_ACCOUNT, -1);

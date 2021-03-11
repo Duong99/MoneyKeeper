@@ -10,7 +10,7 @@
 
         <ImageView
             android:background="@drawable/thu_unknow"
-            android:id="@+id/ivCategoryHistoryNote"
+            android:id="@+id/ivCategoryRecordOverview"
             android:layout_marginStart="@dimen/margin_start_recent_notes"
             android:layout_centerVertical="true"
             android:layout_width="@dimen/height_width_image_note"
@@ -32,7 +32,7 @@
 
             <TextView
 
-                android:id="@+id/tvCategoryNameHistoryNote"
+                android:id="@+id/tvCategoryNameRecordOverview"
                 style="@style/TextViewNormalBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
 
             <TextView
                 android:textSize="@dimen/font_medium"
-                android:id="@+id/tvNumberMoneyHistoryNote"
+                android:id="@+id/tvNumberMoneyRecordOverview"
                 android:layout_alignParentEnd="true"
                 android:text="@string/unknown"
                 android:layout_width="wrap_content"
@@ -58,14 +58,14 @@
             <TextView
                 style="@style/TextViewNormalBlack"
                 android:textSize="@dimen/font_small"
-                android:id="@+id/tvDateHistoryNote"
+                android:id="@+id/tvDateRecordOverview"
                 android:text="@string/unknown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <ImageView
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_toStartOf="@id/tvAccountNameHistoryRecent"
+                android:layout_toStartOf="@id/tvAccountNameRecordOverview"
                 android:layout_width="@dimen/height_width_ic_check_spinner"
                 android:layout_height="@dimen/height_width_ic_check_spinner"
                 android:layout_marginStart="@dimen/margin_start_recent_notes"
@@ -73,7 +73,7 @@
 
             <TextView
                 android:textSize="@dimen/font_small"
-                android:id="@+id/tvAccountNameHistoryRecent"
+                android:id="@+id/tvAccountNameRecordOverview"
                 android:layout_alignParentEnd="true"
                 android:text="@string/unknown"
                 android:layout_width="wrap_content"

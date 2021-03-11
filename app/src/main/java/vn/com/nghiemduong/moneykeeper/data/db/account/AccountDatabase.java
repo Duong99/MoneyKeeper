@@ -18,7 +18,7 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * Lớp thực hiện thêm sửa xóa table Account trong database
  * - @created_by nxduong on 26/1/2021
  **/
-public class AccountMoneyDatabase extends BaseSqLite implements AccountMoneyDatabaseMvpPresenter {
+public class AccountDatabase extends BaseSqLite implements AccountMoneyDatabaseMvpPresenter {
     public final static String NAME_TABLE_ACCOUNT = "tb_Account";
     public final static String ACCOUNT_ID = "accountId";
     private final static String NAME = "accountName";
@@ -31,7 +31,7 @@ public class AccountMoneyDatabase extends BaseSqLite implements AccountMoneyData
 
     private SQLiteDatabase db;
 
-    public AccountMoneyDatabase(@Nullable Context context) {
+    public AccountDatabase(@Nullable Context context) {
         super(context);
     }
 

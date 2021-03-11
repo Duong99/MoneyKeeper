@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.BottomNavigationAdapter;
-import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager;
@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     private BottomNavigationAdapter mNavigationAdapter;
     private BottomNavigationView bnvMain;
     private FloatingActionButton fabPlusMain;
-    private AccountMoneyDatabase mAccountMoneyDatabase;
+    private AccountDatabase mAccountMoneyDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
         mNavigationAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
         hvpMain.setAdapter(mNavigationAdapter);
 
-        mAccountMoneyDatabase = new AccountMoneyDatabase(this);
+        mAccountMoneyDatabase = new AccountDatabase(this);
     }
 
     public ArrayList<Account> getAllAccount() {

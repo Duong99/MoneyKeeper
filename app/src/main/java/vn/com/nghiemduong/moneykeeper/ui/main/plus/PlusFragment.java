@@ -33,10 +33,12 @@ import java.util.Objects;
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerCategoriesArrayAdapter;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.record.RecordDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
 
+import vn.com.nghiemduong.moneykeeper.data.model.db.Record;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionReportDialog;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.date.CustomDateTimeDialog;
@@ -47,6 +49,7 @@ import vn.com.nghiemduong.moneykeeper.ui.main.plus.debtor.DebtorActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
+import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -68,17 +71,18 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     private TextView tvTitleCategory, tvTitleAccount, tvDate, tvTime, tvNameDebtor,
             tvTitleFromAccount, tvTitleToAccount;
     private EditText etExplain;
-    private Account mAccount, mFromAccount, mToAccount;
+    private Account mAccount, mToAccount;
     private Category mCategory;
     private LinearLayout llSelectImage;
     private RelativeLayout rlContentImage, rlLayoutDebtor, rlLayoutDuration,
             rlLayoutTransferAccount, rlChooseCategory, rlChooseAccount;
 
     private CategoryDatabase mCategoryDatabase;
+    private RecordDatabase mRecordDatabase;
 
-    private Bitmap image;
+    private Bitmap imageBitmap;
     private ChipsView chipViewDebtor;
-    private int record = AppConstants.CHI_TIEN; // Biến ghi chép giúp biết dươc ghi chép cái gì, Chi tiền, trả tiền ....
+    private int recordConstant = AppConstants.CHI_TIEN; // Biến ghi chép giúp biết dươc ghi chép cái gì, Chi tiền, trả tiền ....
 
     public PlusFragment() {
     }
@@ -120,13 +124,13 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0: // Chọn màn hình chi tiền
-                        if (record != AppConstants.TRA_NO) {
+                        if (recordConstant != AppConstants.TRA_NO) {
                             mPlusPresenter.initView(AppConstants.CHI_TIEN);
                         }
 
                         break;
                     case 1: // Chọn màn hình thu tiền
-                        if (record != AppConstants.THU_NO) {
+                        if (recordConstant != AppConstants.THU_NO) {
                             mPlusPresenter.initView(AppConstants.THU_TIEN);
                         }
                         break;
@@ -235,6 +239,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         ivSaveDonePlus.setOnClickListener(this);
 
         mCategoryDatabase = new CategoryDatabase(getContext());
+        mRecordDatabase = new RecordDatabase(getContext());
 
         spinnerCategories = mView.findViewById(R.id.spinnerCategories);
         mPlusPresenter.addCategories();
@@ -248,9 +253,10 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     @Override
     public void initViewPay() {
         if (spinnerCategories.getSelectedItemPosition() == 0) {
-            record = AppConstants.CHI_TIEN;
+            recordConstant = AppConstants.CHI_TIEN;
             etInputAmount.setTextColor(getResources().getColor(R.color.input_amount_red_pay));
             rlChooseCategory.setVisibility(View.VISIBLE);
+            rlChooseAccount.setVisibility(View.VISIBLE);
             rlLayoutDebtor.setVisibility(View.GONE);
             rlLayoutDuration.setVisibility(View.GONE);
             rlLayoutTransferAccount.setVisibility(View.GONE); // Ẩn chuyển tài khoản
@@ -274,7 +280,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
     @Override
     public void initViewDebtPay() {
-        record = AppConstants.TRA_NO;
+        recordConstant = AppConstants.TRA_NO;
         spinnerCategories.setSelection(0);
         etInputAmount.setTextColor(getResources().getColor(R.color.input_amount_green_collect));
         rlChooseCategory.setVisibility(View.VISIBLE);
@@ -294,7 +300,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     @Override
     public void initViewCollect() {
         if (spinnerCategories.getSelectedItemPosition() == 1) {
-            record = AppConstants.THU_TIEN;
+            recordConstant = AppConstants.THU_TIEN;
             etInputAmount.setTextColor(getResources().getColor(R.color.input_amount_green_collect));
             rlChooseCategory.setVisibility(View.VISIBLE);
             rlChooseAccount.setVisibility(View.VISIBLE);
@@ -321,7 +327,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
     @Override
     public void initDebtCollect() {
-        record = AppConstants.THU_NO;
+        recordConstant = AppConstants.THU_NO;
         spinnerCategories.setSelection(1);
         etInputAmount.setTextColor(getResources().getColor(R.color.input_amount_green_collect));
         rlChooseCategory.setVisibility(View.VISIBLE);
@@ -340,7 +346,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     @Override
     public void initViewLoan() {
         if (spinnerCategories.getSelectedItemPosition() == 2) {
-            record = AppConstants.CHO_VAY;
+            recordConstant = AppConstants.CHO_VAY;
 
             etInputAmount.setTextColor(getResources().getColor(R.color.input_amount_red_pay));
             rlChooseCategory.setVisibility(View.VISIBLE);
@@ -371,10 +377,10 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     @Override
     public void initViewBorrow() {
         if (spinnerCategories.getSelectedItemPosition() == 3) {
-            record = AppConstants.DI_VAY;
+            recordConstant = AppConstants.DI_VAY;
             etInputAmount.setTextColor(getResources().getColor(R.color.input_amount_green_collect));
             rlChooseCategory.setVisibility(View.VISIBLE);
-            rlChooseCategory.setVisibility(View.VISIBLE);
+            rlChooseAccount.setVisibility(View.VISIBLE);
             rlLayoutDebtor.setVisibility(View.VISIBLE);
             rlLayoutDuration.setVisibility(View.VISIBLE);
 
@@ -494,7 +500,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 try {
                     llSelectImage.setVisibility(View.VISIBLE);
                     rlContentImage.setVisibility(View.GONE);
-                    image = null;
+                    imageBitmap = null;
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -504,7 +510,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 try {
                     Intent intentChooseAccount = new Intent(getContext(), ChooseAccountActivity.class);
                     Bundle bundleChooseAccount = new Bundle();
-                    bundleChooseAccount.putSerializable("BUNDLE_ACCOUNT", mFromAccount);
+                    bundleChooseAccount.putSerializable("BUNDLE_ACCOUNT", mAccount);
                     intentChooseAccount.putExtra("BUNDLE", bundleChooseAccount);
                     startActivityForResult(intentChooseAccount,
                             ChooseAccountActivity.REQUEST_CODE_FROM_ACCOUNT);
@@ -531,9 +537,27 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 break;
 
             case R.id.llSave:
+                try {
+                    int amount = Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount));
+                    String explain = AppUtils.getEditText(etExplain);
+                    String date = tvDate.getText().toString();
+                    String time = tvTime.getText().toString();
 
+                    int report = AppConstants.CO_BAO_CAO;
+                    if (swNotIncludeReport.isChecked()) {
+                        report = AppConstants.KHONG_BAO_CAO;
+                    }
+
+                    byte[] image = AppUtils.convertBitmapToByteArray(imageBitmap);
+
+                    String debtor = "";
+                    String dateDuration = "";
+                    mPlusPresenter.saveRecord(amount, mCategory, debtor, explain, date, time,
+                            mAccount, mToAccount, dateDuration, report, image, recordConstant);
+                } catch (Exception e) {
+                    AppUtils.handlerException(e);
+                }
                 break;
-
         }
     }
 
@@ -555,7 +579,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 if (requestCode == AppConstants.REQUEST_CODE_IMAGE_FROM_FOLDER) {
                     try {
                         Uri uri = data.getData();
-                        image = MediaStore.Images.Media.getBitmap(
+                        imageBitmap = MediaStore.Images.Media.getBitmap(
                                 Objects.requireNonNull(getContext())
                                         .getContentResolver(), uri);
                         setValueImageFolderOrCamera();
@@ -565,7 +589,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 }
 
                 if (requestCode == AppConstants.REQUEST_CODE_IMAGE_FROM_CAMERA) {
-                    image = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+                    imageBitmap = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
                     setValueImageFolderOrCamera();
                 }
             }
@@ -586,7 +610,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     }
 
     private void setValueImageFolderOrCamera() {
-        ivImageSelected.setImageBitmap(image);
+        ivImageSelected.setImageBitmap(imageBitmap);
         llSelectImage.setVisibility(View.GONE);
         rlContentImage.setVisibility(View.VISIBLE);
     }
@@ -627,8 +651,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     setViewAccount(ivImageAccount, tvTitleAccount, mAccount);
                     break;
                 case ChooseAccountActivity.REQUEST_CODE_FROM_ACCOUNT:
-                    this.mFromAccount = account;
-                    setViewAccount(ivImageFromAccount, tvTitleFromAccount, mFromAccount);
+                    this.mAccount = account;
+                    setViewAccount(ivImageFromAccount, tvTitleFromAccount, mAccount);
                     break;
                 case ChooseAccountActivity.REQUEST_CODE_TO_ACCOUNT:
                     this.mToAccount = account;
@@ -649,6 +673,56 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         if (mAccount != null) {
             setViewAccount(ivImageAccount, tvTitleAccount, mAccount);
         }
+    }
+
+    @Override
+    public void showCustomToastChooseCategoryWarring(String message) {
+        showCustomToast(message, AppConstants.TOAST_WARRING);
+        tvTitleCategory.setTextColor(getResources().getColor(R.color.text_warring));
+    }
+
+    @Override
+    public void showCustomToastChooseAccountWarring(String message) {
+        showCustomToast(message, AppConstants.TOAST_WARRING);
+        tvTitleAccount.setTextColor(getResources().getColor(R.color.text_warring));
+    }
+
+    @Override
+    public void showCustomToastChooseFromAccountWarring(String message) {
+        showCustomToast(message, AppConstants.TOAST_WARRING);
+        tvTitleFromAccount.setTextColor(getResources().getColor(R.color.text_warring));
+    }
+
+    @Override
+    public void showCustomToastChooseToAccountWarring(String message) {
+        showCustomToast(message, AppConstants.TOAST_WARRING);
+        tvTitleToAccount.setTextColor(getResources().getColor(R.color.text_warring));
+    }
+
+    @Override
+    public void showCustomToastChooseDebtorWarring(String message) {
+
+    }
+
+    @Override
+    public void showCustomToastChooseDateDurationWarring(String message) {
+
+    }
+
+    @Override
+    public void saveRecordSuccess(String message) {
+        showCustomToast(message, AppConstants.TOAST_SUCCESS);
+        mCategory = null;
+        mToAccount = null;
+        resultChooseAccount(null, ChooseAccountActivity.REQUEST_CODE_TO_ACCOUNT);
+        resultChooseCategory(null);
+        etInputAmount.setText(getString(R.string._0));
+        etExplain.setText(null);
+    }
+
+    @Override
+    public void saveRecordFail(String message) {
+        showCustomToast(message, AppConstants.TOAST_ERROR);
     }
 
     @Override

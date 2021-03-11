@@ -244,7 +244,7 @@
                     android:layout_height="@dimen/height_text_recent_notes" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcvRecentNotes"
+                    android:id="@+id/rcvRecentRecord"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_rcv_recent_notes" />
 

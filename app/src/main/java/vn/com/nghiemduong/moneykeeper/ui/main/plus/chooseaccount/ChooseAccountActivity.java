@@ -12,7 +12,7 @@ import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.AccountChooseAdapter;
-import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 
@@ -31,7 +31,7 @@ public class ChooseAccountActivity extends BaseActivity implements
 
     private RecyclerView rcvChooseAccount;
     private AccountChooseAdapter mAccountAdapter;
-    private AccountMoneyDatabase mAccountMoneyDatabase;
+    private AccountDatabase mAccountMoneyDatabase;
     private Toolbar tbChooseAccount;
 
     @Override
@@ -56,7 +56,7 @@ public class ChooseAccountActivity extends BaseActivity implements
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rcvChooseAccount.setLayoutManager(layoutManager);
 
-        mAccountMoneyDatabase = new AccountMoneyDatabase(this);
+        mAccountMoneyDatabase = new AccountDatabase(this);
 
         Account account = (Account) Objects.requireNonNull(getIntent()
                 .getBundleExtra("BUNDLE")).getSerializable("BUNDLE_ACCOUNT");

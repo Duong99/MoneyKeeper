@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.AccountAdapter;
-import vn.com.nghiemduong.moneykeeper.data.db.account.AccountMoneyDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseFragment;
 import vn.com.nghiemduong.moneykeeper.ui.dialog.attention.AttentionDeleteDialog;
@@ -49,7 +49,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView rcvListAccount;
     private TextView tvTotalMoney, tvTotalMoneyUsing;
     private AccountAdapter mAccountAdapter;
-    private AccountMoneyDatabase mAccountDatabase;
+    private AccountDatabase mAccountDatabase;
     private Account mAccount;
     private int mPosition = -1; // vị trí click tài khoản
     private AccountFragmentPresenter mAccountFragmentPresenter;
@@ -115,7 +115,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
         mAccountFragmentPresenter = new AccountFragmentPresenter(this);
 
-        mAccountDatabase = new AccountMoneyDatabase(getContext());
+        mAccountDatabase = new AccountDatabase(getContext());
         mAccountAdapter = new AccountAdapter(getContext(), mMainActivity.getAllAccount(), this);
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

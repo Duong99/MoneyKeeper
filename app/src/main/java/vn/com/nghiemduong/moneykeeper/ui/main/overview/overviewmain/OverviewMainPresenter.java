@@ -6,8 +6,7 @@ import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 
-import vn.com.nghiemduong.moneykeeper.data.db.moneyPay.PayDatabase;
-import vn.com.nghiemduong.moneykeeper.data.model.db.MoneyPay;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Record;
 
 /**
  * - @created_by nxduong on 2/2/2021
@@ -45,8 +44,8 @@ public class OverviewMainPresenter implements OverviewMainMvpPresenter {
     @Override
     public void doGetTotalAmountFromDB(Context context, String fromDate, String toDate) {
 
-        ArrayList<MoneyPay> moneyCollects = new ArrayList<>();
-        ArrayList<MoneyPay> moneyPays = new ArrayList<>();
+        ArrayList<Record> moneyCollects = new ArrayList<>();
+        ArrayList<Record> moneyPays = new ArrayList<>();
         int totalAmountCollectStages = 0;
         int totalAmountPayStages = 0;
         for (int i = 0; i < moneyCollects.size(); i++) {

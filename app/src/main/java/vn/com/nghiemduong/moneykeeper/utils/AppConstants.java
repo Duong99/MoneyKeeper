@@ -26,7 +26,7 @@ public class AppConstants {
 
     //Có báo cho vào báo cáo không
     public static final int CO_BAO_CAO = 1;
-    public static final int KHONG_BAO_CAO = 0;
+    public static final int KHONG_BAO_CAO = -1;
 
     public static final int REQUEST_CODE_IMAGE_FROM_FOLDER = 211;
     public static final int REQUEST_CODE_IMAGE_FROM_CAMERA = 212;

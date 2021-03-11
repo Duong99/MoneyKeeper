@@ -80,8 +80,7 @@ public class AppUtils {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
-            byte[] image = stream.toByteArray();
-            return image;
+            return stream.toByteArray();
         } catch (Exception e) {
             handlerException(e);
         }

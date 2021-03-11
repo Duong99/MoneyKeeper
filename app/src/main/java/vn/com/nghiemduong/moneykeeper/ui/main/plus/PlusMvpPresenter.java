@@ -22,4 +22,7 @@ public interface PlusMvpPresenter {
 
     void setScreenFunctionWithCategory(Category category);
 
+    void saveRecord(int amount, Category mCategory, String debtor, String explain, String date,
+                    String time, Account mAccount, Account mToAccount, String dateDuration,
+                    int report, byte[] image, int recordConstant);
 }
