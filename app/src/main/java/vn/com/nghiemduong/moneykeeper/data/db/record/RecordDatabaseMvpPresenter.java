@@ -12,6 +12,8 @@ public interface RecordDatabaseMvpPresenter {
 
     ArrayList<Record> searchRecordByDate(String fromDate, String toDate);
 
+    ArrayList<Record> getAllRecordWhereType(int type);
+
     long insertRecord(Record record);
 
     long updateRecord(Record record, int numberMoneyPrevious);

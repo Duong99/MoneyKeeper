@@ -20,6 +20,7 @@ import java.util.TimerTask;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.DebtorAdapter;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Record;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.utils.AppPermission;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
@@ -124,13 +125,13 @@ public class DebtorActivity extends BaseActivity implements DebtorActivityMvpVie
     }
 
     @Override
-    public void resultGetAllContact(ArrayList<String> listContact) {
+    public void resultGetAllContact(ArrayList<Record> listContact) {
         mDebtorAdapter = new DebtorAdapter(this, listContact, this);
         rcvContact.setAdapter(mDebtorAdapter);
     }
 
     @Override
-    public void onClickContact(String contact) {
+    public void onClickContact(Record contact) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("BUNDLE_CONTACT", contact);

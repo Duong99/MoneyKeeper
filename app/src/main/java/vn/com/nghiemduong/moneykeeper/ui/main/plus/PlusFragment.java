@@ -33,6 +33,7 @@ import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.adapter.CustomSpinnerCategoriesArrayAdapter;
+import vn.com.nghiemduong.moneykeeper.data.db.account.AccountDatabase;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
 import vn.com.nghiemduong.moneykeeper.data.db.record.RecordDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.HeaderCategory;
@@ -80,6 +81,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             rlLayoutTransferAccount, rlChooseCategory, rlChooseAccount;
 
     private CategoryDatabase mCategoryDatabase;
+    private AccountDatabase mAccountDatabase;
     private Record mRecord;
 
     private Bitmap imageBitmap;
@@ -235,7 +237,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         // Thời gian
         tvDate = mView.findViewById(R.id.tvDate);
         tvDate.setOnClickListener(this);
-        tvDate.setText(UtilsPlus.getDateCurrent());
+        tvDate.setText(UtilsPlus.getDateCurrent(getActivity()));
 
         tvTime = mView.findViewById(R.id.tvTime);
         tvTime.setOnClickListener(this);
@@ -271,17 +273,67 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         ivSaveDonePlus.setOnClickListener(this);
 
         mCategoryDatabase = new CategoryDatabase(getContext());
-        mPlusPresenter.doGetBundleRecord(this);
+        mAccountDatabase = new AccountDatabase(getContext());
 
         spinnerCategories = mView.findViewById(R.id.spinnerCategories);
         mPlusPresenter.addCategories();
+
+        mPlusPresenter.doGetBundleRecord(this);
     }
 
+    /**
+     * Hàm kiểm tra xem là thêm hay sửa
+     * nếu record = null là thêm ngược lại là sửa
+     *
+     * @param record ghi chép
+     * @created_by nxduong on 11/3/2021
+     */
     @Override
     public void resultGetBundleRecord(Record record) {
         this.mRecord = record;
         if (mRecord != null) {
             llDelete.setVisibility(View.VISIBLE);
+            etInputAmount.setText(String.valueOf(mRecord.getAmount()));
+            etExplain.setText(mRecord.getExplain());
+            tvDate.setText(mRecord.getDate());
+            tvTime.setText(mRecord.getTime());
+
+            mCategory = mCategoryDatabase.getCategory(mRecord.getCategoryId());
+            if (mCategory != null) {
+                resultChooseCategory(mCategory);
+            }
+
+            mDebtor = mRecord.getDebtor();
+            if (mDebtor != null && !mDebtor.equals("")) {
+                chipDebtor.setVisibility(View.VISIBLE);
+                chipDebtor.setText(mDebtor);
+                tvDebtor.setVisibility(View.GONE);
+            }
+
+            mDateDuration = mRecord.getDateDuration();
+            if (mDateDuration != null && !mDateDuration.equals("")) {
+                tvDateDuration.setText(mDateDuration);
+            }
+
+            mAccount = mAccountDatabase.getAccount(mRecord.getAccountId());
+            if (mAccount != null) {
+                resultChooseAccount(mAccount, ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT);
+            }
+
+            mToAccount = mAccountDatabase.getAccount(mRecord.getToAccountId());
+            if (mToAccount != null) {
+                resultChooseAccount(mAccount, ChooseAccountActivity.REQUEST_CODE_TO_ACCOUNT);
+            }
+
+            if (mRecord.getReport() == AppConstants.KHONG_BAO_CAO) {
+                swNotIncludeReport.setChecked(true);
+            }
+
+            imageBitmap = AppUtils.convertByteArrayToBitmap(mRecord.getImage());
+            if (imageBitmap != null) {
+                setValueImageFolderOrCamera();
+            }
+            mPlusPresenter.initView(mRecord.getType());
         }
     }
 
@@ -444,6 +496,12 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         }
     }
 
+    /**
+     * MÀn hình chuyển khoản
+     *
+     * @created_by nxduong on 10/3/2021
+     */
+
     @Override
     public void initViewTransfer() {
         etInputAmount.setTextColor(getResources().getColor(R.color.input_amount_blue_transfer));
@@ -557,7 +615,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             case R.id.rlSelectCamera: // Chọn ảnh bằng chụp ảnh từ camera
                 try {
                     new AppPermission().requestCameraPermission(getContext(),
-                            this);
+                            getActivity(), this);
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
                 }
@@ -612,7 +670,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 try {
                     int amount = Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount));
                     String explain = AppUtils.getEditText(etExplain);
-                    String date = tvDate.getText().toString();
+                    String date = AppUtils.formatDateDefault(tvDate.getText().toString(), getActivity());
                     String time = tvTime.getText().toString();
 
                     int report = AppConstants.CO_BAO_CAO;
@@ -622,7 +680,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
                     byte[] image = AppUtils.convertBitmapToByteArray(imageBitmap);
 
-                    mPlusPresenter.saveRecord(amount, mCategory, mDebtor, explain, date, time,
+                    mPlusPresenter.saveRecord(mRecord, amount, mCategory, mDebtor, explain, date, time,
                             mAccount, mToAccount, mDateDuration, report, image, recordConstant);
                 } catch (Exception e) {
                     AppUtils.handlerException(e);
@@ -685,9 +743,11 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     }
 
     private void setValueImageFolderOrCamera() {
-        ivImageSelected.setImageBitmap(imageBitmap);
-        llSelectImage.setVisibility(View.GONE);
-        rlContentImage.setVisibility(View.VISIBLE);
+        if (imageBitmap != null) {
+            ivImageSelected.setImageBitmap(imageBitmap);
+            llSelectImage.setVisibility(View.GONE);
+            rlContentImage.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -713,8 +773,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     }
 
     @Override
-    public void resultChooseDebtor(String debtor) {
-        this.mDebtor = debtor;
+    public void resultChooseDebtor(Record debtor) {
+        this.mDebtor = debtor.getDebtor();
         if (!mDebtor.equals("")) {
             tvDebtor.setVisibility(View.GONE);
             chipDebtor.setVisibility(View.VISIBLE);
@@ -804,9 +864,13 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         mCategory = null;
         mToAccount = null;
         resultChooseAccount(null, ChooseAccountActivity.REQUEST_CODE_TO_ACCOUNT);
-        resultChooseCategory(null);
+        resultChooseCategory(mCategory);
         etInputAmount.setText(getString(R.string._0));
         etExplain.setText(null);
+
+        if (mRecord != null) {
+            onBackPressed();
+        }
     }
 
     @Override
@@ -816,15 +880,24 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
     @Override
     public void saveDateTime(String date, String time) {
-        tvDate.setText(date);
+        tvDate.setText(AppUtils.formatDate(date, getActivity()));
         tvTime.setText(time);
     }
 
     @Override
     public void saveDateDuration(String dateDuration) {
         this.mDateDuration = dateDuration;
-        tvDateDuration.setText(mDateDuration);
-        tvDateDuration.setTextColor(getResources().getColor(R.color.text_valuable));
+        tvDateDuration.setText(AppUtils.formatDate(dateDuration, getActivity()));
+        int result = AppUtils.compareDateWithCurrentDate(dateDuration, getActivity());
+        if (result >= 0) { // điều kiện đúng ngày trả nợ phải lớn hơn ngày hiện tại
+            tvDateDuration.setTextColor(getResources().getColor(R.color.text_valuable));
+        } else {
+            tvDateDuration.setTextColor(getResources().getColor(R.color.text_warring));
+            showCustomToast("Ngày trả nợ phải lớn hơn hoặc nhỏ hơn bằng ngày "
+                    + UtilsPlus.getDateCurrent(getActivity()), AppConstants.TOAST_WARRING);
+        }
+
+
     }
 
     /**
@@ -861,6 +934,11 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         tvTitleAccount.setTextColor(getResources().getColor(R.color.text_valuable));
     }
 
+    /**
+     * Xoá ghi chép
+     *
+     * @created_by nxduong on 12/3/2021
+     */
     @Override
     public void onClickYesDelete() {
         try {

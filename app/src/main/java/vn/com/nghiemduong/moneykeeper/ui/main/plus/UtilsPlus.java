@@ -1,6 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.ui.main.plus;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.data.model.db.Account;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -88,10 +90,8 @@ public class UtilsPlus {
     }
 
     // Hàm lấy ngày hiện tại format ngày / tháng / năm
-    public static String getDateCurrent() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-//        Calendar calendar = Calendar.getInstance();
-//        String date = sdf.format(calendar.getTime());
-        return sdf.format(new Date().getTime());
+    public static String getDateCurrent(Activity activity) {
+        SimpleDateFormat sdf = AppUtils.getSimpleDateFormatDefault();
+        return AppUtils.formatDate(sdf.format(new Date().getTime()), activity);
     }
 }

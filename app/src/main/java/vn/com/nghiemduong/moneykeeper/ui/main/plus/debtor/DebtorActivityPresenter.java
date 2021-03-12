@@ -7,6 +7,8 @@ import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 
+import vn.com.nghiemduong.moneykeeper.data.model.db.Record;
+
 /**
  * - @created_by nxduong on 31/1/2021
  **/
@@ -31,13 +33,14 @@ public class DebtorActivityPresenter implements DebtorActivityMvpPresenter {
         String contactName = null;
         String contactId = null;
 
-        ArrayList<String> listContacts = new ArrayList<>();
+        ArrayList<Record> listContacts = new ArrayList<>();
+        Record record;
 
         Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null,
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
 
-        if (cursor.getCount() > 0) {
+        if (cursor != null) {
             while (cursor.moveToNext()) {
                 int hasPhoneNumber = Integer.parseInt(cursor.getString(
                         cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
@@ -58,7 +61,9 @@ public class DebtorActivityPresenter implements DebtorActivityMvpPresenter {
                                 .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     }*/
 
-                    listContacts.add(contactName);
+                    record = new Record();
+                    record.setDebtor(contactName);
+                    listContacts.add(record);
                     //phoneCursor.close();
                 }
             }

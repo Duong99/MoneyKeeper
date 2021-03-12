@@ -43,9 +43,9 @@ public class RegisterPresenter implements RegisterMvpPresenter {
                             // Sign in success, update UI with the signed-in user's information
 
                             mSharedPreferences = mActivity.getSharedPreferences(
-                                    AppConstants.MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
+                                    "MY_SHARED_PREFERENCES", MODE_PRIVATE);
                             SharedPreferences.Editor editor = mSharedPreferences.edit();
-                            editor.putString(AppConstants.KEY_UID, mAuth.getUid());
+                            editor.putString("UID", mAuth.getUid());
                             editor.apply();
 
                             mRegisterMvpView.registerAccountSuccess();

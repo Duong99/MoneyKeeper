@@ -1,6 +1,7 @@
 package vn.com.nghiemduong.moneykeeper.ui.dialog.date;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -158,7 +159,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
 
                 if (mKey == KEY_CALENDAR || mKey == KEY_JUST_CALENDAR) {
                     calendarView.setDate(date.getTime());
-                    mDate = UtilsPlus.getDateCurrent();
+                    mDate = UtilsPlus.getDateCurrent((Activity) mContext);
                     tvDate.setText(mDate);
                 }
 

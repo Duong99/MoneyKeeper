@@ -1,5 +1,6 @@
 package vn.com.nghiemduong.moneykeeper.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,7 +89,7 @@ public class RecordOverviewAdapter extends RecyclerView.Adapter<RecordOverviewAd
             }
 
             holder.tvNumberMoneyRecordOverview.setText(String.valueOf(record.getAmount()));
-            holder.tvDateRecordOverview.setText(record.getDate());
+            holder.tvDateRecordOverview.setText(AppUtils.formatDate(record.getDate(), (Activity) mContext));
 
             if (record.getImage() != null) {
                 holder.ivAttachFileOverview.setVisibility(View.VISIBLE);

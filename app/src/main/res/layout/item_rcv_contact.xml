@@ -35,13 +35,22 @@
     <TextView
         android:text="@string/unknown"
         android:id="@+id/tvContactName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/rlImage"
         android:gravity="center_vertical"
         android:textColor="@color/black"
         android:textSize="@dimen/font_medium" />
+
+    <TextView
+        android:id="@+id/tvMoneyDebtor"
+        android:textSize="@dimen/font_medium"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="match_parent"

@@ -8,13 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.db.category.CategoryDatabase;
+import vn.com.nghiemduong.moneykeeper.data.db.record.RecordDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.Category;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Record;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -22,12 +26,15 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
  * <p>
  * - @created_by nxduong on 5/3/2021
  **/
-public class CategoryContainDebtorAdapter extends RecyclerView.Adapter<CategoryContainDebtorAdapter.ViewHolder> {
+public class CategoryContainDebtorAdapter extends
+        RecyclerView.Adapter<CategoryContainDebtorAdapter.ViewHolder>
+        implements DebtorAdapter.IOnClickContact {
 
     private Context mContext;
     private ArrayList<Category> mParentCategories;
     private IOnClickCategoryDebt mOnClickCategoryDebt;
     private Category mCategory;
+    private RecordDatabase mRecordDatabase;
 
     public CategoryContainDebtorAdapter(Context context, ArrayList<Category> parentCategories,
                                         IOnClickCategoryDebt onClickCategoryDebt, Category category) {
@@ -35,6 +42,7 @@ public class CategoryContainDebtorAdapter extends RecyclerView.Adapter<CategoryC
         this.mParentCategories = parentCategories;
         this.mOnClickCategoryDebt = onClickCategoryDebt;
         this.mCategory = category;
+        this.mRecordDatabase = new RecordDatabase(mContext);
     }
 
     @NonNull
@@ -60,12 +68,32 @@ public class CategoryContainDebtorAdapter extends RecyclerView.Adapter<CategoryC
             holder.tvTitleCategoryPay.setText(parentCategory.getCategoryName());
 
             // Lấy danh sách những người vay nợ
+            ArrayList<Record> listContacts = new ArrayList<>();
+            if (parentCategory.getCategoryId() == AppConstants.THU_NO_ID) {
+                listContacts = mRecordDatabase.getAllRecordWhereType(AppConstants.CHO_VAY);
+            }
+
+            if (parentCategory.getCategoryId() == AppConstants.TRA_NO_ID) {
+                listContacts = mRecordDatabase.getAllRecordWhereType(AppConstants.DI_VAY);
+            }
+
+            if (listContacts.size() == 0) {
+                holder.rcvSubCategoryPay.setVisibility(View.GONE);
+            } else {
+                holder.rcvSubCategoryPay.setAdapter(
+                        new DebtorAdapter(mContext, listContacts, this));
+            }
         }
     }
 
     @Override
     public int getItemCount() {
         return mParentCategories.size();
+    }
+
+    @Override
+    public void onClickContact(Record record) {
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -80,6 +108,8 @@ public class CategoryContainDebtorAdapter extends RecyclerView.Adapter<CategoryC
             ivSelectedParentCategory = itemView.findViewById(R.id.ivSelectedParentCategory);
             tvTitleCategoryPay = itemView.findViewById(R.id.tvTitleCategoryPay);
             rcvSubCategoryPay = itemView.findViewById(R.id.rcvSubCategoryPay);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
+            rcvSubCategoryPay.setLayoutManager(layoutManager);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

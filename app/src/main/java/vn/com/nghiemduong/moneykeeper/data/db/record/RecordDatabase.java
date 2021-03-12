@@ -134,6 +134,38 @@ public class RecordDatabase extends BaseSqLite implements RecordDatabaseMvpPrese
         return listRecord;
     }
 
+    @Override
+    public ArrayList<Record> getAllRecordWhereType(int type) {
+        db = this.getReadableDatabase();
+        ArrayList<Record> listRecord = new ArrayList<>();
+        String query = "SELECT * FROM " + NAME_TABLE_RECORD + " WHERE " + TYPE + " = " + type;
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Record Record = new Record(cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getInt(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            cursor.getInt(7),
+                            cursor.getInt(8),
+                            cursor.getString(9),
+                            cursor.getInt(10),
+                            cursor.getBlob(11),
+                            cursor.getInt(12));
+                    listRecord.add(Record);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            AppUtils.handlerException(e);
+        }
+        db.close();
+        return listRecord;
+    }
+
     /**
      * Hàm thêm chi tiền vào bảng Record trong database
      * và cập nhật lại tiền hiệ tại trong bảng tài khoản (Account)
@@ -178,7 +210,7 @@ public class RecordDatabase extends BaseSqLite implements RecordDatabaseMvpPrese
      * và cập nhật lại tiền hiệ tại trong bảng tài khoản (Account)
      *
      * @param record
-     * @created_by nxduong on  2/2/2021
+     * @created_by nxduong on 2/2/2021
      */
 
     @Override

@@ -1,5 +1,6 @@
 package vn.com.nghiemduong.moneykeeper.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,12 +14,14 @@ import android.widget.EditText;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
+import java.util.Date;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
@@ -48,8 +51,12 @@ public class AppUtils {
 
     // Hàm convert từ  byte[] sang bitmap
     public static Bitmap convertByteArrayToBitmap(byte[] bytes) {
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        return bitmap;
+        if (bytes != null) {
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        } else {
+            return null;
+        }
+
     }
 
     /**
@@ -74,12 +81,14 @@ public class AppUtils {
 
     // hàm convert từ bitmap sang byte[]
     public static byte[] convertBitmapToByteArray(Bitmap bitmap) {
-        try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
-            return stream.toByteArray();
-        } catch (Exception e) {
-            handlerException(e);
+        if (bitmap != null) {
+            try {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
+                return stream.toByteArray();
+            } catch (Exception e) {
+                handlerException(e);
+            }
         }
         return null;
     }
@@ -130,8 +139,97 @@ public class AppUtils {
      */
     public static String getUIDAuthenticationFirebase(Activity activity) {
         SharedPreferences sharedPreferences =
-                activity.getSharedPreferences(AppConstants.MY_SHARED_PREFERENCES_UID, MODE_PRIVATE);
-        return sharedPreferences.getString(AppConstants.KEY_UID, "");
+                activity.getSharedPreferences("MY_SHARED_PREFERENCES", MODE_PRIVATE);
+        return sharedPreferences.getString("UID", "");
+    }
+
+    /**
+     * @return format time: định dạng thời gian
+     * @created_by nxduong on 12/3/2021
+     */
+    public static String getFormatTime(Activity activity) {
+        SharedPreferences sharedPreferences =
+                activity.getSharedPreferences("MY_SHARED_PREFERENCES", MODE_PRIVATE);
+        return sharedPreferences.getString("FORMAT_TIME", AppConstants.FORMAT_TIME_ISO_8601);
+    }
+
+    public static String getFormatTimeDefault() {
+        return AppConstants.FORMAT_TIME_US;
+    }
+
+    public static SimpleDateFormat getSimpleDateFormatDefault() {
+        return new SimpleDateFormat(getFormatTimeDefault(),
+                Locale.getDefault());
+    }
+
+    /**
+     * Yêu cầu vào thời gian đã được format theo kiểu việt nam dd/MM/yyyy
+     * Hàm format thời gian
+     *
+     * @created_by nxduong on 12/3/2021
+     */
+    @SuppressLint("SimpleDateFormat")
+    public static String formatDate(String date, Activity activity) {
+        SimpleDateFormat sdfDefault = getSimpleDateFormatDefault();
+
+        SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity),
+                Locale.getDefault());
+        try {
+            Date dateFormatDefault = sdfDefault.parse(date);
+            if (dateFormatDefault != null) {
+                return sdfFormat.format(dateFormatDefault);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static String formatDateDefault(String date, Activity activity) {
+        SimpleDateFormat sdfDefault = getSimpleDateFormatDefault();
+
+        SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity),
+                Locale.getDefault());
+        try {
+            Date dateFormatDefault = sdfFormat.parse(date);
+            if (dateFormatDefault != null) {
+                return sdfDefault.format(dateFormatDefault);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    /**
+     * Hàm so sánh ngày tháng với ngày tháng hiện tại
+     * kết quả  > 0 compareDate sinh ra sau currentDate
+     * < 0 compareDate sinh ra trước currentDate
+     * = 0 bằng nhau
+     *
+     * @created_by nxduong on 12/3/2021
+     */
+    @SuppressLint("SimpleDateFormat")
+    public static int compareDateWithCurrentDate(String compareDate, Activity activity) {
+        SimpleDateFormat sdfFormatDefault = getSimpleDateFormatDefault();
+        SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity), Locale.getDefault());
+
+
+        //SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity), Locale.getDefault());
+        try {
+            Date date = sdfFormatDefault.parse(compareDate);
+
+            String sDateCurrent = sdfFormatDefault.format(Objects.requireNonNull(
+                    sdfFormat.parse(UtilsPlus.getDateCurrent(activity))));
+            Date currentDate = sdfFormatDefault.parse(sDateCurrent);
+
+            if (currentDate != null && date != null) {
+                return date.compareTo(currentDate);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
@@ -203,13 +301,13 @@ public class AppUtils {
      * @param i khoảng thời gian cần tính
      * @created_by nxduong on 19/2/2021
      */
-    public static String UpDownDate(int i) {
+    public static String UpDownDate(int i, Activity activity) {
         // Định dạng thời gian
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Calendar c1 = Calendar.getInstance();
 
-        Date date = Date.valueOf(sdf.format(new java.util.Date().getTime()));
+        Date date = new Date(sdf.format(new Date().getTime()));
         c1.setTime(date);
         switch (i) {
             case 1: // Thống kê tuần này
@@ -217,14 +315,14 @@ public class AppUtils {
                 return dateFormat.format(c1.getTime());
 
             case 2: // Thống kê tháng này
-                c1.roll(Calendar.DATE, -(Integer.parseInt(UtilsPlus.getDateCurrent().substring(0, 2)) - 1));
+                c1.roll(Calendar.DATE, -(Integer.parseInt(UtilsPlus.getDateCurrent(activity).substring(0, 2)) - 1));
                 return dateFormat.format(c1.getTime());
 
             case 3: // Thống kê quý này
                 if (Calendar.MONTH < 4) {
                     c1.roll(Calendar.MONTH, -(Calendar.MONTH - 1));
                     c1.roll(Calendar.DATE,
-                            -(Integer.parseInt(UtilsPlus.getDateCurrent().substring(0, 2)) - 1));
+                            -(Integer.parseInt(UtilsPlus.getDateCurrent(activity).substring(0, 2)) - 1));
                 } else {
                     c1.roll(Calendar.MONTH, -3);
                 }
@@ -234,7 +332,7 @@ public class AppUtils {
             case 4: // Thống kê năm nay
                 c1.roll(Calendar.MONTH, -(Calendar.MONTH - 1));
                 c1.roll(Calendar.DATE,
-                        -(Integer.parseInt(UtilsPlus.getDateCurrent().substring(0, 2)) - 1));
+                        -(Integer.parseInt(UtilsPlus.getDateCurrent(activity).substring(0, 2)) - 1));
                 return dateFormat.format(c1.getTime());
         }
 

@@ -5,6 +5,12 @@ package vn.com.nghiemduong.moneykeeper.utils;
  * - @created_by nxduong on 8/3/2021
  **/
 public class AppConstants {
+
+    // Định dạng thời gian
+    public static final String FORMAT_TIME_VN = "dd/MM/yyyy";
+    public static final String FORMAT_TIME_US = "MM/dd/yyyy";
+    public static final String FORMAT_TIME_ISO_8601 = "yyyy/MM/dd";
+
     // Loại tài khoản
     public static final int TIEN_MAT = 1;
     public static final int TAI_KHOAN_NGAN_HANG = 2;
@@ -12,8 +18,6 @@ public class AppConstants {
     public static final int TAI_KHOAN_DAU_TU = 4;
     public static final int KHAC = 5;
 
-    public static final String MY_SHARED_PREFERENCES_UID = "MY_SHARED_PREFERENCES_UID";
-    public static final String KEY_UID = "UID";
     public static final String TAG = "fata";
 
     // Path

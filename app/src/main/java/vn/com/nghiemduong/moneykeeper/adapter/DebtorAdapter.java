@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.data.model.db.Record;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -23,12 +25,12 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder> implements Filterable {
 
     private Context mContext;
-    private ArrayList<String> mListDebtors;
-    private ArrayList<String> mListDebtorsFiltered;
+    private ArrayList<Record> mListDebtors;
+    private ArrayList<Record> mListDebtorsFiltered;
     private IOnClickContact mOnClickString;
     private CustomFilter mCustomFilter;
 
-    public DebtorAdapter(Context mContext, ArrayList<String> listDebtors,
+    public DebtorAdapter(Context mContext, ArrayList<Record> listDebtors,
                          IOnClickContact onClickString) {
         this.mContext = mContext;
         this.mListDebtors = listDebtors;
@@ -46,10 +48,10 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String contact = mListDebtors.get(position);
+        Record contact = mListDebtors.get(position);
         if (contact != null) {
-            holder.tvStringName.setText(contact);
-            holder.tvDefaultStringImage.setText(contact.substring(0, 1));
+            holder.tvStringName.setText(contact.getDebtor());
+            holder.tvDefaultStringImage.setText(contact.getDebtor().substring(0, 1));
 
             // Set màu cho ảnh String
             if (position % 3 == 0) {
@@ -64,6 +66,18 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
             } else {
                 holder.tvDefaultStringImage.setBackgroundColor(mContext.getResources()
                         .getColor(R.color.contact_color_orange));
+            }
+
+            if (contact.getType() == AppConstants.DI_VAY) {
+                holder.tvMoneyDebtor.setText(String.valueOf(contact.getAmount()));
+                holder.tvMoneyDebtor.setTextColor(mContext.getResources()
+                        .getColor(R.color.input_amount_red_pay));
+            }
+
+            if (contact.getType() == AppConstants.CHO_VAY) {
+                holder.tvMoneyDebtor.setText(String.valueOf(contact.getAmount()));
+                holder.tvMoneyDebtor.setTextColor(mContext.getResources()
+                        .getColor(R.color.green));
             }
         }
     }
@@ -89,12 +103,13 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            ArrayList<String> filters = new ArrayList<>();
+            ArrayList<Record> filters = new ArrayList<>();
             if (constraint != null && constraint.length() > 0) {
                 constraint = constraint.toString().toUpperCase();
                 for (int i = 0; i < mListDebtorsFiltered.size(); i++) {
-                    if (mListDebtorsFiltered.get(i).toUpperCase().contains(constraint)) {
-                        String model = new String(mListDebtorsFiltered.get(i));
+                    if (mListDebtorsFiltered.get(i).getDebtor().toUpperCase().contains(constraint)) {
+                        Record model = new Record();
+                        model.setDebtor(mListDebtorsFiltered.get(i).getDebtor());
                         filters.add(model);
                     }
                 }
@@ -107,20 +122,21 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mListDebtors = (ArrayList<String>) results.values;
+            mListDebtors = (ArrayList<Record>) results.values;
             notifyDataSetChanged();
         }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvDefaultStringImage, tvStringName;
+        private TextView tvDefaultStringImage, tvStringName, tvMoneyDebtor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvDefaultStringImage = itemView.findViewById(R.id.tvDefaultContactImage);
             tvStringName = itemView.findViewById(R.id.tvContactName);
+            tvMoneyDebtor = itemView.findViewById(R.id.tvMoneyDebtor);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,6 +155,6 @@ public class DebtorAdapter extends RecyclerView.Adapter<DebtorAdapter.ViewHolder
     }
 
     public interface IOnClickContact {
-        void onClickContact(String String);
+        void onClickContact(Record record);
     }
 }

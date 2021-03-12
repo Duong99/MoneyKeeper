@@ -28,19 +28,25 @@ public class CustomDateTimeDialogPresenter implements CustomDateTimeDialogMvpPre
         mCustomDateDialogMvpView.onFinishCustomDateTime(date.getTime(), hour, minute);
     }
 
+    /**
+     * Hàm format mặc định này tháng MM/dd/yyy
+     *
+     * @created_by nxduong on 12/3/2021
+     */
     @Override
     public void doFormatDayChange(int year, int month, int dayOfMonth) {
         String date;
-        if (dayOfMonth < 10) {
-            date = "0" + dayOfMonth;
-        } else {
-            date = String.valueOf(dayOfMonth);
-        }
 
         if ((month + 1) < 10) {
-            date += "/0" + (month + 1);
+            date = "0" + (month + 1);
         } else {
-            date += "/" + (month + 1);
+            date = "" + (month + 1);
+        }
+
+        if (dayOfMonth < 10) {
+            date += "/0" + dayOfMonth;
+        } else {
+            date += "/" + String.valueOf(dayOfMonth);
         }
         date += "/" + year;
 

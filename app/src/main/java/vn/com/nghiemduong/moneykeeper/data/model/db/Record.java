@@ -26,6 +26,9 @@ public class Record implements Serializable {
     private byte[] image;// 	(BOLD): Ảnh
     private int type;// 	(INTEGER) kiểu chi tiền, thu tiền..
 
+    public Record() {
+    }
+
     public Record(int recordId, int amount, int categoryId, String debtor, String explain, String date,
                   String time, int accountId, int toAccountId, String dateDuration, int report, byte[] image, int type) {
         this.recordId = recordId;
@@ -44,7 +47,7 @@ public class Record implements Serializable {
     }
 
     /**
-     * Hàm tạo sử dụng cho chi tiền, thu tiền
+     * Hàm tạo sử dụng cho chi tiền, thu tiền để thêm
      *
      * @created_by nxduong on 11/3/2021
      */
@@ -63,7 +66,27 @@ public class Record implements Serializable {
     }
 
     /**
-     * Hàm tạo cho thu nợ và trả nợ
+     * Hàm tạo sử dụng cho chi tiền, thu tiền để sửa
+     *
+     * @created_by nxduong on 11/3/2021
+     */
+
+    public Record(int recordId, int amount, int categoryId, String explain, String date,
+                  String time, int accountId, int report, byte[] image, int type) {
+        this.recordId = recordId;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.explain = explain;
+        this.date = date;
+        this.time = time;
+        this.accountId = accountId;
+        this.report = report;
+        this.image = image;
+        this.type = type;
+    }
+
+    /**
+     * Hàm tạo cho thu nợ và trả nợ để thêm
      *
      * @created_by nxduong on 11/3/2021
      */
@@ -81,7 +104,27 @@ public class Record implements Serializable {
     }
 
     /**
-     * Hàm tạo cho vay và đi vay
+     * Hàm tạo cho thu nợ và trả nợ để sửa
+     *
+     * @created_by nxduong on 11/3/2021
+     */
+
+    public Record(int recordId, int amount, int categoryId, String debtor, String explain,
+                  String date, String time, int accountId, byte[] image, int type) {
+        this.recordId = recordId;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.debtor = debtor;
+        this.explain = explain;
+        this.date = date;
+        this.time = time;
+        this.accountId = accountId;
+        this.image = image;
+        this.type = type;
+    }
+
+    /**
+     * Hàm tạo cho vay và đi vay để thêm
      *
      * @created_by nxduong on 11/3/2021
      */
@@ -101,7 +144,27 @@ public class Record implements Serializable {
     }
 
     /**
-     * Hàm tạo cho chuyển khoản
+     * Hàm tạo cho vay và đi vay để sửa
+     *
+     * @created_by nxduong on 11/3/2021
+     */
+    public Record(int recordId, int amount, int categoryId, String debtor, String explain,
+                  String date, String time, int accountId, String dateDuration, byte[] image, int type) {
+        this.recordId = recordId;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.debtor = debtor;
+        this.explain = explain;
+        this.date = date;
+        this.time = time;
+        this.accountId = accountId;
+        this.dateDuration = dateDuration;
+        this.image = image;
+        this.type = type;
+    }
+
+    /**
+     * Hàm tạo cho chuyển khoản để thêm
      *
      * @created_by nxduong on 11/3/2021
      */
@@ -114,6 +177,26 @@ public class Record implements Serializable {
         this.toAccountId = toAccountId;
         this.date = date;
         this.time = time;
+        this.report = report;
+        this.image = image;
+        this.type = type;
+    }
+
+    /**
+     * Hàm tạo cho chuyển khoản để sửa
+     *
+     * @created_by nxduong on 11/3/2021
+     */
+
+    public Record(int recordId, int amount, int accountId, int toAccountId, String explain,
+                  String date, String time, int report, byte[] image, int type) {
+        this.recordId = recordId;
+        this.amount = amount;
+        this.explain = explain;
+        this.date = date;
+        this.time = time;
+        this.accountId = accountId;
+        this.toAccountId = toAccountId;
         this.report = report;
         this.image = image;
         this.type = type;

@@ -146,13 +146,13 @@ public class AppPermission extends AppCompatActivity {
      * @created_by nxduong on 1/2/2021
      */
 
-    public void requestCameraPermission(Context context,
+    public void requestCameraPermission(Context context, Activity activity,
                                         IOnRequestPermissionCameraResult onRequestPermissionCameraResult) {
         this.mOnRequestPermissionCameraResult = onRequestPermissionCameraResult;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.CAMERA},
                         PERMISSIONS_REQUEST_CAMERA);
             } else {

@@ -32,7 +32,7 @@ public interface PlusMvpView {
 
     void resultChooseCategory(Category category);
 
-    void resultChooseDebtor(String debtor);
+    void resultChooseDebtor(Record debtor);
 
     void resultChooseAccount(Account account, int request_code);
 

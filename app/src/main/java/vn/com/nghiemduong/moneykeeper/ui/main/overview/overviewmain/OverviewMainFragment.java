@@ -85,13 +85,13 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
                     switch (position) {
                         case 0: // Thống kê hôm nay
                             mOverviewMainPresenter.doGetTotalAmountFromDB(
-                                    getContext(), UtilsPlus.getDateCurrent(), "");
+                                    getContext(), UtilsPlus.getDateCurrent(getActivity()), "");
                             break;
 
                         default:
                             mOverviewMainPresenter.doGetTotalAmountFromDB(
-                                    getContext(), AppUtils.UpDownDate(position),
-                                    UtilsPlus.getDateCurrent());
+                                    getContext(), AppUtils.UpDownDate(position, getActivity()),
+                                    UtilsPlus.getDateCurrent(getActivity()));
                             break;
                     }
                 } catch (Exception e) {
@@ -140,7 +140,7 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
 
         mOverviewMainPresenter = new OverviewMainPresenter(this);
         mOverviewMainPresenter.doInsertListSpinnerStage(Objects.requireNonNull(getContext()));
-        mOverviewMainPresenter.doGetTotalAmountFromDB(getContext(), UtilsPlus.getDateCurrent(), "");
+        mOverviewMainPresenter.doGetTotalAmountFromDB(getContext(), UtilsPlus.getDateCurrent(getActivity()), "");
 
         pieChart = mView.findViewById(R.id.pieChart);
 
