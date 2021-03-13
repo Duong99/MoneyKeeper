@@ -40,7 +40,6 @@ import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFra
 import vn.com.nghiemduong.moneykeeper.ui.main.accountoverview.account.AccountFragmentPresenter;
 
 import vn.com.nghiemduong.moneykeeper.ui.main.plus.PlusFragment;
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -85,13 +84,13 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
                     switch (position) {
                         case 0: // Thống kê hôm nay
                             mOverviewMainPresenter.doGetTotalAmountFromDB(
-                                    getContext(), UtilsPlus.getDateCurrent(getActivity()), "");
+                                    getContext(), AppUtils.getDateCurrent(getActivity()), "");
                             break;
 
                         default:
                             mOverviewMainPresenter.doGetTotalAmountFromDB(
                                     getContext(), AppUtils.UpDownDate(position, getActivity()),
-                                    UtilsPlus.getDateCurrent(getActivity()));
+                                    AppUtils.getDateCurrent(getActivity()));
                             break;
                     }
                 } catch (Exception e) {
@@ -140,7 +139,7 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
 
         mOverviewMainPresenter = new OverviewMainPresenter(this);
         mOverviewMainPresenter.doInsertListSpinnerStage(Objects.requireNonNull(getContext()));
-        mOverviewMainPresenter.doGetTotalAmountFromDB(getContext(), UtilsPlus.getDateCurrent(getActivity()), "");
+        mOverviewMainPresenter.doGetTotalAmountFromDB(getContext(), AppUtils.getDateCurrent(getActivity()), "");
 
         pieChart = mView.findViewById(R.id.pieChart);
 
@@ -178,11 +177,6 @@ public class OverviewMainFragment extends BaseFragment implements View.OnClickLi
                 break;
 
             case R.id.rlTotalMoneyBackground:
-                try {
-                    FirebaseAuth.getInstance().signOut();
-                } catch (Exception e) {
-                    AppUtils.handlerException(e);
-                }
                 break;
         }
     }

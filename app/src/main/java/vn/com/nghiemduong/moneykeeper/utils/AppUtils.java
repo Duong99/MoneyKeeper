@@ -6,10 +6,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,7 +33,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -116,6 +124,29 @@ public class AppUtils {
     }
 
     /**
+     * Hàm lấy thời gian hiện tại
+     *
+     * @return currentDateAndTime
+     * @created_by nxduong on 29/1/2021
+     */
+    public static String getTimeCurrent() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String currentTime = sdf.format(new Date());
+        return currentTime;
+    }
+
+    // Hàm lấy ngày hiện tại format ngày / tháng / năm mặc định
+    public static String getDateCurrentDefault() {
+        SimpleDateFormat sdf = getSimpleDateFormatDefault();
+        return sdf.format(new Date().getTime());
+    }
+
+    // Hàm lấy ngày hiện tại format ngày / tháng / năm
+    public static String getDateCurrent(Activity activity) {
+        return formatDate(getDateCurrentDefault(), activity);
+    }
+
+    /**
      * Hàm đọc file ảnh từ trong assets rồi trả về kiểu byte[]
      * <p>
      * - @created_by nxduong on 28/1/2021
@@ -129,7 +160,44 @@ public class AppUtils {
         }
 
         Bitmap bitmap = BitmapFactory.decodeStream(is);
-        return AppUtils.convertBitmapToByteArray(bitmap);
+        return vn.com.nghiemduong.moneykeeper.utils.AppUtils.convertBitmapToByteArray(bitmap);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public static void addTextChangeEditText(final EditText et) {
+
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().length() > 0) {
+                    et.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                            R.drawable.chip_delete_icon_24dp, 0);
+                } else {
+                    et.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        et.setOnTouchListener(new View.OnTouchListener() {
+
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                et.setText("");
+                return false;
+            }
+        });
     }
 
 
@@ -144,13 +212,13 @@ public class AppUtils {
     }
 
     /**
-     * @return format time: định dạng thời gian
+     * @return format time: định dạng thời gian người dùng chọn
      * @created_by nxduong on 12/3/2021
      */
-    public static String getFormatTime(Activity activity) {
+    public static String getDateFormat(Activity activity) {
         SharedPreferences sharedPreferences =
                 activity.getSharedPreferences("MY_SHARED_PREFERENCES", MODE_PRIVATE);
-        return sharedPreferences.getString("FORMAT_TIME", AppConstants.FORMAT_TIME_ISO_8601);
+        return sharedPreferences.getString("DATE_FORMAT", AppConstants.FORMAT_TIME_ISO_8601);
     }
 
     public static String getFormatTimeDefault() {
@@ -172,7 +240,7 @@ public class AppUtils {
     public static String formatDate(String date, Activity activity) {
         SimpleDateFormat sdfDefault = getSimpleDateFormatDefault();
 
-        SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity),
+        SimpleDateFormat sdfFormat = new SimpleDateFormat(getDateFormat(activity),
                 Locale.getDefault());
         try {
             Date dateFormatDefault = sdfDefault.parse(date);
@@ -188,7 +256,7 @@ public class AppUtils {
     public static String formatDateDefault(String date, Activity activity) {
         SimpleDateFormat sdfDefault = getSimpleDateFormatDefault();
 
-        SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity),
+        SimpleDateFormat sdfFormat = new SimpleDateFormat(getDateFormat(activity),
                 Locale.getDefault());
         try {
             Date dateFormatDefault = sdfFormat.parse(date);
@@ -212,7 +280,7 @@ public class AppUtils {
     @SuppressLint("SimpleDateFormat")
     public static int compareDateWithCurrentDate(String compareDate, Activity activity) {
         SimpleDateFormat sdfFormatDefault = getSimpleDateFormatDefault();
-        SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity), Locale.getDefault());
+        SimpleDateFormat sdfFormat = new SimpleDateFormat(getDateFormat(activity), Locale.getDefault());
 
 
         //SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity), Locale.getDefault());
@@ -220,7 +288,7 @@ public class AppUtils {
             Date date = sdfFormatDefault.parse(compareDate);
 
             String sDateCurrent = sdfFormatDefault.format(Objects.requireNonNull(
-                    sdfFormat.parse(UtilsPlus.getDateCurrent(activity))));
+                    sdfFormat.parse(getDateCurrent(activity))));
             Date currentDate = sdfFormatDefault.parse(sDateCurrent);
 
             if (currentDate != null && date != null) {
@@ -315,14 +383,14 @@ public class AppUtils {
                 return dateFormat.format(c1.getTime());
 
             case 2: // Thống kê tháng này
-                c1.roll(Calendar.DATE, -(Integer.parseInt(UtilsPlus.getDateCurrent(activity).substring(0, 2)) - 1));
+                c1.roll(Calendar.DATE, -(Integer.parseInt(getDateCurrent(activity).substring(0, 2)) - 1));
                 return dateFormat.format(c1.getTime());
 
             case 3: // Thống kê quý này
                 if (Calendar.MONTH < 4) {
                     c1.roll(Calendar.MONTH, -(Calendar.MONTH - 1));
                     c1.roll(Calendar.DATE,
-                            -(Integer.parseInt(UtilsPlus.getDateCurrent(activity).substring(0, 2)) - 1));
+                            -(Integer.parseInt(getDateCurrent(activity).substring(0, 2)) - 1));
                 } else {
                     c1.roll(Calendar.MONTH, -3);
                 }
@@ -332,7 +400,7 @@ public class AppUtils {
             case 4: // Thống kê năm nay
                 c1.roll(Calendar.MONTH, -(Calendar.MONTH - 1));
                 c1.roll(Calendar.DATE,
-                        -(Integer.parseInt(UtilsPlus.getDateCurrent(activity).substring(0, 2)) - 1));
+                        -(Integer.parseInt(getDateCurrent(activity).substring(0, 2)) - 1));
                 return dateFormat.format(c1.getTime());
         }
 

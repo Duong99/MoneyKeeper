@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="@dimen/height_item_plus">
@@ -24,12 +25,15 @@
         android:maxLength="255"
         android:background="@drawable/bg_et_enter_money"
         android:id="@+id/etExplain"
+        android:paddingEnd="@dimen/margin_large"
+        android:drawableTint="@color/text_unvalue"
         android:inputType="textCapSentences"
         android:layout_toEndOf="@id/rlImageExplain"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_item_plus"
         android:layout_centerVertical="true"
-        android:hint="@string/explain" />
+        android:hint="@string/explain"
+        tools:ignore="RtlSymmetry" />
 
     <include
         android:layout_toEndOf="@id/rlImageExplain"

@@ -1,14 +1,395 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_white"
     tools:context=".ui.main.more.MoreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_account_cricle" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlGeneralSettings"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_event_trip"
+                android:background="@drawable/bg_select_ripple_gray"
+                android:paddingStart="@dimen/margin_large_small"
+                android:paddingEnd="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="@dimen/height_width_ic_arrow"
+                    android:layout_height="@dimen/height_width_ic_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_arrow_right"
+                    android:backgroundTint="@color/text_unvalue" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_large_small"
+                    android:layout_toEndOf="@id/cvGeneralSetting"
+                    android:text="@string/general_settings"
+                    android:textColor="@color/text_valuable"
+                    android:textSize="@dimen/font_medium" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvGeneralSetting"
+                    android:layout_width="@dimen/height_width_card_setting"
+                    android:layout_height="@dimen/height_width_card_setting"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="@color/colorTransparent"
+                    app:cardCornerRadius="@dimen/corner_card_setting">
+
+                    <ImageView
+                        android:backgroundTint="@color/white"
+                        android:layout_width="@dimen/height_width_image_setting"
+                        android:layout_height="@dimen/height_width_image_setting"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_setting_white" />
+                </androidx.cardview.widget.CardView>
+
+                <include
+                    layout="@layout/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_view_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_event_trip"
+                android:background="@drawable/bg_select_ripple_gray"
+                android:paddingStart="@dimen/margin_large_small"
+                android:paddingEnd="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="@dimen/height_width_ic_arrow"
+                    android:layout_height="@dimen/height_width_ic_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_arrow_right"
+                    android:backgroundTint="@color/text_unvalue" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_large_small"
+                    android:layout_toEndOf="@id/cvDataSetting"
+                    android:text="@string/data_settings"
+                    android:textColor="@color/text_valuable"
+                    android:textSize="@dimen/font_medium" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvDataSetting"
+                    android:layout_width="@dimen/height_width_card_setting"
+                    android:layout_height="@dimen/height_width_card_setting"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="@color/precedence_qt"
+                    app:cardCornerRadius="@dimen/corner_card_setting">
+
+                    <ImageView
+                        android:backgroundTint="@color/white"
+                        android:layout_width="@dimen/height_width_image_setting"
+                        android:layout_height="@dimen/height_width_image_setting"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_setting_data" />
+                </androidx.cardview.widget.CardView>
+
+                <include
+                    layout="@layout/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_view_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_event_trip"
+                android:background="@drawable/bg_select_ripple_gray"
+                android:paddingStart="@dimen/margin_large_small"
+                android:paddingEnd="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="@dimen/height_width_ic_arrow"
+                    android:layout_height="@dimen/height_width_ic_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_arrow_right"
+                    android:backgroundTint="@color/text_unvalue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_large_small"
+                    android:layout_toEndOf="@id/cvTellFriends"
+                    android:text="@string/tell_friends"
+                    android:textColor="@color/text_valuable"
+                    android:textSize="@dimen/font_medium" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvTellFriends"
+                    android:layout_width="@dimen/height_width_card_setting"
+                    android:layout_height="@dimen/height_width_card_setting"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="@color/text_unvalue"
+                    app:cardCornerRadius="@dimen/corner_card_setting">
+
+                    <ImageView
+                        android:backgroundTint="@color/white"
+                        android:layout_width="@dimen/height_width_image_setting"
+                        android:layout_height="@dimen/height_width_image_setting"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_setting_white" />
+                </androidx.cardview.widget.CardView>
+
+                <include
+                    layout="@layout/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_view_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_event_trip"
+                android:background="@drawable/bg_select_ripple_gray"
+                android:paddingStart="@dimen/margin_large_small"
+                android:paddingEnd="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="@dimen/height_width_ic_arrow"
+                    android:layout_height="@dimen/height_width_ic_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_arrow_right"
+                    android:backgroundTint="@color/text_unvalue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_large_small"
+                    android:layout_toEndOf="@id/cvRateApp"
+                    android:text="@string/rate_app"
+                    android:textColor="@color/text_valuable"
+                    android:textSize="@dimen/font_medium" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvRateApp"
+                    android:layout_width="@dimen/height_width_card_setting"
+                    android:layout_height="@dimen/height_width_card_setting"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="@color/text_unvalue"
+                    app:cardCornerRadius="@dimen/corner_card_setting">
+
+                    <ImageView
+                        android:layout_width="@dimen/height_width_image_setting"
+                        android:layout_height="@dimen/height_width_image_setting"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/white"
+                        android:background="@drawable/ic_setting_rate_app" />
+                </androidx.cardview.widget.CardView>
+
+                <include
+                    layout="@layout/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_view_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_event_trip"
+                android:background="@drawable/bg_select_ripple_gray"
+                android:paddingStart="@dimen/margin_large_small"
+                android:paddingEnd="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="@dimen/height_width_ic_arrow"
+                    android:layout_height="@dimen/height_width_ic_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_arrow_right"
+                    android:backgroundTint="@color/text_unvalue" />
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large_small"
+                    android:layout_toEndOf="@id/cvFeedBack"
+                    android:text="@string/feedback"
+                    android:textColor="@color/text_valuable"
+                    android:textSize="@dimen/font_medium" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvFeedBack"
+                    android:layout_width="@dimen/height_width_card_setting"
+                    android:layout_height="@dimen/height_width_card_setting"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="@color/text_unvalue"
+                    app:cardCornerRadius="@dimen/corner_card_setting">
+
+                    <ImageView
+                        android:backgroundTint="@color/white"
+                        android:layout_width="@dimen/height_width_image_setting"
+                        android:layout_height="@dimen/height_width_image_setting"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_setting_feedback" />
+                </androidx.cardview.widget.CardView>
+
+                <include
+                    layout="@layout/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_view_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_event_trip"
+                android:background="@drawable/bg_select_ripple_gray"
+                android:paddingStart="@dimen/margin_large_small"
+                android:paddingEnd="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="@dimen/height_width_ic_arrow"
+                    android:layout_height="@dimen/height_width_ic_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_arrow_right"
+                    android:backgroundTint="@color/text_unvalue" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_large_small"
+                    android:layout_toEndOf="@id/cvHelp"
+                    android:text="@string/help_and_information"
+                    android:textColor="@color/text_valuable"
+                    android:textSize="@dimen/font_medium" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvHelp"
+                    android:layout_width="@dimen/height_width_card_setting"
+                    android:layout_height="@dimen/height_width_card_setting"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="@color/text_unvalue"
+                    app:cardCornerRadius="@dimen/corner_card_setting">
+
+                    <ImageView
+                        android:backgroundTint="@color/white"
+                        android:layout_width="@dimen/height_width_image_setting"
+                        android:layout_height="@dimen/height_width_image_setting"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_infomation_ultilities" />
+                </androidx.cardview.widget.CardView>
+
+                <include
+                    layout="@layout/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_view_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlLogout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_event_trip"
+                android:background="@drawable/bg_select_ripple_gray"
+                android:paddingStart="@dimen/margin_large_small"
+                android:paddingEnd="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="@dimen/height_width_ic_arrow"
+                    android:layout_height="@dimen/height_width_ic_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_arrow_right"
+                    android:backgroundTint="@color/text_unvalue" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_large_small"
+                    android:layout_toEndOf="@id/cvLogout"
+                    android:text="@string/logout"
+                    android:textColor="@color/text_valuable"
+                    android:textSize="@dimen/font_medium" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvLogout"
+                    android:layout_width="@dimen/height_width_card_setting"
+                    android:layout_height="@dimen/height_width_card_setting"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/corner_card_setting">
+
+                    <ImageView
+                        android:backgroundTint="@color/input_amount_red_pay"
+                        android:layout_width="@dimen/height_width_image_setting"
+                        android:layout_height="@dimen/height_width_image_setting"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_setting_logout" />
+                </androidx.cardview.widget.CardView>
+
+                <include
+                    layout="@layout/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_view_line"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

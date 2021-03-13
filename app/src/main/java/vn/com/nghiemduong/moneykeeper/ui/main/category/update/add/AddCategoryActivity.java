@@ -73,6 +73,7 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
         ivIconCategoryAdd = findViewById(R.id.ivIconCategoryAdd);
         etNameCategoryAdd = findViewById(R.id.etNameCategoryAdd);
         etExplain = findViewById(R.id.etExplain);
+        AppUtils.addTextChangeEditText(etExplain);
         llDelete = findViewById(R.id.llDelete);
 
         llDelete.setOnClickListener(this);

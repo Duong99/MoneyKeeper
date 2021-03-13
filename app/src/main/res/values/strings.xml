@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sổ thu chi MISA</string>
+    <string name="app_name">Quản lý chi tiêu cá nhân</string>
 
     // facebook
     <string name="facebook_app_id">259053448910483</string>
@@ -11,6 +11,7 @@
     <string name="phone_number_or_email">Số điện thoại hoặc email</string>
     <string name="password">Mật khẩu</string>
     <string name="login">Đăng nhập</string>
+    <string name="logout">Đăng xuất</string>
     <string name="forget_password">Quên mật khẩu</string>
     <string name="register">Đăng ký</string>
     <string name="come_on">Tiếp tục</string>
@@ -298,5 +299,22 @@
     <string name="this_year">Năm nay</string>
 
     <string name="unknown">Không xác định</string>
+
+    // Khác
+    <string name="general_settings">Cài đặt chung</string>
+    <string name="data_settings">Cài đặt dữ liệu</string>
+    <string name="tell_friends">Giới thiệu bạn bè</string>
+    <string name="rate_app">Đánh giá ứng dụng</string>
+    <string name="feedback">Góp ý với nhà phát triển</string>
+    <string name="help_and_information">Trợ giúp và thông tin</string>
+    <string name="sync">Đồng bộ</string>
+    <string name="sync_data">Đồng bộ dữ liệu</string>
+
+    // Cài đặt chung
+    <string name="language">Ngôn ngữ</string>
+    <string name="date_format">Đạnh dạng thời gian</string>
+    <string name="select_date_format">Chọn định dạng thời gian</string>
+    <string name="default_use_screen">Màn hình sửa dụng mặc định</string>
+
 
 </resources>

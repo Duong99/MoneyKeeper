@@ -23,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 
@@ -133,7 +132,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                         startActivityForResult(intentDebtor, DebtorActivity.REQUEST_CODE_CHOOSE_LENDER);
                     }
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
             }
         });
@@ -194,7 +193,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     private void init() {
         mPlusPresenter = new PlusPresenter(this, getContext(), getActivity());
         etInputAmount = mView.findViewById(R.id.etInputAmount);
-        AppUtils.formatNumberEditText(etInputAmount);
+        vn.com.nghiemduong.moneykeeper.utils.AppUtils.formatNumberEditText(etInputAmount);
 
         // View hạng mục, thể loại
         rlChooseCategory = mView.findViewById(R.id.rlChooseCategory);
@@ -203,6 +202,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         tvTitleCategory = mView.findViewById(R.id.tvTitleCategory);
 
         etExplain = mView.findViewById(R.id.etExplain);
+        AppUtils.addTextChangeEditText(etExplain);
 
         //Người vay nợ
         rlLayoutDebtor = mView.findViewById(R.id.rlLayoutDebtor);
@@ -237,11 +237,11 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         // Thời gian
         tvDate = mView.findViewById(R.id.tvDate);
         tvDate.setOnClickListener(this);
-        tvDate.setText(UtilsPlus.getDateCurrent(getActivity()));
+        tvDate.setText(AppUtils.getDateCurrent(getActivity()));
 
         tvTime = mView.findViewById(R.id.tvTime);
         tvTime.setOnClickListener(this);
-        tvTime.setText(UtilsPlus.getTimeCurrent());
+        tvTime.setText(AppUtils.getTimeCurrent());
 
         // Thời hạn
         rlLayoutDuration = mView.findViewById(R.id.rlLayoutDuration);
@@ -329,7 +329,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 swNotIncludeReport.setChecked(true);
             }
 
-            imageBitmap = AppUtils.convertByteArrayToBitmap(mRecord.getImage());
+            imageBitmap = vn.com.nghiemduong.moneykeeper.utils.AppUtils.convertByteArrayToBitmap(mRecord.getImage());
             if (imageBitmap != null) {
                 setValueImageFolderOrCamera();
             }
@@ -532,7 +532,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     startActivityForResult(intentChooseCategory,
                             ChooseCategoryActivity.REQUEST_CODE_CHOOSE_CATEGORY);
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -552,7 +552,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     }
 
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -565,7 +565,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     startActivityForResult(intentChooseAccount,
                             ChooseAccountActivity.REQUEST_CODE_CHOOSE_ACCOUNT);
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -576,7 +576,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                             tvDate.getText().toString(), tvTime.getText().toString(),
                             this).show();
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
 
                 break;
@@ -587,7 +587,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                             tvDate.getText().toString(), tvTime.getText().toString(),
                             this).show();
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -598,7 +598,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                             tvDateDuration.getText().toString(), tvTime.getText().toString(),
                             this).show();
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -608,7 +608,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     intentFolder.setType("image/*");
                     startActivityForResult(intentFolder, AppConstants.REQUEST_CODE_IMAGE_FROM_FOLDER);
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -617,7 +617,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     new AppPermission().requestCameraPermission(getContext(),
                             getActivity(), this);
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -627,7 +627,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     rlContentImage.setVisibility(View.GONE);
                     imageBitmap = null;
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -640,7 +640,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     startActivityForResult(intentChooseAccount,
                             ChooseAccountActivity.REQUEST_CODE_FROM_ACCOUNT);
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -653,7 +653,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     startActivityForResult(intentChooseAccount,
                             ChooseAccountActivity.REQUEST_CODE_TO_ACCOUNT);
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
@@ -662,15 +662,15 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                     new AttentionDeleteDialog(getContext(), this,
                             AttentionDeleteDialog.ATTENTION_DELETE_DATA).show();
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
 
             case R.id.llSave:
                 try {
-                    int amount = Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount));
-                    String explain = AppUtils.getEditText(etExplain);
-                    String date = AppUtils.formatDateDefault(tvDate.getText().toString(), getActivity());
+                    int amount = Integer.parseInt(vn.com.nghiemduong.moneykeeper.utils.AppUtils.getEditTextFormatNumber(etInputAmount));
+                    String explain = vn.com.nghiemduong.moneykeeper.utils.AppUtils.getEditText(etExplain);
+                    String date = vn.com.nghiemduong.moneykeeper.utils.AppUtils.formatDateDefault(tvDate.getText().toString(), getActivity());
                     String time = tvTime.getText().toString();
 
                     int report = AppConstants.CO_BAO_CAO;
@@ -678,12 +678,12 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                         report = AppConstants.KHONG_BAO_CAO;
                     }
 
-                    byte[] image = AppUtils.convertBitmapToByteArray(imageBitmap);
+                    byte[] image = vn.com.nghiemduong.moneykeeper.utils.AppUtils.convertBitmapToByteArray(imageBitmap);
 
                     mPlusPresenter.saveRecord(mRecord, amount, mCategory, mDebtor, explain, date, time,
                             mAccount, mToAccount, mDateDuration, report, image, recordConstant);
                 } catch (Exception e) {
-                    AppUtils.handlerException(e);
+                    vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
                 }
                 break;
         }
@@ -760,7 +760,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
     public void resultChooseCategory(Category category) {
         this.mCategory = category;
         if (mCategory != null) {
-            ivImageCategory.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+            ivImageCategory.setImageBitmap(vn.com.nghiemduong.moneykeeper.utils.AppUtils.convertPathFileImageAssetsToBitmap(
                     mCategory.getCategoryPath(), Objects.requireNonNull(getContext())));
             tvTitleCategory.setText(mCategory.getCategoryName());
             tvTitleCategory.setTextColor(getResources().getColor(R.color.text_valuable));
@@ -855,7 +855,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
     @Override
     public void showCustomToastChooseDateDurationWarring(String message) {
-
+        showCustomToast(message, AppConstants.TOAST_ERROR);
     }
 
     @Override
@@ -865,6 +865,9 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         mToAccount = null;
         resultChooseAccount(null, ChooseAccountActivity.REQUEST_CODE_TO_ACCOUNT);
         resultChooseCategory(mCategory);
+        chipDebtor.setText(null);
+        chipDebtor.setVisibility(View.GONE);
+        tvDebtor.setVisibility(View.VISIBLE);
         etInputAmount.setText(getString(R.string._0));
         etExplain.setText(null);
 
@@ -880,21 +883,21 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
     @Override
     public void saveDateTime(String date, String time) {
-        tvDate.setText(AppUtils.formatDate(date, getActivity()));
+        tvDate.setText(vn.com.nghiemduong.moneykeeper.utils.AppUtils.formatDate(date, getActivity()));
         tvTime.setText(time);
     }
 
     @Override
     public void saveDateDuration(String dateDuration) {
         this.mDateDuration = dateDuration;
-        tvDateDuration.setText(AppUtils.formatDate(dateDuration, getActivity()));
-        int result = AppUtils.compareDateWithCurrentDate(dateDuration, getActivity());
+        tvDateDuration.setText(vn.com.nghiemduong.moneykeeper.utils.AppUtils.formatDate(dateDuration, getActivity()));
+        int result = vn.com.nghiemduong.moneykeeper.utils.AppUtils.compareDateWithCurrentDate(dateDuration, getActivity());
         if (result >= 0) { // điều kiện đúng ngày trả nợ phải lớn hơn ngày hiện tại
             tvDateDuration.setTextColor(getResources().getColor(R.color.text_valuable));
         } else {
             tvDateDuration.setTextColor(getResources().getColor(R.color.text_warring));
             showCustomToast("Ngày trả nợ phải lớn hơn hoặc nhỏ hơn bằng ngày "
-                    + UtilsPlus.getDateCurrent(getActivity()), AppConstants.TOAST_WARRING);
+                    + AppUtils.getDateCurrent(getActivity()), AppConstants.TOAST_WARRING);
         }
 
 
@@ -928,7 +931,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
 
     // Hàm set giá trị view cho tài khoản
     public void setViewAccount(ImageView ivImageAccount, TextView tvTitleAccount, Account account) {
-        ivImageAccount.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(
+        ivImageAccount.setImageBitmap(vn.com.nghiemduong.moneykeeper.utils.AppUtils.convertPathFileImageAssetsToBitmap(
                 account.getAccountTypePath(), Objects.requireNonNull(getContext())));
         tvTitleAccount.setText(mAccount.getAccountName());
         tvTitleAccount.setTextColor(getResources().getColor(R.color.text_valuable));
@@ -954,7 +957,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
                 }
             }
         } catch (Exception e) {
-            AppUtils.handlerException(e);
+            vn.com.nghiemduong.moneykeeper.utils.AppUtils.handlerException(e);
         }
     }
 }

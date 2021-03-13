@@ -11,7 +11,7 @@
     <color name="blue_spinner">#95F3FF</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#252525</color>
-    <color name="black_view_line">#606060</color>
+    <color name="black_view_line">#7E7E7E</color>
     <color name="black_text_normal">#303030</color>
     <color name="black_text_normal_default">#8E8E8E</color>
     <color name="gray_image_bottom_sheet">#989898</color>
@@ -36,7 +36,7 @@
     <color name="navy_blue_dark">#1C3A4E</color>
     <color name="yellow">#fff44f</color>
     <color name="colorTransparent">#7266ba</color>
-    <color name="precedence_qt">#EF5350</color>
+    <color name="precedence_qt">#FF85AE</color>
     <color name="precedence_c">#F1B53D</color>
     <color name="precedence_bt">#67D1F8</color>
     <color name="precedence_t">#6C757D</color>
@@ -61,7 +61,7 @@
     <color name="bg_tab_unselect">#DDDDDD</color>
 
     // Màu cho text
-    <color name="text_valuable">#2B2B2B</color>
+    <color name="text_valuable">#323232</color>
     <color name="text_unvalue">#8E8E8E</color>
     <color name="text_warring">#FF4C4C</color>
 

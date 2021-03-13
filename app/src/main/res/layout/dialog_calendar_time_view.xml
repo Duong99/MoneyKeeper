@@ -40,15 +40,14 @@
                 android:textSize="@dimen/font_large" />
 
             <ImageView
-                android:id="@+id/ivTime"
+                android:backgroundTint="@color/white"
+                android:id="@+id/ivSwap"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/ic_watch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_large" />
+                android:background="@drawable/ic_repeat"
+                android:layout_width="@dimen/height_width_ic_picture_spinner"
+                android:layout_height="@dimen/height_width_ic_picture_spinner"
+                android:padding="@dimen/padding_medium" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package vn.com.nghiemduong.moneykeeper.ui.start.intro;
 
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,7 +39,8 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
         SplashIntroMvpView {
 
     private LinearLayout llDotsSplashIntro;
-    private Button btnRegisterSplashIntro, btnLoginSplashIntro;
+    private Button btnRegisterSplashIntro;
+    private TextView tvLoginSplashIntro;
     private ViewPager vpIntroSplashIntro;
     private ViewPagerIntroAdapter mIntroAdapter;
     private SplashIntroPresenter mSplashIntroPresenter;
@@ -100,6 +103,7 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
      * @created_by nxduong on 25/1/2021
      */
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void createDots() {
         mDotCount = mIntroAdapter.getCount();
         ivDots = new ImageView[mDotCount];
@@ -125,8 +129,8 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
 
         btnRegisterSplashIntro = findViewById(R.id.btnRegisterSplashIntro);
         btnRegisterSplashIntro.setOnClickListener(this);
-        btnLoginSplashIntro = findViewById(R.id.btnLoginSplashIntro);
-        btnLoginSplashIntro.setOnClickListener(this);
+        tvLoginSplashIntro = findViewById(R.id.tvLoginSplashIntro);
+        tvLoginSplashIntro.setOnClickListener(this);
 
         mSplashIntroPresenter = new SplashIntroPresenter(this, this);
         mSplashIntroPresenter.getSlideListIntro();
@@ -141,7 +145,7 @@ public class SplashIntroActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
 
-            case R.id.btnLoginSplashIntro:
+            case R.id.tvLoginSplashIntro:
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
         }

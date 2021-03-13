@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
+import android.view.animation.RotateAnimation;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import java.util.Date;
 
 import vn.com.nghiemduong.moneykeeper.R;
-import vn.com.nghiemduong.moneykeeper.ui.main.plus.UtilsPlus;
+import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
  * -  Lớp kế thừa dialog cho phép chọn lịch và thời gian
@@ -36,7 +36,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
     private int mKey;
     private TextView btnCurrentDate;
     private TextView tvTime, tvDate;
-    private ImageView ivTime;
+    private ImageView ivSwap;
     private String mDate, mTime;
     private CustomDateTimeDialogMvpPresenter mCustomDateTimeDialogMvpPresenter;
     private Context mContext;
@@ -95,8 +95,8 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
         tvTime = findViewById(R.id.tvTime);
         tvTime.setOnClickListener(this);
 
-        ivTime = findViewById(R.id.ivTime);
-        ivTime.setOnClickListener(this);
+        ivSwap = findViewById(R.id.ivSwap);
+        ivSwap.setOnClickListener(this);
         tvTime.setText(mTime);
 
         tvDate = findViewById(R.id.tvDate);
@@ -121,7 +121,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
             calendarView.setVisibility(View.VISIBLE);
             btnCurrentDate.setText(R.string.today);
             tvTime.setTextColor(mContext.getResources().getColor(R.color.gray_image_bottom_sheet));
-            ivTime.setColorFilter(mContext.getResources().getColor(R.color.gray_image_bottom_sheet));
+            ivSwap.setColorFilter(mContext.getResources().getColor(R.color.gray_image_bottom_sheet));
 
             tvDate.setTextColor(mContext.getResources().getColor(R.color.white));
         }
@@ -132,7 +132,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
             rlCenterTimePicker.setVisibility(View.VISIBLE);
             btnCurrentDate.setText(R.string.current_time);
             tvTime.setTextColor(mContext.getResources().getColor(R.color.white));
-            ivTime.setColorFilter(mContext.getResources().getColor(R.color.white));
+            ivSwap.setColorFilter(mContext.getResources().getColor(R.color.white));
             tvDate.setTextColor(mContext.getResources().getColor(R.color.gray_image_bottom_sheet));
         }
 
@@ -142,7 +142,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
             calendarView.setVisibility(View.VISIBLE);
             btnCurrentDate.setText(R.string.today);
             tvTime.setVisibility(View.GONE);
-            ivTime.setVisibility(View.GONE);
+            ivSwap.setVisibility(View.GONE);
             tvDate.setTextColor(mContext.getResources().getColor(R.color.white));
         }
     }
@@ -159,8 +159,8 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
 
                 if (mKey == KEY_CALENDAR || mKey == KEY_JUST_CALENDAR) {
                     calendarView.setDate(date.getTime());
-                    mDate = UtilsPlus.getDateCurrent((Activity) mContext);
-                    tvDate.setText(mDate);
+                    mDate = AppUtils.getDateCurrent((Activity) mContext);
+                    tvDate.setText(AppUtils.formatDate(mDate, (Activity) mContext));
                 }
 
                 break;
@@ -187,12 +187,30 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
                 break;
 
             case R.id.tvTime:
-
-            case R.id.ivTime:
                 if (mKey != KEY_WATCH) {
                     mKey = KEY_WATCH;
                     setViewDateTime();
                 }
+                break;
+            case R.id.ivSwap:
+                RotateAnimation animation;
+
+                if (mKey != KEY_CALENDAR) {
+                    mKey = KEY_CALENDAR;
+                    animation = new RotateAnimation(0, 360,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                } else {
+                    mKey = KEY_WATCH;
+                    animation = new RotateAnimation(360, 0,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                            RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+                }
+
+                animation.setDuration(500);
+                animation.setFillAfter(true);
+                ivSwap.startAnimation(animation);
+                setViewDateTime();
                 break;
         }
     }
@@ -208,7 +226,7 @@ public class CustomDateTimeDialog extends Dialog implements View.OnClickListener
     @Override
     public void onFinishFormatDateChanged(String date) {
         mDate = date;
-        tvDate.setText(mDate);
+        tvDate.setText(AppUtils.formatDate(mDate, (Activity) mContext));
     }
 
     @Override

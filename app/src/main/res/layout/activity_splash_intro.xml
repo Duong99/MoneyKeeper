@@ -38,18 +38,20 @@
             android:text="@string/register_account_new"
             android:id="@+id/btnRegisterSplashIntro"
             android:layout_width="@dimen/width_button_slide_intro"
-            android:layout_height="wrap_content"/>
+            android:layout_height="@dimen/height_item_plus" />
 
-        <Button
+        <TextView
+            android:textAllCaps="true"
+            android:gravity="center"
             android:layout_marginTop="@dimen/margin_large"
             android:textColor="@color/blue"
             android:background="@drawable/bg_button_login_slide_intro"
             android:layout_below="@id/btnRegisterSplashIntro"
             android:text="@string/login"
             android:layout_centerHorizontal="true"
-            android:id="@+id/btnLoginSplashIntro"
+            android:id="@+id/tvLoginSplashIntro"
             android:layout_width="@dimen/width_button_slide_intro"
-            android:layout_height="wrap_content"/>
+            android:layout_height="@dimen/height_item_plus" />
 
         <TextView
             android:id="@+id/tvSelectLanguageSplashIntro"

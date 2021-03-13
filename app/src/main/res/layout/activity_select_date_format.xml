@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.more.general.dateformat.SelectDateFormatActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbSelectDateFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="@string/select_date_format"
+        app:titleTextColor="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/rlDateFormatVN"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_item_plus"
+        android:background="@drawable/bg_select_ripple_gray">
+
+        <ImageView
+            android:id="@+id/ivDateFormatVN"
+            android:layout_width="@dimen/height_width_ic_picture_spinner"
+            android:layout_height="@dimen/height_width_ic_picture_spinner"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_large_small"
+            android:background="@drawable/ic_tick"
+            android:backgroundTint="@color/blue"
+            android:visibility="gone" />
+
+        <TextView
+            android:textColor="@color/text_valuable"
+            android:id="@+id/tvDateFormatVN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_large_small"
+            android:textSize="@dimen/font_small" />
+
+        <include
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_view_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlDateFormatUS"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_item_plus"
+        android:background="@drawable/bg_select_ripple_gray">
+
+        <ImageView
+            android:id="@+id/ivDateFormatUS"
+            android:layout_width="@dimen/height_width_ic_picture_spinner"
+            android:layout_height="@dimen/height_width_ic_picture_spinner"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_large_small"
+            android:background="@drawable/ic_tick"
+            android:backgroundTint="@color/blue"
+            android:visibility="gone" />
+
+        <TextView
+            android:textColor="@color/text_valuable"
+            android:id="@+id/tvDateFormatUS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_large_small"
+            android:textSize="@dimen/font_small" />
+
+        <include
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_view_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlDateFormatISO8601"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_item_plus"
+        android:background="@drawable/bg_select_ripple_gray">
+
+        <ImageView
+            android:id="@+id/ivDateFormatISO8601"
+            android:layout_width="@dimen/height_width_ic_picture_spinner"
+            android:layout_height="@dimen/height_width_ic_picture_spinner"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_large_small"
+            android:background="@drawable/ic_tick"
+            android:backgroundTint="@color/blue"
+            android:visibility="gone" />
+
+        <TextView
+            android:textColor="@color/text_valuable"
+            android:id="@+id/tvDateFormatISO8601"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_large_small"
+            android:textSize="@dimen/font_small" />
+
+        <include
+            layout="@layout/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_view_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+</LinearLayout>

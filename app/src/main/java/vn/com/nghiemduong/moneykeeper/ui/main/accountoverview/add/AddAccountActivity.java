@@ -84,6 +84,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
 
         TextView tvTitleBarAddAccount = findViewById(R.id.tvTitleBarAddAccount);
         etExplain = findViewById(R.id.etExplain);
+        AppUtils.addTextChangeEditText(etExplain);
         swNotIncludeReport = findViewById(R.id.swNotIncludeReport);
         ivImageAccountType = findViewById(R.id.ivAccountType);
         tvTitleAccountType = findViewById(R.id.tvAccountType);

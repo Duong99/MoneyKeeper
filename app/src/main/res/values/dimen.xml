@@ -7,7 +7,7 @@
     <dimen name="height_logo_misa">20dp</dimen>
     <dimen name="weight_logo_misa">40dp</dimen>
 
-    <dimen name="font_small">13sp</dimen>
+    <dimen name="font_small">14sp</dimen>
     <dimen name="font_medium">16sp</dimen>
     <dimen name="font_large">18sp</dimen>
 
@@ -17,6 +17,7 @@
     <dimen name="margin_small">2.5dp</dimen>
     <dimen name="margin_medium">5dp</dimen>
     <dimen name="margin_large">10dp</dimen>
+    <dimen name="margin_large_small">12.5dp</dimen>
     <dimen name="margin_account_start_end">20dp</dimen>
     <dimen name="margin_large_visibility">30dp</dimen>
     <dimen name="margin_phone_large">15dp</dimen>
@@ -93,4 +94,8 @@
     <dimen name="height_width_image_toast">40dp</dimen>
     <dimen name="height_toast">60dp</dimen>
     <dimen name="corner_toast">30dp</dimen>
+
+    <dimen name="height_width_image_setting">25dp</dimen>
+    <dimen name="height_width_card_setting">35dp</dimen>
+    <dimen name="corner_card_setting">17.5dp</dimen>
 </resources>
