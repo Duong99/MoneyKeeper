@@ -96,11 +96,11 @@ public class RecordOverviewAdapter extends RecyclerView.Adapter<RecordOverviewAd
                 holder.tvExplainOverview.setVisibility(View.VISIBLE);
             }
 
-            if (record.getExplain() == null || record.getExplain().equals("")) {
+            if (record.getDescription() == null || record.getDescription().equals("")) {
                 holder.tvExplainOverview.setText(
                         mContext.getResources().getString(R.string.attached_photo));
             } else {
-                holder.tvExplainOverview.setText(record.getExplain());
+                holder.tvExplainOverview.setText(record.getDescription());
                 holder.tvExplainOverview.setVisibility(View.VISIBLE);
             }
         }

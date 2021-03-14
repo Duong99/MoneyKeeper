@@ -130,7 +130,9 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         switch (v.getId()) {
             case R.id.ivAddAccount:
                 Intent intent = new Intent(getContext(), AddAccountActivity.class);
-                intent.putExtra(AddAccountActivity.KEY_ADD_EDIT_ACCOUNT, AddAccountActivity.ADD_ACCOUNT);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("BUNDLE_ACCOUNT", null);
+                intent.putExtra("BUNDLE", bundle);
                 startActivityForResult(intent, AddAccountActivity.REQUEST_CODE_ACCOUNT_ADD);
                 break;
         }
@@ -175,7 +177,6 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         Bundle bundle = new Bundle();
         bundle.putSerializable("BUNDLE_ACCOUNT", mAccount);
         intent.putExtra("BUNDLE", bundle);
-        intent.putExtra(AddAccountActivity.KEY_ADD_EDIT_ACCOUNT, AddAccountActivity.EDIT_ACCOUNT);
         startActivityForResult(intent, AddAccountActivity.REQUEST_CODE_ACCOUNT_EDIT);
     }
 

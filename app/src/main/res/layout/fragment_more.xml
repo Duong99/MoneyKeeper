@@ -327,32 +327,16 @@
                         android:layout_gravity="center"
                         android:background="@drawable/ic_infomation_ultilities" />
                 </androidx.cardview.widget.CardView>
-
-                <include
-                    layout="@layout/view_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_view_line"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginEnd="@dimen/margin_medium" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:layout_marginTop="@dimen/margin_large"
                 android:id="@+id/rlLogout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_event_trip"
                 android:background="@drawable/bg_select_ripple_gray"
                 android:paddingStart="@dimen/margin_large_small"
                 android:paddingEnd="@dimen/margin_large">
-
-                <ImageView
-                    android:layout_width="@dimen/height_width_ic_arrow"
-                    android:layout_height="@dimen/height_width_ic_arrow"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/ic_arrow_right"
-                    android:backgroundTint="@color/text_unvalue" />
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -361,7 +345,7 @@
                     android:layout_marginStart="@dimen/margin_large_small"
                     android:layout_toEndOf="@id/cvLogout"
                     android:text="@string/logout"
-                    android:textColor="@color/text_valuable"
+                    android:textColor="@color/red"
                     android:textSize="@dimen/font_medium" />
 
                 <androidx.cardview.widget.CardView
@@ -380,14 +364,6 @@
                         android:layout_gravity="center"
                         android:background="@drawable/ic_setting_logout" />
                 </androidx.cardview.widget.CardView>
-
-                <include
-                    layout="@layout/view_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_view_line"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginEnd="@dimen/margin_medium" />
             </RelativeLayout>
 
         </LinearLayout>

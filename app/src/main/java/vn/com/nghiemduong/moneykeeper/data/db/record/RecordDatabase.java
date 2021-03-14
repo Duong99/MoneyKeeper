@@ -29,7 +29,7 @@ public class RecordDatabase extends BaseSqLite implements RecordDatabaseMvpPrese
     private final static String AMOUNT = "amount";
     private final static String CATEGORY_ID = CategoryDatabase.CATEGORY_ID;
     private final static String DEBTOR = "debtor";
-    private final static String EXPLAIN = "explain";
+    private final static String DESCRIPTION = "description";
     private final static String DATE = "date";
     private final static String TIME = "time";
     private final static String ACCOUNT_ID = AccountDatabase.ACCOUNT_ID;
@@ -181,7 +181,7 @@ public class RecordDatabase extends BaseSqLite implements RecordDatabaseMvpPrese
         values.put(AMOUNT, record.getAmount());
         values.put(CATEGORY_ID, record.getCategoryId());
         values.put(DEBTOR, record.getDebtor());
-        values.put(EXPLAIN, record.getExplain());
+        values.put(DESCRIPTION, record.getDescription());
         values.put(DATE, record.getDate());
         values.put(TIME, record.getTime());
         values.put(ACCOUNT_ID, record.getAccountId());
@@ -220,7 +220,7 @@ public class RecordDatabase extends BaseSqLite implements RecordDatabaseMvpPrese
         values.put(AMOUNT, record.getAmount());
         values.put(CATEGORY_ID, record.getCategoryId());
         values.put(DEBTOR, record.getDebtor());
-        values.put(EXPLAIN, record.getExplain());
+        values.put(DESCRIPTION, record.getDescription());
         values.put(DATE, record.getDate());
         values.put(TIME, record.getTime());
         values.put(ACCOUNT_ID, record.getAccountId());

@@ -16,7 +16,7 @@ public class Record implements Serializable {
     private int amount;// (INTEGER): Số tiền
     private int categoryId;// 	(INTEGER) : id của category
     private String debtor;// (TEXT) : Người vay nợ
-    private String explain;// (TEXT): Diễn giải
+    private String description;// (TEXT): Diễn giải
     private String date;// (TEXT) : Thời gian (ngày / tháng / năm)
     private String time;// (TEXT) : Thời gian ( Giờ : Phút)
     private int accountId;// 	(INTEGER) : id tài khoản
@@ -29,13 +29,13 @@ public class Record implements Serializable {
     public Record() {
     }
 
-    public Record(int recordId, int amount, int categoryId, String debtor, String explain, String date,
+    public Record(int recordId, int amount, int categoryId, String debtor, String description, String date,
                   String time, int accountId, int toAccountId, String dateDuration, int report, byte[] image, int type) {
         this.recordId = recordId;
         this.amount = amount;
         this.categoryId = categoryId;
         this.debtor = debtor;
-        this.explain = explain;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.accountId = accountId;
@@ -52,11 +52,11 @@ public class Record implements Serializable {
      * @created_by nxduong on 11/3/2021
      */
 
-    public Record(int amount, int categoryId, String explain, String date, String time,
+    public Record(int amount, int categoryId, String description, String date, String time,
                   int accountId, int report, byte[] image, int type) {
         this.amount = amount;
         this.categoryId = categoryId;
-        this.explain = explain;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.accountId = accountId;
@@ -71,12 +71,12 @@ public class Record implements Serializable {
      * @created_by nxduong on 11/3/2021
      */
 
-    public Record(int recordId, int amount, int categoryId, String explain, String date,
+    public Record(int recordId, int amount, int categoryId, String description, String date,
                   String time, int accountId, int report, byte[] image, int type) {
         this.recordId = recordId;
         this.amount = amount;
         this.categoryId = categoryId;
-        this.explain = explain;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.accountId = accountId;
@@ -90,12 +90,12 @@ public class Record implements Serializable {
      *
      * @created_by nxduong on 11/3/2021
      */
-    public Record(int amount, int categoryId, String debtor, String explain, String date, String time,
+    public Record(int amount, int categoryId, String debtor, String description, String date, String time,
                   int accountId, byte[] image, int type) {
         this.amount = amount;
         this.categoryId = categoryId;
         this.debtor = debtor;
-        this.explain = explain;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.accountId = accountId;
@@ -109,13 +109,13 @@ public class Record implements Serializable {
      * @created_by nxduong on 11/3/2021
      */
 
-    public Record(int recordId, int amount, int categoryId, String debtor, String explain,
+    public Record(int recordId, int amount, int categoryId, String debtor, String description,
                   String date, String time, int accountId, byte[] image, int type) {
         this.recordId = recordId;
         this.amount = amount;
         this.categoryId = categoryId;
         this.debtor = debtor;
-        this.explain = explain;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.accountId = accountId;
@@ -129,12 +129,12 @@ public class Record implements Serializable {
      * @created_by nxduong on 11/3/2021
      */
 
-    public Record(int amount, int categoryId, String debtor, String explain, String date, String time,
+    public Record(int amount, int categoryId, String debtor, String description, String date, String time,
                   int accountId, String dateDuration, byte[] image, int type) {
         this.amount = amount;
         this.categoryId = categoryId;
         this.debtor = debtor;
-        this.explain = explain;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.accountId = accountId;
@@ -148,13 +148,13 @@ public class Record implements Serializable {
      *
      * @created_by nxduong on 11/3/2021
      */
-    public Record(int recordId, int amount, int categoryId, String debtor, String explain,
+    public Record(int recordId, int amount, int categoryId, String debtor, String description,
                   String date, String time, int accountId, String dateDuration, byte[] image, int type) {
         this.recordId = recordId;
         this.amount = amount;
         this.categoryId = categoryId;
         this.debtor = debtor;
-        this.explain = explain;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.accountId = accountId;
@@ -169,10 +169,10 @@ public class Record implements Serializable {
      * @created_by nxduong on 11/3/2021
      */
 
-    public Record(int amount, int accountId, int toAccountId, String explain, String date, String time,
+    public Record(int amount, int accountId, int toAccountId, String description, String date, String time,
                   int report, byte[] image, int type) {
         this.amount = amount;
-        this.explain = explain;
+        this.description = description;
         this.accountId = accountId;
         this.toAccountId = toAccountId;
         this.date = date;
@@ -188,11 +188,11 @@ public class Record implements Serializable {
      * @created_by nxduong on 11/3/2021
      */
 
-    public Record(int recordId, int amount, int accountId, int toAccountId, String explain,
+    public Record(int recordId, int amount, int accountId, int toAccountId, String description,
                   String date, String time, int report, byte[] image, int type) {
         this.recordId = recordId;
         this.amount = amount;
-        this.explain = explain;
+        this.description = description;
         this.date = date;
         this.time = time;
         this.accountId = accountId;
@@ -234,12 +234,12 @@ public class Record implements Serializable {
         this.debtor = debtor;
     }
 
-    public String getExplain() {
-        return explain;
+    public String getDescription() {
+        return description;
     }
 
-    public void setExplain(String explain) {
-        this.explain = explain;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDate() {

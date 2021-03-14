@@ -72,7 +72,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             ivImageFromAccount, ivImageToAccount;
     private TextView tvTitleCategory, tvTitleAccount, tvDate, tvTime, tvDateDuration,
             tvTitleFromAccount, tvTitleToAccount, tvDebtor;
-    private EditText etExplain;
+    private EditText etDescription;
     private Account mAccount, mToAccount;
     private Category mCategory;
     private LinearLayout llSelectImage, llDelete;
@@ -201,8 +201,8 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         ivImageCategory = mView.findViewById(R.id.ivImageCategory);
         tvTitleCategory = mView.findViewById(R.id.tvTitleCategory);
 
-        etExplain = mView.findViewById(R.id.etExplain);
-        AppUtils.addTextChangeEditText(etExplain);
+        etDescription = mView.findViewById(R.id.etDescription);
+        AppUtils.addTextChangeEditText(etDescription);
 
         //Người vay nợ
         rlLayoutDebtor = mView.findViewById(R.id.rlLayoutDebtor);
@@ -294,7 +294,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         if (mRecord != null) {
             llDelete.setVisibility(View.VISIBLE);
             etInputAmount.setText(String.valueOf(mRecord.getAmount()));
-            etExplain.setText(mRecord.getExplain());
+            etDescription.setText(mRecord.getDescription());
             tvDate.setText(mRecord.getDate());
             tvTime.setText(mRecord.getTime());
 
@@ -669,7 +669,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
             case R.id.llSave:
                 try {
                     int amount = Integer.parseInt(vn.com.nghiemduong.moneykeeper.utils.AppUtils.getEditTextFormatNumber(etInputAmount));
-                    String explain = vn.com.nghiemduong.moneykeeper.utils.AppUtils.getEditText(etExplain);
+                    String explain = vn.com.nghiemduong.moneykeeper.utils.AppUtils.getEditText(etDescription);
                     String date = vn.com.nghiemduong.moneykeeper.utils.AppUtils.formatDateDefault(tvDate.getText().toString(), getActivity());
                     String time = tvTime.getText().toString();
 
@@ -869,7 +869,7 @@ public class PlusFragment extends BaseFragment implements PlusMvpView, View.OnCl
         chipDebtor.setVisibility(View.GONE);
         tvDebtor.setVisibility(View.VISIBLE);
         etInputAmount.setText(getString(R.string._0));
-        etExplain.setText(null);
+        etDescription.setText(null);
 
         if (mRecord != null) {
             onBackPressed();

@@ -26,6 +26,7 @@
     <dimen name="padding_small">2.5dp</dimen>
     <dimen name="padding_medium">5dp</dimen>
     <dimen name="padding_large">10dp</dimen>
+    <dimen name="padding_large_medium">15dp</dimen>
 
     <dimen name="corner_radius_small">2.5dp</dimen>
     <dimen name="corner_radius_medium">5dp</dimen>

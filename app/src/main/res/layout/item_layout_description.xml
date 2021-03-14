@@ -24,7 +24,7 @@
         style="@style/TextViewNormalBlack"
         android:maxLength="255"
         android:background="@drawable/bg_et_enter_money"
-        android:id="@+id/etExplain"
+        android:id="@+id/etDescription"
         android:paddingEnd="@dimen/margin_large"
         android:drawableTint="@color/text_unvalue"
         android:inputType="textCapSentences"

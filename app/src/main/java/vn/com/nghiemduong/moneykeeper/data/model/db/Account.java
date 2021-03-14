@@ -15,12 +15,12 @@ public class Account implements Serializable {
     private String accountTypePath; //(TEXT) : Đường dẫn ảnh của loại tài khoản trong assets
     private String accountTypeName; //(TEXT) : Tên loại tài khoản
     private String moneyType;    //(TEXT) : Loại tiền tệ mặc định VND
-    private String explain;     // (TEXT) : Diễn giải
+    private String description;     // (TEXT) : Diễn giải
     private int report;       /// (INTEGER): Có tính vào báo cáo không 1 là có, 0 là không
 
     public Account(int accountId, String accountName, int currentAmount,
                    String accountTypePath, String accountTypeName, String moneyType,
-                   String explain, int report) {
+                   String description, int report) {
         this.accountId = accountId;
         this.accountName = accountName;
 
@@ -28,18 +28,18 @@ public class Account implements Serializable {
         this.accountTypePath = accountTypePath;
         this.accountTypeName = accountTypeName;
         this.moneyType = moneyType;
-        this.explain = explain;
+        this.description = description;
         this.report = report;
     }
 
     public Account(String accountName, int currentAmount, String accountTypePath,
-                   String accountTypeName, String moneyType, String explain, int report) {
+                   String accountTypeName, String moneyType, String description, int report) {
         this.accountName = accountName;
         this.currentAmount = currentAmount;
         this.accountTypePath = accountTypePath;
         this.accountTypeName = accountTypeName;
         this.moneyType = moneyType;
-        this.explain = explain;
+        this.description = description;
         this.report = report;
     }
 
@@ -91,12 +91,12 @@ public class Account implements Serializable {
         this.moneyType = moneyType;
     }
 
-    public String getExplain() {
-        return explain;
+    public String getDescription() {
+        return description;
     }
 
-    public void setExplain(String explain) {
-        this.explain = explain;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getReport() {

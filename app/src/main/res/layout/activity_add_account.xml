@@ -189,7 +189,7 @@
                 android:layout_toEndOf="@id/ivVND" />
         </RelativeLayout>
 
-        <include layout="@layout/item_layout_explain" />
+        <include layout="@layout/item_layout_description" />
 
     </LinearLayout>
 

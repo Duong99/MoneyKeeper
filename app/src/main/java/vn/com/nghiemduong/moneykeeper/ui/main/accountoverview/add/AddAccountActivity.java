@@ -33,23 +33,21 @@ import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
  * - @created_by nxduong on 26/1/2021
  **/
 public class AddAccountActivity extends BaseActivity implements View.OnClickListener,
-        AttentionDeleteDialog.IOnClickAttentionDialog {
+        AttentionDeleteDialog.IOnClickAttentionDialog, AddAccountActivityMvpView {
 
     public final static int REQUEST_CODE_ACCOUNT_ADD = 321;
     public final static int REQUEST_CODE_ACCOUNT_EDIT = 121;
-    public final static int ADD_ACCOUNT = 0;
-    public final static int EDIT_ACCOUNT = 1;
-    public final static String KEY_ADD_EDIT_ACCOUNT = "KEY_ADD_EDIT_ACCOUNT";
 
-    private EditText etInputAmount, etExplain, etAccountName;
+    private EditText etInputAmount, etDescription, etAccountName;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swNotIncludeReport;
     private ImageView ivImageAccountType;
-    private TextView tvTitleAccountType;
+    private TextView tvTitleAccountType, tvTitleBarAddAccount;
+    private LinearLayout llDelete;
     private AccountType mAccountType;
     private AccountDatabase mAccountDatabase;
     private Account mAccount;
-    private int keyAddEditAccount = -1;
+    private AddAccountActivityPresenter mAddAccountActivityPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,53 +73,26 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
         LinearLayout llSave = findViewById(R.id.llSave);
         llSave.setOnClickListener(this);
 
-        LinearLayout llDelete = findViewById(R.id.llDelete);
+        llDelete = findViewById(R.id.llDelete);
         llDelete.setOnClickListener(this);
 
         etInputAmount = findViewById(R.id.etInputAmount);
         AppUtils.formatNumberEditText(etInputAmount);
         etInputAmount.setTextColor(getResources().getColor(R.color.blue));
 
-        TextView tvTitleBarAddAccount = findViewById(R.id.tvTitleBarAddAccount);
-        etExplain = findViewById(R.id.etExplain);
-        AppUtils.addTextChangeEditText(etExplain);
+        tvTitleBarAddAccount = findViewById(R.id.tvTitleBarAddAccount);
+        etDescription = findViewById(R.id.etDescription);
+
+        AppUtils.addTextChangeEditText(etDescription);
+
         swNotIncludeReport = findViewById(R.id.swNotIncludeReport);
         ivImageAccountType = findViewById(R.id.ivAccountType);
         tvTitleAccountType = findViewById(R.id.tvAccountType);
         etAccountName = findViewById(R.id.etAccountName);
         mAccountDatabase = new AccountDatabase(this);
 
-        // Kiểm tra xem thực hiện thêm hay sửa
-        keyAddEditAccount = getIntent().getIntExtra(KEY_ADD_EDIT_ACCOUNT, -1);
-        if (keyAddEditAccount == ADD_ACCOUNT) {
-            tvTitleBarAddAccount.setText(getString(R.string.add_account));
-
-            mAccountType = new AccountType("assets/ImageCategory/THU/THU_luong.png",
-                    getResources().getString(R.string.cash));
-            setValueAccountType();
-
-        } else {
-            tvTitleBarAddAccount.setText(getString(R.string.edit_account));
-            mAccount = (Account) Objects.requireNonNull(getIntent().getBundleExtra("BUNDLE"))
-                    .getSerializable("BUNDLE_ACCOUNT");
-
-            if (mAccount != null) {
-                etInputAmount.setText(AppUtils.formatNumber(String.valueOf(mAccount.getCurrentAmount())));
-                etAccountName.setText(mAccount.getAccountName());
-                etExplain.setText(mAccount.getExplain());
-                mAccountType = new AccountType(mAccount.getAccountTypePath(),
-                        mAccount.getAccountTypeName());
-
-                llDelete.setVisibility(View.VISIBLE);
-
-                if (mAccount.getReport() == AppConstants.CO_BAO_CAO) {
-                    swNotIncludeReport.setChecked(false);
-                } else {
-                    swNotIncludeReport.setChecked(true);
-                }
-                setValueAccountType();
-            }
-        }
+        mAddAccountActivityPresenter = new AddAccountActivityPresenter(this);
+        mAddAccountActivityPresenter.getAccountBundle(this);
     }
 
     private void setValueAccountType() {
@@ -211,12 +182,12 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
             }
 
             // Thêm tài khoản
-            if (keyAddEditAccount == ADD_ACCOUNT) {
+            if (mAccount == null) {
                 Account account = new Account(AppUtils.getEditText(etAccountName),
                         Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount)),
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppConstants.VND,
-                        AppUtils.getEditText(etExplain), report);
+                        AppUtils.getEditText(etDescription), report);
                 long insert = mAccountDatabase.insertAccount(account);
                 if (insert == DBUtils.checkDBFail) {
                     showCustomToast(getResources().getString(R.string.insert_account_fail), AppConstants.TOAST_ERROR);
@@ -231,7 +202,7 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
                         Integer.parseInt(AppUtils.getEditTextFormatNumber(etInputAmount)),
                         mAccountType.getAccountTypePath(),
                         mAccountType.getAccountTypeName(), AppConstants.VND,
-                        AppUtils.getEditText(etExplain), report);
+                        AppUtils.getEditText(etDescription), report);
                 long update = mAccountDatabase.updateAccount(mAccount);
                 if (update == DBUtils.checkDBFail) {
                     showToast(getResources().getString(R.string.update_account_fail));
@@ -266,6 +237,34 @@ public class AddAccountActivity extends BaseActivity implements View.OnClickList
             }
         } catch (Exception e) {
             AppUtils.handlerException(e);
+        }
+    }
+
+    @Override
+    public void resultGetAccountBundle(Account account) {
+        this.mAccount = account;
+        if (mAccount == null) { // Màn hình thêm tài khoản
+            tvTitleBarAddAccount.setText(getString(R.string.add_account));
+
+            mAccountType = new AccountType("assets/ImageCategory/THU/THU_luong.png",
+                    getResources().getString(R.string.cash));
+            setValueAccountType();
+        } else { // Màn hình sửa tài khoản
+            tvTitleBarAddAccount.setText(getString(R.string.edit_account));
+            etInputAmount.setText(AppUtils.formatNumber(String.valueOf(mAccount.getCurrentAmount())));
+            etAccountName.setText(mAccount.getAccountName());
+            etDescription.setText(mAccount.getDescription());
+            mAccountType = new AccountType(mAccount.getAccountTypePath(),
+                    mAccount.getAccountTypeName());
+
+            llDelete.setVisibility(View.VISIBLE);
+
+            if (mAccount.getReport() == AppConstants.CO_BAO_CAO) {
+                swNotIncludeReport.setChecked(false);
+            } else {
+                swNotIncludeReport.setChecked(true);
+            }
+            setValueAccountType();
         }
     }
 }

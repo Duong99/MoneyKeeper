@@ -218,11 +218,11 @@ public class AppUtils {
     public static String getDateFormat(Activity activity) {
         SharedPreferences sharedPreferences =
                 activity.getSharedPreferences("MY_SHARED_PREFERENCES", MODE_PRIVATE);
-        return sharedPreferences.getString("DATE_FORMAT", AppConstants.FORMAT_TIME_ISO_8601);
+        return sharedPreferences.getString("DATE_FORMAT", getFormatTimeDefault());
     }
 
     public static String getFormatTimeDefault() {
-        return AppConstants.FORMAT_TIME_US;
+        return AppConstants.FORMAT_TIME_VN;
     }
 
     public static SimpleDateFormat getSimpleDateFormatDefault() {
@@ -282,8 +282,6 @@ public class AppUtils {
         SimpleDateFormat sdfFormatDefault = getSimpleDateFormatDefault();
         SimpleDateFormat sdfFormat = new SimpleDateFormat(getDateFormat(activity), Locale.getDefault());
 
-
-        //SimpleDateFormat sdfFormat = new SimpleDateFormat(getFormatTime(activity), Locale.getDefault());
         try {
             Date date = sdfFormatDefault.parse(compareDate);
 

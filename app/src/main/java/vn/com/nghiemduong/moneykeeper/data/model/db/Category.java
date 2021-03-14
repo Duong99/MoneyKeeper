@@ -13,27 +13,27 @@ public class Category implements Serializable {
     private int categoryId; //(INTEGER) : id của hạng mục (category)
     private String categoryName;//(TEXT) :Tên của hạng mục (category)
     private String categoryPath; //(TEXT) : tên file ảnh
-    private String explain; //(TEXT): chú giải
+    private String description; //(TEXT): chú giải
     private int type; // (INTEGER) lại hạng mục Chi Tiền (-1), Thu Tiền (1), Vay nợ (0)
     private int categoryParentId; // Id thể loại cha của hạng mục, nếu null hạng mục chính là cha
     private int level; // cấp độ của hạng mục có 2 cấp độ 1 và 2
 
-    public Category(int categoryId, String categoryName, String categoryPath, String explain,
+    public Category(int categoryId, String categoryName, String categoryPath, String description,
                     int type, int categoryParentId, int level) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.categoryPath = categoryPath;
-        this.explain = explain;
+        this.description = description;
         this.type = type;
         this.categoryParentId = categoryParentId;
         this.level = level;
     }
 
-    public Category(String categoryName, String categoryPath, String explain,
+    public Category(String categoryName, String categoryPath, String description,
                     int type, int categoryParentId, int level) {
         this.categoryName = categoryName;
         this.categoryPath = categoryPath;
-        this.explain = explain;
+        this.description = description;
         this.type = type;
         this.categoryParentId = categoryParentId;
         this.level = level;
@@ -74,12 +74,12 @@ public class Category implements Serializable {
         this.categoryPath = categoryPath;
     }
 
-    public String getExplain() {
-        return explain;
+    public String getDescription() {
+        return description;
     }
 
-    public void setExplain(String explain) {
-        this.explain = explain;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getType() {

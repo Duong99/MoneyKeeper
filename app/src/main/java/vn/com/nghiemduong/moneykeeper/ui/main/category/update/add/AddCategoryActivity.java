@@ -42,7 +42,7 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
     private Category mCategory; //hạng mục
     private RelativeLayout rlSelectedCategoryParent, rlSelectCategoryParent;
     private TextView tvTitleParentCategory, tvTitleAddCategory;
-    private EditText etNameCategoryAdd, etExplain;
+    private EditText etNameCategoryAdd, etDescription;
     private LinearLayout llDelete, llSelectCategoryParent;
     private CategoryDatabase mCategoryDatabase;
 
@@ -72,8 +72,8 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
 
         ivIconCategoryAdd = findViewById(R.id.ivIconCategoryAdd);
         etNameCategoryAdd = findViewById(R.id.etNameCategoryAdd);
-        etExplain = findViewById(R.id.etExplain);
-        AppUtils.addTextChangeEditText(etExplain);
+        etDescription = findViewById(R.id.etDescription);
+        AppUtils.addTextChangeEditText(etDescription);
         llDelete = findViewById(R.id.llDelete);
 
         llDelete.setOnClickListener(this);
@@ -164,12 +164,12 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
                     if (mCategory == null) { // Thêm hạng mục
                         if (mParentCategory == null) { // Thêm hạng mục cha
                             Category category = new Category(AppUtils.getEditText(etNameCategoryAdd),
-                                    mPathCategory, AppUtils.getEditText(etExplain),
+                                    mPathCategory, AppUtils.getEditText(etDescription),
                                     mKeyType, 0, AppConstants.CAP_DO_1);
                             mAddCategoryActivityPresenter.insertCategory(category, this);
                         } else { // Thêm hạng mục con
                             Category category = new Category(AppUtils.getEditText(etNameCategoryAdd),
-                                    mPathCategory, AppUtils.getEditText(etExplain), mKeyType,
+                                    mPathCategory, AppUtils.getEditText(etDescription), mKeyType,
                                     mParentCategory.getCategoryId(), AppConstants.CAP_DO_2);
                             mAddCategoryActivityPresenter.insertCategory(category, this);
                         }
@@ -177,7 +177,7 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
                         if (mParentCategory == null) { // Sửa hạng mục con/cha thành hạng mục cha
                             Category category = new Category(mCategory.getCategoryId(),
                                     AppUtils.getEditText(etNameCategoryAdd), mPathCategory,
-                                    AppUtils.getEditText(etExplain), mKeyType, 0,
+                                    AppUtils.getEditText(etDescription), mKeyType, 0,
                                     AppConstants.CAP_DO_1);
                             mAddCategoryActivityPresenter.updateCategory(category, this);
                         } else { // Sửa hạng mục con/cha thành hạng mục con
@@ -188,7 +188,7 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
                             } else {
                                 Category category = new Category(mCategory.getCategoryId(),
                                         AppUtils.getEditText(etNameCategoryAdd), mPathCategory,
-                                        AppUtils.getEditText(etExplain), mKeyType,
+                                        AppUtils.getEditText(etDescription), mKeyType,
                                         mParentCategory.getCategoryId(), AppConstants.CAP_DO_2);
                                 mAddCategoryActivityPresenter.updateCategory(category, this);
                             }
@@ -293,6 +293,7 @@ public class AddCategoryActivity extends BaseActivity implements View.OnClickLis
                 tvTitleAddCategory.setText(getString(R.string.edit_pay_category));
             }
 
+            etDescription.setText(mCategory.getDescription());
             etNameCategoryAdd.setText(mCategory.getCategoryName());
             mPathCategory = mCategory.getCategoryPath();
             ivIconCategoryAdd.setImageBitmap(AppUtils.convertPathFileImageAssetsToBitmap(

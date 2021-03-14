@@ -25,7 +25,7 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
     public final static String CATEGORY_ID = "categoryId";
     private final static String CATEGORY_NAME = "categoryName";
     private final static String CATEGORY_PATH = "categoryPath";
-    private final static String CATEGORY_EXPLAIN = "explain";
+    private final static String DESCRIPTION = "description";
     private final static String CATEGORY_TYPE = "type";
     private final static String CATEGORY_PARENT_ID = "categoryParentId";
     private final static String CATEGORY_LEVEL = "level";
@@ -155,7 +155,7 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
         ContentValues values = new ContentValues();
         values.put(CATEGORY_NAME, category.getCategoryName());
         values.put(CATEGORY_PATH, category.getCategoryPath());
-        values.put(CATEGORY_EXPLAIN, category.getExplain());
+        values.put(DESCRIPTION, category.getDescription());
         values.put(CATEGORY_TYPE, category.getType());
         values.put(CATEGORY_PARENT_ID, category.getCategoryParentId());
         values.put(CATEGORY_LEVEL, category.getLevel());
@@ -182,7 +182,7 @@ public class CategoryDatabase extends BaseSqLite implements CategoryDatabaseMvpP
         ContentValues values = new ContentValues();
         values.put(CATEGORY_NAME, category.getCategoryName());
         values.put(CATEGORY_PATH, category.getCategoryPath());
-        values.put(CATEGORY_EXPLAIN, category.getExplain());
+        values.put(DESCRIPTION, category.getDescription());
         values.put(CATEGORY_TYPE, category.getType());
         values.put(CATEGORY_PARENT_ID, category.getCategoryParentId());
         values.put(CATEGORY_LEVEL, category.getLevel());

@@ -171,7 +171,7 @@
         android:layout_marginTop="@dimen/margin_large"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_item_plus"
-        layout="@layout/item_layout_explain" />
+        layout="@layout/item_layout_description" />
 
     <LinearLayout
         android:weightSum="2"

@@ -91,7 +91,7 @@
 
                     <include layout="@layout/item_layout_transfer_account" />
 
-                    <include layout="@layout/item_layout_explain" />
+                    <include layout="@layout/item_layout_description" />
 
                     <include layout="@layout/item_layout_date_time" />
 

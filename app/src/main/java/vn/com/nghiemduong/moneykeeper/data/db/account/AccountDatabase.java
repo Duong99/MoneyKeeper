@@ -26,7 +26,7 @@ public class AccountDatabase extends BaseSqLite implements AccountMoneyDatabaseM
     private final static String TYPE_PATH = "accountTypePath";
     private final static String TYPE_NAME = "accountTypeName";
     private final static String MONEY_TYPE = "moneyType";
-    private final static String EXPLAIN = "explain";
+    private final static String DESCRIPTION = "description";
     private final static String REPORT = "report";
 
     private SQLiteDatabase db;
@@ -154,7 +154,7 @@ public class AccountDatabase extends BaseSqLite implements AccountMoneyDatabaseM
         values.put(TYPE_PATH, account.getAccountTypePath());
         values.put(TYPE_NAME, account.getAccountTypeName());
         values.put(MONEY_TYPE, account.getMoneyType());
-        values.put(EXPLAIN, account.getExplain());
+        values.put(DESCRIPTION, account.getDescription());
         values.put(REPORT, account.getReport());
 
         long insert = DBUtils.checkDBFail;
@@ -182,7 +182,7 @@ public class AccountDatabase extends BaseSqLite implements AccountMoneyDatabaseM
         values.put(TYPE_PATH, account.getAccountTypePath());
         values.put(TYPE_NAME, account.getAccountTypeName());
         values.put(MONEY_TYPE, account.getMoneyType());
-        values.put(EXPLAIN, account.getExplain());
+        values.put(DESCRIPTION, account.getDescription());
         values.put(REPORT, account.getReport());
         long update = DBUtils.checkDBFail;
         try {
