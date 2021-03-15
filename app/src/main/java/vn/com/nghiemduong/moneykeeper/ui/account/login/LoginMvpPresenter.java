@@ -2,6 +2,7 @@ package vn.com.nghiemduong.moneykeeper.ui.account.login;
 
 import android.widget.ImageView;
 
+import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
 
@@ -15,7 +16,7 @@ public interface LoginMvpPresenter {
 
     void handleSignInGoogleResult(Task<GoogleSignInAccount> completedTask);
 
-    void loginFacebook(ImageView ivLoginFacebook);
+    void loginFacebook(CallbackManager callbackManager);
 
     void loginFirebase(User user);
 }

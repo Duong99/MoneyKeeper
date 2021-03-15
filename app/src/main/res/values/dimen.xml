@@ -27,6 +27,7 @@
     <dimen name="padding_medium">5dp</dimen>
     <dimen name="padding_large">10dp</dimen>
     <dimen name="padding_large_medium">15dp</dimen>
+    <dimen name="padding_large_large">20dp</dimen>
 
     <dimen name="corner_radius_small">2.5dp</dimen>
     <dimen name="corner_radius_medium">5dp</dimen>
@@ -58,7 +59,7 @@
     <dimen name="height_width_ic_select_image">30dp</dimen>
     <dimen name="height_width_ic_arrow">20dp</dimen>
     <dimen name="height_event_trip">60dp</dimen>
-    <dimen name="height_width_image_normal">30dp</dimen>
+    <dimen name="height_width_image_normal">32.5dp</dimen>
     <dimen name="height_width_image_account">35dp</dimen>
     <dimen name="done_icon">20dp</dimen>
     <dimen name="icon_selected_category">12.5dp</dimen>

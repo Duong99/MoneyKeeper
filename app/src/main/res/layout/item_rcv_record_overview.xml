@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/bg_select_ripple_gray"
     android:layout_height="@dimen/height_item_rcv_recent_notes">
@@ -18,87 +19,114 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginEnd="@dimen/margin_large"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:gravity="center_vertical"
+        <LinearLayout
+            android:id="@+id/llContentLeftRecord"
+            android:orientation="vertical"
+            android:weightSum="3"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
+                android:gravity="start|center_vertical"
+                android:layout_weight="1"
                 android:id="@+id/tvCategoryNameRecordOverview"
                 style="@style/TextViewNormalBlack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/unknown" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/unknown"
+                tools:ignore="NestedWeights" />
+
+            <LinearLayout
+                android:id="@+id/llAttachFile"
+                android:visibility="gone"
+                android:gravity="start|center_vertical"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/ivAttachFileOverview"
+                    android:backgroundTint="@color/text_unvalue"
+                    android:background="@drawable/ic_attach_file"
+                    android:layout_width="@dimen/height_width_ic_check_spinner"
+                    android:layout_height="@dimen/height_width_ic_check_spinner" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvExplainOverview"
+                    style="@style/TextViewNormal"
+                    android:textSize="@dimen/font_small"
+                    android:text="@string/unknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <TextView
+                android:gravity="start|center_vertical"
+                android:layout_weight="1"
+                style="@style/TextViewNormal"
+                android:textSize="@dimen/font_small"
+                android:id="@+id/tvDateRecordOverview"
+                android:text="@string/unknown"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingEnd="@dimen/margin_large"
+            android:orientation="vertical"
+            android:weightSum="3"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:gravity="end|center_vertical"
+                android:layout_weight="1"
                 android:textSize="@dimen/font_medium"
                 android:id="@+id/tvNumberMoneyRecordOverview"
                 android:layout_alignParentEnd="true"
                 android:text="@string/unknown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="ObsoleteLayoutParam" />
 
-        </RelativeLayout>
+            <LinearLayout
+                android:gravity="end|center_vertical"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="InefficientWeight,NestedWeights">
 
-        <RelativeLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_width="@dimen/height_width_ic_check_spinner"
+                    android:layout_height="@dimen/height_width_ic_check_spinner"
+                    android:layout_marginStart="@dimen/margin_start_recent_notes"
+                    android:background="@drawable/ic_wallet" />
 
-            <ImageView
-                android:layout_marginEnd="@dimen/margin_small"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/margin_small"
-                android:id="@+id/ivAttachFileOverview"
-                android:backgroundTint="@color/text_unvalue"
-                android:background="@drawable/ic_attach_file"
-                android:layout_width="@dimen/height_width_ic_check_spinner"
-                android:layout_height="@dimen/height_width_ic_check_spinner" />
-
-            <TextView
-                android:visibility="gone"
-                android:layout_toEndOf="@id/ivAttachFileOverview"
-                android:id="@+id/tvExplainOverview"
-                style="@style/TextViewNormal"
-                android:textSize="@dimen/font_small"
-                android:text="@string/unknown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-            <ImageView
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_toStartOf="@id/tvAccountNameRecordOverview"
-                android:layout_width="@dimen/height_width_ic_check_spinner"
-                android:layout_height="@dimen/height_width_ic_check_spinner"
-                android:layout_marginStart="@dimen/margin_start_recent_notes"
-                android:background="@drawable/ic_wallet" />
+                <TextView
+                    style="@style/TextViewNormal"
+                    android:textSize="@dimen/font_small"
+                    android:id="@+id/tvAccountNameRecordOverview"
+                    android:text="@string/unknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <TextView
-                style="@style/TextViewNormal"
-                android:textSize="@dimen/font_small"
-                android:id="@+id/tvAccountNameRecordOverview"
-                android:layout_alignParentEnd="true"
-                android:text="@string/unknown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
-        <TextView
-            style="@style/TextViewNormal"
-            android:textSize="@dimen/font_small"
-            android:id="@+id/tvDateRecordOverview"
-            android:text="@string/unknown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

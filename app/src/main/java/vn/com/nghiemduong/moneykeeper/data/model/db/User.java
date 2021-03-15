@@ -9,20 +9,32 @@ package vn.com.nghiemduong.moneykeeper.data.model.db;
 public class User {
     private int userId;
     private String name;
-    private String image;
     private String email;
     private String numberPhone;
     private String birthday;
-    private boolean gender;
-    private String job;
+    private int gender;
     private String password;
 
-    // Hàm tạo thông tin người dùng
+    public User(int userId, String name, String email, String numberPhone,
+                String birthday, int gender, String password) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.numberPhone = numberPhone;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.password = password;
+    }
 
-    // Hàm tạo để đăng ký người dùng
+    public User(String name, String email, String numberPhone, String birthday, int gender, String password) {
+        this.name = name;
+        this.email = email;
+        this.numberPhone = numberPhone;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.password = password;
+    }
 
-
-    //Hàm tạo để đăng nhập
     public User(String email, String password) {
         this.email = email;
         this.password = password;
@@ -36,20 +48,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getImage() {
-        return image;
+    public String getName() {
+        return name;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getNumberPhone() {
-        return numberPhone;
-    }
-
-    public void setNumberPhone(String numberPhone) {
-        this.numberPhone = numberPhone;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -60,6 +64,14 @@ public class User {
         this.email = email;
     }
 
+    public String getNumberPhone() {
+        return numberPhone;
+    }
+
+    public void setNumberPhone(String numberPhone) {
+        this.numberPhone = numberPhone;
+    }
+
     public String getBirthday() {
         return birthday;
     }
@@ -68,20 +80,12 @@ public class User {
         this.birthday = birthday;
     }
 
-    public boolean isGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(int gender) {
         this.gender = gender;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
     }
 
     public String getPassword() {

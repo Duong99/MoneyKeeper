@@ -27,36 +27,20 @@
             android:layout_gravity="center"
             android:text="@string/receipts_and_payments"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
-        <LinearLayout
-            android:weightSum="2"
-            android:orientation="horizontal"
+        <EditText
+            android:maxLength="255"
+            android:id="@+id/etFirstNameRegister"
+            style="@style/EditTextNormal"
+            android:paddingStart="@dimen/padding_start_edit_text"
+            android:background="@drawable/bg_et_login_register"
+            android:layout_margin="@dimen/margin_large"
+            android:hint="@string/name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry" />
 
-            <EditText
-                android:id="@+id/etLastNameRegister"
-                android:layout_weight="1"
-                style="@style/EditTextNormal"
-                android:paddingStart="@dimen/padding_start_edit_text"
-                android:background="@drawable/bg_et_login_register"
-                android:layout_margin="@dimen/margin_large"
-                android:hint="@string/first_last_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/etFirstNameRegister"
-                android:layout_weight="1"
-                style="@style/EditTextNormal"
-                android:paddingStart="@dimen/padding_start_edit_text"
-                android:background="@drawable/bg_et_login_register"
-                android:layout_margin="@dimen/margin_large"
-                android:hint="@string/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
 
         <EditText
             android:id="@+id/etEmailRegister"
@@ -66,9 +50,11 @@
             android:layout_margin="@dimen/margin_large"
             android:hint="@string/email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry" />
 
         <EditText
+            android:maxLength="15"
             android:id="@+id/etNumberPhoneRegister"
             style="@style/EditTextNormal"
             android:paddingStart="@dimen/padding_start_edit_text"
@@ -76,9 +62,11 @@
             android:layout_margin="@dimen/margin_large"
             android:hint="@string/phone_number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry" />
 
         <EditText
+            android:maxLength="255"
             android:inputType="textPassword"
             android:id="@+id/etPasswordRegister"
             style="@style/EditTextNormal"
@@ -87,7 +75,8 @@
             android:layout_margin="@dimen/margin_large"
             android:hint="@string/password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/tvPolicyRegister"

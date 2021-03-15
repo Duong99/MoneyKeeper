@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -94,6 +95,7 @@ public class RecordOverviewAdapter extends RecyclerView.Adapter<RecordOverviewAd
             if (record.getImage() != null) {
                 holder.ivAttachFileOverview.setVisibility(View.VISIBLE);
                 holder.tvExplainOverview.setVisibility(View.VISIBLE);
+                holder.llAttachFile.setVisibility(View.VISIBLE);
             }
 
             if (record.getDescription() == null || record.getDescription().equals("")) {
@@ -102,6 +104,14 @@ public class RecordOverviewAdapter extends RecyclerView.Adapter<RecordOverviewAd
             } else {
                 holder.tvExplainOverview.setText(record.getDescription());
                 holder.tvExplainOverview.setVisibility(View.VISIBLE);
+            }
+
+            if (record.getDescription() == null || record.getDescription().equals("")
+                    && record.getImage() == null) {
+                holder.llAttachFile.setVisibility(View.GONE);
+                holder.llContentLeftRecord.setWeightSum(2);
+            } else {
+                holder.llAttachFile.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -115,6 +125,7 @@ public class RecordOverviewAdapter extends RecyclerView.Adapter<RecordOverviewAd
         private ImageView ivCategoryRecordOverview, ivAttachFileOverview;
         private TextView tvCategoryNameRecordOverview, tvDateRecordOverview, tvExplainOverview,
                 tvNumberMoneyRecordOverview, tvAccountNameRecordOverview;
+        private LinearLayout llAttachFile, llContentLeftRecord;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -126,6 +137,8 @@ public class RecordOverviewAdapter extends RecyclerView.Adapter<RecordOverviewAd
             tvAccountNameRecordOverview = itemView.findViewById(R.id.tvAccountNameRecordOverview);
             tvExplainOverview = itemView.findViewById(R.id.tvExplainOverview);
             ivAttachFileOverview = itemView.findViewById(R.id.ivAttachFileOverview);
+            llAttachFile = itemView.findViewById(R.id.llAttachFile);
+            llContentLeftRecord = itemView.findViewById(R.id.llContentLeftRecord);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

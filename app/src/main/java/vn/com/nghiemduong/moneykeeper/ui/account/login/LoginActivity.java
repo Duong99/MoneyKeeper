@@ -1,7 +1,9 @@
 package vn.com.nghiemduong.moneykeeper.ui.account.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,23 +13,16 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-import com.google.android.gms.tasks.Task;
-
-import java.util.Arrays;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.model.db.User;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.account.forget.ForgetPasswordActivity;
 import vn.com.nghiemduong.moneykeeper.ui.account.register.RegisterActivity;
+import vn.com.nghiemduong.moneykeeper.ui.custom.CustomToast;
 import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -39,12 +34,9 @@ import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 public class LoginActivity extends BaseActivity implements LoginMvpView, View.OnClickListener {
 
-    private ImageView ivLoginFacebook, ivLoginGoogle;
-    private TextView tvForgetPassword, tvRegister;
-    private Button btnLogin;
     private LoginPresenter mLoginPresenter;
-    private LoginButton lbLoginFacebook;
     private EditText etPasswordLogin, etPhoneOrEmailLogin;
+    private CallbackManager mCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,42 +45,24 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, View.On
 
         init();
 
-        CallbackManager callbackManager = CallbackManager.Factory.create();
 
-        lbLoginFacebook.setReadPermissions(Arrays.asList(LoginPresenter.EMAIL));
-        lbLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
     }
 
     // Khởi tạo / ánh xạ
     private void init() {
-        lbLoginFacebook = findViewById(R.id.lbLoginFacebook);
-        //ivLoginFacebook.setOnClickListener(this);
+        ImageView ivLoginFacebook = findViewById(R.id.ivLoginFacebook);
+        ivLoginFacebook.setOnClickListener(this);
 
-        ivLoginGoogle = findViewById(R.id.ivLoginGoogle);
+        ImageView ivLoginGoogle = findViewById(R.id.ivLoginGoogle);
         ivLoginGoogle.setOnClickListener(this);
 
-        tvForgetPassword = findViewById(R.id.tvForgetPassword);
+        TextView tvForgetPassword = findViewById(R.id.tvForgetPassword);
         tvForgetPassword.setOnClickListener(this);
 
-        tvRegister = findViewById(R.id.tvRegister);
+        TextView tvRegister = findViewById(R.id.tvRegister);
         tvRegister.setOnClickListener(this);
 
-        btnLogin = findViewById(R.id.btnLogin);
+        Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
 
         etPasswordLogin = findViewById(R.id.etPasswordLogin);
@@ -103,8 +77,8 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivLoginFacebook:
-                mLoginPresenter.loginFacebook(ivLoginFacebook);
-
+                mCallbackManager = CallbackManager.Factory.create();
+                mLoginPresenter.loginFacebook(mCallbackManager);
                 break;
 
             case R.id.ivLoginGoogle:
@@ -120,58 +94,36 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, View.On
                 break;
 
             case R.id.btnLogin:
-                if (AppUtils.getEditText(etPhoneOrEmailLogin).isEmpty()) {
+                String email = AppUtils.getEditText(etPhoneOrEmailLogin);
+                String password = AppUtils.getEditText(etPasswordLogin);
+                if (email.isEmpty()) {
+                    showCustomToast(getString(R.string.please_enter_email), AppConstants.TOAST_WARRING);
                     etPhoneOrEmailLogin.requestFocus();
-                } else if (AppUtils.getEditText(etPasswordLogin).isEmpty()) {
+                } else if (password.isEmpty()) {
+                    showCustomToast(getString(R.string.please_enter_password), AppConstants.TOAST_WARRING);
                     etPasswordLogin.requestFocus();
                 } else {
-                    User user = new User(AppUtils.getEditText(etPhoneOrEmailLogin),
-                            AppUtils.getEditText(etPasswordLogin));
+                    User user = new User(email, password);
                     mLoginPresenter.loginFirebase(user);
                 }
                 break;
         }
-    }
-
-
-    @Override
-    public void loginGoogleSuccess() {
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-    }
-
-    @Override
-    public void loginGoogleFail() {
-
-    }
-
-    @Override
-    public void loginFacebookSuccess() {
-
-    }
-
-    @Override
-    public void loginFacebookFail() {
-
-    }
-
-    @Override
-    public void loginFirebaseSuccess() {
-        startActivity(new Intent(this, MainActivity.class));
-    }
-
-    @Override
-    public void loginFirebaseFail() {
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LoginPresenter.RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            mLoginPresenter.handleSignInGoogleResult(task);
-        }
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void loginSuccess() {
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
+    public void loginFail(String message) {
+        showCustomToast(message, AppConstants.TOAST_ERROR);
     }
 }

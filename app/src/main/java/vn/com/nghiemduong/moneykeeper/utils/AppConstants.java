@@ -11,6 +11,10 @@ public class AppConstants {
     public static final String FORMAT_TIME_US = "MM/dd/yyyy";
     public static final String FORMAT_TIME_ISO_8601 = "yyyy/MM/dd";
 
+    // Giới tính
+    public static final int NAM = 1;
+    public static final int NU = 2;
+
     // Loại tài khoản
     public static final int TIEN_MAT = 1;
     public static final int TAI_KHOAN_NGAN_HANG = 2;

@@ -36,7 +36,7 @@
         android:layout_marginTop="@dimen/margin_small"
         android:gravity="center"
         android:text="@string/unknown"
-        android:textColor="@color/black_text_normal"
+        android:textColor="@color/calendar_text"
         android:textSize="@dimen/font_small" />
 
 </LinearLayout>

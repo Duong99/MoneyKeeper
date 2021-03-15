@@ -21,14 +21,12 @@ import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.view.HackyViewPager;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
-
 /**
  * - @created_by nxduong on 21/1/2021
  **/
 
 public class MainActivity extends BaseActivity implements MainMvpView, View.OnClickListener {
     private HackyViewPager hvpMain;
-    private BottomNavigationAdapter mNavigationAdapter;
     private BottomNavigationView bnvMain;
     private FloatingActionButton fabPlusMain;
     private AccountDatabase mAccountMoneyDatabase;
@@ -101,7 +99,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, View.OnCl
         fabPlusMain.setOnClickListener(this);
         fabPlusMain.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
 
-        mNavigationAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
+        BottomNavigationAdapter mNavigationAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
         hvpMain.setAdapter(mNavigationAdapter);
 
         mAccountMoneyDatabase = new AccountDatabase(this);

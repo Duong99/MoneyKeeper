@@ -10,9 +10,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import vn.com.nghiemduong.moneykeeper.R;
+import vn.com.nghiemduong.moneykeeper.data.db.user.UserDatabase;
 import vn.com.nghiemduong.moneykeeper.data.model.db.User;
 import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
+import vn.com.nghiemduong.moneykeeper.utils.DBUtils;
+import vn.com.nghiemduong.moneykeeper.utils.NetworkUtils;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -23,7 +27,6 @@ public class RegisterPresenter implements RegisterMvpPresenter {
     private FirebaseAuth mAuth;
     private RegisterMvpView mRegisterMvpView;
     private Activity mActivity;
-    private SharedPreferences mSharedPreferences;
 
     public RegisterPresenter(RegisterMvpView mRegisterMvpView, Activity activity) {
         this.mRegisterMvpView = mRegisterMvpView;
@@ -31,29 +34,39 @@ public class RegisterPresenter implements RegisterMvpPresenter {
     }
 
     @Override
-    public void registerAccount(User user) {
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-
-        mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
-                .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-
-                            mSharedPreferences = mActivity.getSharedPreferences(
-                                    "MY_SHARED_PREFERENCES", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = mSharedPreferences.edit();
-                            editor.putString("UID", mAuth.getUid());
-                            editor.apply();
-
-                            mRegisterMvpView.registerAccountSuccess();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            mRegisterMvpView.registerAccountFail();
-                        }
-                    }
-                });
+    public void registerAccount(final User user) {
+        final UserDatabase userDatabase = new UserDatabase(mActivity);
+        if (userDatabase.getUser(user.getEmail()) != null) { // Email này đã đăng ký
+            mRegisterMvpView.registerAccountFail(mActivity.getResources().getString(R.string.register_email_exits));
+        } else {
+            // Initialize Firebase Auth
+            if (NetworkUtils.isNetworkConnected(mActivity)) {
+                mAuth = FirebaseAuth.getInstance();
+                mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
+                        .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    userDatabase.insertUser(user);
+                                    mRegisterMvpView.registerAccountSuccess(
+                                            mActivity.getResources().getString(R.string.register_success));
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    mRegisterMvpView.registerAccountFail(mActivity.getResources()
+                                            .getString(R.string.register_fail));
+                                }
+                            }
+                        });
+            } else {
+                long insert = userDatabase.insertUser(user);
+                if (insert == DBUtils.checkDBFail) {
+                    mRegisterMvpView.registerAccountFail(mActivity.getResources()
+                            .getString(R.string.register_fail));
+                } else {
+                    mRegisterMvpView.registerAccountSuccess(
+                            mActivity.getResources().getString(R.string.register_success));
+                }
+            }
+        }
     }
 }

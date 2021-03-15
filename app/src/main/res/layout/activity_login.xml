@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"/>
 
     <EditText
+        android:maxLength="255"
         android:id="@+id/etPhoneOrEmailLogin"
         style="@style/EditTextNormal"
         android:paddingStart="@dimen/padding_start_edit_text"
@@ -35,6 +36,7 @@
         android:layout_height="wrap_content"/>
 
     <EditText
+        android:maxLength="255"
         android:inputType="textPassword"
         android:id="@+id/etPasswordLogin"
         style="@style/EditTextNormal"
@@ -121,12 +123,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.facebook.login.widget.LoginButton
+        <ImageView
             android:layout_margin="@dimen/margin_large"
-            android:id="@+id/lbLoginFacebook"
-
+            android:id="@+id/ivLoginFacebook"
+            android:background="@drawable/ic_icon_facebook"
             android:layout_width="@dimen/ic_login_facebook_google"
-            android:layout_height="@dimen/ic_login_facebook_google"/>
+            android:layout_height="@dimen/ic_login_facebook_google" />
 
         <ImageView
             android:layout_margin="@dimen/margin_large"

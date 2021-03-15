@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import vn.com.nghiemduong.moneykeeper.R;
 import vn.com.nghiemduong.moneykeeper.data.model.db.User;
+import vn.com.nghiemduong.moneykeeper.ui.account.login.LoginActivity;
 import vn.com.nghiemduong.moneykeeper.ui.base.BaseActivity;
 import vn.com.nghiemduong.moneykeeper.ui.main.MainActivity;
+import vn.com.nghiemduong.moneykeeper.utils.AppConstants;
 import vn.com.nghiemduong.moneykeeper.utils.AppUtils;
 
 /**
@@ -25,7 +27,7 @@ public class RegisterActivity extends BaseActivity implements RegisterMvpView, V
 
     private TextView tvPolicyRegister, tvLoginNowRegister;
     private Button btnRegister;
-    private EditText etLastNameRegister, etFirstNameRegister, etEmailRegister,
+    private EditText etFirstNameRegister, etEmailRegister,
             etPasswordRegister, etNumberPhoneRegister;
     private RegisterPresenter mRegisterPresenter;
 
@@ -56,30 +58,36 @@ public class RegisterActivity extends BaseActivity implements RegisterMvpView, V
         btnRegister = findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(this);
 
-        etLastNameRegister = findViewById(R.id.etLastNameRegister);
         etFirstNameRegister = findViewById(R.id.etFirstNameRegister);
         etEmailRegister = findViewById(R.id.etEmailRegister);
         etPasswordRegister = findViewById(R.id.etPasswordRegister);
         etNumberPhoneRegister = findViewById(R.id.etNumberPhoneRegister);
+
+        mRegisterPresenter = new RegisterPresenter(this, this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                if (AppUtils.getEditText(etLastNameRegister).isEmpty()) {
-                    etLastNameRegister.requestFocus();
-                } else if (AppUtils.getEditText(etFirstNameRegister).isEmpty()) {
+                String name = AppUtils.getEditText(etFirstNameRegister);
+                String email = AppUtils.getEditText(etEmailRegister);
+                String phone = AppUtils.getEditText(etNumberPhoneRegister);
+                String password = AppUtils.getEditText(etPasswordRegister);
+                if (name.isEmpty()) {
+                    showCustomToast(getString(R.string.please_enter_name), AppConstants.TOAST_WARRING);
                     etFirstNameRegister.requestFocus();
-                } else if (AppUtils.getEditText(etEmailRegister).isEmpty()) {
+                } else if (email.isEmpty()) {
+                    showCustomToast(getString(R.string.please_enter_email), AppConstants.TOAST_WARRING);
                     etEmailRegister.requestFocus();
-                } else if (AppUtils.getEditText(etNumberPhoneRegister).isEmpty()) {
+                } else if (phone.isEmpty()) {
+                    showCustomToast(getString(R.string.please_enter_phone), AppConstants.TOAST_WARRING);
                     etNumberPhoneRegister.requestFocus();
-                } else if (AppUtils.getEditText(etPasswordRegister).isEmpty()) {
+                } else if (password.isEmpty()) {
+                    showCustomToast(getString(R.string.please_enter_password), AppConstants.TOAST_WARRING);
                     etPasswordRegister.requestFocus();
                 } else {
-                    User user = null;
-                    mRegisterPresenter = new RegisterPresenter(this, this);
+                    User user = new User(name, email, phone, "", AppConstants.NAM, password);
                     mRegisterPresenter.registerAccount(user);
                 }
                 break;
@@ -87,14 +95,13 @@ public class RegisterActivity extends BaseActivity implements RegisterMvpView, V
     }
 
     @Override
-    public void registerAccountSuccess() {
-        showToast("Đăng nhập thành công");
-        // Đăng ký tài khoản thành công chuyển sang màn hình chính
-        startActivity(new Intent(this, MainActivity.class));
+    public void registerAccountSuccess(String message) {
+        showCustomToast(message, AppConstants.TOAST_SUCCESS);
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @Override
-    public void registerAccountFail() {
-        showToast("Đăng nhập thất bại");
+    public void registerAccountFail(String message) {
+        showCustomToast(message, AppConstants.TOAST_WARRING);
     }
 }

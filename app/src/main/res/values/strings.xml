@@ -7,7 +7,7 @@
 
     <string name="evolving_functions">Chức năng đang phát triển</string>
     // login
-    <string name="receipts_and_payments">Sổ Thu Chi MISA</string>
+    <string name="receipts_and_payments">Quản lý chi tiêu</string>
     <string name="phone_number_or_email">Số điện thoại hoặc email</string>
     <string name="password">Mật khẩu</string>
     <string name="login">Đăng nhập</string>
@@ -19,6 +19,12 @@
     <string name="or_login_with">Hoặc đăng nhập bằng</string>
     <string name="vietnamese">Tiếng Việt</string>
 
+    // đăng lý
+    <string name="register_success">Đăng ký thành công</string>
+    <string name="register_fail">Đăng ký thất bại</string>
+    <string name="register_email_exits">Email này đã tồn tại</string>
+
+    <string name="login_fail">Tài khoản hoặc mật khẩu không chính xác</string>
     <string name="Select_language">Chọn ngôn ngữ</string>
 
     // intro
@@ -290,6 +296,10 @@
         chuyển khoản trong cùng một tài khoản</string>
 
     <string name="revenue_situation">Tình hình thu chi</string>
+    <string name="please_enter_name">Vui lòng nhập tên</string>
+    <string name="please_enter_email">Vui lòng nhập email</string>
+    <string name="please_enter_phone">Vui lòng nhập phone</string>
+    <string name="please_enter_password">Vui lòng nhập password</string>
 
     // Stage
     <string name="today">Hôm nay</string>
